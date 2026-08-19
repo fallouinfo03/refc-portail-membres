@@ -57,6 +57,7 @@
             display: flex;
             padding: 0 24px;
             gap: 2px;
+            overflow-x: auto;
         }
         .nav-btn {
             color: rgba(255,255,255,0.7);
@@ -105,12 +106,10 @@
             transition: background 0.15s;
         }
         .btn:hover { background: #f8fafc; }
-        .btn-primaire {
-            background: #2D3F7B;
-            color: #fff;
-            border-color: #2D3F7B;
-        }
+        .btn-primaire { background: #2D3F7B; color: #fff; border-color: #2D3F7B; }
         .btn-primaire:hover { background: #253570; }
+        .btn-danger { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+        .btn-danger:hover { background: #fecaca; }
         .kpis {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -168,6 +167,7 @@
             padding: 10px 14px;
             border-bottom: 1px solid #f1f5f9;
             color: #1e293b;
+            vertical-align: middle;
         }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #f8fafc; }
@@ -201,9 +201,36 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
         }
         .detail-header-titre { font-size: 15px; font-weight: 500; }
-        .detail-body { padding: 18px; }
+        .detail-header-droite { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+        /* Onglets internes */
+        .onglets {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        .onglet-btn {
+            padding: 10px 18px;
+            font-size: 13px;
+            border: none;
+            background: none;
+            color: #64748b;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        .onglet-btn:hover { color: #1e293b; }
+        .onglet-btn.actif {
+            color: #2D3F7B;
+            border-bottom-color: #2D3F7B;
+            font-weight: 500;
+        }
+        .onglet-contenu { display: none; padding: 18px; }
+        .onglet-contenu.visible { display: block; }
+
         .grid2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -226,8 +253,7 @@
             margin-bottom: 10px;
         }
         .etape-num {
-            width: 22px;
-            height: 22px;
+            width: 22px; height: 22px;
             border-radius: 50%;
             background: #2D3F7B;
             color: #fff;
@@ -239,10 +265,24 @@
             flex-shrink: 0;
             margin-top: 1px;
         }
-        .etape-txt { font-size: 13px; color: #1e293b; }
+        .etape-txt { font-size: 13px; color: #1e293b; line-height: 1.5; }
         .etape-txt span { color: #64748b; font-size: 12px; }
         .sep { height: 1px; background: #e2e8f0; margin: 16px 0; }
-        .actions-detail { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .actions-groupe { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+        .lien-salon {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #2D3F7B;
+            font-size: 13px;
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            background: #eff6ff;
+            margin-bottom: 16px;
+        }
+        .lien-salon:hover { background: #dbeafe; }
 
         /* Modal */
         .modal-bg {
@@ -259,9 +299,9 @@
             background: #fff;
             border-radius: 12px;
             padding: 24px;
-            width: 540px;
+            width: 560px;
             max-width: 95vw;
-            max-height: 85vh;
+            max-height: 88vh;
             overflow-y: auto;
             box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
@@ -291,6 +331,11 @@
             font-weight: 500;
             color: #475569;
             margin-bottom: 5px;
+        }
+        .form-label .optionnel {
+            font-weight: 400;
+            color: #94a3b8;
+            font-size: 11px;
         }
         .form-input {
             width: 100%;
@@ -322,52 +367,40 @@
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
-        .radio-groupe { display: flex; gap: 10px; margin-top: 5px; }
-        .radio-opt {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 12px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.15s;
-        }
-        .radio-opt:hover { border-color: #7B9EC8; }
-        .radio-opt.sel {
-            border-color: #2D3F7B;
-            background: #E8EEF7;
-            color: #2D3F7B;
-            font-weight: 500;
-        }
-        .maisons-grille {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-top: 5px;
-        }
-        .maison-case {
-            padding: 6px 10px;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-            background: #f8fafc;
-            transition: all 0.15s;
-            text-align: center;
-        }
-        .maison-case:hover { border-color: #7B9EC8; }
-        .maison-case.sel {
-            border-color: #2D3F7B;
-            background: #E8EEF7;
-            color: #2D3F7B;
-        }
         .modal-actions {
             display: flex;
             gap: 10px;
             justify-content: flex-end;
             margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
         }
+        .err-msg { font-size: 11px; color: #991b1b; margin-top: 4px; display: none; }
+        .input-err { border-color: #ef4444 !important; }
+        .note-info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #1d4ed8;
+            margin-bottom: 16px;
+        }
+
+        /* Modal confirmation suppression */
+        .modal-confirm {
+            background: #fff;
+            border-radius: 12px;
+            padding: 28px;
+            width: 400px;
+            max-width: 95vw;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .modal-confirm-icone { font-size: 40px; margin-bottom: 16px; }
+        .modal-confirm-titre { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+        .modal-confirm-texte { font-size: 13px; color: #64748b; margin-bottom: 24px; line-height: 1.5; }
+        .modal-confirm-actions { display: flex; gap: 10px; justify-content: center; }
     </style>
 </head>
 <body>
@@ -375,7 +408,9 @@
     <!-- Bannière démo -->
     <div class="banniere-demo">
         ⚠️ <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
-        <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Voir le code source</a>
+        <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">
+            Voir le code source
+        </a>
     </div>
 
     <!-- Topbar -->
@@ -387,7 +422,8 @@
         <div class="topbar-droite">
             <span class="pill-role">admin</span>
             <span>Piedad Saenz</span>
-            <button class="btn-deconnexion" onclick="window.location.href='../index.html'">
+            <button class="btn-deconnexion"
+                onclick="window.location.href='../index.html'">
                 Déconnexion
             </button>
         </div>
@@ -396,8 +432,9 @@
     <!-- Navigation -->
     <div class="nav">
         <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
-        <a class="nav-btn" href="couts-partages.html">Services à coûts partagés</a>
+        <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
         <a class="nav-btn actif" href="salons.html">Salons</a>
+        <a class="nav-btn" href="evenements.html">Événements littéraires</a>
         <a class="nav-btn" href="bulletins.html">Bulletins</a>
         <a class="nav-btn" href="ingram.html">Ingram</a>
     </div>
@@ -407,8 +444,9 @@
 
         <div class="entete-page">
             <h1 class="page-titre">Salons — Saison 2025–2026</h1>
-            <div style="display:flex;gap:8px">
-                <button class="btn btn-primaire" onclick="ouvrirModal('modal-salon')">
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-primaire"
+                    onclick="ouvrirModal('modal-salon')">
                     + Créer un salon
                 </button>
                 <button class="btn">↓ Exporter</button>
@@ -417,14 +455,14 @@
 
         <!-- Alerte -->
         <div class="alerte">
-            ⚠ 3 maisons n'ont pas confirmé pour le Salon du Grand Sudbury (limite : 15 sept.) ·
-            L'Interligne n'a pas soumis sa commande de livres
+            ⚠ 3 maisons n'ont pas encore confirmé pour le Salon du Grand Sudbury
+            (limite : 15 sept.) · L'Interligne n'a pas soumis sa commande de livres
         </div>
 
         <!-- KPIs -->
         <div class="kpis">
             <div class="kpi">
-                <div class="kpi-label">Salons saison 2025–26</div>
+                <div class="kpi-label">Salons saison</div>
                 <div class="kpi-valeur">6</div>
             </div>
             <div class="kpi">
@@ -448,13 +486,13 @@
                 <thead>
                     <tr>
                         <th>Salon</th>
-                        <th>Dates</th>
-                        <th>Limite confirmation</th>
-                        <th>Confirmations</th>
-                        <th>Commande</th>
-                        <th>Dédicaces</th>
-                        <th>Compte rendu</th>
-                        <th>Détail</th>
+                        <th style="width:80px">Dates</th>
+                        <th style="width:95px">Limite confirm.</th>
+                        <th style="width:85px">Confirmations</th>
+                        <th style="width:80px">Commande</th>
+                        <th style="width:75px">Dédicaces</th>
+                        <th style="width:70px">CR</th>
+                        <th style="width:90px">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -467,10 +505,18 @@
                         <td><span class="badge badge-vert">Publié</span></td>
                         <td><span class="badge badge-vert">Publié</span></td>
                         <td>
-                            <button class="btn" style="padding:4px 10px;font-size:12px"
-                                onclick="afficherDetail('toronto')">
-                                Voir
-                            </button>
+                            <div style="display:flex;gap:4px">
+                                <button class="btn"
+                                    style="padding:4px 8px;font-size:11px"
+                                    onclick="afficherDetail('toronto')">
+                                    Voir
+                                </button>
+                                <button class="btn btn-danger"
+                                    style="padding:4px 8px;font-size:11px"
+                                    onclick="confirmerSuppression('Salon du livre de Toronto')">
+                                    ✕
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -482,10 +528,18 @@
                         <td><span class="badge badge-bleu">À faire</span></td>
                         <td><span class="badge badge-gris">À venir</span></td>
                         <td>
-                            <button class="btn" style="padding:4px 10px;font-size:12px"
-                                onclick="afficherDetail('sudbury')">
-                                Voir
-                            </button>
+                            <div style="display:flex;gap:4px">
+                                <button class="btn"
+                                    style="padding:4px 8px;font-size:11px"
+                                    onclick="afficherDetail('sudbury')">
+                                    Voir
+                                </button>
+                                <button class="btn btn-danger"
+                                    style="padding:4px 8px;font-size:11px"
+                                    onclick="confirmerSuppression('Salon du Grand Sudbury')">
+                                    ✕
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -497,9 +551,17 @@
                         <td><span class="badge badge-gris">À ouvrir</span></td>
                         <td><span class="badge badge-gris">À venir</span></td>
                         <td>
-                            <button class="btn" style="padding:4px 10px;font-size:12px">
-                                Voir
-                            </button>
+                            <div style="display:flex;gap:4px">
+                                <button class="btn"
+                                    style="padding:4px 8px;font-size:11px">
+                                    Voir
+                                </button>
+                                <button class="btn btn-danger"
+                                    style="padding:4px 8px;font-size:11px"
+                                    onclick="confirmerSuppression('Salon de Hearst')">
+                                    ✕
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -512,67 +574,243 @@
                 <span class="detail-header-titre">
                     Salon du livre de Toronto — Octobre 2025
                 </span>
-                <span class="badge badge-vert">Terminé</span>
+                <div class="detail-header-droite">
+                    <span class="badge badge-vert">Terminé</span>
+                    <button class="btn"
+                        style="padding:4px 10px;font-size:12px;
+                        background:rgba(255,255,255,0.15);
+                        border-color:rgba(255,255,255,0.3);color:#fff"
+                        onclick="fermerDetail('toronto')">
+                        Fermer ✕
+                    </button>
+                </div>
             </div>
-            <div class="detail-body">
+
+            <!-- Lien officiel -->
+            <div style="padding:12px 18px 0">
+                <a href="https://www.bookfair.com" target="_blank"
+                    class="lien-salon">
+                    🔗 Voir le site officiel du salon →
+                </a>
+            </div>
+
+            <!-- Onglets internes -->
+            <div class="onglets">
+                <button class="onglet-btn actif"
+                    onclick="changerOnglet('toronto','apercu',this)">
+                    Aperçu
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('toronto','confirmations',this)">
+                    Confirmations
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('toronto','factures',this)">
+                    Factures
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('toronto','documents',this)">
+                    Documents
+                </button>
+            </div>
+
+            <!-- Onglet Aperçu -->
+            <div class="onglet-contenu visible" id="toronto-apercu">
                 <div class="grid2">
                     <div class="mini-kpi">
                         <div class="mini-kpi-label">Maisons participantes</div>
                         <div class="mini-kpi-valeur">12 / 15</div>
                     </div>
                     <div class="mini-kpi">
-                        <div class="mini-kpi-label">Taux refacturation maisons</div>
+                        <div class="mini-kpi-label">Taux refacturation</div>
                         <div class="mini-kpi-valeur">70 %</div>
                     </div>
                 </div>
-                <div class="section-titre">Étapes du salon</div>
+                <div class="section-titre" style="margin-top:0">Étapes</div>
                 <div class="etape">
                     <div class="etape-num">1</div>
                     <div class="etape-txt">Appel d'intérêt envoyé
-                        <span>— 15 juin 2025</span>
-                    </div>
+                        <span>— 15 juin 2025</span></div>
                 </div>
                 <div class="etape">
                     <div class="etape-num">2</div>
                     <div class="etape-txt">Confirmations compilées
-                        <span>— 12/15 maisons · Perce-Neige et La Grande Marée non participantes</span>
-                    </div>
+                        <span>— 12/15 maisons</span></div>
                 </div>
                 <div class="etape">
                     <div class="etape-num">3</div>
                     <div class="etape-txt">Réservation kiosque effectuée
-                        <span>— Contrat signé par la direction · 2 kiosques réservés</span>
-                    </div>
+                        <span>— Contrat signé par la direction</span></div>
                 </div>
                 <div class="etape">
                     <div class="etape-num">4</div>
                     <div class="etape-txt">Programmation auteurices
-                        <span>— 18 auteur·ices proposé·es · 14 retenu·es</span>
-                    </div>
+                        <span>— 18 auteur·ices proposé·es · 14 retenu·es</span></div>
                 </div>
                 <div class="etape">
                     <div class="etape-num">5</div>
-                    <div class="etape-txt">Commandes envoyées à Dimedia et Prologue
-                        <span>— 847 exemplaires · Réception confirmée le 12 oct.</span>
-                    </div>
+                    <div class="etape-txt">Commandes Dimedia/Prologue
+                        <span>— 847 exemplaires · Réception le 12 oct.</span></div>
                 </div>
                 <div class="etape">
                     <div class="etape-num">6</div>
                     <div class="etape-txt">Horaire des dédicaces publié
-                        <span>— Distribué aux 12 maisons participantes</span>
-                    </div>
+                        <span>— Distribué aux 12 maisons</span></div>
                 </div>
                 <div class="etape">
                     <div class="etape-num">7</div>
                     <div class="etape-txt">Compte rendu publié
-                        <span>— Disponible pour les maisons participantes</span>
-                    </div>
+                        <span>— Visible pour les maisons participantes</span></div>
                 </div>
-                <div class="sep"></div>
-                <div class="actions-detail">
-                    <button class="btn">📄 Voir le compte rendu</button>
-                    <button class="btn">↓ Exporter PDF</button>
-                    <button class="btn">📋 Plan d'aménagement</button>
+            </div>
+
+            <!-- Onglet Confirmations -->
+            <div class="onglet-contenu" id="toronto-confirmations">
+                <div class="tableau-wrap" style="margin:0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Maison</th>
+                                <th style="width:100px">Participation</th>
+                                <th style="width:90px">Kiosque</th>
+                                <th style="width:90px">Commande</th>
+                                <th style="width:80px">Auteurices</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Prise de Parole</td>
+                                <td><span class="badge badge-vert">Confirmée</span></td>
+                                <td>1 kiosque</td>
+                                <td><span class="badge badge-vert">Soumise</span></td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>David</td>
+                                <td><span class="badge badge-vert">Confirmée</span></td>
+                                <td>½ kiosque</td>
+                                <td><span class="badge badge-vert">Soumise</span></td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>L'Interligne</td>
+                                <td><span class="badge badge-vert">Confirmée</span></td>
+                                <td>½ kiosque</td>
+                                <td><span class="badge badge-vert">Soumise</span></td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>Perce-Neige</td>
+                                <td><span class="badge badge-rouge">Non participante</span></td>
+                                <td>—</td><td>—</td><td>—</td>
+                            </tr>
+                            <tr>
+                                <td>La Grande Marée</td>
+                                <td><span class="badge badge-rouge">Non participante</span></td>
+                                <td>—</td><td>—</td><td>—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Onglet Factures -->
+            <div class="onglet-contenu" id="toronto-factures">
+                <div class="note-info">
+                    ℹ️ Ces factures correspondent à la part de chaque maison
+                    pour ce salon (taux de refacturation : 70 %).
+                    Chaque maison voit uniquement sa propre facture.
+                </div>
+                <div class="tableau-wrap" style="margin:0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Maison</th>
+                                <th style="width:90px">N° facture</th>
+                                <th style="width:90px">Date émission</th>
+                                <th style="width:100px">Montant dû (70%)</th>
+                                <th style="width:90px">Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Prise de Parole</td>
+                                <td>#S2025-001</td>
+                                <td>2025-10-28</td>
+                                <td>1 190,00 $</td>
+                                <td><span class="badge badge-vert">Encaissé</span></td>
+                            </tr>
+                            <tr>
+                                <td>David</td>
+                                <td>#S2025-002</td>
+                                <td>2025-10-28</td>
+                                <td>595,00 $</td>
+                                <td><span class="badge badge-vert">Encaissé</span></td>
+                            </tr>
+                            <tr>
+                                <td>L'Interligne</td>
+                                <td>#S2025-003</td>
+                                <td>2025-10-28</td>
+                                <td>595,00 $</td>
+                                <td><span class="badge badge-orange">En attente</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Onglet Documents -->
+            <div class="onglet-contenu" id="toronto-documents">
+                <div class="tableau-wrap" style="margin:0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Document</th>
+                                <th style="width:120px">Date</th>
+                                <th style="width:100px">Visible membres</th>
+                                <th style="width:80px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Contrat de location du kiosque</td>
+                                <td>2025-07-10</td>
+                                <td><span class="badge badge-rouge">Non</span></td>
+                                <td>
+                                    <button class="btn"
+                                        style="padding:4px 8px;font-size:11px">
+                                        📄 Voir
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Plan d'aménagement GES</td>
+                                <td>2025-08-20</td>
+                                <td><span class="badge badge-rouge">Non</span></td>
+                                <td>
+                                    <button class="btn"
+                                        style="padding:4px 8px;font-size:11px">
+                                        📄 Voir
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Compte rendu post-salon</td>
+                                <td>2025-10-25</td>
+                                <td><span class="badge badge-vert">Oui</span></td>
+                                <td>
+                                    <button class="btn"
+                                        style="padding:4px 8px;font-size:11px">
+                                        📄 Voir
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions-groupe">
+                    <button class="btn">📎 Ajouter un document</button>
+                    <button class="btn btn-primaire">↓ Exporter PDF</button>
                 </div>
             </div>
         </div>
@@ -583,9 +821,45 @@
                 <span class="detail-header-titre">
                     Salon du Grand Sudbury — Novembre 2025
                 </span>
-                <span class="badge badge-orange">En cours</span>
+                <div class="detail-header-droite">
+                    <span class="badge badge-orange">En cours</span>
+                    <button class="btn"
+                        style="padding:4px 10px;font-size:12px;
+                        background:rgba(255,255,255,0.15);
+                        border-color:rgba(255,255,255,0.3);color:#fff"
+                        onclick="fermerDetail('sudbury')">
+                        Fermer ✕
+                    </button>
+                </div>
             </div>
-            <div class="detail-body">
+
+            <div style="padding:12px 18px 0">
+                <a href="https://www.salonlivresudbury.com" target="_blank"
+                    class="lien-salon">
+                    🔗 Voir le site officiel du salon →
+                </a>
+            </div>
+
+            <div class="onglets">
+                <button class="onglet-btn actif"
+                    onclick="changerOnglet('sudbury','apercu',this)">
+                    Aperçu
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('sudbury','confirmations',this)">
+                    Confirmations
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('sudbury','factures',this)">
+                    Factures
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('sudbury','documents',this)">
+                    Documents
+                </button>
+            </div>
+
+            <div class="onglet-contenu visible" id="sudbury-apercu">
                 <div class="grid2">
                     <div class="mini-kpi">
                         <div class="mini-kpi-label">Confirmations reçues</div>
@@ -596,16 +870,29 @@
                         <div class="mini-kpi-valeur">15 sept. 2025</div>
                     </div>
                 </div>
-                <div class="section-titre">Statut des confirmations par maison</div>
-                <div class="tableau-wrap" style="margin-bottom:16px">
+                <div class="actions-groupe">
+                    <button class="btn btn-primaire">
+                        🔔 Envoyer rappels aux maisons en attente
+                    </button>
+                    <button class="btn">
+                        📦 Générer bon de commande
+                    </button>
+                    <button class="btn">
+                        📅 Gérer les dédicaces
+                    </button>
+                </div>
+            </div>
+
+            <div class="onglet-contenu" id="sudbury-confirmations">
+                <div class="tableau-wrap" style="margin:0">
                     <table>
                         <thead>
                             <tr>
                                 <th>Maison</th>
-                                <th>Participation</th>
-                                <th>Kiosque</th>
-                                <th>Commande livres</th>
-                                <th>Auteurices</th>
+                                <th style="width:100px">Participation</th>
+                                <th style="width:90px">Kiosque dem.</th>
+                                <th style="width:90px">Commande</th>
+                                <th style="width:80px">Auteurices</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -614,50 +901,101 @@
                                 <td><span class="badge badge-vert">Confirmée</span></td>
                                 <td>1 kiosque</td>
                                 <td><span class="badge badge-vert">Soumise</span></td>
-                                <td>3 proposé·es</td>
+                                <td>3</td>
                             </tr>
                             <tr>
                                 <td>David</td>
                                 <td><span class="badge badge-vert">Confirmée</span></td>
                                 <td>½ kiosque</td>
                                 <td><span class="badge badge-vert">Soumise</span></td>
-                                <td>2 proposé·es</td>
+                                <td>2</td>
                             </tr>
                             <tr>
                                 <td>L'Interligne</td>
                                 <td><span class="badge badge-vert">Confirmée</span></td>
                                 <td>½ kiosque</td>
                                 <td><span class="badge badge-orange">À soumettre</span></td>
-                                <td>1 proposé·e</td>
+                                <td>1</td>
                             </tr>
                             <tr>
                                 <td>Bouton d'or d'Acadie</td>
                                 <td><span class="badge badge-orange">En attente</span></td>
-                                <td>—</td>
-                                <td>—</td>
-                                <td>—</td>
+                                <td>—</td><td>—</td><td>—</td>
                             </tr>
                             <tr>
                                 <td>Plaines</td>
                                 <td><span class="badge badge-orange">En attente</span></td>
-                                <td>—</td>
-                                <td>—</td>
-                                <td>—</td>
+                                <td>—</td><td>—</td><td>—</td>
                             </tr>
                             <tr>
                                 <td>Perce-Neige</td>
                                 <td><span class="badge badge-rouge">Non participante</span></td>
-                                <td>—</td>
-                                <td>—</td>
-                                <td>—</td>
+                                <td>—</td><td>—</td><td>—</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="actions-detail">
-                    <button class="btn btn-primaire">🔔 Envoyer rappels</button>
-                    <button class="btn">📦 Générer bon de commande</button>
-                    <button class="btn">📅 Gérer les dédicaces</button>
+            </div>
+
+            <div class="onglet-contenu" id="sudbury-factures">
+                <div class="note-info">
+                    ℹ️ Les factures seront générées après la clôture du salon.
+                    Taux de refacturation prévu : 70 %.
+                </div>
+                <div class="tableau-wrap" style="margin:0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Maison</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Prise de Parole</td>
+                                <td><span class="badge badge-bleu">À générer après le salon</span></td>
+                            </tr>
+                            <tr>
+                                <td>David</td>
+                                <td><span class="badge badge-bleu">À générer après le salon</span></td>
+                            </tr>
+                            <tr>
+                                <td>L'Interligne</td>
+                                <td><span class="badge badge-bleu">À générer après le salon</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="onglet-contenu" id="sudbury-documents">
+                <div class="tableau-wrap" style="margin:0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Document</th>
+                                <th style="width:120px">Date</th>
+                                <th style="width:100px">Visible membres</th>
+                                <th style="width:80px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Contrat de location du kiosque</td>
+                                <td>2025-08-15</td>
+                                <td><span class="badge badge-rouge">Non</span></td>
+                                <td>
+                                    <button class="btn"
+                                        style="padding:4px 8px;font-size:11px">
+                                        📄 Voir
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions-groupe">
+                    <button class="btn">📎 Ajouter un document</button>
                 </div>
             </div>
         </div>
@@ -669,37 +1007,47 @@
         <div class="modal">
             <div class="modal-titre">
                 <span>Créer un salon</span>
-                <button class="btn-fermer" onclick="fermerModal('modal-salon')">✕</button>
+                <button class="btn-fermer"
+                    onclick="fermerModal('modal-salon')">✕</button>
+            </div>
+
+            <div class="note-info">
+                ℹ️ Les maisons membres seront notifiées automatiquement après
+                la création. Elles confirmeront leur participation de leur côté.
             </div>
 
             <div class="form-row">
                 <label class="form-label">Nom du salon *</label>
                 <input type="text" class="form-input" id="s-nom"
                     placeholder="Ex. : Salon du livre de l'Outaouais">
+                <div class="err-msg" id="err-nom">
+                    Ce champ est obligatoire.
+                </div>
             </div>
 
             <div class="grid2-form" style="margin-bottom:14px">
-                <div class="form-row" style="margin:0">
+                <div>
                     <label class="form-label">Type</label>
                     <select class="form-select">
                         <option>Salon du livre</option>
                         <option>Congrès</option>
                         <option>Festival</option>
-                        <option>Événement littéraire</option>
                     </select>
                 </div>
-                <div class="form-row" style="margin:0">
+                <div>
                     <label class="form-label">Taux refacturation maisons (%)</label>
-                    <input type="number" class="form-input" value="70" min="0" max="100">
+                    <input type="number" class="form-input"
+                        value="70" min="0" max="100"
+                        placeholder="Ex. : 70">
                 </div>
             </div>
 
             <div class="grid2-form" style="margin-bottom:14px">
-                <div class="form-row" style="margin:0">
+                <div>
                     <label class="form-label">Date de début *</label>
-                    <input type="date" class="form-input">
+                    <input type="date" class="form-input" id="s-debut">
                 </div>
-                <div class="form-row" style="margin:0">
+                <div>
                     <label class="form-label">Date de fin *</label>
                     <input type="date" class="form-input">
                 </div>
@@ -711,69 +1059,48 @@
                     placeholder="Ville, adresse du salon">
             </div>
 
-            <div class="grid2-form" style="margin-bottom:14px">
-                <div class="form-row" style="margin:0">
-                    <label class="form-label">Limite confirmation</label>
-                    <input type="date" class="form-input">
-                </div>
-                <div class="form-row" style="margin:0">
-                    <label class="form-label">Limite commande livres</label>
-                    <input type="date" class="form-input">
-                </div>
+            <div class="form-row">
+                <label class="form-label">
+                    Lien officiel du salon
+                    <span class="optionnel">(optionnel — visible par les membres)</span>
+                </label>
+                <input type="url" class="form-input"
+                    placeholder="https://www.nomdusalon.ca">
             </div>
 
-            <div class="form-row">
-                <label class="form-label">Type d'espace réservé</label>
-                <div class="radio-groupe">
-                    <div class="radio-opt sel" onclick="selRadio(this)">
-                        1 kiosque (~500 ex.)
-                    </div>
-                    <div class="radio-opt" onclick="selRadio(this)">
-                        ½ kiosque (~250 ex.)
-                    </div>
-                    <div class="radio-opt" onclick="selRadio(this)">
-                        Autre
-                    </div>
+            <div class="grid2-form" style="margin-bottom:14px">
+                <div>
+                    <label class="form-label">Limite confirmation des maisons</label>
+                    <input type="date" class="form-input">
+                </div>
+                <div>
+                    <label class="form-label">Limite commande de livres</label>
+                    <input type="date" class="form-input">
                 </div>
             </div>
 
             <div class="form-row">
                 <label class="form-label">
-                    Maisons invitées
-                    <span style="font-weight:400;color:#94a3b8">
-                        (cliquer pour sélectionner / désélectionner)
-                    </span>
+                    Notes internes
+                    <span class="optionnel">(non visible par les membres)</span>
                 </label>
-                <div class="maisons-grille">
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">Prise de Parole</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">David</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">L'Interligne</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">Bouton d'or d'Acadie</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">Plaines</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">Perce-Neige</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">La Grande Marée</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">La Nouvelle Plume</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">Terre d'Accueil</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">Pacifique Nord-Ouest</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">Vidacom</div>
-                    <div class="maison-case sel" onclick="this.classList.toggle('sel')">La Grande Marée</div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <label class="form-label">Notes internes (optionnel)</label>
                 <textarea class="form-input" rows="2"
-                    placeholder="Notes visibles uniquement par l'équipe REFC..."></textarea>
+                    placeholder="Notes pour l'équipe REFC uniquement...">
+                </textarea>
             </div>
 
             <div class="form-row">
-                <label class="form-label">Contrat (PDF, optionnel)</label>
+                <label class="form-label">
+                    Contrat
+                    <span class="optionnel">(PDF — interne uniquement)</span>
+                </label>
                 <input type="file" accept=".pdf"
                     style="font-size:12px;color:#64748b">
             </div>
 
             <div class="modal-actions">
-                <button class="btn" onclick="fermerModal('modal-salon')">
+                <button class="btn"
+                    onclick="fermerModal('modal-salon')">
                     Annuler
                 </button>
                 <button class="btn btn-primaire" onclick="creerSalon()">
@@ -783,60 +1110,105 @@
         </div>
     </div>
 
+    <!-- Modal confirmation suppression -->
+    <div class="modal-bg" id="modal-suppression">
+        <div class="modal-confirm">
+            <div class="modal-confirm-icone">⚠️</div>
+            <div class="modal-confirm-titre">Confirmer la suppression</div>
+            <div class="modal-confirm-texte" id="texte-suppression">
+                Êtes-vous sûr de vouloir supprimer ce salon ?<br>
+                <strong>Cette action est irréversible.</strong><br>
+                Toutes les données associées (confirmations, commandes,
+                factures, documents) seront archivées.
+            </div>
+            <div class="modal-confirm-actions">
+                <button class="btn"
+                    onclick="fermerModal('modal-suppression')">
+                    Annuler
+                </button>
+                <button class="btn btn-danger"
+                    onclick="executerSuppression()">
+                    Oui, supprimer
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Afficher/cacher le détail d'un salon
+        let salonASupprimer = '';
+
         function afficherDetail(id) {
             const detail = document.getElementById('detail-' + id);
             const estVisible = detail.classList.contains('visible');
-
-            // Fermer tous les détails ouverts
             document.querySelectorAll('.detail-salon').forEach(d => {
                 d.classList.remove('visible');
             });
-
-            // Ouvrir celui cliqué (sauf s'il était déjà ouvert)
             if (!estVisible) {
                 detail.classList.add('visible');
                 detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
 
-        // Ouvrir une modal
+        function fermerDetail(id) {
+            document.getElementById('detail-' + id).classList.remove('visible');
+        }
+
+        function changerOnglet(salon, onglet, btn) {
+            // Désactiver tous les onglets de ce salon
+            const detail = document.getElementById('detail-' + salon);
+            detail.querySelectorAll('.onglet-btn').forEach(b => {
+                b.classList.remove('actif');
+            });
+            detail.querySelectorAll('.onglet-contenu').forEach(c => {
+                c.classList.remove('visible');
+            });
+            // Activer l'onglet cliqué
+            btn.classList.add('actif');
+            document.getElementById(salon + '-' + onglet).classList.add('visible');
+        }
+
         function ouvrirModal(id) {
             document.getElementById(id).classList.add('visible');
         }
 
-        // Fermer une modal
         function fermerModal(id) {
             document.getElementById(id).classList.remove('visible');
         }
 
-        // Fermer en cliquant sur le fond
         document.querySelectorAll('.modal-bg').forEach(m => {
             m.addEventListener('click', e => {
                 if (e.target === m) m.classList.remove('visible');
             });
         });
 
-        // Sélection radio (type d'espace)
-        function selRadio(el) {
-            el.closest('.radio-groupe')
-              .querySelectorAll('.radio-opt')
-              .forEach(o => o.classList.remove('sel'));
-            el.classList.add('sel');
+        function confirmerSuppression(nom) {
+            salonASupprimer = nom;
+            document.getElementById('texte-suppression').innerHTML =
+                `Êtes-vous sûr de vouloir supprimer <strong>${nom}</strong> ?<br>
+                <strong>Cette action est irréversible.</strong><br>
+                Toutes les données associées (confirmations, commandes,
+                factures, documents) seront archivées.`;
+            ouvrirModal('modal-suppression');
         }
 
-        // Créer un salon (démo)
+        function executerSuppression() {
+            alert(`Salon "${salonASupprimer}" archivé avec succès.`);
+            fermerModal('modal-suppression');
+        }
+
         function creerSalon() {
-            const nom = document.getElementById('s-nom').value.trim();
-            if (!nom) {
-                document.getElementById('s-nom').style.borderColor = '#ef4444';
-                document.getElementById('s-nom').focus();
+            const nom = document.getElementById('s-nom');
+            document.getElementById('err-nom').style.display = 'none';
+            nom.classList.remove('input-err');
+            if (!nom.value.trim()) {
+                nom.classList.add('input-err');
+                document.getElementById('err-nom').style.display = 'block';
+                nom.focus();
                 return;
             }
-            alert('Salon "' + nom + '" créé avec succès !');
-            document.getElementById('s-nom').value = '';
-            document.getElementById('s-nom').style.borderColor = '';
+            alert(`Salon "${nom.value.trim()}" créé avec succès !\n` +
+                  `Les maisons membres ont été notifiées.`);
+            nom.value = '';
             fermerModal('modal-salon');
         }
     </script>
