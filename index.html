@@ -16,9 +16,34 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background-color: #f1f5f9;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding-top: 36px;
+        }
+
+        .banniere-demo {
+            background: #1e3a5f;
+            color: #93c5fd;
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+        }
+
+        .banniere-demo a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        .banniere-demo a:hover {
+            text-decoration: underline;
         }
 
         .carte-connexion {
@@ -81,7 +106,6 @@
             box-shadow: 0 0 0 3px rgba(45, 63, 123, 0.1);
         }
 
-        /* Message d'erreur — caché par défaut */
         .message-erreur {
             background-color: #fee2e2;
             color: #991b1b;
@@ -90,7 +114,7 @@
             padding: 10px 14px;
             font-size: 13px;
             margin-bottom: 16px;
-            display: none; /* caché jusqu'à ce qu'il y ait une erreur */
+            display: none;
         }
 
         .bouton-connexion {
@@ -138,42 +162,28 @@
     </style>
 </head>
 <body>
-<!-- Bannière démo — à retirer dans la version finale -->
-<div style="
-    background: #1e3a5f;
-    color: #93c5fd;
-    text-align: center;
-    padding: 8px 16px;
-    font-size: 12px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
-">
-    ⚠️ <strong>DÉMONSTRATION</strong> — Données entièrement fictives · 
-    Aucune donnée réelle de la REFC · 
-    <a href="https://github.com/fallouinfo03/refc-portail-membres" 
-       target="_blank" 
-       style="color: #60a5fa; text-decoration: none;">
-        Voir le code source
-    </a>
-</div>
 
-<!-- Ajouter un padding-top au body pour compenser la bannière fixe -->
-<div style="height: 36px"></div>
+    <!-- Bannière démo -->
+    <div class="banniere-demo">
+        ⚠️ <strong>DÉMONSTRATION</strong> — Données entièrement fictives · 
+        Aucune donnée réelle de la REFC · 
+        <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">
+            Voir le code source
+        </a>
+    </div>
+
     <div class="carte-connexion">
 
         <div class="entete">
-            <img src="assets/logo-refc.png" alt="REFC — Regroupement des éditeurs franco-canadiens">
+            <img src="assets/logo-refc.png" 
+                 alt="REFC — Regroupement des éditeurs franco-canadiens">
         </div>
 
         <div class="separateur"></div>
 
         <h2 class="titre-connexion">Connexion à l'espace membres</h2>
 
-        <!-- Message d'erreur (affiché par JavaScript si besoin) -->
+        <!-- Message d'erreur -->
         <div class="message-erreur" id="message-erreur">
             Identifiant ou mot de passe invalide.
         </div>
@@ -208,7 +218,9 @@
 
         </form>
 
-        <a href="#" class="lien-oubli">Mot de passe oublié ?</a>
+        <a href="mot-de-passe-oublie.html" class="lien-oubli">
+            Mot de passe oublié ?
+        </a>
 
         <div class="pied">
             © 2026 REFC — Tous droits réservés
@@ -217,11 +229,6 @@
     </div>
 
     <script>
-        /*
-         * SIMULATION DE CONNEXION (démo uniquement)
-         * Dans le vrai portail, cette vérification se fait côté serveur.
-         * Jamais stocker de vrais mots de passe dans le JavaScript !
-         */
         const COMPTES_DEMO = [
             { identifiant: "admin", motdepasse: "refc2026", role: "admin" },
             { identifiant: "prisedeparole", motdepasse: "demo2026", role: "membre" },
@@ -229,37 +236,31 @@
         ];
 
         function verifierConnexion(event) {
-            // Empêcher le rechargement de la page
             event.preventDefault();
 
             const identifiant = document.getElementById('identifiant').value.trim();
             const motdepasse = document.getElementById('motdepasse').value;
             const messageErreur = document.getElementById('message-erreur');
 
-            // Cacher l'erreur précédente
             messageErreur.style.display = 'none';
 
-            // Vérifier les champs vides
             if (!identifiant || !motdepasse) {
                 messageErreur.textContent = 'Veuillez remplir tous les champs.';
                 messageErreur.style.display = 'block';
                 return;
             }
 
-            // Chercher le compte correspondant
             const compte = COMPTES_DEMO.find(
                 c => c.identifiant === identifiant && c.motdepasse === motdepasse
             );
 
             if (compte) {
-                // Connexion réussie — rediriger selon le rôle
                 if (compte.role === 'admin') {
                     window.location.href = 'admin/tableau-de-bord.html';
                 } else {
                     window.location.href = 'membre/tableau-de-bord.html';
                 }
             } else {
-                // Connexion échouée — message générique (ne révèle pas si c'est l'identifiant ou le mot de passe)
                 messageErreur.textContent = 'Identifiant ou mot de passe invalide.';
                 messageErreur.style.display = 'block';
             }
