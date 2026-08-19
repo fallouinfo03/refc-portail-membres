@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REFC — Événements littéraires (Admin)</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        .banniere-demo {
+            background: #1e3a5f;
+            color: #93c5fd;
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 12px;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 999;
+        }
+        .banniere-demo a { color: #60a5fa; text-decoration: none; }
+        .topbar {
+            background: #2D3F7B;
+            color: #fff;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 36px;
+        }
+        .topbar-logo { display: flex; align-items: center; gap: 12px; }
+        .topbar-logo img { height: 32px; }
+        .topbar-titre { font-size: 14px; font-weight: 500; opacity: 0.9; }
+        .topbar-droite { display: flex; align-items: center; gap: 16px; font-size: 13px; }
+        .pill-role {
+            background: rgba(255,255,255,0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .btn-deconnexion {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.4);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .btn-deconnexion:hover { background: rgba(255,255,255,0.1); }
+        .nav {
+            background: #253570;
+            display: flex;
+            padding: 0 24px;
+            gap: 2px;
+            overflow-x: auto;
+        }
+        .nav-btn {
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+            padding: 10px 16px;
+            border: none;
+            background: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .nav-btn:hover { color: #fff; }
+        .nav-btn.actif {
+            color: #fff;
+            border-bottom-color: #7B9EC8;
+            background: rgba(255,255,255,0.08);
+        }
+        .contenu {
+            padding: 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .entete-page {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .page-titre { font-size: 22px; font-weight: 600; }
+        .btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            background: #fff;
+            color: #1e293b;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+        .btn:hover { background: #f8fafc; }
+        .btn-primaire { background: #2D3F7B; color: #fff; border-color: #2D3F7B; }
+        .btn-primaire:hover { background: #253570; }
+        .btn-danger { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+        .btn-danger:hover { background: #fecaca; }
+        .btn-succes { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+        .btn-succes:hover { background: #bbf7d0; }
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .kpi {
+            background: #fff;
+            border-radius: 10px;
+            padding: 16px 18px;
+            border: 1px solid #e2e8f0;
+        }
+        .kpi-label { font-size: 12px; color: #64748b; margin-bottom: 6px; }
+        .kpi-valeur { font-size: 24px; font-weight: 600; color: #1e293b; }
+        .kpi-valeur.vert { color: #166534; }
+        .kpi-valeur.orange { color: #854d0e; }
+        .kpi-valeur.rouge { color: #991b1b; }
+        .section-titre {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 20px 0 10px;
+        }
+        .tableau-wrap {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th {
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 500;
+            color: #64748b;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+            vertical-align: middle;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f8fafc; }
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        .badge-vert { background: #dcfce7; color: #166534; }
+        .badge-orange { background: #fef9c3; color: #854d0e; }
+        .badge-rouge { background: #fee2e2; color: #991b1b; }
+        .badge-bleu { background: #E8EEF7; color: #2D3F7B; }
+        .badge-gris { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+        .badge-bleu { background: #f3e8ff; color: #6b21a8; }
+
+        /* Détail événement */
+        .detail-card {
+            display: none;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .detail-card.visible { display: block; }
+        .detail-header {
+            background: #2D3F7B;
+            color: #fff;
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+        .detail-header-titre { font-size: 15px; font-weight: 500; }
+        .detail-header-droite { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .onglets {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+            overflow-x: auto;
+        }
+        .onglet-btn {
+            padding: 10px 18px;
+            font-size: 13px;
+            border: none;
+            background: none;
+            color: #64748b;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            white-space: nowrap;
+        }
+        .onglet-btn:hover { color: #1e293b; }
+        .onglet-btn.actif {
+            color: #2D3F7B;
+            border-bottom-color: #2D3F7B;
+            font-weight: 500;
+        }
+        .onglet-contenu { display: none; padding: 18px; }
+        .onglet-contenu.visible { display: block; }
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .grid3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .mini-kpi {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 14px;
+        }
+        .mini-kpi-label { font-size: 11px; color: #64748b; margin-bottom: 4px; }
+        .mini-kpi-valeur { font-size: 18px; font-weight: 600; }
+        .mini-kpi-valeur.vert { color: #166534; }
+        .mini-kpi-valeur.orange { color: #854d0e; }
+        .sep { height: 1px; background: #e2e8f0; margin: 16px 0; }
+        .note-info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #1d4ed8;
+            margin-bottom: 14px;
+        }
+        .note-warn {
+            background: #fef9c3;
+            border: 1px solid #fde68a;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #854d0e;
+            margin-bottom: 14px;
+        }
+
+        /* Bloc auteur dans la vue admin */
+        .auteur-bloc {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+        .auteur-titre {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2D3F7B;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sous-bloc {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+        }
+        .sous-bloc-titre {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+        .champ-ligne {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 13px;
+        }
+        .champ-ligne:last-child { border-bottom: none; }
+        .champ-cle { color: #64748b; }
+        .champ-val { color: #1e293b; font-weight: 500; }
+        .champ-val.calcule { color: #2D3F7B; }
+        .champ-val.total { color: #166534; font-size: 14px; }
+        .input-admin {
+            padding: 4px 10px;
+            font-size: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            outline: none;
+            color: #1e293b;
+            background: #fff;
+            width: 120px;
+            text-align: right;
+        }
+        .input-admin:focus {
+            border-color: #2D3F7B;
+            box-shadow: 0 0 0 3px rgba(45,63,123,0.1);
+        }
+        .select-admin {
+            padding: 4px 10px;
+            font-size: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            outline: none;
+            color: #1e293b;
+            background: #fff;
+            cursor: pointer;
+        }
+        .actions-groupe { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+        /* Modal */
+        .modal-bg {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-bg.visible { display: flex; }
+        .modal {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            width: 460px;
+            max-width: 95vw;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        .modal-confirm {
+            background: #fff;
+            border-radius: 12px;
+            padding: 28px;
+            width: 400px;
+            max-width: 95vw;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .modal-titre {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-fermer {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #64748b;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bannière démo -->
+    <div class="banniere-demo">
+        ⚠️ <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
+        <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">
+            Voir le code source
+        </a>
+    </div>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="topbar-logo">
+            <img src="../assets/logo-refc-blanc.png" alt="REFC">
+            <span class="topbar-titre">Espace membres</span>
+        </div>
+        <div class="topbar-droite">
+            <span class="pill-role">admin</span>
+            <span>Noureddine Hany</span>
+            <button class="btn-deconnexion"
+                onclick="window.location.href='../index.html'">
+                Déconnexion
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
+        <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+        <a class="nav-btn" href="salons.html">Salons</a>
+        <a class="nav-btn actif" href="evenements.html">Événements littéraires</a>
+        <a class="nav-btn" href="bulletins.html">Bulletins</a>
+        <a class="nav-btn" href="ingram.html">Ingram</a>
+    </div>
+
+    <!-- Contenu -->
+    <div class="contenu">
+
+        <div class="entete-page">
+            <h1 class="page-titre">Événements littéraires — 2025–2026</h1>
+            <div style="display:flex;gap:8px">
+                <button class="btn">↓ Exporter suivi annuel</button>
+            </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpis">
+            <div class="kpi">
+                <div class="kpi-label">Demandes reçues</div>
+                <div class="kpi-valeur">8</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-label">En attente d'approbation</div>
+                <div class="kpi-valeur">3</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-label">Approuvés</div>
+                <div class="kpi-valeur">4</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-label">Budget utilisé</div>
+                <div class="kpi-valeur rouge">8 450,00 $</div>
+            </div>
+        </div>
+
+        <!-- Tableau des demandes -->
+        <div class="section-titre">Demandes d'événements</div>
+        <div class="tableau-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Activité</th>
+                        <th style="width:80px">Date</th>
+                        <th style="width:100px">Maison</th>
+                        <th style="width:70px">Lieu</th>
+                        <th style="width:75px">Auteurices</th>
+                        <th style="width:90px">Budget estimé</th>
+                        <th style="width:90px">Statut</th>
+                        <th style="width:100px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Lecture publique — Bibliothèque de Hearst</strong></td>
+                        <td>15 mars 2026</td>
+                        <td>Prise de Parole</td>
+                        <td>Hearst, ON</td>
+                        <td>2</td>
+                        <td>2 318,75 $</td>
+                        <td><span class="badge badge-vert">Approuvé</span></td>
+                        <td>
+                            <div style="display:flex;gap:4px">
+                                <button class="btn"
+                                    style="padding:4px 8px;font-size:11px"
+                                    onclick="afficherDetail('hearst')">
+                                    Voir
+                                </button>
+                                <button class="btn"
+                                    style="padding:4px 8px;font-size:11px">
+                                    ↓ Excel
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Animation — Librairie du Soleil</strong></td>
+                        <td>2 avril 2026</td>
+                        <td>David</td>
+                        <td>Ottawa, ON</td>
+                        <td>1</td>
+                        <td>1 875,00 $</td>
+                        <td><span class="badge badge-orange">En attente</span></td>
+                        <td>
+                            <div style="display:flex;gap:4px">
+                                <button class="btn"
+                                    style="padding:4px 8px;font-size:11px"
+                                    onclick="afficherDetail('soleil')">
+                                    Traiter
+                                </button>
+                                <button class="btn btn-danger"
+                                    style="padding:4px 8px;font-size:11px"
+                                    onclick="confirmerSuppression('Animation — Librairie du Soleil')">
+                                    ✕
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Table ronde — École secondaire Béatrice-Desloges</strong></td>
+                        <td>20 avril 2026</td>
+                        <td>L'Interligne</td>
+                        <td>Ottawa, ON</td>
+                        <td>3</td>
+                        <td>3 200,00 $</td>
+                        <td><span class="badge badge-orange">En attente</span></td>
+                        <td>
+                            <div style="display:flex;gap:4px">
+                                <button class="btn"
+                                    style="padding:4px 8px;font-size:11px">
+                                    Traiter
+                                </button>
+                                <button class="btn btn-danger"
+                                    style="padding:4px 8px;font-size:11px"
+                                    onclick="confirmerSuppression('Table ronde — École Béatrice-Desloges')">
+                                    ✕
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Détail Hearst (approuvé) -->
+        <div class="detail-card" id="detail-hearst">
+            <div class="detail-header">
+                <span class="detail-header-titre">
+                    Lecture publique — Bibliothèque de Hearst
+                </span>
+                <div class="detail-header-droite">
+                    <span class="badge badge-vert">Approuvé</span>
+                    <button class="btn"
+                        style="padding:4px 10px;font-size:12px;
+                        background:rgba(255,255,255,0.15);
+                        border-color:rgba(255,255,255,0.3);color:#fff"
+                        onclick="fermerDetail('hearst')">
+                        Fermer ✕
+                    </button>
+                </div>
+            </div>
+
+            <div class="onglets">
+                <button class="onglet-btn actif"
+                    onclick="changerOnglet('hearst','infos',this)">
+                    Informations
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('hearst','auteurs',this)">
+                    Auteurices (2)
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('hearst','promo',this)">
+                    Promotion
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('hearst','budget',this)">
+                    Budget total
+                </button>
+            </div>
+
+            <!-- Onglet Informations -->
+            <div class="onglet-contenu visible" id="hearst-infos">
+                <div class="grid2">
+                    <div>
+                        <div class="sous-bloc">
+                            <div class="sous-bloc-titre">Informations générales</div>
+                            <div class="champ-ligne">
+                                <span class="champ-cle">Nom de l'activité</span>
+                                <span class="champ-val">Lecture publique</span>
+                            </div>
+                            <div class="champ-ligne">
+                                <span class="champ-cle">Date</span>
+                                <span class="champ-val">15 mars 2026</span>
+                            </div>
+                            <div class="champ-ligne">
+                                <span class="champ-cle">Lieu</span>
+                                <span class="champ-val">Bibliothèque municipale</span>
+                            </div>
+                            <div class="champ-ligne">
+                                <span class="champ-cle">Ville, Province</span>
+                                <span class="champ-val">Hearst, Ontario</span>
+                            </div>
+                            <div class="champ-ligne">
+                                <span class="champ-cle">Responsable</span>
+                                <span class="champ-val">Noureddine Hany</span>
+                            </div>
+                            <div class="champ-ligne">
+                                <span class="champ-cle">Maison membre</span>
+                                <span class="champ-val">Prise de Parole</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="sous-bloc">
+                            <div class="sous-bloc-titre">Approbation</div>
+                            <div class="champ-ligne">
+                                <span class="champ-cle">Statut</span>
+                                <span class="champ-val">
+                                    <span class="badge badge-vert">Approuvé</span>
+                                </span>
+                            </div>
+                            <div class="champ-ligne">
+                                <span class="champ-cle">Approuvé par</span>
+                                <span class="champ-val">Piedad Saenz</span>
+                            </div>
+                            <div class="champ-ligne">
+                                <span class="champ-cle">Date d'approbation</span>
+                                <span class="champ-val">28 février 2026</span>
+                            </div>
+                            <div class="champ-ligne">
+                                <span class="champ-cle">Budget approuvé</span>
+                                <span class="champ-val" style="color:#2D3F7B;font-weight:600">
+                                    2 318,75 $
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions-groupe">
+                    <button class="btn btn-primaire">↓ Générer rapport Excel</button>
+                    <button class="btn">📄 Voir la demande originale</button>
+                </div>
+            </div>
+
+            <!-- Onglet Auteurices -->
+            <div class="onglet-contenu" id="hearst-auteurs">
+
+                <!-- Auteur 1 -->
+                <div class="auteur-bloc">
+                    <div class="auteur-titre">
+                        <span>Auteure 1 — Véronique Sylvain</span>
+                        <span class="badge badge-bleu">Poésie</span>
+                    </div>
+
+                    <div class="champ-ligne" style="margin-bottom:10px">
+                        <span class="champ-cle">Ville de résidence</span>
+                        <span class="champ-val">Ottawa, Ontario</span>
+                    </div>
+                    <div class="champ-ligne" style="margin-bottom:14px">
+                        <span class="champ-cle">Distance (calculée auto)</span>
+                        <span class="champ-val calcule">612 km</span>
+                    </div>
+
+                    <div class="sous-bloc">
+                        <div class="sous-bloc-titre">Voyage (A/R)</div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Mode de transport</span>
+                            <span class="champ-val">Voiture personnelle</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Frais à engager</span>
+                            <span class="champ-val">180,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Autres dépenses (Uber, stationnement...)</span>
+                            <span class="champ-val">25,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Prise en charge REFC</span>
+                            <select class="select-admin">
+                                <option selected>100 %</option>
+                                <option>75 %</option>
+                                <option>50 %</option>
+                                <option>Autre</option>
+                            </select>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Total Voyage</span>
+                            <span class="champ-val calcule">205,00 $</span>
+                        </div>
+                    </div>
+
+                    <div class="sous-bloc">
+                        <div class="sous-bloc-titre">Séjour</div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Nombre de nuitées</span>
+                            <span class="champ-val">2</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Montant moyen / nuit</span>
+                            <span class="champ-val">145,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Prise en charge REFC</span>
+                            <select class="select-admin">
+                                <option selected>100 %</option>
+                                <option>75 %</option>
+                                <option>50 %</option>
+                                <option>Autre</option>
+                            </select>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Sous-total hébergement</span>
+                            <span class="champ-val calcule">290,00 $</span>
+                        </div>
+                        <div class="sep"></div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Per diem base / jour</span>
+                            <input type="number" class="input-admin"
+                                value="75" placeholder="75,00">
+                            <span style="font-size:12px;color:#64748b">$</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Déductions</span>
+                            <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
+                                <label style="font-size:12px;display:flex;align-items:center;gap:6px">
+                                    <input type="checkbox" checked>
+                                    Petit déjeuner inclus (-15,00 $)
+                                </label>
+                                <label style="font-size:12px;display:flex;align-items:center;gap:6px">
+                                    <input type="checkbox">
+                                    Déjeuner offert (-20,00 $)
+                                </label>
+                                <label style="font-size:12px;display:flex;align-items:center;gap:6px">
+                                    <input type="checkbox">
+                                    Dîner offert (-35,00 $)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Per diem net / jour</span>
+                            <span class="champ-val calcule">60,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Per diem total (2 jours)</span>
+                            <span class="champ-val calcule">120,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Total Séjour</span>
+                            <span class="champ-val calcule">410,00 $</span>
+                        </div>
+                    </div>
+
+                    <div class="sous-bloc">
+                        <div class="sous-bloc-titre">Déroulement de l'activité</div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Déplacement sur place (A/R)</span>
+                            <span class="champ-val">20,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Cachet auteure</span>
+                            <span class="champ-val">300,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Total Déroulement</span>
+                            <span class="champ-val calcule">320,00 $</span>
+                        </div>
+                    </div>
+
+                    <div style="background:#E8EEF7;border-radius:8px;
+                        padding:10px 14px;display:flex;
+                        justify-content:space-between;align-items:center">
+                        <span style="font-size:13px;font-weight:600;color:#2D3F7B">
+                            Budget total — Véronique Sylvain
+                        </span>
+                        <span style="font-size:16px;font-weight:700;color:#2D3F7B">
+                            935,00 $
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Auteur 2 -->
+                <div class="auteur-bloc">
+                    <div class="auteur-titre">
+                        <span>Auteur 2 — Tomson Highway</span>
+                        <span class="badge badge-bleu">Roman</span>
+                    </div>
+                    <div class="champ-ligne" style="margin-bottom:10px">
+                        <span class="champ-cle">Ville de résidence</span>
+                        <span class="champ-val">Sudbury, Ontario</span>
+                    </div>
+                    <div class="champ-ligne" style="margin-bottom:14px">
+                        <span class="champ-cle">Distance (calculée auto)</span>
+                        <span class="champ-val calcule">248 km</span>
+                    </div>
+                    <div class="sous-bloc">
+                        <div class="sous-bloc-titre">Voyage (A/R)</div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Mode de transport</span>
+                            <span class="champ-val">Autobus</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Frais à engager</span>
+                            <span class="champ-val">85,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Autres dépenses</span>
+                            <span class="champ-val">0,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Prise en charge REFC</span>
+                            <select class="select-admin">
+                                <option selected>100 %</option>
+                                <option>75 %</option>
+                                <option>50 %</option>
+                            </select>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Total Voyage</span>
+                            <span class="champ-val calcule">85,00 $</span>
+                        </div>
+                    </div>
+                    <div class="sous-bloc">
+                        <div class="sous-bloc-titre">Déroulement</div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Déplacement sur place (A/R)</span>
+                            <span class="champ-val">0,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Cachet auteur</span>
+                            <span class="champ-val">250,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Total Déroulement</span>
+                            <span class="champ-val calcule">250,00 $</span>
+                        </div>
+                    </div>
+                    <div style="background:#E8EEF7;border-radius:8px;
+                        padding:10px 14px;display:flex;
+                        justify-content:space-between;align-items:center">
+                        <span style="font-size:13px;font-weight:600;color:#2D3F7B">
+                            Budget total — Tomson Highway
+                        </span>
+                        <span style="font-size:16px;font-weight:700;color:#2D3F7B">
+                            335,00 $
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Onglet Promotion -->
+            <div class="onglet-contenu" id="hearst-promo">
+                <div class="note-info">
+                    ℹ️ Ces champs sont remplis par l'équipe REFC uniquement.
+                    Non visible par la maison membre.
+                </div>
+                <div class="sous-bloc">
+                    <div class="sous-bloc-titre">Promotion — Communication</div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Frais de promotion (graphisme, pub, affiches...)</span>
+                        <div style="display:flex;align-items:center;gap:6px">
+                            <input type="number" class="input-admin" value="350">
+                            <span style="font-size:12px;color:#64748b">$</span>
+                        </div>
+                    </div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Consommation (verre d'amitié, cocktail...)</span>
+                        <div style="display:flex;align-items:center;gap:6px">
+                            <input type="number" class="input-admin" value="125">
+                            <span style="font-size:12px;color:#64748b">$</span>
+                        </div>
+                    </div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Cachet animateur·rice / Panélistes</span>
+                        <div style="display:flex;align-items:center;gap:6px">
+                            <input type="number" class="input-admin" value="500">
+                            <span style="font-size:12px;color:#64748b">$</span>
+                        </div>
+                    </div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Contribution REFC à l'aménagement</span>
+                        <div style="display:flex;align-items:center;gap:6px">
+                            <input type="number" class="input-admin" value="200">
+                            <span style="font-size:12px;color:#64748b">$</span>
+                        </div>
+                    </div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Budget Promotion-Communication</span>
+                        <span class="champ-val calcule">1 175,00 $</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet Budget total -->
+            <div class="onglet-contenu" id="hearst-budget">
+                <div class="grid3">
+                    <div class="mini-kpi">
+                        <div class="mini-kpi-label">Véronique Sylvain</div>
+                        <div class="mini-kpi-valeur">935,00 $</div>
+                    </div>
+                    <div class="mini-kpi">
+                        <div class="mini-kpi-label">Tomson Highway</div>
+                        <div class="mini-kpi-valeur">335,00 $</div>
+                    </div>
+                    <div class="mini-kpi">
+                        <div class="mini-kpi-label">Promotion-Communication</div>
+                        <div class="mini-kpi-valeur">1 175,00 $</div>
+                    </div>
+                </div>
+                <div class="sous-bloc">
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Sous-total auteurices</span>
+                        <span class="champ-val calcule">1 270,00 $</span>
+                    </div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Budget Promotion-Communication</span>
+                        <span class="champ-val calcule">1 175,00 $</span>
+                    </div>
+                    <div class="sep"></div>
+                    <div class="champ-ligne">
+                        <span style="font-size:14px;font-weight:700;color:#1e293b">
+                            BUDGET TOTAL DE L'ACTIVITÉ
+                        </span>
+                        <span style="font-size:18px;font-weight:700;color:#2D3F7B">
+                            2 445,00 $
+                        </span>
+                    </div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Prise en charge REFC</span>
+                        <span class="champ-val" style="color:#2D3F7B;font-weight:600">
+                            2 445,00 $
+                        </span>
+                    </div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Part maison membre</span>
+                        <input type="number" class="input-admin"
+                            value="0" placeholder="0">
+                        <span style="font-size:12px;color:#64748b">$</span>
+                    </div>
+                </div>
+                <div class="actions-groupe">
+                    <button class="btn btn-primaire">↓ Générer rapport Excel</button>
+                    <button class="btn">✉️ Envoyer à la maison membre</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Détail Librairie du Soleil (en attente) -->
+        <div class="detail-card" id="detail-soleil">
+            <div class="detail-header">
+                <span class="detail-header-titre">
+                    Animation — Librairie du Soleil
+                </span>
+                <div class="detail-header-droite">
+                    <span class="badge badge-orange">En attente</span>
+                    <button class="btn"
+                        style="padding:4px 10px;font-size:12px;
+                        background:rgba(255,255,255,0.15);
+                        border-color:rgba(255,255,255,0.3);color:#fff"
+                        onclick="fermerDetail('soleil')">
+                        Fermer ✕
+                    </button>
+                </div>
+            </div>
+
+            <div class="onglets">
+                <button class="onglet-btn actif"
+                    onclick="changerOnglet('soleil','infos',this)">
+                    Informations
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('soleil','auteurs',this)">
+                    Auteurices (1)
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('soleil','promo',this)">
+                    Promotion
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('soleil','budget',this)">
+                    Budget total
+                </button>
+            </div>
+
+            <div class="onglet-contenu visible" id="soleil-infos">
+                <div class="note-warn">
+                    ⚠ Cette demande est en attente de traitement par Noureddine,
+                    puis d'approbation par la directrice (Piedad Saenz).
+                </div>
+                <div class="grid2">
+                    <div class="sous-bloc">
+                        <div class="sous-bloc-titre">Informations générales</div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Nom de l'activité</span>
+                            <span class="champ-val">Animation littéraire</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Date</span>
+                            <span class="champ-val">2 avril 2026</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Lieu</span>
+                            <span class="champ-val">Librairie du Soleil</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Ville, Province</span>
+                            <span class="champ-val">Ottawa, Ontario</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Maison membre</span>
+                            <span class="champ-val">David</span>
+                        </div>
+                    </div>
+                    <div class="sous-bloc">
+                        <div class="sous-bloc-titre">Actions requises</div>
+                        <p style="font-size:13px;color:#64748b;margin-bottom:14px;line-height:1.5">
+                            1. Compléter les pourcentages de prise en charge<br>
+                            2. Saisir le per diem et les déductions<br>
+                            3. Remplir la section Promotion<br>
+                            4. Soumettre à la directrice pour approbation
+                        </p>
+                        <div class="actions-groupe">
+                            <button class="btn btn-primaire">
+                                ✓ Soumettre à la directrice
+                            </button>
+                            <button class="btn btn-danger"
+                                onclick="confirmerSuppression('Animation — Librairie du Soleil')">
+                                ✗ Refuser la demande
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="onglet-contenu" id="soleil-auteurs">
+                <div class="auteur-bloc">
+                    <div class="auteur-titre">
+                        <span>Auteur 1 — Patrick Leroux</span>
+                        <span class="badge badge-bleu">Théâtre</span>
+                    </div>
+                    <div class="champ-ligne" style="margin-bottom:10px">
+                        <span class="champ-cle">Ville de résidence</span>
+                        <span class="champ-val">Montréal, Québec</span>
+                    </div>
+                    <div class="champ-ligne" style="margin-bottom:14px">
+                        <span class="champ-cle">Distance (calculée auto)</span>
+                        <span class="champ-val calcule">198 km</span>
+                    </div>
+                    <div class="sous-bloc">
+                        <div class="sous-bloc-titre">Voyage (A/R) — à compléter par REFC</div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Mode de transport</span>
+                            <span class="champ-val">Train</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Frais à engager</span>
+                            <span class="champ-val">120,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Autres dépenses</span>
+                            <span class="champ-val">15,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Prise en charge REFC *</span>
+                            <select class="select-admin">
+                                <option>Choisir...</option>
+                                <option>100 %</option>
+                                <option>75 %</option>
+                                <option>50 %</option>
+                                <option>Autre</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="sous-bloc">
+                        <div class="sous-bloc-titre">Séjour — à compléter par REFC</div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Nuitées</span>
+                            <span class="champ-val">1</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Montant/nuit</span>
+                            <span class="champ-val">135,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Prise en charge REFC *</span>
+                            <select class="select-admin">
+                                <option>Choisir...</option>
+                                <option>100 %</option>
+                                <option>75 %</option>
+                                <option>50 %</option>
+                            </select>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Per diem base / jour *</span>
+                            <div style="display:flex;align-items:center;gap:6px">
+                                <input type="number" class="input-admin"
+                                    placeholder="ex: 75">
+                                <span style="font-size:12px;color:#64748b">$</span>
+                            </div>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Déductions *</span>
+                            <div style="display:flex;flex-direction:column;
+                                gap:4px;align-items:flex-end">
+                                <label style="font-size:12px;
+                                    display:flex;align-items:center;gap:6px">
+                                    <input type="checkbox">
+                                    Petit déjeuner inclus (-15,00 $)
+                                </label>
+                                <label style="font-size:12px;
+                                    display:flex;align-items:center;gap:6px">
+                                    <input type="checkbox">
+                                    Déjeuner offert (-20,00 $)
+                                </label>
+                                <label style="font-size:12px;
+                                    display:flex;align-items:center;gap:6px">
+                                    <input type="checkbox">
+                                    Dîner offert (-35,00 $)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sous-bloc">
+                        <div class="sous-bloc-titre">Déroulement</div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Déplacement sur place (A/R)</span>
+                            <span class="champ-val">10,00 $</span>
+                        </div>
+                        <div class="champ-ligne">
+                            <span class="champ-cle">Cachet auteur</span>
+                            <span class="champ-val">400,00 $</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="onglet-contenu" id="soleil-promo">
+                <div class="note-info">
+                    ℹ️ À remplir par Noureddine avant soumission à la directrice.
+                </div>
+                <div class="sous-bloc">
+                    <div class="sous-bloc-titre">Promotion — Communication</div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Frais de promotion</span>
+                        <div style="display:flex;align-items:center;gap:6px">
+                            <input type="number" class="input-admin" placeholder="0">
+                            <span style="font-size:12px;color:#64748b">$</span>
+                        </div>
+                    </div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Consommation</span>
+                        <div style="display:flex;align-items:center;gap:6px">
+                            <input type="number" class="input-admin" placeholder="0">
+                            <span style="font-size:12px;color:#64748b">$</span>
+                        </div>
+                    </div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Cachet animateur·rice / Panélistes</span>
+                        <div style="display:flex;align-items:center;gap:6px">
+                            <input type="number" class="input-admin" placeholder="0">
+                            <span style="font-size:12px;color:#64748b">$</span>
+                        </div>
+                    </div>
+                    <div class="champ-ligne">
+                        <span class="champ-cle">Contribution REFC à l'aménagement</span>
+                        <div style="display:flex;align-items:center;gap:6px">
+                            <input type="number" class="input-admin" placeholder="0">
+                            <span style="font-size:12px;color:#64748b">$</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="onglet-contenu" id="soleil-budget">
+                <div class="note-warn">
+                    ⚠ Complétez les sections Auteurices et Promotion
+                    pour voir le budget total calculé automatiquement.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal confirmation suppression -->
+    <div class="modal-bg" id="modal-suppression">
+        <div class="modal-confirm">
+            <div style="font-size:40px;margin-bottom:14px">⚠️</div>
+            <div style="font-size:17px;font-weight:600;margin-bottom:8px">
+                Confirmer la suppression
+            </div>
+            <div style="font-size:13px;color:#64748b;margin-bottom:24px;
+                line-height:1.5" id="texte-suppression">
+            </div>
+            <div style="display:flex;gap:10px;justify-content:center">
+                <button class="btn"
+                    onclick="fermerModal('modal-suppression')">
+                    Annuler
+                </button>
+                <button class="btn btn-danger"
+                    onclick="fermerModal('modal-suppression');
+                    alert('Demande archivée.')">
+                    Oui, supprimer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function afficherDetail(id) {
+            document.querySelectorAll('.detail-card').forEach(d => {
+                d.classList.remove('visible');
+            });
+            const cible = document.getElementById('detail-' + id);
+            cible.classList.add('visible');
+            cible.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function fermerDetail(id) {
+            document.getElementById('detail-' + id).classList.remove('visible');
+        }
+
+        function changerOnglet(section, onglet, btn) {
+            const detail = document.getElementById('detail-' + section);
+            detail.querySelectorAll('.onglet-btn').forEach(b => {
+                b.classList.remove('actif');
+            });
+            detail.querySelectorAll('.onglet-contenu').forEach(c => {
+                c.classList.remove('visible');
+            });
+            if (btn) btn.classList.add('actif');
+            const el = document.getElementById(section + '-' + onglet);
+            if (el) el.classList.add('visible');
+        }
+
+        function ouvrirModal(id) {
+            document.getElementById(id).classList.add('visible');
+        }
+
+        function fermerModal(id) {
+            document.getElementById(id).classList.remove('visible');
+        }
+
+        function confirmerSuppression(nom) {
+            document.getElementById('texte-suppression').innerHTML =
+                `Êtes-vous sûr de vouloir supprimer<br>
+                <strong>${nom}</strong> ?<br><br>
+                <strong>Cette action est irréversible.</strong><br>
+                La demande sera archivée.`;
+            ouvrirModal('modal-suppression');
+        }
+
+        document.querySelectorAll('.modal-bg').forEach(m => {
+            m.addEventListener('click', e => {
+                if (e.target === m) m.classList.remove('visible');
+            });
+        });
+    </script>
+
+</body>
+</html>
