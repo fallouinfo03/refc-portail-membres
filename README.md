@@ -53,7 +53,7 @@ refc-portail-membres/
 
 | Rôle | Identifiant | Mot de passe |
 |------|-------------|--------------|
-| Admin REFC (Piedad Saenz) | `admin` | `refc2026` |
+| Admin REFC (Fadel) | `admin` | `refc2026` |
 | Membre — Prise de Parole | `prisedeparole` | `demo2026` |
 | Membre — David | `david` | `demo2026` |
 
