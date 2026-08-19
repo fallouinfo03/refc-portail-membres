@@ -57,6 +57,7 @@
             display: flex;
             padding: 0 24px;
             gap: 2px;
+            overflow-x: auto;
         }
         .nav-btn {
             color: rgba(255,255,255,0.7);
@@ -91,9 +92,6 @@
             font-size: 13px;
             color: #1d4ed8;
             margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
         .kpis {
             display: grid;
@@ -140,6 +138,7 @@
             padding: 10px 14px;
             border-bottom: 1px solid #f1f5f9;
             color: #1e293b;
+            vertical-align: middle;
         }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #f8fafc; }
@@ -170,32 +169,73 @@
             transition: background 0.15s;
         }
         .btn:hover { background: #f8fafc; }
-        .btn-primaire {
-            background: #2D3F7B;
-            color: #fff;
-            border-color: #2D3F7B;
-        }
+        .btn-primaire { background: #2D3F7B; color: #fff; border-color: #2D3F7B; }
         .btn-primaire:hover { background: #253570; }
 
-        /* Formulaire de confirmation */
-        .formulaire-card {
+        /* Détail / Récapitulatif salon */
+        .detail-card {
             background: #fff;
             border: 1px solid #e2e8f0;
             border-radius: 10px;
             overflow: hidden;
             margin-bottom: 16px;
+            display: none;
         }
-        .formulaire-header {
+        .detail-card.visible { display: block; }
+        .detail-header {
             background: #2D3F7B;
             color: #fff;
             padding: 12px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
         }
-        .formulaire-header-titre { font-size: 14px; font-weight: 500; }
-        .formulaire-header-limite { font-size: 12px; opacity: 0.85; }
-        .formulaire-body { padding: 18px; }
+        .detail-header-titre { font-size: 14px; font-weight: 500; }
+        .detail-header-droite { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+        /* Onglets internes */
+        .onglets {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        .onglet-btn {
+            padding: 10px 18px;
+            font-size: 13px;
+            border: none;
+            background: none;
+            color: #64748b;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        .onglet-btn:hover { color: #1e293b; }
+        .onglet-btn.actif {
+            color: #2D3F7B;
+            border-bottom-color: #2D3F7B;
+            font-weight: 500;
+        }
+        .onglet-contenu { display: none; padding: 18px; }
+        .onglet-contenu.visible { display: block; }
+
+        .lien-salon {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #2D3F7B;
+            font-size: 13px;
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            background: #eff6ff;
+            margin-bottom: 16px;
+        }
+        .lien-salon:hover { background: #dbeafe; }
+        .sep { height: 1px; background: #e2e8f0; margin: 16px 0; }
+
+        /* Formulaire de confirmation */
         .form-label {
             display: block;
             font-size: 12px;
@@ -203,7 +243,22 @@
             color: #475569;
             margin-bottom: 5px;
         }
-        .radio-groupe { display: flex; gap: 10px; margin-top: 5px; margin-bottom: 16px; }
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            color: #1e293b;
+            background: #fff;
+        }
+        .form-input:focus {
+            border-color: #2D3F7B;
+            box-shadow: 0 0 0 3px rgba(45,63,123,0.1);
+        }
+        .form-row { margin-bottom: 14px; }
+        .radio-groupe { display: flex; gap: 10px; margin-top: 5px; }
         .radio-opt {
             flex: 1;
             padding: 10px 12px;
@@ -221,36 +276,47 @@
             color: #2D3F7B;
             font-weight: 500;
         }
-        .sep { height: 1px; background: #e2e8f0; margin: 16px 0; }
-        .form-input {
-            width: 100%;
-            padding: 8px 12px;
-            font-size: 13px;
-            border: 1px solid #cbd5e1;
+        .actions-form { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+        .err-msg { font-size: 11px; color: #991b1b; margin-top: 4px; display: none; }
+        .input-err { border-color: #ef4444 !important; }
+        .note-info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
             border-radius: 8px;
-            outline: none;
-            color: #1e293b;
-            background: #fff;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #1d4ed8;
+            margin-bottom: 14px;
         }
-        .form-input:focus {
-            border-color: #2D3F7B;
-            box-shadow: 0 0 0 3px rgba(45,63,123,0.1);
-        }
-        .form-select {
-            width: 100%;
-            padding: 8px 12px;
-            font-size: 13px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            outline: none;
-            background: #fff;
-            color: #1e293b;
-            cursor: pointer;
-        }
-        .form-row { margin-bottom: 14px; }
-        .actions-form { display: flex; gap: 10px; margin-top: 16px; }
 
-        /* Modal ajout titre/auteur */
+        /* Récapitulatif */
+        .recap-bloc {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+        }
+        .recap-titre {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        .recap-ligne {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            padding: 4px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .recap-ligne:last-child { border-bottom: none; }
+        .recap-cle { color: #64748b; }
+        .recap-val { color: #1e293b; font-weight: 500; }
+
+        /* Modal */
         .modal-bg {
             display: none;
             position: fixed;
@@ -290,33 +356,22 @@
             border-radius: 4px;
         }
         .btn-fermer:hover { background: #f1f5f9; }
+        .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            background: #fff;
+            color: #1e293b;
+            cursor: pointer;
+        }
         .modal-actions {
             display: flex;
             gap: 10px;
             justify-content: flex-end;
             margin-top: 20px;
-        }
-        .err-msg { font-size: 11px; color: #991b1b; margin-top: 4px; display: none; }
-        .input-err { border-color: #ef4444 !important; }
-
-        /* Horaire dédicaces */
-        .horaire-card {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-        .horaire-header {
-            background: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 12px 18px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #1e293b;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
     </style>
 </head>
@@ -325,9 +380,8 @@
     <!-- Bannière démo -->
     <div class="banniere-demo">
         ⚠️ <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
-        <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">
-            Voir le code source
-        </a>
+        <a href="https://github.com/fallouinfo03/refc-portail-membres"
+            target="_blank">Voir le code source</a>
     </div>
 
     <!-- Topbar -->
@@ -349,8 +403,9 @@
     <!-- Navigation -->
     <div class="nav">
         <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
-        <a class="nav-btn" href="couts-partages.html">Services à coûts partagés</a>
+        <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
         <a class="nav-btn actif" href="salons.html">Salons</a>
+        <a class="nav-btn" href="evenements.html">Événements littéraires</a>
         <a class="nav-btn" href="bulletins.html">Bulletins</a>
         <a class="nav-btn" href="ingram.html">Ingram</a>
     </div>
@@ -362,8 +417,8 @@
         <p class="page-sous-titre">Saison 2025–2026 — Prise de Parole</p>
 
         <div class="info-box">
-            ℹ️ Vous avez <strong>1 confirmation en attente</strong> pour le
-            Salon du Grand Sudbury — Date limite : 15 septembre 2025
+            ℹ️ Vous avez <strong>1 confirmation en attente</strong> pour
+            le Salon du Grand Sudbury — Date limite : 15 septembre 2025
         </div>
 
         <!-- KPIs -->
@@ -381,7 +436,7 @@
                 <div class="kpi-valeur">5</div>
             </div>
             <div class="kpi">
-                <div class="kpi-label">Taux saison</div>
+                <div class="kpi-label">Taux refacturation</div>
                 <div class="kpi-valeur">70 %</div>
             </div>
         </div>
@@ -393,13 +448,13 @@
                 <thead>
                     <tr>
                         <th>Salon</th>
-                        <th>Dates</th>
-                        <th>Date limite</th>
-                        <th>Participation</th>
-                        <th>Kiosque</th>
-                        <th>Commande</th>
-                        <th>Ma part</th>
-                        <th>Action</th>
+                        <th style="width:75px">Dates</th>
+                        <th style="width:80px">Limite</th>
+                        <th style="width:95px">Participation</th>
+                        <th style="width:80px">Kiosque</th>
+                        <th style="width:80px">Commande</th>
+                        <th style="width:70px">Ma part</th>
+                        <th style="width:90px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -414,8 +469,8 @@
                         <td>
                             <button class="btn"
                                 style="padding:4px 10px;font-size:12px"
-                                onclick="afficherFormulaire('toronto')">
-                                Voir
+                                onclick="afficherDetail('toronto')">
+                                Voir récap
                             </button>
                         </td>
                     </tr>
@@ -430,7 +485,7 @@
                         <td>
                             <button class="btn btn-primaire"
                                 style="padding:4px 10px;font-size:12px"
-                                onclick="afficherFormulaire('sudbury')">
+                                onclick="afficherDetail('sudbury')">
                                 Confirmer
                             </button>
                         </td>
@@ -449,168 +504,140 @@
             </table>
         </div>
 
-        <!-- Formulaire Sudbury -->
-        <div class="formulaire-card" id="form-sudbury" style="display:none">
-            <div class="formulaire-header">
-                <span class="formulaire-header-titre">
-                    Salon du Grand Sudbury — Formulaire de participation
+        <!-- ===== RÉCAPITULATIF TORONTO (salon terminé) ===== -->
+        <div class="detail-card" id="detail-toronto">
+            <div class="detail-header">
+                <span class="detail-header-titre">
+                    Salon de Toronto — Récapitulatif
                 </span>
-                <span class="formulaire-header-limite">
-                    Date limite : 15 sept. 2025
-                </span>
+                <div class="detail-header-droite">
+                    <span class="badge badge-vert">Terminé</span>
+                    <button class="btn"
+                        style="padding:4px 10px;font-size:12px;
+                        background:rgba(255,255,255,0.15);
+                        border-color:rgba(255,255,255,0.3);color:#fff"
+                        onclick="fermerDetail('toronto')">
+                        Fermer ✕
+                    </button>
+                </div>
             </div>
-            <div class="formulaire-body">
 
-                <label class="form-label">Type d'espace souhaité</label>
-                <div class="radio-groupe">
-                    <div class="radio-opt sel" onclick="selRadio(this)">
-                        1 kiosque (~500 ex.)
+            <div style="padding:12px 18px 0">
+                <a href="https://www.bookfair.com" target="_blank"
+                    class="lien-salon">
+                    🔗 Voir le site officiel du salon →
+                </a>
+            </div>
+
+            <div class="onglets">
+                <button class="onglet-btn actif"
+                    onclick="changerOnglet('toronto','recap',this)">
+                    Récapitulatif
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('toronto','livres',this)">
+                    Mes livres
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('toronto','dedicaces',this)">
+                    Dédicaces
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('toronto','facture',this)">
+                    Ma facture
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('toronto','cr',this)">
+                    Compte rendu
+                </button>
+            </div>
+
+            <!-- Récapitulatif -->
+            <div class="onglet-contenu visible" id="toronto-recap">
+                <div class="recap-bloc">
+                    <div class="recap-titre">Informations du salon</div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Salon</span>
+                        <span class="recap-val">Salon du livre de Toronto</span>
                     </div>
-                    <div class="radio-opt" onclick="selRadio(this)">
-                        ½ kiosque (~250 ex.)
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Dates</span>
+                        <span class="recap-val">18–20 octobre 2025</span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Lieu</span>
+                        <span class="recap-val">Metro Toronto Convention Centre</span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Type de kiosque</span>
+                        <span class="recap-val">1 kiosque complet (~500 ex.)</span>
                     </div>
                 </div>
-
-                <div class="sep"></div>
-
-                <!-- Livres -->
-                <div class="section-titre" style="margin-top:0">
-                    Livres à apporter
+                <div class="recap-bloc">
+                    <div class="recap-titre">Ma participation</div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Statut</span>
+                        <span class="recap-val">
+                            <span class="badge badge-vert">Confirmée</span>
+                        </span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Livres apportés</span>
+                        <span class="recap-val">3 titres · 72 exemplaires</span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Auteurices</span>
+                        <span class="recap-val">2 auteur·ices</span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Ma part (70%)</span>
+                        <span class="recap-val" style="color:#991b1b;font-weight:600">
+                            1 190,00 $
+                        </span>
+                    </div>
                 </div>
-                <div class="tableau-wrap" style="margin-bottom:10px">
-                    <table id="tbl-livres">
+                <div style="display:flex;gap:8px">
+                    <button class="btn btn-primaire">↓ Télécharger PDF</button>
+                </div>
+            </div>
+
+            <!-- Mes livres -->
+            <div class="onglet-contenu" id="toronto-livres">
+                <div class="tableau-wrap" style="margin:0">
+                    <table>
                         <thead>
                             <tr>
                                 <th style="width:120px">ISBN</th>
                                 <th>Titre</th>
-                                <th style="width:90px">Quantité</th>
-                                <th style="width:50px"></th>
+                                <th style="width:100px">Qté commandée</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-livres">
+                        <tbody>
                             <tr>
                                 <td>9782897444617</td>
                                 <td>En terrain miné</td>
-                                <td>
-                                    <input type="number" value="25" min="1"
-                                        style="width:60px;padding:3px 7px;
-                                        border:1px solid #cbd5e1;border-radius:6px;
-                                        font-size:12px">
-                                </td>
-                                <td>
-                                    <button class="btn"
-                                        style="padding:3px 7px;font-size:11px"
-                                        onclick="supprimerLigne(this)">
-                                        ✕
-                                    </button>
-                                </td>
+                                <td>25</td>
                             </tr>
                             <tr>
                                 <td>9782897444556</td>
                                 <td>Rire avec le Trickster</td>
-                                <td>
-                                    <input type="number" value="20" min="1"
-                                        style="width:60px;padding:3px 7px;
-                                        border:1px solid #cbd5e1;border-radius:6px;
-                                        font-size:12px">
-                                </td>
-                                <td>
-                                    <button class="btn"
-                                        style="padding:3px 7px;font-size:11px"
-                                        onclick="supprimerLigne(this)">
-                                        ✕
-                                    </button>
-                                </td>
+                                <td>27</td>
+                            </tr>
+                            <tr>
+                                <td>9782897443719</td>
+                                <td>J'achève mon exil...</td>
+                                <td>20</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <button class="btn" style="margin-bottom:16px"
-                    onclick="ouvrirModal('modal-titre')">
-                    + Ajouter un titre
-                </button>
-
-                <div class="sep"></div>
-
-                <!-- Auteurices -->
-                <div class="section-titre" style="margin-top:0">
-                    Auteurices à proposer
-                </div>
-                <div class="tableau-wrap" style="margin-bottom:10px">
-                    <table id="tbl-auteurs">
-                        <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th style="width:130px">Titre associé</th>
-                                <th style="width:110px">Disponibilités</th>
-                                <th style="width:90px">Type</th>
-                                <th style="width:50px"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-auteurs">
-                            <tr>
-                                <td>Véronique Sylvain</td>
-                                <td>En terrain miné</td>
-                                <td>Sam matin, dim</td>
-                                <td>
-                                    <span style="background:#E8EEF7;color:#2D3F7B;
-                                        font-size:10.5px;padding:2px 7px;
-                                        border-radius:4px">
-                                        Dédicace
-                                    </span>
-                                </td>
-                                <td>
-                                    <button class="btn"
-                                        style="padding:3px 7px;font-size:11px"
-                                        onclick="supprimerLigne(this)">
-                                        ✕
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <button class="btn" style="margin-bottom:16px"
-                    onclick="ouvrirModal('modal-auteur')">
-                    + Ajouter un·e auteurice
-                </button>
-
-                <div class="sep"></div>
-
-                <!-- Besoins particuliers -->
-                <div class="form-row">
-                    <label class="form-label">Besoins particuliers (optionnel)</label>
-                    <textarea class="form-input" rows="2"
-                        placeholder="Ex. : accès PMR requis, prise électrique...">
-                    </textarea>
-                </div>
-
-                <div class="actions-form">
-                    <button class="btn btn-primaire" onclick="soumettre()">
-                        ✓ Soumettre ma confirmation
-                    </button>
-                    <button class="btn">
-                        💾 Sauvegarder brouillon
-                    </button>
-                    <button class="btn"
-                        onclick="document.getElementById('form-sudbury').style.display='none'">
-                        Fermer
-                    </button>
-                </div>
             </div>
-        </div>
 
-        <!-- Détail Toronto (horaire dédicaces) -->
-        <div class="horaire-card" id="form-toronto" style="display:none">
-            <div class="horaire-header">
-                <span>Salon de Toronto — Horaire des dédicaces (publié)</span>
-                <button class="btn"
-                    style="padding:4px 10px;font-size:12px"
-                    onclick="document.getElementById('form-toronto').style.display='none'">
-                    Fermer
-                </button>
-            </div>
-            <div style="padding:18px">
+            <!-- Dédicaces -->
+            <div class="onglet-contenu" id="toronto-dedicaces">
+                <div class="note-info">
+                    ℹ️ Horaire publié par la REFC — lecture seule.
+                </div>
                 <div class="tableau-wrap" style="margin:0">
                     <table>
                         <thead>
@@ -628,21 +655,315 @@
                             </tr>
                             <tr>
                                 <td>11h00–12h00</td>
-                                <td>Natasha Kanapé Fontaine</td>
-                                <td>—</td>
-                            </tr>
-                            <tr>
-                                <td>14h00–15h00</td>
                                 <td>—</td>
                                 <td>Véronique Sylvain</td>
                             </tr>
                             <tr>
-                                <td>15h00–16h00</td>
+                                <td>14h00–15h00</td>
                                 <td>Tomson Highway</td>
-                                <td>Natasha Kanapé Fontaine</td>
+                                <td>—</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Ma facture -->
+            <div class="onglet-contenu" id="toronto-facture">
+                <div class="recap-bloc">
+                    <div class="recap-titre">Facture REFC — Salon de Toronto</div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">N° facture</span>
+                        <span class="recap-val">#S2025-001</span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Date d'émission</span>
+                        <span class="recap-val">28 octobre 2025</span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Taux refacturation</span>
+                        <span class="recap-val">70 %</span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Montant dû</span>
+                        <span class="recap-val"
+                            style="font-size:16px;color:#166534">
+                            1 190,00 $
+                        </span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Statut</span>
+                        <span class="recap-val">
+                            <span class="badge badge-vert">Encaissé</span>
+                        </span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Date d'encaissement</span>
+                        <span class="recap-val">12 novembre 2025</span>
+                    </div>
+                </div>
+                <button class="btn btn-primaire">↓ Télécharger la facture PDF</button>
+            </div>
+
+            <!-- Compte rendu -->
+            <div class="onglet-contenu" id="toronto-cr">
+                <div class="recap-bloc">
+                    <div class="recap-titre">Compte rendu — Salon de Toronto 2025</div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Date de publication</span>
+                        <span class="recap-val">25 octobre 2025</span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Maisons participantes</span>
+                        <span class="recap-val">12 / 15</span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Total exemplaires apportés</span>
+                        <span class="recap-val">847</span>
+                    </div>
+                    <div class="recap-ligne">
+                        <span class="recap-cle">Auteurices présent·es</span>
+                        <span class="recap-val">14</span>
+                    </div>
+                </div>
+                <div style="margin-bottom:16px;font-size:13px;
+                    color:#1e293b;line-height:1.6">
+                    La participation de la REFC au Salon du livre de Toronto 2025
+                    s'est déroulée dans d'excellentes conditions. La présence
+                    collective des maisons membres a été très remarquée par les
+                    visiteurs et les médias. Les dédicaces ont attiré un public
+                    nombreux, notamment pour les auteurices autochtones.
+                </div>
+                <button class="btn btn-primaire">↓ Télécharger le compte rendu PDF</button>
+            </div>
+        </div>
+
+        <!-- ===== FORMULAIRE SUDBURY (à confirmer) ===== -->
+        <div class="detail-card" id="detail-sudbury">
+            <div class="detail-header">
+                <span class="detail-header-titre">
+                    Salon du Grand Sudbury — Confirmer ma participation
+                </span>
+                <div class="detail-header-droite">
+                    <span style="font-size:11px;opacity:.85">
+                        Date limite : 15 sept. 2025
+                    </span>
+                    <button class="btn"
+                        style="padding:4px 10px;font-size:12px;
+                        background:rgba(255,255,255,0.15);
+                        border-color:rgba(255,255,255,0.3);color:#fff"
+                        onclick="fermerDetail('sudbury')">
+                        Fermer ✕
+                    </button>
+                </div>
+            </div>
+
+            <div style="padding:12px 18px 0">
+                <a href="https://www.salonlivresudbury.com" target="_blank"
+                    class="lien-salon">
+                    🔗 Voir le site officiel du salon →
+                </a>
+            </div>
+
+            <div class="onglets">
+                <button class="onglet-btn actif"
+                    onclick="changerOnglet('sudbury','confirmation',this)">
+                    Confirmation
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('sudbury','livres-s',this)">
+                    Livres à apporter
+                </button>
+                <button class="onglet-btn"
+                    onclick="changerOnglet('sudbury','auteurs-s',this)">
+                    Auteurices
+                </button>
+            </div>
+
+            <!-- Onglet Confirmation -->
+            <div class="onglet-contenu visible" id="sudbury-confirmation">
+                <div class="note-info">
+                    ℹ️ Indiquez d'abord votre intention de participer,
+                    puis remplissez les onglets suivants.
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        Souhaitez-vous participer à ce salon ? *
+                    </label>
+                    <div class="radio-groupe">
+                        <div class="radio-opt sel"
+                            onclick="selRadio(this,'participation')">
+                            ✓ Oui, je participe
+                        </div>
+                        <div class="radio-opt"
+                            onclick="selRadio(this,'participation')">
+                            ✗ Non, je ne participe pas
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        Type d'espace souhaité *
+                    </label>
+                    <div class="radio-groupe">
+                        <div class="radio-opt sel"
+                            onclick="selRadio(this,'kiosque')">
+                            1 kiosque (~500 ex.)
+                        </div>
+                        <div class="radio-opt"
+                            onclick="selRadio(this,'kiosque')">
+                            ½ kiosque (~250 ex.)
+                        </div>
+                        <div class="radio-opt"
+                            onclick="selRadio(this,'kiosque')">
+                            Autre
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row" id="champ-autre" style="display:none">
+                    <label class="form-label">
+                        Précisez vos besoins en espace
+                    </label>
+                    <input type="number" class="form-input"
+                        placeholder="Nombre d'exemplaires estimé"
+                        style="width:200px">
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label">
+                        Besoins particuliers
+                        <span style="font-weight:400;color:#94a3b8;
+                            font-size:11px">(optionnel)</span>
+                    </label>
+                    <textarea class="form-input" rows="2"
+                        placeholder="Ex. : accès PMR requis, prise électrique, présentoir spécifique...">
+                    </textarea>
+                </div>
+
+                <div class="actions-form">
+                    <button class="btn"
+                        onclick="changerOnglet('sudbury','livres-s',
+                        document.querySelector('#detail-sudbury .onglets .onglet-btn:nth-child(2)'))">
+                        Suivant : Livres à apporter →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Onglet Livres -->
+            <div class="onglet-contenu" id="sudbury-livres-s">
+                <div class="tableau-wrap" style="margin-bottom:10px">
+                    <table id="tbl-livres">
+                        <thead>
+                            <tr>
+                                <th style="width:120px">ISBN</th>
+                                <th>Titre</th>
+                                <th style="width:90px">Quantité</th>
+                                <th style="width:50px"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-livres">
+                            <tr>
+                                <td>9782897444617</td>
+                                <td>En terrain miné</td>
+                                <td>
+                                    <input type="number" value="20" min="1"
+                                        style="width:60px;padding:3px 7px;
+                                        border:1px solid #cbd5e1;
+                                        border-radius:6px;font-size:12px">
+                                </td>
+                                <td>
+                                    <button class="btn"
+                                        style="padding:3px 7px;font-size:11px"
+                                        onclick="confirmerSupprLigne(this,
+                                        'En terrain miné')">
+                                        ✕
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>9782897444556</td>
+                                <td>Rire avec le Trickster</td>
+                                <td>
+                                    <input type="number" value="15" min="1"
+                                        style="width:60px;padding:3px 7px;
+                                        border:1px solid #cbd5e1;
+                                        border-radius:6px;font-size:12px">
+                                </td>
+                                <td>
+                                    <button class="btn"
+                                        style="padding:3px 7px;font-size:11px"
+                                        onclick="confirmerSupprLigne(this,
+                                        'Rire avec le Trickster')">
+                                        ✕
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn" style="margin-bottom:16px"
+                    onclick="ouvrirModal('modal-titre')">
+                    + Ajouter un titre
+                </button>
+                <div class="actions-form">
+                    <button class="btn"
+                        onclick="changerOnglet('sudbury','auteurs-s',
+                        document.querySelector('#detail-sudbury .onglets .onglet-btn:nth-child(3)'))">
+                        Suivant : Auteurices →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Onglet Auteurices -->
+            <div class="onglet-contenu" id="sudbury-auteurs-s">
+                <div class="tableau-wrap" style="margin-bottom:10px">
+                    <table id="tbl-auteurs">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th style="width:130px">Titre associé</th>
+                                <th style="width:110px">Disponibilités</th>
+                                <th style="width:90px">Type</th>
+                                <th style="width:50px"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-auteurs">
+                            <tr>
+                                <td>Véronique Sylvain</td>
+                                <td>En terrain miné</td>
+                                <td>Sam matin, dim</td>
+                                <td>
+                                    <span style="background:#E8EEF7;
+                                        color:#2D3F7B;font-size:10.5px;
+                                        padding:2px 7px;border-radius:4px">
+                                        Dédicace
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn"
+                                        style="padding:3px 7px;font-size:11px"
+                                        onclick="confirmerSupprLigne(this,
+                                        'Véronique Sylvain')">
+                                        ✕
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn" style="margin-bottom:16px"
+                    onclick="ouvrirModal('modal-auteur')">
+                    + Ajouter un·e auteurice
+                </button>
+                <div class="sep"></div>
+                <div class="actions-form">
+                    <button class="btn btn-primaire" onclick="soumettre()">
+                        ✓ Soumettre ma confirmation
+                    </button>
+                    <button class="btn">💾 Sauvegarder brouillon</button>
                 </div>
             </div>
         </div>
@@ -665,8 +986,7 @@
                     Veuillez saisir un ISBN (13 chiffres).
                 </div>
                 <div style="font-size:11px;color:#94a3b8;margin-top:4px">
-                    Dans la version finale, le titre sera récupéré
-                    automatiquement via le catalogue REFC.
+                    Dans la version finale, le titre sera récupéré automatiquement.
                 </div>
             </div>
             <div class="form-row">
@@ -730,7 +1050,9 @@
             </div>
             <div class="form-row">
                 <label class="form-label">
-                    Contraintes particulières (optionnel)
+                    Contraintes particulières
+                    <span style="font-weight:400;color:#94a3b8;
+                        font-size:11px">(optionnel)</span>
                 </label>
                 <textarea class="form-input" id="a-contraintes" rows="2"
                     placeholder="Ex. : ne peut pas rester plus de 2h...">
@@ -747,17 +1069,74 @@
         </div>
     </div>
 
+    <!-- Modal confirmation suppression ligne -->
+    <div class="modal-bg" id="modal-suppr-ligne">
+        <div style="background:#fff;border-radius:12px;padding:28px;
+            width:380px;max-width:95vw;
+            box-shadow:0 8px 32px rgba(0,0,0,0.2);text-align:center">
+            <div style="font-size:36px;margin-bottom:14px">🗑️</div>
+            <div style="font-size:16px;font-weight:600;margin-bottom:8px">
+                Confirmer la suppression
+            </div>
+            <div style="font-size:13px;color:#64748b;margin-bottom:22px"
+                id="texte-suppr-ligne">
+                Êtes-vous sûr de vouloir retirer cet élément ?
+            </div>
+            <div style="display:flex;gap:10px;justify-content:center">
+                <button class="btn"
+                    onclick="fermerModal('modal-suppr-ligne')">
+                    Annuler
+                </button>
+                <button class="btn"
+                    style="background:#fee2e2;color:#991b1b;
+                    border-color:#fecaca"
+                    onclick="executerSuppression()">
+                    Oui, retirer
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function afficherFormulaire(id) {
-            const ids = ['sudbury', 'toronto'];
-            ids.forEach(i => {
-                const el = document.getElementById('form-' + i);
-                if (el) el.style.display = 'none';
+        let ligneASupprimer = null;
+
+        function afficherDetail(id) {
+            ['toronto','sudbury'].forEach(i => {
+                document.getElementById('detail-' + i)
+                    .classList.remove('visible');
             });
-            const cible = document.getElementById('form-' + id);
-            if (cible) {
-                cible.style.display = 'block';
-                cible.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            const cible = document.getElementById('detail-' + id);
+            cible.classList.add('visible');
+            cible.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function fermerDetail(id) {
+            document.getElementById('detail-' + id)
+                .classList.remove('visible');
+        }
+
+        function changerOnglet(salon, onglet, btn) {
+            const detail = document.getElementById('detail-' + salon);
+            detail.querySelectorAll('.onglet-btn').forEach(b => {
+                b.classList.remove('actif');
+            });
+            detail.querySelectorAll('.onglet-contenu').forEach(c => {
+                c.classList.remove('visible');
+            });
+            if (btn) btn.classList.add('actif');
+            const el = document.getElementById(salon + '-' + onglet);
+            if (el) el.classList.add('visible');
+        }
+
+        function selRadio(el, groupe) {
+            el.closest('.radio-groupe')
+              .querySelectorAll('.radio-opt')
+              .forEach(o => o.classList.remove('sel'));
+            el.classList.add('sel');
+            if (groupe === 'kiosque' && el.textContent.includes('Autre')) {
+                document.getElementById('champ-autre').style.display = 'block';
+            } else if (groupe === 'kiosque') {
+                document.getElementById('champ-autre').style.display = 'none';
             }
         }
 
@@ -775,15 +1154,20 @@
             });
         });
 
-        function selRadio(el) {
-            el.closest('.radio-groupe')
-              .querySelectorAll('.radio-opt')
-              .forEach(o => o.classList.remove('sel'));
-            el.classList.add('sel');
+        function confirmerSupprLigne(btn, nom) {
+            ligneASupprimer = btn.closest('tr');
+            document.getElementById('texte-suppr-ligne').innerHTML =
+                `Êtes-vous sûr de vouloir retirer <strong>${nom}</strong> ?<br>
+                Cette action sera enregistrée dans l'historique.`;
+            ouvrirModal('modal-suppr-ligne');
         }
 
-        function supprimerLigne(btn) {
-            btn.closest('tr').remove();
+        function executerSuppression() {
+            if (ligneASupprimer) {
+                ligneASupprimer.remove();
+                ligneASupprimer = null;
+            }
+            fermerModal('modal-suppr-ligne');
         }
 
         function ajouterTitre() {
@@ -792,8 +1176,9 @@
             const qty = document.getElementById('input-qty').value || '15';
             let valid = true;
 
-            document.getElementById('err-isbn').style.display = 'none';
-            document.getElementById('err-titre').style.display = 'none';
+            ['err-isbn','err-titre'].forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
             isbn.classList.remove('input-err');
             titre.classList.remove('input-err');
 
@@ -823,12 +1208,11 @@
                 <td>
                     <button class="btn"
                         style="padding:3px 7px;font-size:11px"
-                        onclick="supprimerLigne(this)">✕</button>
+                        onclick="confirmerSupprLigne(this,
+                        '${titre.value.trim()}')">✕</button>
                 </td>`;
             tbody.appendChild(tr);
-
-            isbn.value = '';
-            titre.value = '';
+            isbn.value = ''; titre.value = '';
             document.getElementById('input-qty').value = '15';
             fermerModal('modal-titre');
         }
@@ -841,7 +1225,6 @@
 
             document.getElementById('err-auteur').style.display = 'none';
             nom.classList.remove('input-err');
-
             if (!nom.value.trim()) {
                 nom.classList.add('input-err');
                 document.getElementById('err-auteur').style.display = 'block';
@@ -863,10 +1246,10 @@
                 <td>
                     <button class="btn"
                         style="padding:3px 7px;font-size:11px"
-                        onclick="supprimerLigne(this)">✕</button>
+                        onclick="confirmerSupprLigne(this,
+                        '${nom.value.trim()}')">✕</button>
                 </td>`;
             tbody.appendChild(tr);
-
             nom.value = '';
             document.getElementById('a-titre').value = '';
             document.getElementById('a-dispo').value = '';
@@ -875,9 +1258,10 @@
         }
 
         function soumettre() {
-            alert('Confirmation soumise avec succès ! ' +
-                  'La REFC a été notifiée de votre participation.');
-            document.getElementById('form-sudbury').style.display = 'none';
+            alert('Confirmation soumise avec succès !\n' +
+                  'La REFC a été notifiée de votre participation ' +
+                  'au Salon du Grand Sudbury.');
+            fermerDetail('sudbury');
         }
     </script>
 
