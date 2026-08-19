@@ -6,14 +6,12 @@
     <title>REFC — Connexion</title>
     <style>
 
-        /* Reset de base — supprime les marges par défaut du navigateur */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        /* Le body = toute la page */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background-color: #f1f5f9;
@@ -23,58 +21,38 @@
             min-height: 100vh;
         }
 
-        /* La carte de connexion au centre */
         .carte-connexion {
             background: #ffffff;
             border-radius: 12px;
             padding: 40px;
-            width: 400px;
+            width: 420px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
 
-        /* En-tête avec le logo REFC */
         .entete {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
-        .logo-refc {
-            background-color: #2D3F7B;
-            color: #ffffff;
-            padding: 12px 24px;
-            border-radius: 8px;
-            display: inline-block;
-            margin-bottom: 12px;
+        .entete img {
+            width: 200px;
+            margin-bottom: 8px;
         }
 
-        .logo-refc .sigle {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 0.05em;
+        .separateur {
+            height: 1px;
+            background-color: #e2e8f0;
+            margin: 20px 0;
         }
 
-        .logo-refc .trait {
-            height: 2px;
-            background: #7B9EC8;
-            margin: 4px 0;
-        }
-
-        .sous-titre {
-            font-size: 13px;
-            color: #64748b;
-            margin-top: 8px;
-        }
-
-        /* Titre de la carte */
         .titre-connexion {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             color: #1e293b;
             margin-bottom: 24px;
             text-align: center;
         }
 
-        /* Chaque groupe label + input */
         .champ {
             margin-bottom: 16px;
         }
@@ -95,15 +73,26 @@
             border-radius: 8px;
             outline: none;
             transition: border-color 0.2s;
+            color: #1e293b;
         }
 
-        /* Quand on clique sur un champ, il devient bleu REFC */
         .champ input:focus {
             border-color: #2D3F7B;
             box-shadow: 0 0 0 3px rgba(45, 63, 123, 0.1);
         }
 
-        /* Le bouton de connexion */
+        /* Message d'erreur — caché par défaut */
+        .message-erreur {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none; /* caché jusqu'à ce qu'il y ait une erreur */
+        }
+
         .bouton-connexion {
             width: 100%;
             padding: 12px;
@@ -122,7 +111,10 @@
             background-color: #253570;
         }
 
-        /* Lien mot de passe oublié */
+        .bouton-connexion:active {
+            background-color: #1e2a5e;
+        }
+
         .lien-oubli {
             display: block;
             text-align: center;
@@ -136,10 +128,9 @@
             text-decoration: underline;
         }
 
-        /* Pied de page */
         .pied {
             text-align: center;
-            margin-top: 32px;
+            margin-top: 28px;
             font-size: 11px;
             color: #94a3b8;
         }
@@ -151,27 +142,46 @@
     <div class="carte-connexion">
 
         <div class="entete">
-            <div class="logo-refc">
-                <div class="sigle">REFC</div>
-                <div class="trait"></div>
-            </div>
-            <p class="sous-titre">Regroupement des éditeurs franco-canadiens</p>
+            <img src="assets/logo-refc.png" alt="REFC — Regroupement des éditeurs franco-canadiens">
         </div>
+
+        <div class="separateur"></div>
 
         <h2 class="titre-connexion">Connexion à l'espace membres</h2>
 
-        <form>
+        <!-- Message d'erreur (affiché par JavaScript si besoin) -->
+        <div class="message-erreur" id="message-erreur">
+            Identifiant ou mot de passe invalide.
+        </div>
+
+        <form id="formulaire-connexion" onsubmit="verifierConnexion(event)">
+
             <div class="champ">
                 <label for="identifiant">Identifiant</label>
-                <input type="text" id="identifiant" placeholder="Votre identifiant">
+                <input 
+                    type="text" 
+                    id="identifiant" 
+                    placeholder="Votre identifiant"
+                    autocomplete="username"
+                    required
+                >
             </div>
 
             <div class="champ">
                 <label for="motdepasse">Mot de passe</label>
-                <input type="password" id="motdepasse" placeholder="••••••••">
+                <input 
+                    type="password" 
+                    id="motdepasse" 
+                    placeholder="••••••••"
+                    autocomplete="current-password"
+                    required
+                >
             </div>
 
-            <button type="submit" class="bouton-connexion">Se connecter</button>
+            <button type="submit" class="bouton-connexion">
+                Se connecter
+            </button>
+
         </form>
 
         <a href="#" class="lien-oubli">Mot de passe oublié ?</a>
@@ -181,6 +191,56 @@
         </div>
 
     </div>
+
+    <script>
+        /*
+         * SIMULATION DE CONNEXION (démo uniquement)
+         * Dans le vrai portail, cette vérification se fait côté serveur.
+         * Jamais stocker de vrais mots de passe dans le JavaScript !
+         */
+        const COMPTES_DEMO = [
+            { identifiant: "admin", motdepasse: "refc2026", role: "admin" },
+            { identifiant: "prisedeparole", motdepasse: "demo2026", role: "membre" },
+            { identifiant: "david", motdepasse: "demo2026", role: "membre" }
+        ];
+
+        function verifierConnexion(event) {
+            // Empêcher le rechargement de la page
+            event.preventDefault();
+
+            const identifiant = document.getElementById('identifiant').value.trim();
+            const motdepasse = document.getElementById('motdepasse').value;
+            const messageErreur = document.getElementById('message-erreur');
+
+            // Cacher l'erreur précédente
+            messageErreur.style.display = 'none';
+
+            // Vérifier les champs vides
+            if (!identifiant || !motdepasse) {
+                messageErreur.textContent = 'Veuillez remplir tous les champs.';
+                messageErreur.style.display = 'block';
+                return;
+            }
+
+            // Chercher le compte correspondant
+            const compte = COMPTES_DEMO.find(
+                c => c.identifiant === identifiant && c.motdepasse === motdepasse
+            );
+
+            if (compte) {
+                // Connexion réussie — rediriger selon le rôle
+                if (compte.role === 'admin') {
+                    window.location.href = 'admin/tableau-de-bord.html';
+                } else {
+                    window.location.href = 'membre/tableau-de-bord.html';
+                }
+            } else {
+                // Connexion échouée — message générique (ne révèle pas si c'est l'identifiant ou le mot de passe)
+                messageErreur.textContent = 'Identifiant ou mot de passe invalide.';
+                messageErreur.style.display = 'block';
+            }
+        }
+    </script>
 
 </body>
 </html>
