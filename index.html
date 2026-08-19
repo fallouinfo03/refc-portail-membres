@@ -142,7 +142,7 @@
     <div class="carte-connexion">
 
         <div class="entete">
-            <img src="assets/logo-refc.png" alt="REFC — Regroupement des éditeurs franco-canadiens">
+            <img src="actifs/logo-refc.png" alt="REFC — Regroupement des éditeurs franco-canadiens">
         </div>
 
         <div class="separateur"></div>
@@ -230,7 +230,7 @@
             if (compte) {
                 // Connexion réussie — rediriger selon le rôle
                 if (compte.role === 'admin') {
-                    window.location.href = 'admin/tableau-de-bord.html';
+                    window.location.href = 'administrateur/tableau-de-bord.html';
                 } else {
                     window.location.href = 'membre/tableau-de-bord.html';
                 }
