@@ -4,21 +4,183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REFC — Connexion</title>
+    <style>
+
+        /* Reset de base — supprime les marges par défaut du navigateur */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Le body = toute la page */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* La carte de connexion au centre */
+        .carte-connexion {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            width: 400px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* En-tête avec le logo REFC */
+        .entete {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo-refc {
+            background-color: #2D3F7B;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .logo-refc .sigle {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .logo-refc .trait {
+            height: 2px;
+            background: #7B9EC8;
+            margin: 4px 0;
+        }
+
+        .sous-titre {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+        /* Titre de la carte */
+        .titre-connexion {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        /* Chaque groupe label + input */
+        .champ {
+            margin-bottom: 16px;
+        }
+
+        .champ label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        .champ input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        /* Quand on clique sur un champ, il devient bleu REFC */
+        .champ input:focus {
+            border-color: #2D3F7B;
+            box-shadow: 0 0 0 3px rgba(45, 63, 123, 0.1);
+        }
+
+        /* Le bouton de connexion */
+        .bouton-connexion {
+            width: 100%;
+            padding: 12px;
+            background-color: #2D3F7B;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .bouton-connexion:hover {
+            background-color: #253570;
+        }
+
+        /* Lien mot de passe oublié */
+        .lien-oubli {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            font-size: 12.5px;
+            color: #2D3F7B;
+            text-decoration: none;
+        }
+
+        .lien-oubli:hover {
+            text-decoration: underline;
+        }
+
+        /* Pied de page */
+        .pied {
+            text-align: center;
+            margin-top: 32px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+    </style>
 </head>
 <body>
 
-    <h1>REFC</h1>
-    <p>Regroupement des éditeurs franco-canadiens</p>
+    <div class="carte-connexion">
 
-    <form>
-        <label>Identifiant</label>
-        <input type="text" placeholder="Votre identifiant">
+        <div class="entete">
+            <div class="logo-refc">
+                <div class="sigle">REFC</div>
+                <div class="trait"></div>
+            </div>
+            <p class="sous-titre">Regroupement des éditeurs franco-canadiens</p>
+        </div>
 
-        <label>Mot de passe</label>
-        <input type="password" placeholder="Votre mot de passe">
+        <h2 class="titre-connexion">Connexion à l'espace membres</h2>
 
-        <button type="submit">Se connecter</button>
-    </form>
+        <form>
+            <div class="champ">
+                <label for="identifiant">Identifiant</label>
+                <input type="text" id="identifiant" placeholder="Votre identifiant">
+            </div>
+
+            <div class="champ">
+                <label for="motdepasse">Mot de passe</label>
+                <input type="password" id="motdepasse" placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="bouton-connexion">Se connecter</button>
+        </form>
+
+        <a href="#" class="lien-oubli">Mot de passe oublié ?</a>
+
+        <div class="pied">
+            © 2026 REFC — Tous droits réservés
+        </div>
+
+    </div>
 
 </body>
 </html>
