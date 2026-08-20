@@ -644,7 +644,7 @@
                 </div>
                 <div class="actions-groupe">
                     <button class="btn btn-primaire" onclick="genererExcel('hearst')">↓ Générer rapport Excel</button>
-                    <button class="btn">📄 Voir la demande originale</button>
+                    <button class="btn" onclick="ouvrirModal('modal-demande-originale')">📄 Voir la demande originale</button>
                 </div>
             </div>
 
@@ -1188,6 +1188,173 @@
 
     </div>
 
+
+    <!-- Modal demande originale -->
+    <div class="modal-bg" id="modal-demande-originale">
+        <div class="modal-demande">
+
+            <!-- En-tête maison membre -->
+            <div class="doc-entete">
+                <div>
+                    <div class="doc-logo-maison">Prise de Parole</div>
+                    <div class="doc-coords-maison">
+                        109, rue Elm, bureau 205<br>
+                        Sudbury, Ontario P3C 1T4<br>
+                        705 675-6491 · prisedeparole.com
+                    </div>
+                </div>
+                <div class="doc-date-soumission">
+                    Demande soumise le<br>
+                    <strong>15 janvier 2026</strong><br><br>
+                    À l'attention de la REFC
+                </div>
+            </div>
+
+            <!-- Bandeau titre -->
+            <div class="doc-titre-section">
+                DEMANDE D'ÉVÉNEMENT LITTÉRAIRE
+            </div>
+
+            <!-- Avertissement lecture seule -->
+            <div class="doc-lecture-seule">
+                🔒 Document en lecture seule — Demande originale soumise par la maison membre
+            </div>
+
+            <div class="doc-corps">
+
+                <!-- Infos générales -->
+                <div class="doc-bloc">
+                    <div class="doc-bloc-titre">Informations générales</div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Nom de l'activité</span>
+                        <span class="doc-val">Lecture publique</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Date de l'événement</span>
+                        <span class="doc-val">15 mars 2026</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Lieu</span>
+                        <span class="doc-val">Bibliothèque municipale de Hearst</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Ville, Province</span>
+                        <span class="doc-val">Hearst, Ontario</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Notes</span>
+                        <span class="doc-val">Événement organisé en collaboration avec la bibliothèque municipale. Participation d'auteurices autochtones souhaitée.</span>
+                    </div>
+                </div>
+
+                <!-- Auteure 1 -->
+                <div class="doc-bloc">
+                    <div class="doc-bloc-titre">Auteure 1 — Véronique Sylvain</div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Genre littéraire</span>
+                        <span class="doc-val">Poésie</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Ville de résidence</span>
+                        <span class="doc-val">Ottawa, Ontario</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Mode de transport prévu</span>
+                        <span class="doc-val">Voiture personnelle</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Frais de transport estimés</span>
+                        <span class="doc-val">180,00 $</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Autres dépenses (Uber, stationnement...)</span>
+                        <span class="doc-val">25,00 $</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Nombre de nuitées</span>
+                        <span class="doc-val">2</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Montant estimé / nuit</span>
+                        <span class="doc-val">145,00 $</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Cachet demandé</span>
+                        <span class="doc-val">300,00 $</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Déplacement sur place (A/R)</span>
+                        <span class="doc-val">20,00 $</span>
+                    </div>
+                </div>
+
+                <!-- Auteur 2 -->
+                <div class="doc-bloc">
+                    <div class="doc-bloc-titre">Auteur 2 — Tomson Highway</div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Genre littéraire</span>
+                        <span class="doc-val">Roman</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Ville de résidence</span>
+                        <span class="doc-val">Sudbury, Ontario</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Mode de transport prévu</span>
+                        <span class="doc-val">Autobus</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Frais de transport estimés</span>
+                        <span class="doc-val">85,00 $</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Autres dépenses</span>
+                        <span class="doc-val">0,00 $</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Nuitées</span>
+                        <span class="doc-val">0</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Cachet demandé</span>
+                        <span class="doc-val">250,00 $</span>
+                    </div>
+                    <div class="doc-ligne">
+                        <span class="doc-cle">Déplacement sur place (A/R)</span>
+                        <span class="doc-val">0,00 $</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Pied de page -->
+            <div class="doc-pied">
+                <div>
+                    Document soumis via le portail membres REFC<br>
+                    Référence : EVT-2026-0042
+                </div>
+                <div class="doc-pied-refc">
+                    <strong>REFC</strong><br>
+                    435 rue Donald, bureau 214<br>
+                    Ottawa, Ontario K1K 4X5<br>
+                    613 691-7061 · refc.ca
+                </div>
+            </div>
+
+            <!-- Boutons -->
+            <div style="padding:14px 24px;display:flex;gap:10px;
+                border-top:1px solid #e2e8f0;background:#fff;
+                position:sticky;bottom:0">
+                <button class="btn" onclick="fermerModal('modal-demande-originale')">
+                    Fermer
+                </button>
+                <button class="btn btn-primaire" onclick="imprimerDemande()">
+                    🖨️ Imprimer
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal confirmation suppression -->
     <div class="modal-bg" id="modal-suppression">
         <div class="modal-confirm">
@@ -1247,6 +1414,42 @@
             document.getElementById(id).classList.remove('visible');
         }
 
+        function imprimerDemande() {
+            const modal = document.getElementById("modal-demande-originale");
+            const contenu = modal.querySelector(".modal-demande").innerHTML;
+            const fenetre = window.open("", "_blank");
+            fenetre.document.write(`
+                <!DOCTYPE html>
+                <html lang="fr">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Demande originale — Prise de Parole</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 0; color: #1e293b; }
+                        .doc-entete { background: #2D3F7B; color: #fff; padding: 20px 24px; display: flex; justify-content: space-between; }
+                        .doc-logo-maison { font-size: 18px; font-weight: 700; }
+                        .doc-coords-maison { font-size: 11px; opacity: 0.85; margin-top: 4px; line-height: 1.6; }
+                        .doc-date-soumission { font-size: 11px; text-align: right; }
+                        .doc-titre-section { background: #E8EEF7; border-left: 4px solid #2D3F7B; padding: 8px 24px; font-size: 14px; font-weight: 600; color: #2D3F7B; }
+                        .doc-lecture-seule { display: none; }
+                        .doc-corps { padding: 20px 24px; }
+                        .doc-bloc { margin-bottom: 20px; }
+                        .doc-bloc-titre { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid #e2e8f0; }
+                        .doc-ligne { display: flex; padding: 5px 0; font-size: 13px; border-bottom: 1px solid #f8fafc; }
+                        .doc-cle { color: #64748b; width: 200px; flex-shrink: 0; }
+                        .doc-val { color: #1e293b; font-weight: 500; }
+                        .doc-pied { background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 14px 24px; display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
+                        .doc-pied-refc { text-align: right; line-height: 1.6; }
+                        .btn { display: none; }
+                    </style>
+                </head>
+                <body>${contenu}</body>
+                </html>
+            `);
+            fenetre.document.close();
+            fenetre.print();
+        }
+
         function confirmerSuppression(nom) {
             document.getElementById('texte-suppression').innerHTML =
                 `Êtes-vous sûr de vouloir supprimer<br>
@@ -1269,114 +1472,127 @@
             const data = getDataEvenement(evenement);
             const rows = [];
 
-            // En-tête
-            rows.push(["REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)", "", "", ""]);
-            rows.push(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE", "", "", ""]);
-            rows.push(["", "", "", ""]);
+            // ── EN-TÊTE REFC ──────────────────────────────────────
+            rows.push(["REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)", "", "", "", ""]);
+            rows.push(["435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5", "", "", "", ""]);
+            rows.push(["613 691-7061  |  refc.ca", "", "", "", ""]);
+            rows.push(["", "", "", "", ""]);
+            rows.push(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE", "", "", "", ""]);
+            rows.push(["", "", "", "", ""]);
 
-            // Informations générales
-            rows.push(["INFORMATIONS GÉNÉRALES", "", "", ""]);
-            rows.push(["Nom de l\'activité", data.nom, "", ""]);
-            rows.push(["Date", data.date, "", ""]);
-            rows.push(["Lieu", data.lieu, "", ""]);
-            rows.push(["Ville, Province", data.ville, "", ""]);
-            rows.push(["Responsable", data.responsable, "", ""]);
-            rows.push(["Maison membre", data.maison, "", ""]);
-            rows.push(["Statut", data.statut, "", ""]);
-            rows.push(["Approuvé par", data.approuve_par, "", ""]);
-            rows.push(["Date d\'approbation", data.date_approbation, "", ""]);
-            rows.push(["", "", "", ""]);
+            // ── INFORMATIONS GÉNÉRALES ─────────────────────────────
+            rows.push(["INFORMATIONS GÉNÉRALES", "", "", "", ""]);
+            rows.push(["Nom de l\'activité", data.nom, "", "", ""]);
+            rows.push(["Date de l\'événement", data.date, "", "", ""]);
+            rows.push(["Lieu", data.lieu, "", "", ""]);
+            rows.push(["Ville, Province", data.ville, "", "", ""]);
+            rows.push(["Responsable REFC", data.responsable, "", "", ""]);
+            rows.push(["Maison membre", data.maison, "", "", ""]);
+            rows.push(["Statut", data.statut, "", "", ""]);
+            rows.push(["", "", "", "", ""]);
 
-            // Auteurices
-            rows.push(["AUTEURICES / PARTICIPANTS", "", "", ""]);
-            rows.push(["", "", "", ""]);
+            // ── AUTEURICES ─────────────────────────────────────────
+            rows.push(["AUTEURICES / PARTICIPANTS", "", "", "", ""]);
+            rows.push(["", "", "", "", ""]);
 
             data.auteurs.forEach((auteur, i) => {
-                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`, "", "", ""]);
-                rows.push(["Genre littéraire", auteur.genre, "", ""]);
-                rows.push(["Ville de résidence", auteur.ville, "", ""]);
-                rows.push(["Distance (calculée)", auteur.distance, "", ""]);
-                rows.push(["", "", "", ""]);
+                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`, "", "", "", ""]);
+                rows.push(["Genre littéraire", auteur.genre, "", "", ""]);
+                rows.push(["Ville de résidence", auteur.ville, "", "", ""]);
+                rows.push(["Distance (calculée automatiquement)", auteur.distance, "", "", ""]);
+                rows.push(["", "", "", "", ""]);
 
-                rows.push(["VOYAGE (A/R)", "", "", ""]);
-                rows.push(["Mode de transport", auteur.transport, "", ""]);
-                rows.push(["Frais à engager", "", auteur.frais_transport, "$"]);
-                rows.push(["Autres dépenses (Uber, stationnement...)", "", auteur.autres_depenses, "$"]);
-                rows.push(["Prise en charge REFC", auteur.prise_charge_voyage, "", ""]);
-                rows.push(["Total Voyage", "", auteur.total_voyage, "$"]);
-                rows.push(["", "", "", ""]);
+                rows.push(["", "VOYAGE (A/R)", "Montant", "% REFC", "Total REFC"]);
+                rows.push(["", "Mode de transport", auteur.transport, "", ""]);
+                rows.push(["", "Frais à engager", auteur.frais_transport, auteur.prise_charge_voyage, auteur.frais_transport * (parseFloat(auteur.prise_charge_voyage) / 100)]);
+                rows.push(["", "Autres dépenses (Uber, stationnement...)", auteur.autres_depenses, auteur.prise_charge_voyage, auteur.autres_depenses * (parseFloat(auteur.prise_charge_voyage) / 100)]);
+                rows.push(["", "TOTAL VOYAGE", "", "", auteur.total_voyage]);
+                rows.push(["", "", "", "", ""]);
 
                 if (auteur.nuitees > 0) {
-                    rows.push(["SÉJOUR", "", "", ""]);
-                    rows.push(["Nombre de nuitées", auteur.nuitees, "", ""]);
-                    rows.push(["Montant moyen / nuit", "", auteur.montant_nuit, "$"]);
-                    rows.push(["Prise en charge REFC", auteur.prise_charge_sejour, "", ""]);
-                    rows.push(["Sous-total hébergement", "", auteur.sous_total_hebergement, "$"]);
-                    rows.push(["Per diem base / jour", "", auteur.perdiem_base, "$"]);
+                    rows.push(["", "SÉJOUR", "Montant", "% REFC", "Total REFC"]);
+                    rows.push(["", `Hébergement (${auteur.nuitees} nuit${auteur.nuitees > 1 ? "s" : ""} × ${auteur.montant_nuit} $)`, auteur.sous_total_hebergement, auteur.prise_charge_sejour, auteur.sous_total_hebergement * (parseFloat(auteur.prise_charge_sejour) / 100)]);
+                    rows.push(["", `Per diem de base / jour`, auteur.perdiem_base, "", ""]);
                     if (auteur.deductions && auteur.deductions.length > 0) {
                         auteur.deductions.forEach(d => {
-                            rows.push([`Déduction — ${d.nom}`, "", -d.montant, "$"]);
+                            rows.push(["", `  Déduction — ${d.nom}`, -d.montant, "", ""]);
                         });
                     }
-                    rows.push(["Per diem net / jour", "", auteur.perdiem_net, "$"]);
-                    rows.push([`Per diem total (${auteur.nuitees} nuit${auteur.nuitees > 1 ? "s" : ""})`, "", auteur.perdiem_total, "$"]);
-                    rows.push(["Total Séjour", "", auteur.total_sejour, "$"]);
-                    rows.push(["", "", "", ""]);
+                    rows.push(["", "Per diem net / jour", auteur.perdiem_net, "", ""]);
+                    rows.push(["", `Per diem total (${auteur.nuitees} jour${auteur.nuitees > 1 ? "s" : ""})`, auteur.perdiem_total, "", auteur.perdiem_total]);
+                    rows.push(["", "TOTAL SÉJOUR", "", "", auteur.total_sejour]);
+                    rows.push(["", "", "", "", ""]);
                 }
 
-                rows.push(["DÉROULEMENT DE L\'ACTIVITÉ", "", "", ""]);
-                rows.push(["Déplacement sur place (A/R)", "", auteur.deplacement_place, "$"]);
-                rows.push(["Cachet auteur·ice", "", auteur.cachet, "$"]);
-                rows.push(["Total Déroulement", "", auteur.total_deroulement, "$"]);
-                rows.push(["", "", "", ""]);
-                rows.push([`BUDGET TOTAL — ${auteur.nom}`, "", auteur.budget_total, "$"]);
-                rows.push(["", "", "", ""]);
+                rows.push(["", "DÉROULEMENT", "Montant", "", ""]);
+                rows.push(["", "Déplacement sur place (A/R)", auteur.deplacement_place, "", auteur.deplacement_place]);
+                rows.push(["", "Cachet auteur·ice", auteur.cachet, "", auteur.cachet]);
+                rows.push(["", "TOTAL DÉROULEMENT", "", "", auteur.total_deroulement]);
+                rows.push(["", "", "", "", ""]);
+                rows.push([`BUDGET TOTAL — ${auteur.nom}`, "", "", "", auteur.budget_total]);
+                rows.push(["", "", "", "", ""]);
+                rows.push(["", "", "", "", ""]);
             });
 
-            // Promotion
-            rows.push(["PROMOTION — COMMUNICATION (REFC)", "", "", ""]);
-            rows.push(["Frais de promotion (graphisme, publicité, affiches...)", "", data.promo.graphisme, "$"]);
-            rows.push(["Consommation (verre d\'amitié, cocktail...)", "", data.promo.consommation, "$"]);
-            rows.push(["Cachet animateur·rice / Panélistes", "", data.promo.cachet_animateur, "$"]);
-            rows.push(["Contribution REFC à l\'aménagement", "", data.promo.amenagement, "$"]);
-            rows.push(["Budget Promotion-Communication", "", data.promo.total, "$"]);
-            rows.push(["", "", "", ""]);
+            // ── PROMOTION ─────────────────────────────────────────
+            rows.push(["PROMOTION — COMMUNICATION (REFC)", "", "", "", ""]);
+            rows.push(["", "Frais de promotion (graphisme, publicité, affiches...)", "", "", data.promo.graphisme]);
+            rows.push(["", "Consommation (verre d\'amitié, cocktail...)", "", "", data.promo.consommation]);
+            rows.push(["", "Cachet animateur·rice / Panélistes", "", "", data.promo.cachet_animateur]);
+            rows.push(["", "Contribution REFC à l\'aménagement", "", "", data.promo.amenagement]);
+            rows.push(["BUDGET PROMOTION-COMMUNICATION", "", "", "", data.promo.total]);
+            rows.push(["", "", "", "", ""]);
 
-            // Récapitulatif
-            rows.push(["RÉCAPITULATIF FINANCIER", "", "", ""]);
+            // ── RÉCAPITULATIF FINANCIER ────────────────────────────
+            rows.push(["RÉCAPITULATIF FINANCIER", "", "", "", ""]);
+            rows.push(["", "", "", "", ""]);
             data.auteurs.forEach(auteur => {
-                rows.push([auteur.nom, "", auteur.budget_total, "$"]);
+                rows.push(["", auteur.nom, "", "", auteur.budget_total]);
             });
-            rows.push(["Budget Promotion-Communication", "", data.promo.total, "$"]);
-            rows.push(["", "", "", ""]);
-            rows.push(["BUDGET TOTAL DE L\'ACTIVITÉ", "", data.budget_total, "$"]);
-            rows.push(["Prise en charge REFC", "", data.prise_charge_refc, "$"]);
-            rows.push(["Part maison membre", "", data.part_maison, "$"]);
-            rows.push(["", "", "", ""]);
-            rows.push(["Approuvé par", data.approuve_par, "", ""]);
-            rows.push(["Date d\'approbation", data.date_approbation, "", ""]);
+            rows.push(["", "Budget Promotion-Communication", "", "", data.promo.total]);
+            rows.push(["", "", "", "", ""]);
+            rows.push(["BUDGET TOTAL DE L\'ACTIVITÉ", "", "", "", data.budget_total]);
+            rows.push(["Prise en charge REFC", "", "", "", data.prise_charge_refc]);
+            rows.push(["Part maison membre", "", "", "", data.part_maison]);
+            rows.push(["", "", "", "", ""]);
 
-            // Créer la feuille
+            // ── APPROBATION ────────────────────────────────────────
+            rows.push(["APPROBATION", "", "", "", ""]);
+            rows.push(["Approuvé par", data.approuve_par, "", "", ""]);
+            rows.push(["Date d\'approbation", data.date_approbation, "", "", ""]);
+            rows.push(["", "", "", "", ""]);
+            rows.push(["Document généré par le portail membres REFC", "", "", "", ""]);
+            rows.push(["435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5  |  613 691-7061  |  refc.ca", "", "", "", ""]);
+
+            // ── FEUILLE ET MISE EN FORME ───────────────────────────
             const ws = XLSX.utils.aoa_to_sheet(rows);
+
             ws["!cols"] = [
-                { wch: 48 },
-                { wch: 28 },
-                { wch: 18 },
-                { wch: 8  }
+                { wch: 40 },
+                { wch: 38 },
+                { wch: 16 },
+                { wch: 12 },
+                { wch: 16 }
             ];
+
+            // Fusionner les cellules de titre
             ws["!merges"] = [
-                { s: { r: 0, c: 0 }, e: { r: 0, c: 3 } },
-                { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } }
+                { s: { r: 0, c: 0 }, e: { r: 0, c: 4 } },
+                { s: { r: 1, c: 0 }, e: { r: 1, c: 4 } },
+                { s: { r: 2, c: 0 }, e: { r: 2, c: 4 } },
+                { s: { r: 4, c: 0 }, e: { r: 4, c: 4 } },
             ];
+
             XLSX.utils.book_append_sheet(wb, ws, "Rapport");
 
-            const nomFichier = `rapport_${data.date.replace(/-/g, "")}_${
-                data.nom.toLowerCase()
+            // Nom du fichier
+            const nomFichier = `REFC_Rapport_${data.date.replace(/-/g, "")}_${
+                data.maison.toLowerCase()
                 .replace(/[éèêë]/g, "e")
                 .replace(/[àâ]/g, "a")
                 .replace(/[^a-z0-9]/g, "_")
                 .replace(/_+/g, "_")
-                .substring(0, 30)
+                .substring(0, 25)
             }.xlsx`;
 
             XLSX.writeFile(wb, nomFichier);
