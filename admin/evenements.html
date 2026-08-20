@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>REFC — Événements littéraires (Admin)</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -32,13 +31,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-pri:hover{background:#253570}
 .btn-danger{background:#fee2e2;color:#991b1b;border-color:#fecaca}
 .btn-danger:hover{background:#fecaca}
-/* KPIs */
 .kpis-grille{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
 .kpi{background:#fff;border-radius:10px;padding:16px 18px;border:1px solid #e2e8f0}
 .kpi-label{font-size:12px;color:#64748b;margin-bottom:6px}
 .kpi-valeur{font-size:24px;font-weight:600;color:#1e293b}
 .kpi-valeur.rouge{color:#991b1b}
-/* Jauge budget */
 .budget-card{background:#fff;border-radius:10px;padding:18px 20px;border:1px solid #e2e8f0;margin-bottom:20px}
 .budget-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
 .budget-item{text-align:center}
@@ -47,14 +44,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .budget-val.bleu{color:#2D3F7B}
 .budget-val.rouge{color:#991b1b}
 .budget-input{width:160px;padding:6px 10px;font-size:14px;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-weight:600;color:#2D3F7B}
-.jauge-wrap{margin-top:4px}
-.jauge-track{height:14px;background:#f1f5f9;border-radius:8px;overflow:hidden;position:relative}
+.jauge-track{height:14px;background:#f1f5f9;border-radius:8px;overflow:hidden}
 .jauge-fill{height:100%;border-radius:8px;transition:.5s;background:#2D3F7B}
 .jauge-fill.warn{background:#854d0e}
 .jauge-fill.danger{background:#991b1b}
 .jauge-labels{display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;margin-top:4px}
-.jauge-pct{text-align:center;font-size:13px;font-weight:600;color:#2D3F7B;margin-top:2px}
-/* Tableau */
 .section-titre{font-size:13px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin:20px 0 10px}
 .tableau-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:16px}
 table{width:100%;border-collapse:collapse;font-size:13px}
@@ -68,10 +62,10 @@ tr:hover td{background:#f8fafc}
 .badge-rouge{background:#fee2e2;color:#991b1b}
 .badge-bleu{background:#E8EEF7;color:#2D3F7B}
 .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
-/* Détail événement */
 .detail-card{display:none;background:#fff;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:16px;overflow:hidden}
 .detail-card.visible{display:block}
 .detail-header{background:#2D3F7B;color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.detail-header-rouge{background:#991b1b;color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .detail-header-titre{font-size:15px;font-weight:500}
 .detail-header-droite{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .onglets{display:flex;border-bottom:1px solid #e2e8f0;background:#f8fafc;overflow-x:auto}
@@ -86,16 +80,14 @@ tr:hover td{background:#f8fafc}
 .mini-kpi-label{font-size:11px;color:#64748b;margin-bottom:4px}
 .mini-kpi-val{font-size:18px;font-weight:600}
 .mini-kpi-val.bleu{color:#2D3F7B}
-.mini-kpi-val.orange{color:#854d0e}
 .sep{height:1px;background:#e2e8f0;margin:14px 0}
 .note-info{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:12px;color:#1d4ed8;margin-bottom:14px}
 .note-warn{background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;font-size:12px;color:#854d0e;margin-bottom:14px}
-/* Bloc auteur */
+.note-rouge{background:#fee2e2;border:1px solid #fecaca;border-radius:8px;padding:14px 16px;font-size:13px;color:#991b1b;margin-bottom:14px}
 .auteur-bloc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:14px}
 .auteur-titre{font-size:14px;font-weight:600;color:#2D3F7B;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 .sous-bloc{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:10px}
 .sous-bloc-titre{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
-/* Lignes de comparaison demandé/approuvé */
 .comp-ligne{display:grid;grid-template-columns:1fr 140px 140px;align-items:center;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:13px;gap:8px}
 .comp-ligne:last-child{border-bottom:none}
 .comp-cle{color:#64748b}
@@ -114,7 +106,14 @@ tr:hover td{background:#f8fafc}
 .budget-box.demande .budget-box-val{color:#64748b}
 .budget-box.approuve .budget-box-val{color:#2D3F7B}
 .actions-groupe{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-/* Modal suppression */
+.rejet-bloc{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:20px;margin-bottom:14px}
+.rejet-ligne{display:flex;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:13px;align-items:flex-start;gap:12px}
+.rejet-ligne:last-child{border-bottom:none}
+.rejet-cle{color:#64748b;width:200px;flex-shrink:0}
+.rejet-val{color:#1e293b;font-weight:500;flex:1}
+.rejet-select{padding:6px 10px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;color:#1e293b;background:#fff;cursor:pointer;width:100%}
+.rejet-textarea{width:100%;padding:8px 12px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;outline:none;color:#1e293b;resize:vertical;min-height:80px}
+.rejet-textarea:focus{border-color:#991b1b;box-shadow:0 0 0 3px rgba(153,27,27,.1)}
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000;align-items:center;justify-content:center}
 .modal-bg.visible{display:flex}
 .modal-confirm{background:#fff;border-radius:12px;padding:28px;width:400px;max-width:95vw;box-shadow:0 8px 32px rgba(0,0,0,.2);text-align:center}
@@ -152,10 +151,10 @@ tr:hover td{background:#f8fafc}
 
   <div class="entete-page">
     <h1 class="page-titre">Événements littéraires — 2025–2026</h1>
-    <button class="btn" onclick="exporterSuivi()">↓ Exporter suivi annuel</button>
+    <button class="btn" onclick="alert('Export du suivi annuel — documenté pour Coloc.')">↓ Exporter suivi annuel</button>
   </div>
 
-  <!-- KPIs rangée 1 -->
+  <!-- KPIs -->
   <div class="kpis-grille">
     <div class="kpi"><div class="kpi-label">Demandes reçues</div><div class="kpi-valeur">8</div></div>
     <div class="kpi"><div class="kpi-label">En attente d'approbation</div><div class="kpi-valeur">3</div></div>
@@ -163,12 +162,12 @@ tr:hover td{background:#f8fafc}
     <div class="kpi"><div class="kpi-label">Rejetées</div><div class="kpi-valeur rouge">1</div></div>
   </div>
 
-  <!-- Budget avec jauge -->
+  <!-- Jauge budget -->
   <div class="budget-card">
     <div class="budget-row">
       <div class="budget-item">
         <div class="budget-label">Budget disponible (à saisir)</div>
-        <input type="number" class="budget-input" id="budget-total" value="25000" onchange="mettreAJourJauge()">
+        <input type="number" class="budget-input" id="budget-total" value="25000" oninput="mettreAJourJauge()">
         <div style="font-size:11px;color:#94a3b8;margin-top:4px">$ — année 2025–2026</div>
       </div>
       <div class="budget-item">
@@ -180,7 +179,7 @@ tr:hover td{background:#f8fafc}
         <div class="budget-val" id="budget-solde">16 550,00 $</div>
       </div>
     </div>
-    <div class="jauge-wrap">
+    <div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <span style="font-size:12px;font-weight:500;color:#64748b">Taux d'utilisation</span>
         <span style="font-size:13px;font-weight:700;color:#2D3F7B" id="jauge-pct-texte">33,8 %</span>
@@ -190,13 +189,13 @@ tr:hover td{background:#f8fafc}
       </div>
       <div class="jauge-labels">
         <span>0 $</span>
-        <span id="jauge-label-mid">12 500 $</span>
-        <span id="jauge-label-max">25 000 $</span>
+        <span id="jauge-mid">12 500 $</span>
+        <span id="jauge-max">25 000 $</span>
       </div>
     </div>
   </div>
 
-  <!-- Tableau des demandes -->
+  <!-- Tableau -->
   <div class="section-titre">Demandes d'événements</div>
   <div class="tableau-wrap">
     <table>
@@ -205,7 +204,7 @@ tr:hover td{background:#f8fafc}
           <th>Activité</th>
           <th style="width:80px">Date</th>
           <th style="width:100px">Maison</th>
-          <th style="width:60px">Lieu</th>
+          <th style="width:65px">Lieu</th>
           <th style="width:55px">Auteur·ices</th>
           <th style="width:105px">Budget demandé</th>
           <th style="width:105px">Budget approuvé</th>
@@ -216,73 +215,47 @@ tr:hover td{background:#f8fafc}
       <tbody>
         <tr>
           <td><strong>Lecture publique — Bibliothèque de Hearst</strong></td>
-          <td>15 mars 2026</td>
-          <td>Prise de Parole</td>
-          <td>Hearst, ON</td>
-          <td style="text-align:center">2</td>
-          <td>2 450,00 $</td>
-          <td>2 318,75 $</td>
+          <td>15 mars 2026</td><td>Prise de Parole</td><td>Hearst, ON</td>
+          <td style="text-align:center">2</td><td>2 450,00 $</td><td>2 318,75 $</td>
           <td><span class="badge badge-vert">Approuvé</span></td>
-          <td>
-            <div style="display:flex;gap:4px;flex-wrap:wrap">
-              <button class="btn" style="padding:3px 8px;font-size:11px" onclick="afficherDetail('hearst')">Voir</button>
-              <button class="btn" style="padding:3px 8px;font-size:11px" onclick="genererExcel('hearst')">↓ Excel</button>
-              <button class="btn btn-danger" style="padding:3px 8px;font-size:11px" onclick="confirmerSuppr('Lecture publique — Bibliothèque de Hearst')">✕</button>
-            </div>
-          </td>
+          <td><div style="display:flex;gap:4px;flex-wrap:wrap">
+            <button class="btn" style="padding:3px 8px;font-size:11px" onclick="afficherDetail('hearst')">Voir</button>
+            <button class="btn" style="padding:3px 8px;font-size:11px" onclick="genererExcel()">↓ Excel</button>
+            <button class="btn btn-danger" style="padding:3px 8px;font-size:11px" onclick="confirmerSuppr('Lecture publique — Bibliothèque de Hearst')">✕</button>
+          </div></td>
         </tr>
         <tr>
           <td><strong>Animation — Librairie du Soleil</strong></td>
-          <td>2 avril 2026</td>
-          <td>David</td>
-          <td>Ottawa, ON</td>
-          <td style="text-align:center">1</td>
-          <td>1 875,00 $</td>
-          <td>—</td>
+          <td>2 avril 2026</td><td>David</td><td>Ottawa, ON</td>
+          <td style="text-align:center">1</td><td>1 875,00 $</td><td>—</td>
           <td><span class="badge badge-orange">En attente</span></td>
-          <td>
-            <div style="display:flex;gap:4px;flex-wrap:wrap">
-              <button class="btn btn-pri" style="padding:3px 8px;font-size:11px" onclick="afficherDetail('soleil')">Traiter</button>
-              <button class="btn btn-danger" style="padding:3px 8px;font-size:11px" onclick="confirmerSuppr('Animation — Librairie du Soleil')">✕</button>
-            </div>
-          </td>
+          <td><div style="display:flex;gap:4px;flex-wrap:wrap">
+            <button class="btn btn-pri" style="padding:3px 8px;font-size:11px" onclick="afficherDetail('soleil')">Traiter</button>
+            <button class="btn btn-danger" style="padding:3px 8px;font-size:11px" onclick="confirmerSuppr('Animation — Librairie du Soleil')">✕</button>
+          </div></td>
         </tr>
         <tr>
           <td><strong>Table ronde — École secondaire Béatrice-Desloges</strong></td>
-          <td>20 avril 2026</td>
-          <td>L'Interligne</td>
-          <td>Ottawa, ON</td>
-          <td style="text-align:center">3</td>
-          <td>3 200,00 $</td>
-          <td>—</td>
+          <td>20 avril 2026</td><td>L'Interligne</td><td>Ottawa, ON</td>
+          <td style="text-align:center">3</td><td>3 200,00 $</td><td>—</td>
           <td><span class="badge badge-orange">En attente</span></td>
-          <td>
-            <div style="display:flex;gap:4px;flex-wrap:wrap">
-              <button class="btn btn-pri" style="padding:3px 8px;font-size:11px">Traiter</button>
-              <button class="btn btn-danger" style="padding:3px 8px;font-size:11px" onclick="confirmerSuppr('Table ronde — École Béatrice-Desloges')">✕</button>
-            </div>
-          </td>
+          <td><div style="display:flex;gap:4px;flex-wrap:wrap">
+            <button class="btn btn-pri" style="padding:3px 8px;font-size:11px">Traiter</button>
+            <button class="btn btn-danger" style="padding:3px 8px;font-size:11px" onclick="confirmerSuppr('Table ronde — École Béatrice-Desloges')">✕</button>
+          </div></td>
         </tr>
         <tr>
           <td><strong>Dédicace — Festival Chambéry Savoie Livre</strong></td>
-          <td>5 fév. 2026</td>
-          <td>Perce-Neige</td>
-          <td>Chambéry, FR</td>
-          <td style="text-align:center">1</td>
-          <td>950,00 $</td>
-          <td>—</td>
+          <td>5 fév. 2026</td><td>Perce-Neige</td><td>Chambéry, FR</td>
+          <td style="text-align:center">1</td><td>950,00 $</td><td>—</td>
           <td><span class="badge badge-rouge">Rejeté</span></td>
-          <td>
-            <div style="display:flex;gap:4px">
-              <button class="btn" style="padding:3px 8px;font-size:11px">Voir</button>
-            </div>
-          </td>
+          <td><button class="btn" style="padding:3px 8px;font-size:11px" onclick="afficherDetail('chambery')">Voir</button></td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- ===== DÉTAIL HEARST (approuvé) ===== -->
+  <!-- DÉTAIL HEARST (approuvé) -->
   <div class="detail-card" id="detail-hearst">
     <div class="detail-header">
       <span class="detail-header-titre">Lecture publique — Bibliothèque de Hearst</span>
@@ -291,80 +264,58 @@ tr:hover td{background:#f8fafc}
         <button class="btn" style="padding:4px 10px;font-size:12px;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff" onclick="fermerDetail('hearst')">Fermer ✕</button>
       </div>
     </div>
-
     <div class="onglets">
       <button class="onglet-btn actif" onclick="changerOnglet('hearst','infos',this)">Informations</button>
       <button class="onglet-btn" onclick="changerOnglet('hearst','auteurs',this)">Auteurices (2)</button>
       <button class="onglet-btn" onclick="changerOnglet('hearst','promo',this)">Promotion</button>
       <button class="onglet-btn" onclick="changerOnglet('hearst','budget',this)">Budget total</button>
     </div>
-
-    <!-- Onglet Informations -->
     <div class="onglet-contenu visible" id="hearst-infos">
       <div class="grid2">
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Informations générales</div>
-          <div class="comp-ligne"><span class="comp-cle">Nom de l'activité</span><span style="grid-column:2/4;color:#1e293b;font-weight:500">Lecture publique</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Date</span><span style="grid-column:2/4;color:#1e293b;font-weight:500">15 mars 2026</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Lieu</span><span style="grid-column:2/4;color:#1e293b;font-weight:500">Bibliothèque municipale de Hearst</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Ville, Province</span><span style="grid-column:2/4;color:#1e293b;font-weight:500">Hearst, Ontario</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Responsable</span><span style="grid-column:2/4;color:#1e293b;font-weight:500">Noureddine Hany</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Maison membre</span><span style="grid-column:2/4;color:#1e293b;font-weight:500">Prise de Parole</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Nom de l'activité</span><span style="grid-column:2/4;font-weight:500">Lecture publique</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Date</span><span style="grid-column:2/4;font-weight:500">15 mars 2026</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Lieu</span><span style="grid-column:2/4;font-weight:500">Bibliothèque municipale de Hearst</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Ville, Province</span><span style="grid-column:2/4;font-weight:500">Hearst, Ontario</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Responsable</span><span style="grid-column:2/4;font-weight:500">Noureddine Hany</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Maison membre</span><span style="grid-column:2/4;font-weight:500">Prise de Parole</span></div>
         </div>
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Approbation</div>
           <div class="comp-ligne"><span class="comp-cle">Statut</span><span style="grid-column:2/4"><span class="badge badge-vert">Approuvé</span></span></div>
-          <div class="comp-ligne"><span class="comp-cle">Approuvé par</span><span style="grid-column:2/4;color:#1e293b;font-weight:500">Piedad Saenz</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Date d'approbation</span><span style="grid-column:2/4;color:#1e293b;font-weight:500">28 février 2026</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Approuvé par</span><span style="grid-column:2/4;font-weight:500">Piedad Saenz</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Date d'approbation</span><span style="grid-column:2/4;font-weight:500">28 février 2026</span></div>
           <div class="sep"></div>
           <div class="budget-compare">
-            <div class="budget-box demande">
-              <div class="budget-box-label">Budget demandé</div>
-              <div class="budget-box-val">2 450,00 $</div>
-            </div>
-            <div class="budget-box approuve">
-              <div class="budget-box-label">Budget approuvé</div>
-              <div class="budget-box-val">2 318,75 $</div>
-            </div>
+            <div class="budget-box demande"><div class="budget-box-label">Budget demandé</div><div class="budget-box-val">2 450,00 $</div></div>
+            <div class="budget-box approuve"><div class="budget-box-label">Budget approuvé</div><div class="budget-box-val">2 318,75 $</div></div>
           </div>
         </div>
       </div>
       <div class="actions-groupe">
-        <button class="btn" onclick="ouvrirDemandeOriginale('hearst')">📄 Voir la demande originale</button>
+        <button class="btn" onclick="ouvrirDemande('hearst')">📄 Voir la demande originale</button>
       </div>
     </div>
-
-    <!-- Onglet Auteurices -->
     <div class="onglet-contenu" id="hearst-auteurs">
-
-      <!-- Auteure 1 -->
       <div class="auteur-bloc">
-        <div class="auteur-titre">
-          <span>Auteure 1 — Véronique Sylvain</span>
-          <span class="badge badge-bleu">Poésie · Ottawa, ON · 612 km</span>
-        </div>
+        <div class="auteur-titre"><span>Auteure 1 — Véronique Sylvain</span><span class="badge badge-bleu">Poésie · Ottawa · 612 km</span></div>
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Voyage (A/R)</div>
           <div class="comp-header"><span>Poste</span><span>Demandé</span><span>Approuvé (REFC)</span></div>
           <div class="comp-ligne"><span class="comp-cle">Mode de transport</span><span class="comp-demande">Voiture personnelle</span><span class="comp-approuve">Voiture personnelle</span></div>
           <div class="comp-ligne"><span class="comp-cle">Frais à engager</span><span class="comp-demande">180,00 $</span><span class="comp-approuve">180,00 $</span></div>
           <div class="comp-ligne"><span class="comp-cle">Autres dépenses</span><span class="comp-demande">25,00 $</span><span class="comp-approuve">25,00 $</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC</span><span class="comp-demande">100 %</span>
-            <span class="comp-approuve"><select class="select-admin"><option selected>100 %</option><option>75 %</option><option>50 %</option></select></span>
-          </div>
-          <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Total Voyage</span><span class="comp-demande">205,00 $</span><span class="comp-approuve" style="color:#2D3F7B">205,00 $</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC</span><span class="comp-demande">100 %</span><span class="comp-approuve"><select class="select-admin"><option>100 %</option><option>75 %</option><option>50 %</option></select></span></div>
+          <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Total Voyage</span><span class="comp-demande">205,00 $</span><span class="comp-approuve">205,00 $</span></div>
         </div>
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Séjour</div>
           <div class="comp-header"><span>Poste</span><span>Demandé</span><span>Approuvé (REFC)</span></div>
           <div class="comp-ligne"><span class="comp-cle">Nuitées</span><span class="comp-demande">2</span><span class="comp-approuve">2</span></div>
           <div class="comp-ligne"><span class="comp-cle">Montant / nuit</span><span class="comp-demande">145,00 $</span><span class="comp-approuve">145,00 $</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC</span><span class="comp-demande">100 %</span>
-            <span class="comp-approuve"><select class="select-admin"><option selected>100 %</option><option>75 %</option><option>50 %</option></select></span>
-          </div>
-          <div class="comp-ligne"><span class="comp-cle">Per diem base / jour</span><span class="comp-demande">—</span>
-            <span class="comp-approuve"><input type="number" class="input-admin" value="75"> $</span>
-          </div>
+          <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC</span><span class="comp-demande">100 %</span><span class="comp-approuve"><select class="select-admin"><option>100 %</option><option>75 %</option><option>50 %</option></select></span></div>
+          <div class="comp-ligne"><span class="comp-cle">Per diem base / jour</span><span class="comp-demande">—</span><span class="comp-approuve"><input type="number" class="input-admin" value="75"> $</span></div>
           <div class="comp-ligne"><span class="comp-cle">Déductions</span><span class="comp-demande">—</span>
             <span class="comp-approuve" style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">
               <label style="font-size:11px;display:flex;align-items:center;gap:4px"><input type="checkbox" checked> Petit déj (-15 $)</label>
@@ -372,52 +323,37 @@ tr:hover td{background:#f8fafc}
               <label style="font-size:11px;display:flex;align-items:center;gap:4px"><input type="checkbox"> Dîner (-35 $)</label>
             </span>
           </div>
-          <div class="comp-ligne"><span class="comp-cle">Per diem net / jour</span><span class="comp-demande">—</span><span class="comp-approuve" style="color:#2D3F7B">60,00 $</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Per diem total (2 j.)</span><span class="comp-demande">—</span><span class="comp-approuve" style="color:#2D3F7B">120,00 $</span></div>
-          <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Total Séjour</span><span class="comp-demande">290,00 $</span><span class="comp-approuve" style="color:#2D3F7B">410,00 $</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Per diem net / jour</span><span class="comp-demande">—</span><span class="comp-approuve">60,00 $</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Per diem total (2 j.)</span><span class="comp-demande">—</span><span class="comp-approuve">120,00 $</span></div>
+          <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Total Séjour</span><span class="comp-demande">290,00 $</span><span class="comp-approuve">410,00 $</span></div>
         </div>
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Déroulement</div>
           <div class="comp-header"><span>Poste</span><span>Demandé</span><span>Approuvé (REFC)</span></div>
           <div class="comp-ligne"><span class="comp-cle">Déplacement sur place (A/R)</span><span class="comp-demande">20,00 $</span><span class="comp-approuve">20,00 $</span></div>
           <div class="comp-ligne"><span class="comp-cle">Cachet auteure</span><span class="comp-demande">300,00 $</span><span class="comp-approuve"><input type="number" class="input-admin" value="300"> $</span></div>
-          <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Total Déroulement</span><span class="comp-demande">320,00 $</span><span class="comp-approuve" style="color:#2D3F7B">320,00 $</span></div>
+          <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Total Déroulement</span><span class="comp-demande">320,00 $</span><span class="comp-approuve">320,00 $</span></div>
         </div>
         <div style="background:#E8EEF7;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between">
-          <div>
-            <div style="font-size:11px;color:#64748b">Demandé</div>
-            <div style="font-weight:600;color:#64748b">815,00 $</div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-size:11px;color:#2D3F7B">Approuvé REFC</div>
-            <div style="font-weight:700;font-size:16px;color:#2D3F7B">935,00 $</div>
-          </div>
+          <div><div style="font-size:11px;color:#64748b">Demandé</div><div style="font-weight:600;color:#64748b">815,00 $</div></div>
+          <div style="text-align:right"><div style="font-size:11px;color:#2D3F7B">Approuvé REFC</div><div style="font-weight:700;font-size:16px;color:#2D3F7B">935,00 $</div></div>
         </div>
       </div>
-
-      <!-- Auteur 2 -->
       <div class="auteur-bloc">
-        <div class="auteur-titre">
-          <span>Auteur 2 — Tomson Highway</span>
-          <span class="badge badge-bleu">Roman · Sudbury, ON · 248 km</span>
-        </div>
+        <div class="auteur-titre"><span>Auteur 2 — Tomson Highway</span><span class="badge badge-bleu">Roman · Sudbury · 248 km</span></div>
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Voyage (A/R)</div>
           <div class="comp-header"><span>Poste</span><span>Demandé</span><span>Approuvé (REFC)</span></div>
           <div class="comp-ligne"><span class="comp-cle">Mode de transport</span><span class="comp-demande">Autobus</span><span class="comp-approuve">Autobus</span></div>
           <div class="comp-ligne"><span class="comp-cle">Frais à engager</span><span class="comp-demande">85,00 $</span><span class="comp-approuve">85,00 $</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Autres dépenses</span><span class="comp-demande">0,00 $</span><span class="comp-approuve">0,00 $</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC</span><span class="comp-demande">100 %</span>
-            <span class="comp-approuve"><select class="select-admin"><option selected>100 %</option><option>75 %</option><option>50 %</option></select></span>
-          </div>
-          <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Total Voyage</span><span class="comp-demande">85,00 $</span><span class="comp-approuve" style="color:#2D3F7B">85,00 $</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC</span><span class="comp-demande">100 %</span><span class="comp-approuve"><select class="select-admin"><option>100 %</option><option>75 %</option></select></span></div>
+          <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Total Voyage</span><span class="comp-demande">85,00 $</span><span class="comp-approuve">85,00 $</span></div>
         </div>
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Déroulement</div>
           <div class="comp-header"><span>Poste</span><span>Demandé</span><span>Approuvé (REFC)</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Déplacement sur place (A/R)</span><span class="comp-demande">0,00 $</span><span class="comp-approuve">0,00 $</span></div>
           <div class="comp-ligne"><span class="comp-cle">Cachet auteur</span><span class="comp-demande">250,00 $</span><span class="comp-approuve"><input type="number" class="input-admin" value="250"> $</span></div>
-          <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Total Déroulement</span><span class="comp-demande">250,00 $</span><span class="comp-approuve" style="color:#2D3F7B">250,00 $</span></div>
+          <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Total Déroulement</span><span class="comp-demande">250,00 $</span><span class="comp-approuve">250,00 $</span></div>
         </div>
         <div style="background:#E8EEF7;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between">
           <div><div style="font-size:11px;color:#64748b">Demandé</div><div style="font-weight:600;color:#64748b">335,00 $</div></div>
@@ -425,21 +361,17 @@ tr:hover td{background:#f8fafc}
         </div>
       </div>
     </div>
-
-    <!-- Onglet Promotion -->
     <div class="onglet-contenu" id="hearst-promo">
-      <div class="note-info">ℹ️ Ces champs sont remplis par l'équipe REFC uniquement — non visible par la maison membre.</div>
+      <div class="note-info">ℹ️ Ces champs sont remplis par l'équipe REFC uniquement.</div>
       <div class="sous-bloc">
         <div class="sous-bloc-titre">Promotion — Communication</div>
-        <div class="comp-ligne"><span class="comp-cle">Frais de promotion (graphisme, publicité, affiches...)</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" value="350"> $</span></div>
+        <div class="comp-ligne"><span class="comp-cle">Frais de promotion (graphisme, publicité...)</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" value="350"> $</span></div>
         <div class="comp-ligne"><span class="comp-cle">Consommation (verre d'amitié, cocktail...)</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" value="125"> $</span></div>
         <div class="comp-ligne"><span class="comp-cle">Cachet animateur·rice / Panélistes</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" value="500"> $</span></div>
         <div class="comp-ligne"><span class="comp-cle">Contribution REFC à l'aménagement</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" value="200"> $</span></div>
         <div class="comp-ligne" style="font-weight:600"><span class="comp-cle">Budget Promotion-Communication</span><span style="grid-column:2/4;text-align:right;color:#2D3F7B">1 175,00 $</span></div>
       </div>
     </div>
-
-    <!-- Onglet Budget total -->
     <div class="onglet-contenu" id="hearst-budget">
       <div class="grid3">
         <div class="mini-kpi"><div class="mini-kpi-label">Véronique Sylvain</div><div class="mini-kpi-val bleu">935,00 $</div></div>
@@ -451,19 +383,19 @@ tr:hover td{background:#f8fafc}
         <div class="comp-ligne"><span class="comp-cle">Sous-total auteurices</span><span class="comp-demande">1 150,00 $</span><span class="comp-approuve">1 270,00 $</span></div>
         <div class="comp-ligne"><span class="comp-cle">Promotion-Communication</span><span class="comp-demande">1 300,00 $</span><span class="comp-approuve">1 175,00 $</span></div>
         <div class="sep"></div>
-        <div class="comp-ligne" style="font-size:15px"><span style="font-weight:700;color:#1e293b">BUDGET TOTAL DE L'ACTIVITÉ</span><span class="comp-demande" style="font-weight:700;font-size:14px">2 450,00 $</span><span class="comp-approuve" style="font-weight:700;font-size:14px;color:#2D3F7B">2 445,00 $</span></div>
+        <div class="comp-ligne"><span style="font-weight:700;color:#1e293b;font-size:14px">BUDGET TOTAL DE L'ACTIVITÉ</span><span class="comp-demande" style="font-weight:700;font-size:14px">2 450,00 $</span><span class="comp-approuve" style="font-weight:700;font-size:14px">2 445,00 $</span></div>
         <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC</span><span class="comp-demande">—</span><span class="comp-approuve">2 445,00 $</span></div>
         <div class="comp-ligne"><span class="comp-cle">Part maison membre</span><span class="comp-demande">—</span><span class="comp-approuve"><input type="number" class="input-admin" value="0"> $</span></div>
       </div>
       <div class="actions-groupe">
-        <button class="btn btn-pri" onclick="genererExcel('hearst')">↓ Générer rapport Excel</button>
-        <button class="btn" onclick="envoyerMembre()">✉️ Envoyer à la maison membre</button>
-        <button class="btn" onclick="ouvrirDemandeOriginale('hearst')">📄 Voir la demande originale</button>
+        <button class="btn btn-pri" onclick="genererExcel()">↓ Générer rapport Excel</button>
+        <button class="btn" onclick="alert('Courriel envoyé à Prise de Parole avec le rapport Excel en pièce jointe.')">✉️ Envoyer à la maison membre</button>
+        <button class="btn" onclick="ouvrirDemande('hearst')">📄 Voir la demande originale</button>
       </div>
     </div>
   </div>
 
-  <!-- ===== DÉTAIL SOLEIL (en attente) ===== -->
+  <!-- DÉTAIL SOLEIL (en attente) -->
   <div class="detail-card" id="detail-soleil">
     <div class="detail-header">
       <span class="detail-header-titre">Animation — Librairie du Soleil</span>
@@ -479,7 +411,7 @@ tr:hover td{background:#f8fafc}
       <button class="onglet-btn" onclick="changerOnglet('soleil','budget',this)">Budget total</button>
     </div>
     <div class="onglet-contenu visible" id="soleil-infos">
-      <div class="note-warn">⚠ Demande en attente — Compléter les pourcentages, per diem et promotion, puis soumettre à Piedad Saenz pour approbation.</div>
+      <div class="note-warn">⚠ Compléter les pourcentages, per diem et promotion, puis soumettre à Piedad Saenz pour approbation.</div>
       <div class="grid2">
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Informations générales</div>
@@ -503,36 +435,25 @@ tr:hover td{background:#f8fafc}
         </div>
       </div>
       <div class="actions-groupe">
-        <button class="btn" onclick="ouvrirDemandeOriginale('soleil')">📄 Voir la demande originale</button>
+        <button class="btn" onclick="ouvrirDemande('soleil')">📄 Voir la demande originale</button>
       </div>
     </div>
     <div class="onglet-contenu" id="soleil-auteurs">
       <div class="auteur-bloc">
-        <div class="auteur-titre">
-          <span>Auteur 1 — Patrick Leroux</span>
-          <span class="badge badge-bleu">Théâtre · Montréal, QC · 198 km</span>
-        </div>
+        <div class="auteur-titre"><span>Auteur 1 — Patrick Leroux</span><span class="badge badge-bleu">Théâtre · Montréal · 198 km</span></div>
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Voyage (A/R)</div>
-          <div class="comp-header"><span>Poste</span><span>Demandé</span><span>À approuver (REFC) *</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Mode de transport</span><span class="comp-demande">Train</span><span class="comp-approuve">Train</span></div>
+          <div class="comp-header"><span>Poste</span><span>Demandé</span><span>À approuver *</span></div>
           <div class="comp-ligne"><span class="comp-cle">Frais à engager</span><span class="comp-demande">120,00 $</span><span class="comp-approuve">120,00 $</span></div>
           <div class="comp-ligne"><span class="comp-cle">Autres dépenses</span><span class="comp-demande">15,00 $</span><span class="comp-approuve">15,00 $</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC *</span><span class="comp-demande">100 %</span>
-            <span class="comp-approuve"><select class="select-admin"><option>Choisir...</option><option>100 %</option><option>75 %</option><option>50 %</option></select></span>
-          </div>
+          <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC *</span><span class="comp-demande">100 %</span><span class="comp-approuve"><select class="select-admin"><option>Choisir...</option><option>100 %</option><option>75 %</option><option>50 %</option></select></span></div>
         </div>
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Séjour</div>
-          <div class="comp-header"><span>Poste</span><span>Demandé</span><span>À approuver (REFC) *</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Nuitées</span><span class="comp-demande">1</span><span class="comp-approuve">1</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Montant / nuit</span><span class="comp-demande">135,00 $</span><span class="comp-approuve">135,00 $</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC *</span><span class="comp-demande">100 %</span>
-            <span class="comp-approuve"><select class="select-admin"><option>Choisir...</option><option>100 %</option><option>75 %</option><option>50 %</option></select></span>
-          </div>
-          <div class="comp-ligne"><span class="comp-cle">Per diem base / jour *</span><span class="comp-demande">—</span>
-            <span class="comp-approuve"><input type="number" class="input-admin" placeholder="ex: 75"> $</span>
-          </div>
+          <div class="comp-header"><span>Poste</span><span>Demandé</span><span>À approuver *</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Hébergement (1 nuit)</span><span class="comp-demande">135,00 $</span><span class="comp-approuve">135,00 $</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Prise en charge REFC *</span><span class="comp-demande">100 %</span><span class="comp-approuve"><select class="select-admin"><option>Choisir...</option><option>100 %</option><option>75 %</option></select></span></div>
+          <div class="comp-ligne"><span class="comp-cle">Per diem base / jour *</span><span class="comp-demande">—</span><span class="comp-approuve"><input type="number" class="input-admin" placeholder="75"> $</span></div>
           <div class="comp-ligne"><span class="comp-cle">Déductions *</span><span class="comp-demande">—</span>
             <span class="comp-approuve" style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">
               <label style="font-size:11px;display:flex;align-items:center;gap:4px"><input type="checkbox"> Petit déj (-15 $)</label>
@@ -543,26 +464,109 @@ tr:hover td{background:#f8fafc}
         </div>
         <div class="sous-bloc">
           <div class="sous-bloc-titre">Déroulement</div>
-          <div class="comp-header"><span>Poste</span><span>Demandé</span><span>À approuver (REFC) *</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Déplacement sur place (A/R)</span><span class="comp-demande">10,00 $</span><span class="comp-approuve">10,00 $</span></div>
-          <div class="comp-ligne"><span class="comp-cle">Cachet auteur</span><span class="comp-demande">400,00 $</span>
-            <span class="comp-approuve"><input type="number" class="input-admin" placeholder="400"> $</span>
-          </div>
+          <div class="comp-header"><span>Poste</span><span>Demandé</span><span>À approuver *</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Cachet auteur</span><span class="comp-demande">400,00 $</span><span class="comp-approuve"><input type="number" class="input-admin" placeholder="400"> $</span></div>
         </div>
       </div>
     </div>
     <div class="onglet-contenu" id="soleil-promo">
-      <div class="note-info">ℹ️ À remplir par Noureddine avant soumission à la directrice.</div>
+      <div class="note-info">ℹ️ À remplir par Noureddine avant soumission.</div>
       <div class="sous-bloc">
         <div class="sous-bloc-titre">Promotion — Communication</div>
         <div class="comp-ligne"><span class="comp-cle">Frais de promotion</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" placeholder="0"> $</span></div>
         <div class="comp-ligne"><span class="comp-cle">Consommation</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" placeholder="0"> $</span></div>
-        <div class="comp-ligne"><span class="comp-cle">Cachet animateur·rice / Panélistes</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" placeholder="0"> $</span></div>
-        <div class="comp-ligne"><span class="comp-cle">Contribution REFC à l'aménagement</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" placeholder="0"> $</span></div>
+        <div class="comp-ligne"><span class="comp-cle">Cachet animateur·rice</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" placeholder="0"> $</span></div>
+        <div class="comp-ligne"><span class="comp-cle">Contribution à l'aménagement</span><span style="grid-column:2/4;display:flex;align-items:center;justify-content:flex-end;gap:4px"><input type="number" class="input-admin" placeholder="0"> $</span></div>
       </div>
     </div>
     <div class="onglet-contenu" id="soleil-budget">
       <div class="note-warn">⚠ Complétez les onglets Auteurices et Promotion pour voir le budget total calculé.</div>
+    </div>
+  </div>
+
+  <!-- DÉTAIL CHAMBÉRY (rejeté) -->
+  <div class="detail-card" id="detail-chambery">
+    <div class="detail-header-rouge">
+      <span class="detail-header-titre">Dédicace — Festival Chambéry Savoie Livre</span>
+      <div class="detail-header-droite">
+        <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">Rejeté</span>
+        <button class="btn" style="padding:4px 10px;font-size:12px;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff" onclick="fermerDetail('chambery')">Fermer ✕</button>
+      </div>
+    </div>
+    <div class="onglets">
+      <button class="onglet-btn actif" onclick="changerOnglet('chambery','infos',this)">Informations</button>
+      <button class="onglet-btn" onclick="changerOnglet('chambery','rejet',this)">Motif du rejet</button>
+    </div>
+
+    <!-- Onglet Informations -->
+    <div class="onglet-contenu visible" id="chambery-infos">
+      <div class="note-rouge">
+        ✗ Cette demande a été rejetée. Le motif a été communiqué à la maison membre.
+      </div>
+      <div class="grid2">
+        <div class="sous-bloc">
+          <div class="sous-bloc-titre">Informations générales</div>
+          <div class="comp-ligne"><span class="comp-cle">Nom de l'activité</span><span style="grid-column:2/4;font-weight:500">Dédicace</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Date</span><span style="grid-column:2/4;font-weight:500">5 février 2026</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Lieu</span><span style="grid-column:2/4;font-weight:500">Festival Chambéry Savoie Livre</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Ville, Province</span><span style="grid-column:2/4;font-weight:500">Chambéry, France</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Maison membre</span><span style="grid-column:2/4;font-weight:500">Perce-Neige</span></div>
+          <div class="comp-ligne"><span class="comp-cle">Auteurices</span><span style="grid-column:2/4;font-weight:500">1</span></div>
+        </div>
+        <div class="sous-bloc">
+          <div class="sous-bloc-titre">Budget</div>
+          <div class="budget-compare">
+            <div class="budget-box demande"><div class="budget-box-label">Budget demandé</div><div class="budget-box-val">950,00 $</div></div>
+            <div class="budget-box" style="background:#fee2e2;border:1px solid #fecaca"><div class="budget-box-label">Budget approuvé</div><div class="budget-box-val" style="color:#991b1b">Rejeté</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="actions-groupe">
+        <button class="btn" onclick="ouvrirDemande('chambery')">📄 Voir la demande originale</button>
+      </div>
+    </div>
+
+    <!-- Onglet Motif du rejet -->
+    <div class="onglet-contenu" id="chambery-rejet">
+      <div class="rejet-bloc">
+        <div class="sous-bloc-titre" style="margin-bottom:16px">Motif du rejet — saisi par la REFC</div>
+
+        <div class="rejet-ligne">
+          <span class="rejet-cle">Rejeté par</span>
+          <span class="rejet-val">Piedad Saenz — Directrice générale</span>
+        </div>
+        <div class="rejet-ligne">
+          <span class="rejet-cle">Date du rejet</span>
+          <span class="rejet-val">15 janvier 2026</span>
+        </div>
+        <div class="rejet-ligne">
+          <span class="rejet-cle">Catégorie du motif</span>
+          <span class="rejet-val">
+            <select class="rejet-select">
+              <option selected>Hors territoire couvert par la REFC</option>
+              <option>Budget insuffisant</option>
+              <option>Solde insuffisant (autres demandes prioritaires)</option>
+              <option>Événement non admissible</option>
+              <option>Décision de la direction</option>
+              <option>Autre</option>
+            </select>
+          </span>
+        </div>
+        <div class="rejet-ligne">
+          <span class="rejet-cle">Message transmis à la maison membre</span>
+          <span class="rejet-val">
+            <textarea class="rejet-textarea">Votre demande pour le Festival Chambéry Savoie Livre ne peut être approuvée. Le programme de soutien aux événements littéraires de la REFC couvre les activités se déroulant au Canada uniquement. Les événements tenus à l'étranger ne sont pas admissibles dans le cadre de ce programme.</textarea>
+          </span>
+        </div>
+        <div class="sep"></div>
+        <div style="font-size:12px;color:#64748b;font-style:italic">
+          ℹ️ Ce message est visible par la maison membre dans son espace portail. Les détails budgétaires internes (solde disponible, etc.) ne sont pas communiqués.
+        </div>
+      </div>
+      <div class="actions-groupe">
+        <button class="btn btn-pri" onclick="alert('Modifications sauvegardées.')">💾 Sauvegarder les modifications</button>
+        <button class="btn" onclick="ouvrirDemande('chambery')">📄 Voir la demande originale</button>
+      </div>
     </div>
   </div>
 
@@ -581,383 +585,196 @@ tr:hover td{background:#f8fafc}
   </div>
 </div>
 
-<!-- Fenêtre demande originale (s'ouvre dans un nouvel onglet) -->
 <script>
-const DONNEES = {
+const DONNEES_DEMANDE = {
   hearst: {
-    maison: "Prise de Parole",
-    adresse_maison: "109, rue Elm, bureau 205<br>Sudbury, Ontario P3C 1T4<br>705 675-6491 · prisedeparole.com",
-    date_soumission: "15 janvier 2026",
-    nom: "Lecture publique",
-    date: "15 mars 2026",
-    lieu: "Bibliothèque municipale de Hearst",
-    ville: "Hearst, Ontario",
-    notes: "Événement organisé en collaboration avec la bibliothèque municipale. Participation d'auteurices autochtones souhaitée.",
-    auteurs: [
-      { nom: "Véronique Sylvain", genre: "Poésie", ville: "Ottawa, Ontario", transport: "Voiture personnelle", frais: "180,00 $", autres: "25,00 $", nuitees: "2", nuit_montant: "145,00 $", cachet: "300,00 $", deplacement: "20,00 $" },
-      { nom: "Tomson Highway", genre: "Roman", ville: "Sudbury, Ontario", transport: "Autobus", frais: "85,00 $", autres: "0,00 $", nuitees: "0", nuit_montant: "—", cachet: "250,00 $", deplacement: "0,00 $" }
+    maison:"Prise de Parole", adresse:"109, rue Elm, bureau 205<br>Sudbury, Ontario P3C 1T4<br>705 675-6491 · prisedeparole.com",
+    date_soumission:"15 janvier 2026", nom:"Lecture publique", date:"15 mars 2026",
+    lieu:"Bibliothèque municipale de Hearst", ville:"Hearst, Ontario",
+    notes:"Événement organisé en collaboration avec la bibliothèque municipale. Participation d'auteurices autochtones souhaitée.",
+    auteurs:[
+      {nom:"Véronique Sylvain",genre:"Poésie",ville:"Ottawa, Ontario",transport:"Voiture personnelle",frais:"180,00 $",autres:"25,00 $",nuitees:"2",nuit:"145,00 $",cachet:"300,00 $",deplacement:"20,00 $"},
+      {nom:"Tomson Highway",genre:"Roman",ville:"Sudbury, Ontario",transport:"Autobus",frais:"85,00 $",autres:"0,00 $",nuitees:"0",nuit:"—",cachet:"250,00 $",deplacement:"0,00 $"}
     ]
   },
   soleil: {
-    maison: "Éditions David",
-    adresse_maison: "335, rue de l'Ontario Est<br>Montréal, Québec H2X 1X6<br>514 843-5247 · editionsdavid.com",
-    date_soumission: "5 mars 2026",
-    nom: "Animation littéraire",
-    date: "2 avril 2026",
-    lieu: "Librairie du Soleil",
-    ville: "Ottawa, Ontario",
-    notes: "—",
-    auteurs: [
-      { nom: "Patrick Leroux", genre: "Théâtre", ville: "Montréal, Québec", transport: "Train", frais: "120,00 $", autres: "15,00 $", nuitees: "1", nuit_montant: "135,00 $", cachet: "400,00 $", deplacement: "10,00 $" }
+    maison:"Éditions David", adresse:"335, rue de l'Ontario Est<br>Montréal, Québec H2X 1X6<br>514 843-5247 · editionsdavid.com",
+    date_soumission:"5 mars 2026", nom:"Animation littéraire", date:"2 avril 2026",
+    lieu:"Librairie du Soleil", ville:"Ottawa, Ontario", notes:"—",
+    auteurs:[
+      {nom:"Patrick Leroux",genre:"Théâtre",ville:"Montréal, Québec",transport:"Train",frais:"120,00 $",autres:"15,00 $",nuitees:"1",nuit:"135,00 $",cachet:"400,00 $",deplacement:"10,00 $"}
+    ]
+  },
+  chambery: {
+    maison:"Perce-Neige", adresse:"140, rue Botsford, bureau 1<br>Moncton, Nouveau-Brunswick E1C 4X4<br>506 380-7133 · editionsperceneige.ca",
+    date_soumission:"10 décembre 2025", nom:"Dédicace", date:"5 février 2026",
+    lieu:"Festival Chambéry Savoie Livre", ville:"Chambéry, France", notes:"Invitation de l'organisation du festival.",
+    auteurs:[
+      {nom:"Rose Després",genre:"Poésie",ville:"Moncton, Nouveau-Brunswick",transport:"Avion",frais:"650,00 $",autres:"80,00 $",nuitees:"3",nuit:"120,00 $",cachet:"150,00 $",deplacement:"0,00 $"}
     ]
   }
 };
 
-function ouvrirDemandeOriginale(id) {
-  const d = DONNEES[id];
+function ouvrirDemande(id) {
+  const d = DONNEES_DEMANDE[id];
   if (!d) return;
-
   let auteursHTML = "";
   d.auteurs.forEach((a, i) => {
-    auteursHTML += `
-      <div style="margin-bottom:20px">
-        <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;padding-bottom:5px;border-bottom:2px solid #2D3F7B;">
-          ${i === 0 ? "Auteur·ice" : "Auteur·ice"} ${i+1} — ${a.nom}
-        </div>
-        ${ligne("Genre littéraire", a.genre)}
-        ${ligne("Ville de résidence", a.ville)}
-        ${ligne("Mode de transport prévu", a.transport)}
-        ${ligne("Frais de transport estimés", a.frais)}
-        ${ligne("Autres dépenses (Uber, stationnement...)", a.autres)}
-        ${ligne("Nombre de nuitées", a.nuitees)}
-        ${ligne("Montant estimé / nuit", a.nuit_montant)}
-        ${ligne("Cachet demandé", a.cachet)}
-        ${ligne("Déplacement sur place (A/R)", a.deplacement)}
-      </div>`;
+    auteursHTML += `<div style="margin-bottom:20px">
+      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;padding-bottom:5px;border-bottom:2px solid #2D3F7B;">Auteur·ice ${i+1} — ${a.nom}</div>
+      ${lig("Genre littéraire",a.genre)}${lig("Ville de résidence",a.ville)}${lig("Mode de transport prévu",a.transport)}
+      ${lig("Frais de transport estimés",a.frais)}${lig("Autres dépenses",a.autres)}
+      ${lig("Nombre de nuitées",a.nuitees)}${lig("Montant estimé / nuit",a.nuit)}
+      ${lig("Cachet demandé",a.cachet)}${lig("Déplacement sur place (A/R)",a.deplacement)}
+    </div>`;
   });
-
-  const html = `<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Demande originale — ${d.maison}</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; color: #1e293b; background: #fff; }
-  .entete { background: #2D3F7B; color: #fff; padding: 22px 28px; display: flex; justify-content: space-between; align-items: flex-start; }
-  .maison-nom { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-  .maison-coords { font-size: 12px; opacity: .85; line-height: 1.7; }
-  .date-soumission { font-size: 12px; text-align: right; opacity: .85; }
-  .bandeau { background: #E8EEF7; border-left: 5px solid #2D3F7B; padding: 10px 28px; font-size: 15px; font-weight: 700; color: #2D3F7B; letter-spacing: .02em; }
-  .avertissement { background: #fef9c3; border-bottom: 1px solid #fde68a; padding: 8px 28px; font-size: 12px; color: #854d0e; }
-  .corps { padding: 24px 28px; }
-  .section { margin-bottom: 22px; }
-  .section-titre { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 2px solid #2D3F7B; }
-  .ligne { display: flex; padding: 6px 0; font-size: 13px; border-bottom: 1px solid #f1f5f9; }
-  .ligne:last-child { border-bottom: none; }
-  .cle { color: #64748b; width: 240px; flex-shrink: 0; }
-  .val { color: #1e293b; font-weight: 500; }
-  .pied { background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 16px 28px; display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
-  .pied-refc { text-align: right; line-height: 1.7; }
-  .btn-print { display: block; margin: 16px auto; padding: 10px 24px; background: #2D3F7B; color: #fff; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; }
-  @media print { .btn-print { display: none; } .avertissement { display: none; } }
-</style>
-</head>
-<body>
-<div class="entete">
-  <div>
-    <div class="maison-nom">${d.maison}</div>
-    <div class="maison-coords">${d.adresse_maison}</div>
-  </div>
-  <div class="date-soumission">Demande soumise le<br><strong>${d.date_soumission}</strong><br><br>À l'attention de la REFC</div>
-</div>
-<div class="bandeau">DEMANDE D'ÉVÉNEMENT LITTÉRAIRE</div>
-<div class="avertissement">🔒 Document en lecture seule — Demande originale soumise par la maison membre</div>
-<div class="corps">
-  <div class="section">
-    <div class="section-titre">Informations générales</div>
-    ${ligne("Nom de l'activité", d.nom)}
-    ${ligne("Date de l'événement", d.date)}
-    ${ligne("Lieu", d.lieu)}
-    ${ligne("Ville, Province", d.ville)}
-    ${ligne("Notes", d.notes)}
-  </div>
-  ${auteursHTML}
-</div>
-<div class="pied">
-  <div>Document soumis via le portail membres REFC<br>Référence : EVT-2026-${String(Math.floor(Math.random()*9000)+1000)}</div>
-  <div class="pied-refc"><strong style="color:#2D3F7B">REFC</strong><br>435 rue Donald, bureau 214<br>Ottawa, Ontario K1K 4X5<br>613 691-7061 · refc.ca</div>
-</div>
-<button class="btn-print" onclick="window.print()">🖨️ Imprimer ce document</button>
-</body>
-</html>`;
-
-  const fenetre = window.open("", "_blank", "width=780,height=700");
-  fenetre.document.write(html);
-  fenetre.document.close();
+  const html = `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
+<title>Demande — ${d.maison}</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;color:#1e293b;background:#fff}
+.en{background:#2D3F7B;color:#fff;padding:22px 28px;display:flex;justify-content:space-between;align-items:flex-start}
+.mn{font-size:20px;font-weight:700;margin-bottom:8px}.mc{font-size:12px;opacity:.85;line-height:1.7}
+.ds{font-size:12px;text-align:right;opacity:.85}
+.ba{background:#E8EEF7;border-left:5px solid #2D3F7B;padding:10px 28px;font-size:15px;font-weight:700;color:#2D3F7B}
+.av{background:#fef9c3;border-bottom:1px solid #fde68a;padding:8px 28px;font-size:12px;color:#854d0e}
+.co{padding:24px 28px}.se{margin-bottom:22px}
+.st{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;padding-bottom:5px;border-bottom:2px solid #2D3F7B}
+.li{display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f1f5f9}
+.li:last-child{border-bottom:none}.cl{color:#64748b;width:240px;flex-shrink:0}.vl{color:#1e293b;font-weight:500}
+.pi{background:#f8fafc;border-top:1px solid #e2e8f0;padding:16px 28px;display:flex;justify-content:space-between;font-size:11px;color:#64748b}
+.pr{text-align:right;line-height:1.7}.bp{display:block;margin:16px auto;padding:10px 24px;background:#2D3F7B;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer}
+@media print{.bp{display:none}.av{display:none}}</style></head><body>
+<div class="en"><div><div class="mn">${d.maison}</div><div class="mc">${d.adresse}</div></div>
+<div class="ds">Demande soumise le<br><strong>${d.date_soumission}</strong><br><br>À l'attention de la REFC</div></div>
+<div class="ba">DEMANDE D'ÉVÉNEMENT LITTÉRAIRE</div>
+<div class="av">🔒 Document en lecture seule — Demande originale soumise par la maison membre</div>
+<div class="co"><div class="se"><div class="st">Informations générales</div>
+${lig("Nom de l'activité",d.nom)}${lig("Date de l'événement",d.date)}${lig("Lieu",d.lieu)}${lig("Ville, Province",d.ville)}${lig("Notes",d.notes)}</div>
+${auteursHTML}</div>
+<div class="pi"><div>Document soumis via le portail membres REFC</div>
+<div class="pr"><strong style="color:#2D3F7B">REFC</strong><br>435 rue Donald, bureau 214<br>Ottawa, Ontario K1K 4X5<br>613 691-7061 · refc.ca</div></div>
+<button class="bp" onclick="window.print()">🖨️ Imprimer ce document</button>
+</body></html>`;
+  const w = window.open("","_blank","width=780,height=700");
+  w.document.write(html); w.document.close();
 }
 
-function ligne(cle, val) {
-  return `<div class="ligne"><span class="cle">${cle}</span><span class="val">${val || "—"}</span></div>`;
-}
+function lig(c,v){return `<div class="li"><span class="cl">${c}</span><span class="vl">${v||"—"}</span></div>`;}
 
-function afficherDetail(id) {
-  document.querySelectorAll('.detail-card').forEach(d => d.classList.remove('visible'));
-  const el = document.getElementById('detail-' + id);
+function afficherDetail(id){
+  document.querySelectorAll('.detail-card').forEach(d=>d.classList.remove('visible'));
+  const el=document.getElementById('detail-'+id);
   el.classList.add('visible');
-  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-
-function fermerDetail(id) {
-  document.getElementById('detail-' + id).classList.remove('visible');
-}
-
-function changerOnglet(section, onglet, btn) {
-  const detail = document.getElementById('detail-' + section);
-  detail.querySelectorAll('.onglet-btn').forEach(b => b.classList.remove('actif'));
-  detail.querySelectorAll('.onglet-contenu').forEach(c => c.classList.remove('visible'));
+function fermerDetail(id){document.getElementById('detail-'+id).classList.remove('visible');}
+function changerOnglet(s,o,btn){
+  const d=document.getElementById('detail-'+s);
+  d.querySelectorAll('.onglet-btn').forEach(b=>b.classList.remove('actif'));
+  d.querySelectorAll('.onglet-contenu').forEach(c=>c.classList.remove('visible'));
   btn.classList.add('actif');
-  document.getElementById(section + '-' + onglet).classList.add('visible');
+  document.getElementById(s+'-'+o).classList.add('visible');
 }
-
-function confirmerSuppr(nom) {
-  document.getElementById('texte-suppr').innerHTML = `Êtes-vous sûr de vouloir archiver<br><strong>${nom}</strong> ?<br><br>Cette action est irréversible.`;
+function confirmerSuppr(nom){
+  document.getElementById('texte-suppr').innerHTML=`Êtes-vous sûr de vouloir archiver<br><strong>${nom}</strong> ?<br><br>Cette action est irréversible.`;
   document.getElementById('modal-suppr').classList.add('visible');
 }
+function fermerModal(){document.getElementById('modal-suppr').classList.remove('visible');}
+document.getElementById('modal-suppr').addEventListener('click',function(e){if(e.target===this)fermerModal();});
 
-function fermerModal() {
-  document.getElementById('modal-suppr').classList.remove('visible');
+function mettreAJourJauge(){
+  const total=parseFloat(document.getElementById('budget-total').value)||25000;
+  const utilise=8450; const solde=total-utilise;
+  const pct=Math.min((utilise/total)*100,100);
+  document.getElementById('budget-utilise').textContent=utilise.toLocaleString('fr-CA',{minimumFractionDigits:2})+' $';
+  document.getElementById('budget-solde').textContent=solde.toLocaleString('fr-CA',{minimumFractionDigits:2})+' $';
+  document.getElementById('budget-solde').className='budget-val'+(solde<0?' rouge':'');
+  const fill=document.getElementById('jauge-fill');
+  fill.style.width=pct+'%';
+  fill.className='jauge-fill'+(pct>=100?' danger':pct>=80?' warn':'');
+  document.getElementById('jauge-pct-texte').textContent=pct.toFixed(1)+' %';
+  document.getElementById('jauge-mid').textContent=(total/2).toLocaleString('fr-CA')+' $';
+  document.getElementById('jauge-max').textContent=total.toLocaleString('fr-CA')+' $';
 }
 
-document.getElementById('modal-suppr').addEventListener('click', function(e) {
-  if (e.target === this) fermerModal();
-});
+async function genererExcel(){
+  const wb=new ExcelJS.Workbook();
+  const ws=wb.addWorksheet("Rapport activité");
+  const B="2D3F7B",P="E8EEF7",G="F1F5F9";
+  ws.columns=[{width:45},{width:42},{width:18},{width:22},{width:20}];
+  function tp(t){const r=ws.addRow([t]);ws.mergeCells(`A${r.number}:E${r.number}`);r.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+B}};r.getCell(1).font={color:{argb:"FFFFFFFF"},bold:true,size:12};r.height=22;}
+  function ts(t){const r=ws.addRow([t]);ws.mergeCells(`A${r.number}:E${r.number}`);r.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+P}};r.getCell(1).font={color:{argb:"FF"+B},bold:true,size:11};r.height=18;}
+  function ss(t){const r=ws.addRow(["",t]);ws.mergeCells(`B${r.number}:E${r.number}`);r.getCell(2).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFE2E8F0"}};r.getCell(2).font={bold:true,size:10};r.height=16;}
+  function ec(cols){const r=ws.addRow(cols);r.eachCell(c=>{c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+G}};c.font={bold:true,size:10,color:{argb:"FF64748B"}};c.alignment={horizontal:"center",wrapText:true}});r.height=16;}
+  function dn(c1,c2,c3,c4,c5){const r=ws.addRow([c1||"",c2||"",c3||"",c4||"",c5||""]);r.eachCell(c=>{c.font={size:10};c.alignment={wrapText:true,vertical:"middle"}});if(c3)r.getCell(3).alignment={horizontal:"right",wrapText:true};if(c4)r.getCell(4).alignment={horizontal:"center",wrapText:true};if(c5)r.getCell(5).alignment={horizontal:"right",wrapText:true};r.height=16;return r;}
+  function tt(l,c2,m){const r=ws.addRow([l||"",c2||"","","",m||""]);r.eachCell(c=>{c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+G}};c.font={bold:true,size:10,color:{argb:"FF"+B}}});r.getCell(5).alignment={horizontal:"right"};r.height=16;}
+  function fmt(v){return typeof v==="number"?v.toLocaleString("fr-CA",{minimumFractionDigits:2})+" $":v;}
+  function vd(){ws.addRow([]);}
 
-function mettreAJourJauge() {
-  const total = parseFloat(document.getElementById('budget-total').value) || 25000;
-  const utilise = 8450;
-  const solde = total - utilise;
-  const pct = Math.min((utilise / total) * 100, 100);
+  tp("REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)");
+  dn("435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5");
+  dn("613 691-7061  |  refc.ca");vd();
+  const rt=ws.addRow(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE"]);ws.mergeCells(`A${rt.number}:E${rt.number}`);rt.getCell(1).font={bold:true,size:14,color:{argb:"FF"+B}};rt.getCell(1).alignment={horizontal:"center"};rt.height=24;vd();
+  ts("INFORMATIONS GÉNÉRALES");
+  dn("Nom de l\'activité","","Lecture publique — Bibliothèque de Hearst");
+  dn("Date","","15 mars 2026");dn("Lieu","","Bibliothèque municipale de Hearst");
+  dn("Ville, Province","","Hearst, Ontario");dn("Responsable REFC","","Noureddine Hany");
+  dn("Maison membre","","Prise de Parole");dn("Statut","","Approuvé");vd();
+  ts("AUTEURICES / PARTICIPANTS");vd();
 
-  document.getElementById('budget-utilise').textContent = utilise.toLocaleString('fr-CA', {minimumFractionDigits:2}) + ' $';
-  document.getElementById('budget-solde').textContent = solde.toLocaleString('fr-CA', {minimumFractionDigits:2}) + ' $';
-  document.getElementById('budget-solde').className = 'budget-val' + (solde < 0 ? ' rouge' : '');
-
-  const fill = document.getElementById('jauge-fill');
-  fill.style.width = pct + '%';
-  fill.className = 'jauge-fill' + (pct >= 100 ? ' danger' : pct >= 80 ? ' warn' : '');
-
-  document.getElementById('jauge-pct-texte').textContent = pct.toFixed(1) + ' %';
-  document.getElementById('jauge-label-mid').textContent = (total/2).toLocaleString('fr-CA') + ' $';
-  document.getElementById('jauge-label-max').textContent = total.toLocaleString('fr-CA') + ' $';
-}
-
-function envoyerMembre() {
-  alert("Dans le portail final, cette action enverra automatiquement un courriel à Prise de Parole avec :\n\n• Le rapport Excel en pièce jointe\n• Le budget approuvé : 2 318,75 $\n• Les détails de l'événement\n\nCette fonctionnalité nécessite un serveur — documentée pour Coloc.");
-}
-
-function exporterSuivi() {
-  alert("Export du suivi annuel — fonctionnalité documentée pour Coloc.");
-}
-
-// Génération Excel avec ExcelJS
-function formaterMontant(val) {
-  if (val === undefined || val === null || val === "") return "";
-  const num = parseFloat(val);
-  if (isNaN(num)) return val;
-  return num.toLocaleString("fr-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " $";
-}
-
-async function genererExcel(evenement) {
-  const wb = new ExcelJS.Workbook();
-  wb.creator = "REFC — Portail membres";
-  const ws = wb.addWorksheet("Rapport activité");
-  const BLEU = "2D3F7B";
-  const PALE = "E8EEF7";
-  const GRIS = "F1F5F9";
-
-  ws.columns = [{ width: 45 }, { width: 42 }, { width: 18 }, { width: 22 }, { width: 20 }];
-
-  function titrePrincipal(txt) {
-    const r = ws.addRow([txt]);
-    ws.mergeCells(`A${r.number}:E${r.number}`);
-    r.getCell(1).fill = { type:"pattern", pattern:"solid", fgColor:{argb:"FF"+BLEU} };
-    r.getCell(1).font = { color:{argb:"FFFFFFFF"}, bold:true, size:12 };
-    r.getCell(1).alignment = { vertical:"middle", wrapText:true };
-    r.height = 22;
-  }
-  function titreSection(txt) {
-    const r = ws.addRow([txt]);
-    ws.mergeCells(`A${r.number}:E${r.number}`);
-    r.getCell(1).fill = { type:"pattern", pattern:"solid", fgColor:{argb:"FF"+PALE} };
-    r.getCell(1).font = { color:{argb:"FF"+BLEU}, bold:true, size:11 };
-    r.height = 18;
-  }
-  function sousSection(txt) {
-    const r = ws.addRow(["", txt]);
-    ws.mergeCells(`B${r.number}:E${r.number}`);
-    r.getCell(2).fill = { type:"pattern", pattern:"solid", fgColor:{argb:"FFE2E8F0"} };
-    r.getCell(2).font = { bold:true, size:10, color:{argb:"FF1E293B"} };
-    r.height = 16;
-  }
-  function enteteCol(cols) {
-    const r = ws.addRow(cols);
-    r.eachCell((c,i) => {
-      c.fill = { type:"pattern", pattern:"solid", fgColor:{argb:"FF"+GRIS} };
-      c.font = { bold:true, size:10, color:{argb:"FF64748B"} };
-      c.alignment = { horizontal:"center", wrapText:true };
-    });
-    r.height = 16;
-  }
-  function donnee(c1,c2,c3,c4,c5,gras) {
-    const r = ws.addRow([c1||"",c2||"",c3||"",c4||"",c5||""]);
-    r.eachCell(c => { c.font={size:10,bold:gras||false}; c.alignment={wrapText:true,vertical:"middle"}; });
-    if (c3) r.getCell(3).alignment={horizontal:"right",wrapText:true};
-    if (c4) r.getCell(4).alignment={horizontal:"center",wrapText:true};
-    if (c5) r.getCell(5).alignment={horizontal:"right",wrapText:true};
-    r.height=16; return r;
-  }
-  function total(l,c2,m) {
-    const r = ws.addRow([l||"",c2||"","","",m||""]);
-    r.eachCell(c => { c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+GRIS}}; c.font={bold:true,size:10,color:{argb:"FF"+BLEU}}; });
-    r.getCell(5).alignment={horizontal:"right",wrapText:true};
-    r.height=16; return r;
-  }
-  function budgetAuteur(nom, demande, approuve) {
-    const r = ws.addRow([`BUDGET TOTAL — ${nom}`,"","Demandé","",'Approuvé REFC']);
-    ws.mergeCells(`A${r.number}:B${r.number}`);
-    r.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+PALE}};
-    r.getCell(1).font={bold:true,size:11,color:{argb:"FF"+BLEU}};
-    r.getCell(3).value = demande;
-    r.getCell(3).alignment={horizontal:"right"};
-    r.getCell(3).font={bold:true,size:11,color:{argb:"FF64748B"}};
-    r.getCell(5).value = approuve;
-    r.getCell(5).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+PALE}};
-    r.getCell(5).font={bold:true,size:12,color:{argb:"FF"+BLEU}};
-    r.getCell(5).alignment={horizontal:"right"};
-    r.height=20;
-  }
-  function vide() { ws.addRow([]); }
-
-  // En-tête REFC
-  titrePrincipal("REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)");
-  donnee("435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5");
-  donnee("613 691-7061  |  refc.ca");
-  vide();
-  const rTitre = ws.addRow(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE"]);
-  ws.mergeCells(`A${rTitre.number}:E${rTitre.number}`);
-  rTitre.getCell(1).font={bold:true,size:14,color:{argb:"FF"+BLEU}};
-  rTitre.getCell(1).alignment={horizontal:"center"};
-  rTitre.height=24;
-  vide();
-
-  // Infos générales
-  titreSection("INFORMATIONS GÉNÉRALES");
-  donnee("Nom de l\'activité","","Lecture publique — Bibliothèque de Hearst");
-  donnee("Date de l\'événement","","15 mars 2026");
-  donnee("Lieu","","Bibliothèque municipale de Hearst");
-  donnee("Ville, Province","","Hearst, Ontario");
-  donnee("Responsable REFC","","Noureddine Hany");
-  donnee("Maison membre","","Prise de Parole");
-  donnee("Statut","","Approuvé");
-  vide();
-
-  // Auteurs
-  titreSection("AUTEURICES / PARTICIPANTS");
-  vide();
-
-  const auteurs = [
-    { nom:"Véronique Sylvain", genre:"Poésie", ville:"Ottawa, Ontario", distance:"612 km", transport:"Voiture personnelle", frais:180, autres:25, pc_voyage:"100 %", total_voyage:205, nuitees:2, nuit:145, pc_sejour:"100 %", hebergement:290, perdiem_base:75, deductions:[{nom:"Petit déjeuner inclus",val:-15}], perdiem_net:60, perdiem_total:120, total_sejour:410, deplacement:20, cachet:300, total_deroulement:320, demande:815, approuve:935 },
-    { nom:"Tomson Highway", genre:"Roman", ville:"Sudbury, Ontario", distance:"248 km", transport:"Autobus", frais:85, autres:0, pc_voyage:"100 %", total_voyage:85, nuitees:0, deplacement:0, cachet:250, total_deroulement:250, demande:335, approuve:335 }
-  ];
-
-  auteurs.forEach((a,i) => {
-    const rA = ws.addRow([`Auteur·ice ${i+1} — ${a.nom}`]);
-    ws.mergeCells(`A${rA.number}:E${rA.number}`);
-    rA.getCell(1).font={bold:true,size:11,color:{argb:"FF1E293B"}};
-    rA.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF8FAFC"}};
-    rA.height=18;
-    donnee("Genre littéraire","",a.genre);
-    donnee("Ville de résidence","",a.ville);
-    donnee("Distance (calculée automatiquement)","",a.distance);
-    vide();
-
-    sousSection("VOYAGE (A/R)");
-    enteteCol(["","Détail","Montant demandé","% Prise en charge","Total approuvé REFC"]);
-    donnee("","Mode de transport",a.transport);
-    donnee("","Frais à engager",formaterMontant(a.frais),a.pc_voyage,formaterMontant(a.frais));
-    donnee("","Autres dépenses (Uber, stationnement...)",formaterMontant(a.autres),a.pc_voyage,formaterMontant(a.autres));
-    total("","SOUS-TOTAL VOYAGE",formaterMontant(a.total_voyage));
-    vide();
-
-    if (a.nuitees > 0) {
-      sousSection("SÉJOUR");
-      enteteCol(["","Détail","Montant demandé","% Prise en charge","Total approuvé REFC"]);
-      donnee("",`Hébergement (${a.nuitees} nuit${a.nuitees>1?"s":""} × ${formaterMontant(a.nuit)})`,formaterMontant(a.hebergement),a.pc_sejour,formaterMontant(a.hebergement));
-      donnee("","Per diem de base / jour",formaterMontant(a.perdiem_base));
-      a.deductions.forEach(d => donnee("",`  Déduction — ${d.nom}`,formaterMontant(d.val)));
-      donnee("","Per diem net / jour",formaterMontant(a.perdiem_net),"",formaterMontant(a.perdiem_net));
-      donnee("",`Per diem total (${a.nuitees} jour${a.nuitees>1?"s":""})`,formaterMontant(a.perdiem_total),"",formaterMontant(a.perdiem_total));
-      total("","SOUS-TOTAL SÉJOUR",formaterMontant(a.total_sejour));
-      vide();
+  [{nom:"Véronique Sylvain",genre:"Poésie",ville:"Ottawa, Ontario",distance:"612 km",transport:"Voiture personnelle",frais:180,autres:25,pcv:"100 %",tv:205,nuitees:2,nuit:145,pcs:"100 %",heb:290,pb:75,ded:[{n:"Petit déjeuner inclus",v:-15}],pn:60,pt:120,ts_:410,dep:20,cachet:300,td:320,dem:815,app:935},
+   {nom:"Tomson Highway",genre:"Roman",ville:"Sudbury, Ontario",distance:"248 km",transport:"Autobus",frais:85,autres:0,pcv:"100 %",tv:85,nuitees:0,dep:0,cachet:250,td:250,dem:335,app:335}
+  ].forEach((a,i)=>{
+    const ra=ws.addRow([`Auteur·ice ${i+1} — ${a.nom}`]);ws.mergeCells(`A${ra.number}:E${ra.number}`);ra.getCell(1).font={bold:true,size:11};ra.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF8FAFC"}};ra.height=18;
+    dn("Genre littéraire","",a.genre);dn("Ville de résidence","",a.ville);dn("Distance","",a.distance);vd();
+    ss("VOYAGE (A/R)");ec(["","Détail","Montant demandé","% Prise en charge","Total approuvé REFC"]);
+    dn("","Mode de transport",a.transport);dn("","Frais à engager",fmt(a.frais),a.pcv,fmt(a.frais));
+    dn("","Autres dépenses",fmt(a.autres),a.pcv,fmt(a.autres));tt("","SOUS-TOTAL VOYAGE",fmt(a.tv));vd();
+    if(a.nuitees>0){
+      ss("SÉJOUR");ec(["","Détail","Montant demandé","% Prise en charge","Total approuvé REFC"]);
+      dn("",`Hébergement (${a.nuitees} nuit${a.nuitees>1?"s":""} × ${fmt(a.nuit)})`,fmt(a.heb),a.pcs,fmt(a.heb));
+      dn("","Per diem base / jour",fmt(a.pb));
+      a.ded.forEach(d=>dn("",`  Déduction — ${d.n}`,fmt(d.v)));
+      dn("","Per diem net / jour",fmt(a.pn),"",fmt(a.pn));
+      dn("",`Per diem total (${a.nuitees} j.)`,fmt(a.pt),"",fmt(a.pt));
+      tt("","SOUS-TOTAL SÉJOUR",fmt(a.ts_));vd();
     }
-
-    sousSection("DÉROULEMENT DE L\'ACTIVITÉ");
-    enteteCol(["","Détail","Montant","","Total approuvé REFC"]);
-    donnee("","Déplacement sur place (A/R)",formaterMontant(a.deplacement),"",formaterMontant(a.deplacement));
-    donnee("","Cachet auteur·ice",formaterMontant(a.cachet),"",formaterMontant(a.cachet));
-    total("","SOUS-TOTAL DÉROULEMENT",formaterMontant(a.total_deroulement));
-    vide();
-    budgetAuteur(a.nom, formaterMontant(a.demande), formaterMontant(a.approuve));
-    vide(); vide();
+    ss("DÉROULEMENT");ec(["","Détail","Montant","","Total approuvé REFC"]);
+    dn("","Déplacement sur place (A/R)",fmt(a.dep),"",fmt(a.dep));
+    dn("","Cachet auteur·ice",fmt(a.cachet),"",fmt(a.cachet));
+    tt("","SOUS-TOTAL DÉROULEMENT",fmt(a.td));vd();
+    const rb=ws.addRow([`BUDGET TOTAL — ${a.nom}`,"",fmt(a.dem),"",fmt(a.app)]);
+    ws.mergeCells(`A${rb.number}:B${rb.number}`);
+    rb.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+P}};rb.getCell(1).font={bold:true,size:11,color:{argb:"FF"+B}};
+    rb.getCell(3).font={bold:true,color:{argb:"FF64748B"}};rb.getCell(3).alignment={horizontal:"right"};
+    rb.getCell(5).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+P}};rb.getCell(5).font={bold:true,size:12,color:{argb:"FF"+B}};rb.getCell(5).alignment={horizontal:"right"};
+    rb.height=20;vd();vd();
   });
 
-  // Promotion
-  titreSection("PROMOTION — COMMUNICATION (REFC UNIQUEMENT)");
-  donnee("","Frais de promotion (graphisme, publicité, affiches...)","","",formaterMontant(350));
-  donnee("","Consommation (verre d\'amitié, cocktail...)","","",formaterMontant(125));
-  donnee("","Cachet animateur·rice / Panélistes","","",formaterMontant(500));
-  donnee("","Contribution REFC à l\'aménagement","","",formaterMontant(200));
-  total("BUDGET PROMOTION-COMMUNICATION","",formaterMontant(1175));
-  vide();
+  ts("PROMOTION — COMMUNICATION (REFC UNIQUEMENT)");
+  dn("","Frais de promotion (graphisme, publicité, affiches...)","","",fmt(350));
+  dn("","Consommation (verre d\'amitié, cocktail...)","","",fmt(125));
+  dn("","Cachet animateur·rice / Panélistes","","",fmt(500));
+  dn("","Contribution REFC à l\'aménagement","","",fmt(200));
+  tt("BUDGET PROMOTION-COMMUNICATION","",fmt(1175));vd();
 
-  // Récapitulatif
-  titreSection("RÉCAPITULATIF FINANCIER");
-  vide();
-  enteteCol(["Poste","","Montant demandé","","Budget approuvé REFC"]);
-  auteurs.forEach(a => donnee(a.nom,"",formaterMontant(a.demande),"",formaterMontant(a.approuve)));
-  donnee("Budget Promotion-Communication","",formaterMontant(1300),"",formaterMontant(1175));
-  vide();
-  const rBudget = ws.addRow(["BUDGET TOTAL DE L\'ACTIVITÉ","",formaterMontant(2450),"",formaterMontant(2445)]);
-  ws.mergeCells(`A${rBudget.number}:B${rBudget.number}`);
-  [1,3,5].forEach(i => {
-    rBudget.getCell(i).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+BLEU}};
-    rBudget.getCell(i).font={bold:true,size:12,color:{argb:"FFFFFFFF"}};
-  });
-  rBudget.getCell(3).alignment={horizontal:"right"};
-  rBudget.getCell(5).alignment={horizontal:"right"};
-  rBudget.height=22;
-  donnee("Prise en charge REFC","","","",formaterMontant(2445));
-  donnee("Part maison membre","","","",formaterMontant(0));
-  vide();
+  ts("RÉCAPITULATIF FINANCIER");vd();
+  ec(["Poste","","Montant demandé","","Budget approuvé REFC"]);
+  dn("Véronique Sylvain","",fmt(815),"",fmt(935));
+  dn("Tomson Highway","",fmt(335),"",fmt(335));
+  dn("Budget Promotion-Communication","",fmt(1300),"",fmt(1175));vd();
+  const rbt=ws.addRow(["BUDGET TOTAL DE L\'ACTIVITÉ","",fmt(2450),"",fmt(2445)]);
+  ws.mergeCells(`A${rbt.number}:B${rbt.number}`);
+  [1,3,5].forEach(i=>{rbt.getCell(i).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+B}};rbt.getCell(i).font={bold:true,size:12,color:{argb:"FFFFFFFF"}};});
+  rbt.getCell(3).alignment={horizontal:"right"};rbt.getCell(5).alignment={horizontal:"right"};rbt.height=22;
+  dn("Prise en charge REFC","","","",fmt(2445));dn("Part maison membre","","","",fmt(0));vd();
+  ts("APPROBATION");dn("Approuvé par","","Piedad Saenz — Directrice générale");dn("Date d\'approbation","","28 février 2026");vd();vd();
+  const rp=ws.addRow(["Document généré par le portail membres REFC  |  435 rue Donald, bureau 214, Ottawa, Ontario K1K 4X5  |  613 691-7061  |  refc.ca"]);
+  ws.mergeCells(`A${rp.number}:E${rp.number}`);rp.getCell(1).font={size:9,italic:true,color:{argb:"FF94A3B8"}};rp.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF8FAFC"}};
 
-  // Approbation
-  titreSection("APPROBATION");
-  donnee("Approuvé par","","Piedad Saenz — Directrice générale");
-  donnee("Date d\'approbation","","28 février 2026");
-  vide(); vide();
-  const rPied = ws.addRow(["Document généré par le portail membres REFC  |  435 rue Donald, bureau 214, Ottawa, Ontario K1K 4X5  |  613 691-7061  |  refc.ca"]);
-  ws.mergeCells(`A${rPied.number}:E${rPied.number}`);
-  rPied.getCell(1).font={size:9,italic:true,color:{argb:"FF94A3B8"}};
-  rPied.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF8FAFC"}};
-
-  const nomFichier = `REFC_Rapport_20260315_prise_de_parole.xlsx`;
-  const buffer = await wb.xlsx.writeBuffer();
-  const blob = new Blob([buffer], { type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href=url; a.download=nomFichier; a.click();
-  URL.revokeObjectURL(url);
+  const buf=await wb.xlsx.writeBuffer();
+  const blob=new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download="REFC_Rapport_20260315_prise_de_parole.xlsx";a.click();URL.revokeObjectURL(url);
 }
 </script>
 </body>
