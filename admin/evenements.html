@@ -340,15 +340,23 @@
         .modal-bg {
             display: none;
             position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.75);
-            z-index: 9999;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 20px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.80);
+            z-index: 99999;
             overflow-y: auto;
         }
-        .modal-bg.visible { display: flex; }
+        .modal-bg.visible {
+            display: block;
+        }
+        .modal-bg .modal,
+        .modal-bg .modal-confirm,
+        .modal-bg .modal-demande {
+            position: relative;
+            margin: 40px auto;
+        }
         .modal {
             background: #fff;
             border-radius: 12px;
@@ -394,6 +402,7 @@
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
 </head>
 <body>
 
@@ -1478,128 +1487,239 @@
             }) + " $";
         }
 
-        function genererExcel(evenement) {
-            const wb = XLSX.utils.book_new();
+        async function genererExcel(evenement) {
             const data = getDataEvenement(evenement);
-            const rows = [];
+
+            const wb = new ExcelJS.Workbook();
+            wb.creator = "REFC — Portail membres";
+            wb.created = new Date();
+
+            const ws = wb.addWorksheet("Rapport activité");
+
+            // Couleurs REFC
+            const BLEU_REFC = "2D3F7B";
+            const BLEU_CLAIR = "E8EEF7";
+            const GRIS_CLAIR = "F8FAFC";
+            const GRIS_SECTION = "64748B";
+
+            // Largeurs colonnes
+            ws.columns = [
+                { width: 38 },
+                { width: 36 },
+                { width: 16 },
+                { width: 20 },
+                { width: 18 }
+            ];
+
+            // Helper : ajouter une ligne titre principale (fond bleu REFC, texte blanc)
+            function ajouterTitrePrincipal(texte) {
+                const row = ws.addRow([texte]);
+                ws.mergeCells(`A${row.number}:E${row.number}`);
+                row.getCell(1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF" + BLEU_REFC } };
+                row.getCell(1).font = { color: { argb: "FFFFFFFF" }, bold: true, size: 12 };
+                row.getCell(1).alignment = { vertical: "middle", wrapText: true };
+                row.height = 20;
+            }
+
+            // Helper : ajouter une ligne section (fond bleu pâle, texte bleu)
+            function ajouterTitreSection(texte) {
+                const row = ws.addRow([texte]);
+                ws.mergeCells(`A${row.number}:E${row.number}`);
+                row.getCell(1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF" + BLEU_CLAIR } };
+                row.getCell(1).font = { color: { argb: "FF" + BLEU_REFC }, bold: true, size: 11 };
+                row.getCell(1).alignment = { vertical: "middle", wrapText: true };
+                row.height = 18;
+            }
+
+            // Helper : ajouter une ligne sous-section (fond gris clair, texte gris foncé)
+            function ajouterSousSection(texte) {
+                const row = ws.addRow(["", texte]);
+                ws.mergeCells(`B${row.number}:E${row.number}`);
+                row.getCell(2).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFE2E8F0" } };
+                row.getCell(2).font = { color: { argb: "FF1E293B" }, bold: true, size: 10 };
+                row.height = 16;
+            }
+
+            // Helper : en-tête de colonnes (fond gris, texte gris foncé)
+            function ajouterEnTeteColonnes(cols) {
+                const row = ws.addRow(cols);
+                row.eachCell((cell, i) => {
+                    if (i > 1) {
+                        cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF1F5F9" } };
+                        cell.font = { bold: true, size: 10, color: { argb: "FF64748B" } };
+                        cell.alignment = { horizontal: "center" };
+                    }
+                });
+                row.height = 15;
+            }
+
+            // Helper : ligne de données normale
+            function ajouterDonnee(col1, col2, col3, col4, col5, gras) {
+                const row = ws.addRow([col1 || "", col2 || "", col3 || "", col4 || "", col5 || ""]);
+                row.eachCell(cell => {
+                    cell.font = { size: 10, bold: gras || false };
+                    cell.alignment = { wrapText: true, vertical: "middle" };
+                });
+                if (col3 !== undefined && col3 !== "") row.getCell(3).alignment = { horizontal: "right" };
+                if (col5 !== undefined && col5 !== "") row.getCell(5).alignment = { horizontal: "right" };
+                row.height = 15;
+                return row;
+            }
+
+            // Helper : ligne de total (fond gris très clair, gras)
+            function ajouterTotal(label, col2, montant) {
+                const row = ws.addRow([label || "", col2 || "", "", "", montant || ""]);
+                row.eachCell(cell => {
+                    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF8FAFC" } };
+                    cell.font = { bold: true, size: 10, color: { argb: "FF2D3F7B" } };
+                });
+                row.getCell(5).alignment = { horizontal: "right" };
+                row.height = 15;
+                return row;
+            }
+
+            // Helper : ligne budget total auteur (fond bleu pâle)
+            function ajouterBudgetAuteur(nom, montant) {
+                const row = ws.addRow([`BUDGET TOTAL — ${nom}`, "", "", "", montant]);
+                ws.mergeCells(`A${row.number}:D${row.number}`);
+                row.getCell(1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF" + BLEU_CLAIR } };
+                row.getCell(5).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF" + BLEU_CLAIR } };
+                row.eachCell(cell => {
+                    cell.font = { bold: true, size: 11, color: { argb: "FF" + BLEU_REFC } };
+                });
+                row.getCell(5).alignment = { horizontal: "right" };
+                row.height = 18;
+            }
+
+            // Helper : ligne vide
+            function vide() { ws.addRow([]); }
 
             // ── EN-TÊTE REFC ──────────────────────────────────────
-            rows.push(["REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)"]);
-            rows.push(["435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5"]);
-            rows.push(["613 691-7061  |  refc.ca"]);
-            rows.push([""]);
-            rows.push(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE"]);
-            rows.push([""]);
+            ajouterTitrePrincipal("REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)");
+            ajouterDonnee("435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5");
+            ajouterDonnee("613 691-7061  |  refc.ca");
+            vide();
+            const rowTitre = ws.addRow(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE"]);
+            ws.mergeCells(`A${rowTitre.number}:E${rowTitre.number}`);
+            rowTitre.getCell(1).font = { bold: true, size: 14, color: { argb: "FF" + BLEU_REFC } };
+            rowTitre.getCell(1).alignment = { horizontal: "center" };
+            rowTitre.height = 22;
+            vide();
 
             // ── INFORMATIONS GÉNÉRALES ─────────────────────────────
-            rows.push(["INFORMATIONS GÉNÉRALES"]);
-            rows.push(["Nom de l\'activité", "", data.nom]);
-            rows.push(["Date de l\'événement", "", data.date]);
-            rows.push(["Lieu", "", data.lieu]);
-            rows.push(["Ville, Province", "", data.ville]);
-            rows.push(["Responsable REFC", "", data.responsable]);
-            rows.push(["Maison membre", "", data.maison]);
-            rows.push(["Statut", "", data.statut]);
-            rows.push([""]);
+            ajouterTitreSection("INFORMATIONS GÉNÉRALES");
+            ajouterDonnee("Nom de l\'activité", "", data.nom);
+            ajouterDonnee("Date de l\'événement", "", data.date);
+            ajouterDonnee("Lieu", "", data.lieu);
+            ajouterDonnee("Ville, Province", "", data.ville);
+            ajouterDonnee("Responsable REFC", "", data.responsable);
+            ajouterDonnee("Maison membre", "", data.maison);
+            ajouterDonnee("Statut", "", data.statut);
+            vide();
 
             // ── AUTEURICES ─────────────────────────────────────────
-            rows.push(["AUTEURICES / PARTICIPANTS"]);
-            rows.push([""]);
+            ajouterTitreSection("AUTEURICES / PARTICIPANTS");
+            vide();
 
             data.auteurs.forEach((auteur, i) => {
-                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`]);
-                rows.push(["Genre littéraire", "", auteur.genre]);
-                rows.push(["Ville de résidence", "", auteur.ville]);
-                rows.push(["Distance (calculée)", "", auteur.distance]);
-                rows.push([""]);
+                // Titre auteur
+                const rowAuteur = ws.addRow([`Auteur·ice ${i + 1} — ${auteur.nom}`]);
+                ws.mergeCells(`A${rowAuteur.number}:E${rowAuteur.number}`);
+                rowAuteur.getCell(1).font = { bold: true, size: 11, color: { argb: "FF1E293B" } };
+                rowAuteur.getCell(1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF1F5F9" } };
+                rowAuteur.height = 18;
 
-                const pcVoyage = parseFloat(auteur.prise_charge_voyage) / 100;
-                rows.push(["", "VOYAGE (A/R)", "Montant estimé", "% Prise en charge REFC", "Total pris en charge"]);
-                rows.push(["", "Mode de transport", auteur.transport, "", ""]);
-                rows.push(["", "Frais à engager", formaterMontant(auteur.frais_transport), auteur.prise_charge_voyage, formaterMontant(auteur.frais_transport * pcVoyage)]);
-                rows.push(["", "Autres dépenses (Uber, stationnement...)", formaterMontant(auteur.autres_depenses), auteur.prise_charge_voyage, formaterMontant(auteur.autres_depenses * pcVoyage)]);
-                rows.push(["", "SOUS-TOTAL VOYAGE", "", "", formaterMontant(auteur.total_voyage)]);
-                rows.push([""]);
+                ajouterDonnee("Genre littéraire", "", auteur.genre);
+                ajouterDonnee("Ville de résidence", "", auteur.ville);
+                ajouterDonnee("Distance (calculée automatiquement)", "", auteur.distance);
+                vide();
 
+                // Voyage
+                ajouterSousSection("VOYAGE (A/R)");
+                ajouterEnTeteColonnes(["", "Détail", "Montant estimé", "% Prise en charge REFC", "Total pris en charge"]);
+                ajouterDonnee("", "Mode de transport", auteur.transport);
+                ajouterDonnee("", "Frais à engager", formaterMontant(auteur.frais_transport), auteur.prise_charge_voyage, formaterMontant(auteur.frais_transport * parseFloat(auteur.prise_charge_voyage) / 100));
+                ajouterDonnee("", "Autres dépenses (Uber, stationnement...)", formaterMontant(auteur.autres_depenses), auteur.prise_charge_voyage, formaterMontant(auteur.autres_depenses * parseFloat(auteur.prise_charge_voyage) / 100));
+                ajouterTotal("", "SOUS-TOTAL VOYAGE", formaterMontant(auteur.total_voyage));
+                vide();
+
+                // Séjour
                 if (auteur.nuitees > 0) {
-                    const pcSejour = parseFloat(auteur.prise_charge_sejour) / 100;
-                    rows.push(["", "SÉJOUR", "Montant estimé", "% Prise en charge REFC", "Total pris en charge"]);
-                    rows.push(["", `Hébergement (${auteur.nuitees} nuit${auteur.nuitees > 1 ? "s" : ""} × ${formaterMontant(auteur.montant_nuit)})`, formaterMontant(auteur.sous_total_hebergement), auteur.prise_charge_sejour, formaterMontant(auteur.sous_total_hebergement * pcSejour)]);
-                    rows.push(["", "Per diem de base / jour", formaterMontant(auteur.perdiem_base), "", ""]);
-                    if (auteur.deductions && auteur.deductions.length > 0) {
+                    ajouterSousSection("SÉJOUR");
+                    ajouterEnTeteColonnes(["", "Détail", "Montant estimé", "% Prise en charge REFC", "Total pris en charge"]);
+                    ajouterDonnee("", `Hébergement (${auteur.nuitees} nuit${auteur.nuitees > 1 ? "s" : ""} × ${formaterMontant(auteur.montant_nuit)})`, formaterMontant(auteur.sous_total_hebergement), auteur.prise_charge_sejour, formaterMontant(auteur.sous_total_hebergement * parseFloat(auteur.prise_charge_sejour) / 100));
+                    ajouterDonnee("", "Per diem de base / jour", formaterMontant(auteur.perdiem_base));
+                    if (auteur.deductions) {
                         auteur.deductions.forEach(d => {
-                            rows.push(["", `  Déduction — ${d.nom}`, formaterMontant(-d.montant), "", ""]);
+                            ajouterDonnee("", `  Déduction — ${d.nom}`, formaterMontant(-d.montant));
                         });
                     }
-                    rows.push(["", "Per diem net / jour", formaterMontant(auteur.perdiem_net), "", ""]);
-                    rows.push(["", `Per diem total (${auteur.nuitees} jour${auteur.nuitees > 1 ? "s" : ""})`, formaterMontant(auteur.perdiem_total), "", formaterMontant(auteur.perdiem_total)]);
-                    rows.push(["", "SOUS-TOTAL SÉJOUR", "", "", formaterMontant(auteur.total_sejour)]);
-                    rows.push([""]);
+                    ajouterDonnee("", "Per diem net / jour", formaterMontant(auteur.perdiem_net));
+                    ajouterDonnee("", `Per diem total (${auteur.nuitees} jour${auteur.nuitees > 1 ? "s" : ""})`, formaterMontant(auteur.perdiem_total), "", formaterMontant(auteur.perdiem_total));
+                    ajouterTotal("", "SOUS-TOTAL SÉJOUR", formaterMontant(auteur.total_sejour));
+                    vide();
                 }
 
-                rows.push(["", "DÉROULEMENT", "Montant", "", "Total pris en charge"]);
-                rows.push(["", "Déplacement sur place (A/R)", formaterMontant(auteur.deplacement_place), "", formaterMontant(auteur.deplacement_place)]);
-                rows.push(["", "Cachet auteur·ice", formaterMontant(auteur.cachet), "", formaterMontant(auteur.cachet)]);
-                rows.push(["", "SOUS-TOTAL DÉROULEMENT", "", "", formaterMontant(auteur.total_deroulement)]);
-                rows.push([""]);
-                rows.push([`BUDGET TOTAL — ${auteur.nom}`, "", "", "", formaterMontant(auteur.budget_total)]);
-                rows.push([""]);
-                rows.push([""]);
+                // Déroulement
+                ajouterSousSection("DÉROULEMENT DE L\'ACTIVITÉ");
+                ajouterEnTeteColonnes(["", "Détail", "Montant", "", "Total pris en charge"]);
+                ajouterDonnee("", "Déplacement sur place (A/R)", formaterMontant(auteur.deplacement_place), "", formaterMontant(auteur.deplacement_place));
+                ajouterDonnee("", "Cachet auteur·ice", formaterMontant(auteur.cachet), "", formaterMontant(auteur.cachet));
+                ajouterTotal("", "SOUS-TOTAL DÉROULEMENT", formaterMontant(auteur.total_deroulement));
+                vide();
+
+                ajouterBudgetAuteur(auteur.nom, formaterMontant(auteur.budget_total));
+                vide();
+                vide();
             });
 
             // ── PROMOTION ─────────────────────────────────────────
-            rows.push(["PROMOTION — COMMUNICATION (REFC UNIQUEMENT)"]);
-            rows.push(["", "Frais de promotion (graphisme, publicité, affiches...)", "", "", formaterMontant(data.promo.graphisme)]);
-            rows.push(["", "Consommation (verre d\'amitié, cocktail...)", "", "", formaterMontant(data.promo.consommation)]);
-            rows.push(["", "Cachet animateur·rice / Panélistes", "", "", formaterMontant(data.promo.cachet_animateur)]);
-            rows.push(["", "Contribution REFC à l\'aménagement", "", "", formaterMontant(data.promo.amenagement)]);
-            rows.push(["BUDGET PROMOTION-COMMUNICATION", "", "", "", formaterMontant(data.promo.total)]);
-            rows.push([""]);
+            ajouterTitreSection("PROMOTION — COMMUNICATION (REFC UNIQUEMENT)");
+            ajouterDonnee("", "Frais de promotion (graphisme, publicité, affiches...)", "", "", formaterMontant(data.promo.graphisme));
+            ajouterDonnee("", "Consommation (verre d\'amitié, cocktail...)", "", "", formaterMontant(data.promo.consommation));
+            ajouterDonnee("", "Cachet animateur·rice / Panélistes", "", "", formaterMontant(data.promo.cachet_animateur));
+            ajouterDonnee("", "Contribution REFC à l\'aménagement", "", "", formaterMontant(data.promo.amenagement));
+            ajouterTotal("BUDGET PROMOTION-COMMUNICATION", "", formaterMontant(data.promo.total));
+            vide();
 
-            // ── RÉCAPITULATIF ──────────────────────────────────────
-            rows.push(["RÉCAPITULATIF FINANCIER"]);
-            rows.push([""]);
+            // ── RÉCAPITULATIF FINANCIER ────────────────────────────
+            ajouterTitreSection("RÉCAPITULATIF FINANCIER");
+            vide();
             data.auteurs.forEach(auteur => {
-                rows.push(["", auteur.nom, "", "", formaterMontant(auteur.budget_total)]);
+                ajouterDonnee("", auteur.nom, "", "", formaterMontant(auteur.budget_total));
             });
-            rows.push(["", "Budget Promotion-Communication", "", "", formaterMontant(data.promo.total)]);
-            rows.push([""]);
-            rows.push(["BUDGET TOTAL DE L\'ACTIVITÉ", "", "", "", formaterMontant(data.budget_total)]);
-            rows.push(["Prise en charge REFC", "", "", "", formaterMontant(data.prise_charge_refc)]);
-            rows.push(["Part maison membre", "", "", "", formaterMontant(data.part_maison)]);
-            rows.push([""]);
+            ajouterDonnee("", "Budget Promotion-Communication", "", "", formaterMontant(data.promo.total));
+            vide();
+
+            // Budget total — ligne importante
+            const rowBudget = ws.addRow(["BUDGET TOTAL DE L\'ACTIVITÉ", "", "", "", formaterMontant(data.budget_total)]);
+            ws.mergeCells(`A${rowBudget.number}:D${rowBudget.number}`);
+            rowBudget.getCell(1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF" + BLEU_REFC } };
+            rowBudget.getCell(5).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF" + BLEU_REFC } };
+            rowBudget.eachCell(cell => {
+                cell.font = { bold: true, size: 12, color: { argb: "FFFFFFFF" } };
+            });
+            rowBudget.getCell(5).alignment = { horizontal: "right" };
+            rowBudget.height = 20;
+
+            ajouterDonnee("Prise en charge REFC", "", "", "", formaterMontant(data.prise_charge_refc));
+            ajouterDonnee("Part maison membre", "", "", "", formaterMontant(data.part_maison));
+            vide();
 
             // ── APPROBATION ────────────────────────────────────────
-            rows.push(["APPROBATION"]);
-            rows.push(["Approuvé par", "", data.approuve_par]);
-            rows.push(["Date d\'approbation", "", data.date_approbation]);
-            rows.push([""]);
-            rows.push([""]);
-            rows.push(["Document généré par le portail membres REFC"]);
-            rows.push(["435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5  |  613 691-7061  |  refc.ca"]);
+            ajouterTitreSection("APPROBATION");
+            ajouterDonnee("Approuvé par", "", data.approuve_par);
+            ajouterDonnee("Date d\'approbation", "", data.date_approbation);
+            vide();
+            vide();
 
-            // ── CRÉER LA FEUILLE ───────────────────────────────────
-            const ws = XLSX.utils.aoa_to_sheet(rows);
+            // Pied de page
+            const rowPied = ws.addRow(["Document généré par le portail membres REFC  |  435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5  |  613 691-7061  |  refc.ca"]);
+            ws.mergeCells(`A${rowPied.number}:E${rowPied.number}`);
+            rowPied.getCell(1).font = { size: 9, italic: true, color: { argb: "FF94A3B8" } };
+            rowPied.getCell(1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF8FAFC" } };
 
-            ws["!cols"] = [
-                { wch: 42 },
-                { wch: 40 },
-                { wch: 16 },
-                { wch: 22 },
-                { wch: 18 }
-            ];
-
-            // Fusionner les titres sur toute la largeur
-            const merges = [];
-            rows.forEach((row, i) => {
-                if (row.length === 1 && row[0] !== "") {
-                    merges.push({ s: { r: i, c: 0 }, e: { r: i, c: 4 } });
-                }
-            });
-            ws["!merges"] = merges;
-
-            XLSX.utils.book_append_sheet(wb, ws, "Rapport activité");
-
+            // ── TÉLÉCHARGEMENT ─────────────────────────────────────
             const nomFichier = `REFC_Rapport_${data.date.replace(/-/g, "")}_${
                 data.maison.toLowerCase()
                 .replace(/[éèêëÉÈÊË]/g, "e")
@@ -1609,7 +1729,16 @@
                 .substring(0, 25)
             }.xlsx`;
 
-            XLSX.writeFile(wb, nomFichier);
+            const buffer = await wb.xlsx.writeBuffer();
+            const blob = new Blob([buffer], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = nomFichier;
+            a.click();
+            URL.revokeObjectURL(url);
         }
 
         function getDataEvenement(id) {
