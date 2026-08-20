@@ -341,10 +341,12 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
+            background: rgba(0,0,0,0.75);
+            z-index: 9999;
+            align-items: flex-start;
             justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
         }
         .modal-bg.visible { display: flex; }
         .modal {
@@ -1466,130 +1468,142 @@
         });
 
         
-        function genererExcel(evenement) {
+        function formaterMontant(val) {
+            if (val === undefined || val === null || val === "") return "";
+            const num = parseFloat(val);
+            if (isNaN(num)) return val;
+            return num.toLocaleString("fr-CA", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }) + " $";
+        }
 
+        function genererExcel(evenement) {
             const wb = XLSX.utils.book_new();
             const data = getDataEvenement(evenement);
             const rows = [];
 
             // ── EN-TÊTE REFC ──────────────────────────────────────
-            rows.push(["REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)", "", "", "", ""]);
-            rows.push(["435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5", "", "", "", ""]);
-            rows.push(["613 691-7061  |  refc.ca", "", "", "", ""]);
-            rows.push(["", "", "", "", ""]);
-            rows.push(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE", "", "", "", ""]);
-            rows.push(["", "", "", "", ""]);
+            rows.push(["REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)"]);
+            rows.push(["435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5"]);
+            rows.push(["613 691-7061  |  refc.ca"]);
+            rows.push([""]);
+            rows.push(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE"]);
+            rows.push([""]);
 
             // ── INFORMATIONS GÉNÉRALES ─────────────────────────────
-            rows.push(["INFORMATIONS GÉNÉRALES", "", "", "", ""]);
-            rows.push(["Nom de l\'activité", data.nom, "", "", ""]);
-            rows.push(["Date de l\'événement", data.date, "", "", ""]);
-            rows.push(["Lieu", data.lieu, "", "", ""]);
-            rows.push(["Ville, Province", data.ville, "", "", ""]);
-            rows.push(["Responsable REFC", data.responsable, "", "", ""]);
-            rows.push(["Maison membre", data.maison, "", "", ""]);
-            rows.push(["Statut", data.statut, "", "", ""]);
-            rows.push(["", "", "", "", ""]);
+            rows.push(["INFORMATIONS GÉNÉRALES"]);
+            rows.push(["Nom de l\'activité", "", data.nom]);
+            rows.push(["Date de l\'événement", "", data.date]);
+            rows.push(["Lieu", "", data.lieu]);
+            rows.push(["Ville, Province", "", data.ville]);
+            rows.push(["Responsable REFC", "", data.responsable]);
+            rows.push(["Maison membre", "", data.maison]);
+            rows.push(["Statut", "", data.statut]);
+            rows.push([""]);
 
             // ── AUTEURICES ─────────────────────────────────────────
-            rows.push(["AUTEURICES / PARTICIPANTS", "", "", "", ""]);
-            rows.push(["", "", "", "", ""]);
+            rows.push(["AUTEURICES / PARTICIPANTS"]);
+            rows.push([""]);
 
             data.auteurs.forEach((auteur, i) => {
-                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`, "", "", "", ""]);
-                rows.push(["Genre littéraire", auteur.genre, "", "", ""]);
-                rows.push(["Ville de résidence", auteur.ville, "", "", ""]);
-                rows.push(["Distance (calculée automatiquement)", auteur.distance, "", "", ""]);
-                rows.push(["", "", "", "", ""]);
+                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`]);
+                rows.push(["Genre littéraire", "", auteur.genre]);
+                rows.push(["Ville de résidence", "", auteur.ville]);
+                rows.push(["Distance (calculée)", "", auteur.distance]);
+                rows.push([""]);
 
-                rows.push(["", "VOYAGE (A/R)", "Montant", "% REFC", "Total REFC"]);
+                const pcVoyage = parseFloat(auteur.prise_charge_voyage) / 100;
+                rows.push(["", "VOYAGE (A/R)", "Montant estimé", "% Prise en charge REFC", "Total pris en charge"]);
                 rows.push(["", "Mode de transport", auteur.transport, "", ""]);
-                rows.push(["", "Frais à engager", auteur.frais_transport, auteur.prise_charge_voyage, auteur.frais_transport * (parseFloat(auteur.prise_charge_voyage) / 100)]);
-                rows.push(["", "Autres dépenses (Uber, stationnement...)", auteur.autres_depenses, auteur.prise_charge_voyage, auteur.autres_depenses * (parseFloat(auteur.prise_charge_voyage) / 100)]);
-                rows.push(["", "TOTAL VOYAGE", "", "", auteur.total_voyage]);
-                rows.push(["", "", "", "", ""]);
+                rows.push(["", "Frais à engager", formaterMontant(auteur.frais_transport), auteur.prise_charge_voyage, formaterMontant(auteur.frais_transport * pcVoyage)]);
+                rows.push(["", "Autres dépenses (Uber, stationnement...)", formaterMontant(auteur.autres_depenses), auteur.prise_charge_voyage, formaterMontant(auteur.autres_depenses * pcVoyage)]);
+                rows.push(["", "SOUS-TOTAL VOYAGE", "", "", formaterMontant(auteur.total_voyage)]);
+                rows.push([""]);
 
                 if (auteur.nuitees > 0) {
-                    rows.push(["", "SÉJOUR", "Montant", "% REFC", "Total REFC"]);
-                    rows.push(["", `Hébergement (${auteur.nuitees} nuit${auteur.nuitees > 1 ? "s" : ""} × ${auteur.montant_nuit} $)`, auteur.sous_total_hebergement, auteur.prise_charge_sejour, auteur.sous_total_hebergement * (parseFloat(auteur.prise_charge_sejour) / 100)]);
-                    rows.push(["", `Per diem de base / jour`, auteur.perdiem_base, "", ""]);
+                    const pcSejour = parseFloat(auteur.prise_charge_sejour) / 100;
+                    rows.push(["", "SÉJOUR", "Montant estimé", "% Prise en charge REFC", "Total pris en charge"]);
+                    rows.push(["", `Hébergement (${auteur.nuitees} nuit${auteur.nuitees > 1 ? "s" : ""} × ${formaterMontant(auteur.montant_nuit)})`, formaterMontant(auteur.sous_total_hebergement), auteur.prise_charge_sejour, formaterMontant(auteur.sous_total_hebergement * pcSejour)]);
+                    rows.push(["", "Per diem de base / jour", formaterMontant(auteur.perdiem_base), "", ""]);
                     if (auteur.deductions && auteur.deductions.length > 0) {
                         auteur.deductions.forEach(d => {
-                            rows.push(["", `  Déduction — ${d.nom}`, -d.montant, "", ""]);
+                            rows.push(["", `  Déduction — ${d.nom}`, formaterMontant(-d.montant), "", ""]);
                         });
                     }
-                    rows.push(["", "Per diem net / jour", auteur.perdiem_net, "", ""]);
-                    rows.push(["", `Per diem total (${auteur.nuitees} jour${auteur.nuitees > 1 ? "s" : ""})`, auteur.perdiem_total, "", auteur.perdiem_total]);
-                    rows.push(["", "TOTAL SÉJOUR", "", "", auteur.total_sejour]);
-                    rows.push(["", "", "", "", ""]);
+                    rows.push(["", "Per diem net / jour", formaterMontant(auteur.perdiem_net), "", ""]);
+                    rows.push(["", `Per diem total (${auteur.nuitees} jour${auteur.nuitees > 1 ? "s" : ""})`, formaterMontant(auteur.perdiem_total), "", formaterMontant(auteur.perdiem_total)]);
+                    rows.push(["", "SOUS-TOTAL SÉJOUR", "", "", formaterMontant(auteur.total_sejour)]);
+                    rows.push([""]);
                 }
 
-                rows.push(["", "DÉROULEMENT", "Montant", "", ""]);
-                rows.push(["", "Déplacement sur place (A/R)", auteur.deplacement_place, "", auteur.deplacement_place]);
-                rows.push(["", "Cachet auteur·ice", auteur.cachet, "", auteur.cachet]);
-                rows.push(["", "TOTAL DÉROULEMENT", "", "", auteur.total_deroulement]);
-                rows.push(["", "", "", "", ""]);
-                rows.push([`BUDGET TOTAL — ${auteur.nom}`, "", "", "", auteur.budget_total]);
-                rows.push(["", "", "", "", ""]);
-                rows.push(["", "", "", "", ""]);
+                rows.push(["", "DÉROULEMENT", "Montant", "", "Total pris en charge"]);
+                rows.push(["", "Déplacement sur place (A/R)", formaterMontant(auteur.deplacement_place), "", formaterMontant(auteur.deplacement_place)]);
+                rows.push(["", "Cachet auteur·ice", formaterMontant(auteur.cachet), "", formaterMontant(auteur.cachet)]);
+                rows.push(["", "SOUS-TOTAL DÉROULEMENT", "", "", formaterMontant(auteur.total_deroulement)]);
+                rows.push([""]);
+                rows.push([`BUDGET TOTAL — ${auteur.nom}`, "", "", "", formaterMontant(auteur.budget_total)]);
+                rows.push([""]);
+                rows.push([""]);
             });
 
             // ── PROMOTION ─────────────────────────────────────────
-            rows.push(["PROMOTION — COMMUNICATION (REFC)", "", "", "", ""]);
-            rows.push(["", "Frais de promotion (graphisme, publicité, affiches...)", "", "", data.promo.graphisme]);
-            rows.push(["", "Consommation (verre d\'amitié, cocktail...)", "", "", data.promo.consommation]);
-            rows.push(["", "Cachet animateur·rice / Panélistes", "", "", data.promo.cachet_animateur]);
-            rows.push(["", "Contribution REFC à l\'aménagement", "", "", data.promo.amenagement]);
-            rows.push(["BUDGET PROMOTION-COMMUNICATION", "", "", "", data.promo.total]);
-            rows.push(["", "", "", "", ""]);
+            rows.push(["PROMOTION — COMMUNICATION (REFC UNIQUEMENT)"]);
+            rows.push(["", "Frais de promotion (graphisme, publicité, affiches...)", "", "", formaterMontant(data.promo.graphisme)]);
+            rows.push(["", "Consommation (verre d\'amitié, cocktail...)", "", "", formaterMontant(data.promo.consommation)]);
+            rows.push(["", "Cachet animateur·rice / Panélistes", "", "", formaterMontant(data.promo.cachet_animateur)]);
+            rows.push(["", "Contribution REFC à l\'aménagement", "", "", formaterMontant(data.promo.amenagement)]);
+            rows.push(["BUDGET PROMOTION-COMMUNICATION", "", "", "", formaterMontant(data.promo.total)]);
+            rows.push([""]);
 
-            // ── RÉCAPITULATIF FINANCIER ────────────────────────────
-            rows.push(["RÉCAPITULATIF FINANCIER", "", "", "", ""]);
-            rows.push(["", "", "", "", ""]);
+            // ── RÉCAPITULATIF ──────────────────────────────────────
+            rows.push(["RÉCAPITULATIF FINANCIER"]);
+            rows.push([""]);
             data.auteurs.forEach(auteur => {
-                rows.push(["", auteur.nom, "", "", auteur.budget_total]);
+                rows.push(["", auteur.nom, "", "", formaterMontant(auteur.budget_total)]);
             });
-            rows.push(["", "Budget Promotion-Communication", "", "", data.promo.total]);
-            rows.push(["", "", "", "", ""]);
-            rows.push(["BUDGET TOTAL DE L\'ACTIVITÉ", "", "", "", data.budget_total]);
-            rows.push(["Prise en charge REFC", "", "", "", data.prise_charge_refc]);
-            rows.push(["Part maison membre", "", "", "", data.part_maison]);
-            rows.push(["", "", "", "", ""]);
+            rows.push(["", "Budget Promotion-Communication", "", "", formaterMontant(data.promo.total)]);
+            rows.push([""]);
+            rows.push(["BUDGET TOTAL DE L\'ACTIVITÉ", "", "", "", formaterMontant(data.budget_total)]);
+            rows.push(["Prise en charge REFC", "", "", "", formaterMontant(data.prise_charge_refc)]);
+            rows.push(["Part maison membre", "", "", "", formaterMontant(data.part_maison)]);
+            rows.push([""]);
 
             // ── APPROBATION ────────────────────────────────────────
-            rows.push(["APPROBATION", "", "", "", ""]);
-            rows.push(["Approuvé par", data.approuve_par, "", "", ""]);
-            rows.push(["Date d\'approbation", data.date_approbation, "", "", ""]);
-            rows.push(["", "", "", "", ""]);
-            rows.push(["Document généré par le portail membres REFC", "", "", "", ""]);
-            rows.push(["435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5  |  613 691-7061  |  refc.ca", "", "", "", ""]);
+            rows.push(["APPROBATION"]);
+            rows.push(["Approuvé par", "", data.approuve_par]);
+            rows.push(["Date d\'approbation", "", data.date_approbation]);
+            rows.push([""]);
+            rows.push([""]);
+            rows.push(["Document généré par le portail membres REFC"]);
+            rows.push(["435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5  |  613 691-7061  |  refc.ca"]);
 
-            // ── FEUILLE ET MISE EN FORME ───────────────────────────
+            // ── CRÉER LA FEUILLE ───────────────────────────────────
             const ws = XLSX.utils.aoa_to_sheet(rows);
 
             ws["!cols"] = [
+                { wch: 42 },
                 { wch: 40 },
-                { wch: 38 },
                 { wch: 16 },
-                { wch: 12 },
-                { wch: 16 }
+                { wch: 22 },
+                { wch: 18 }
             ];
 
-            // Fusionner les cellules de titre
-            ws["!merges"] = [
-                { s: { r: 0, c: 0 }, e: { r: 0, c: 4 } },
-                { s: { r: 1, c: 0 }, e: { r: 1, c: 4 } },
-                { s: { r: 2, c: 0 }, e: { r: 2, c: 4 } },
-                { s: { r: 4, c: 0 }, e: { r: 4, c: 4 } },
-            ];
+            // Fusionner les titres sur toute la largeur
+            const merges = [];
+            rows.forEach((row, i) => {
+                if (row.length === 1 && row[0] !== "") {
+                    merges.push({ s: { r: i, c: 0 }, e: { r: i, c: 4 } });
+                }
+            });
+            ws["!merges"] = merges;
 
-            XLSX.utils.book_append_sheet(wb, ws, "Rapport");
+            XLSX.utils.book_append_sheet(wb, ws, "Rapport activité");
 
-            // Nom du fichier
             const nomFichier = `REFC_Rapport_${data.date.replace(/-/g, "")}_${
                 data.maison.toLowerCase()
-                .replace(/[éèêë]/g, "e")
-                .replace(/[àâ]/g, "a")
+                .replace(/[éèêëÉÈÊË]/g, "e")
+                .replace(/[àâÀÂ]/g, "a")
                 .replace(/[^a-z0-9]/g, "_")
                 .replace(/_+/g, "_")
                 .substring(0, 25)
