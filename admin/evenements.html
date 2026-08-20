@@ -400,6 +400,29 @@
             padding-top: 16px;
             border-top: 1px solid #e2e8f0;
         }
+    
+        /* Overlay demande originale */
+        #overlay-demande {
+            display: none !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.85);
+            z-index: 999999;
+            overflow-y: auto;
+            padding: 30px 20px;
+        }
+        #overlay-demande.visible {
+            display: block !important;
+        }
+        #overlay-demande .modal-demande {
+            margin: 0 auto;
+            max-width: 700px;
+            position: relative;
+        }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
@@ -654,7 +677,6 @@
                     </div>
                 </div>
                 <div class="actions-groupe">
-                    <button class="btn btn-primaire" onclick="genererExcel('hearst')">↓ Générer rapport Excel</button>
                     <button class="btn" onclick="document.getElementById('overlay-demande').classList.add('visible')">📄 Voir la demande originale</button>
                 </div>
             </div>
@@ -957,8 +979,8 @@
                     </div>
                 </div>
                 <div class="actions-groupe">
-                    <button class="btn btn-primaire">↓ Générer rapport Excel</button>
-                    <button class="btn">✉️ Envoyer à la maison membre</button>
+                    <button class="btn btn-primaire" onclick="genererExcel('hearst')">↓ Générer rapport Excel</button>
+                    <button class="btn" onclick="envoyerMembre()">✉️ Envoyer à la maison membre</button>
                 </div>
             </div>
         </div>
@@ -1459,6 +1481,10 @@
             `);
             fenetre.document.close();
             fenetre.print();
+        }
+
+        function envoyerMembre() {
+            alert("Dans le portail final, cette action enverra automatiquement un courriel à la maison membre avec :\n\n• Le rapport Excel en pièce jointe\n• Le montant approuvé\n• Les détails de l\'événement\n\nPour la démo, la fonctionnalité d\'envoi courriel nécessite un serveur.");
         }
 
         function confirmerSuppression(nom) {
