@@ -363,6 +363,7 @@
             margin-top: 20px;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -731,7 +732,7 @@
                     </div>
                 </div>
                 <div style="display:flex;gap:8px">
-                    <button class="btn btn-primaire">↓ Télécharger le rapport Excel</button>
+                    <button class="btn btn-primaire" onclick="genererExcel('hearst')">↓ Télécharger le rapport Excel</button>
                 </div>
             </div>
 
@@ -862,7 +863,7 @@
                         <span class="recap-val">0,00 $</span>
                     </div>
                 </div>
-                <button class="btn btn-primaire">↓ Télécharger le rapport Excel</button>
+                <button class="btn btn-primaire" onclick="genererExcel('hearst')">↓ Télécharger le rapport Excel</button>
             </div>
         </div>
 
@@ -1111,6 +1112,122 @@
                   'Vous serez notifié·e par courriel.');
             fermerDetail('nouvelle-demande');
         }
+    
+        // ============================================================
+        // GÉNÉRATION DU RAPPORT EXCEL (côté membre — lecture seule)
+        // ============================================================
+        function genererExcel(evenement) {
+            const wb = XLSX.utils.book_new();
+            const data = getDataEvenement(evenement);
+            const rows = [];
+
+            rows.push(['REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)', '', '', '']);
+            rows.push(['RAPPORT D'ACTIVITÉ LITTÉRAIRE', '', '', '']);
+            rows.push(['', '', '', '']);
+            rows.push(['INFORMATIONS GÉNÉRALES', '', '', '']);
+            rows.push(['Nom de l'activité', data.nom, '', '']);
+            rows.push(['Date', data.date, '', '']);
+            rows.push(['Lieu', data.lieu, '', '']);
+            rows.push(['Ville, Province', data.ville, '', '']);
+            rows.push(['Maison membre', data.maison, '', '']);
+            rows.push(['Statut', data.statut, '', '']);
+            rows.push(['Approuvé par', data.approuve_par, '', '']);
+            rows.push(['Date d'approbation', data.date_approbation, '', '']);
+            rows.push(['', '', '', '']);
+
+            rows.push(['AUTEURICES / PARTICIPANTS', '', '', '']);
+            rows.push(['', '', '', '']);
+
+            data.auteurs.forEach((auteur, i) => {
+                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`, '', '', '']);
+                rows.push(['Genre littéraire', auteur.genre, '', '']);
+                rows.push(['Ville de résidence', auteur.ville, '', '']);
+                rows.push(['Distance', auteur.distance, '', '']);
+                rows.push(['Mode de transport', auteur.transport, '', '']);
+                rows.push(['Frais de transport', '', auteur.frais_transport, '$']);
+                rows.push(['Autres dépenses', '', auteur.autres_depenses, '$']);
+                rows.push(['Total Voyage', '', auteur.total_voyage, '$']);
+                if (auteur.nuitees > 0) {
+                    rows.push(['Nuitées', auteur.nuitees, '', '']);
+                    rows.push(['Total Séjour', '', auteur.total_sejour, '$']);
+                }
+                rows.push(['Cachet auteur·ice', '', auteur.cachet, '$']);
+                rows.push([`BUDGET TOTAL — ${auteur.nom}`, '', auteur.budget_total, '$']);
+                rows.push(['', '', '', '']);
+            });
+
+            rows.push(['PROMOTION — COMMUNICATION', '', '', '']);
+            rows.push(['Total Promotion', '', data.promo.total, '$']);
+            rows.push(['', '', '', '']);
+            rows.push(['BUDGET TOTAL DE L'ACTIVITÉ', '', data.budget_total, '$']);
+            rows.push(['Prise en charge REFC', '', data.prise_charge_refc, '$']);
+            rows.push(['Part maison membre', '', data.part_maison, '$']);
+            rows.push(['', '', '', '']);
+            rows.push(['Approuvé par', data.approuve_par, '', '']);
+
+            const ws = XLSX.utils.aoa_to_sheet(rows);
+            ws['!cols'] = [{ wch: 48 }, { wch: 28 }, { wch: 18 }, { wch: 8 }];
+            ws['!merges'] = [
+                { s: { r: 0, c: 0 }, e: { r: 0, c: 3 } },
+                { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } }
+            ];
+            XLSX.utils.book_append_sheet(wb, ws, 'Rapport');
+
+            const nomFichier = `rapport_evenement_${data.nom.toLowerCase()
+                .replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_')
+                .substring(0, 40)}_${data.date.replace(/-/g, '')}.xlsx`;
+            XLSX.writeFile(wb, nomFichier);
+        }
+
+        function getDataEvenement(id) {
+            const events = {
+                hearst: {
+                    nom: 'Lecture publique — Bibliothèque de Hearst',
+                    date: '2026-03-15',
+                    lieu: 'Bibliothèque municipale de Hearst',
+                    ville: 'Hearst, Ontario',
+                    maison: 'Prise de Parole',
+                    statut: 'Approuvé',
+                    approuve_par: 'Piedad Saenz — Directrice générale',
+                    date_approbation: '2026-02-28',
+                    auteurs: [
+                        {
+                            nom: 'Véronique Sylvain',
+                            genre: 'Poésie',
+                            ville: 'Ottawa, Ontario',
+                            distance: '612 km',
+                            transport: 'Voiture personnelle',
+                            frais_transport: 180.00,
+                            autres_depenses: 25.00,
+                            total_voyage: 205.00,
+                            nuitees: 2,
+                            total_sejour: 410.00,
+                            cachet: 300.00,
+                            budget_total: 935.00
+                        },
+                        {
+                            nom: 'Tomson Highway',
+                            genre: 'Roman',
+                            ville: 'Sudbury, Ontario',
+                            distance: '248 km',
+                            transport: 'Autobus',
+                            frais_transport: 85.00,
+                            autres_depenses: 0.00,
+                            total_voyage: 85.00,
+                            nuitees: 0,
+                            cachet: 250.00,
+                            budget_total: 335.00
+                        }
+                    ],
+                    promo: { total: 1175.00 },
+                    budget_total: 2445.00,
+                    prise_charge_refc: 2445.00,
+                    part_maison: 0.00
+                }
+            };
+            return events[id] || events['hearst'];
+        }
+
     </script>
 
 </body>
