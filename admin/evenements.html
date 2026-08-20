@@ -1262,136 +1262,126 @@
             });
         });
 
-        // ============================================================
-        // GÉNÉRATION DU RAPPORT EXCEL
-        // ============================================================
+        
         function genererExcel(evenement) {
 
             const wb = XLSX.utils.book_new();
-
-            // Données selon l'événement
             const data = getDataEvenement(evenement);
-
-            // Construire les lignes de la feuille
             const rows = [];
 
-            // En-tête REFC
-            rows.push(['REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)', '', '', '']);
-            rows.push(['RAPPORT D'ACTIVITÉ LITTÉRAIRE', '', '', '']);
-            rows.push(['', '', '', '']);
+            // En-tête
+            rows.push(["REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)", "", "", ""]);
+            rows.push(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE", "", "", ""]);
+            rows.push(["", "", "", ""]);
 
             // Informations générales
-            rows.push(['INFORMATIONS GÉNÉRALES', '', '', '']);
-            rows.push(['Nom de l'activité', data.nom, '', '']);
-            rows.push(['Date', data.date, '', '']);
-            rows.push(['Lieu', data.lieu, '', '']);
-            rows.push(['Ville, Province', data.ville, '', '']);
-            rows.push(['Responsable', data.responsable, '', '']);
-            rows.push(['Maison membre', data.maison, '', '']);
-            rows.push(['Statut', data.statut, '', '']);
-            rows.push(['Approuvé par', data.approuve_par, '', '']);
-            rows.push(['Date d'approbation', data.date_approbation, '', '']);
-            rows.push(['', '', '', '']);
+            rows.push(["INFORMATIONS GÉNÉRALES", "", "", ""]);
+            rows.push(["Nom de l\'activité", data.nom, "", ""]);
+            rows.push(["Date", data.date, "", ""]);
+            rows.push(["Lieu", data.lieu, "", ""]);
+            rows.push(["Ville, Province", data.ville, "", ""]);
+            rows.push(["Responsable", data.responsable, "", ""]);
+            rows.push(["Maison membre", data.maison, "", ""]);
+            rows.push(["Statut", data.statut, "", ""]);
+            rows.push(["Approuvé par", data.approuve_par, "", ""]);
+            rows.push(["Date d\'approbation", data.date_approbation, "", ""]);
+            rows.push(["", "", "", ""]);
 
             // Auteurices
-            rows.push(['AUTEURICES / PARTICIPANTS', '', '', '']);
-            rows.push(['', '', '', '']);
+            rows.push(["AUTEURICES / PARTICIPANTS", "", "", ""]);
+            rows.push(["", "", "", ""]);
 
             data.auteurs.forEach((auteur, i) => {
-                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`, '', '', '']);
-                rows.push(['Genre littéraire', auteur.genre, '', '']);
-                rows.push(['Ville de résidence', auteur.ville, '', '']);
-                rows.push(['Distance (calculée)', auteur.distance, '', '']);
-                rows.push(['', '', '', '']);
+                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`, "", "", ""]);
+                rows.push(["Genre littéraire", auteur.genre, "", ""]);
+                rows.push(["Ville de résidence", auteur.ville, "", ""]);
+                rows.push(["Distance (calculée)", auteur.distance, "", ""]);
+                rows.push(["", "", "", ""]);
 
-                rows.push(['VOYAGE (A/R)', '', '', '']);
-                rows.push(['Mode de transport', auteur.transport, '', '']);
-                rows.push(['Frais à engager', '', auteur.frais_transport, '$']);
-                rows.push(['Autres dépenses (Uber, stationnement...)', '', auteur.autres_depenses, '$']);
-                rows.push(['Prise en charge REFC', auteur.prise_charge_voyage, '', '']);
-                rows.push(['Total Voyage', '', auteur.total_voyage, '$']);
-                rows.push(['', '', '', '']);
+                rows.push(["VOYAGE (A/R)", "", "", ""]);
+                rows.push(["Mode de transport", auteur.transport, "", ""]);
+                rows.push(["Frais à engager", "", auteur.frais_transport, "$"]);
+                rows.push(["Autres dépenses (Uber, stationnement...)", "", auteur.autres_depenses, "$"]);
+                rows.push(["Prise en charge REFC", auteur.prise_charge_voyage, "", ""]);
+                rows.push(["Total Voyage", "", auteur.total_voyage, "$"]);
+                rows.push(["", "", "", ""]);
 
                 if (auteur.nuitees > 0) {
-                    rows.push(['SÉJOUR', '', '', '']);
-                    rows.push(['Nombre de nuitées', auteur.nuitees, '', '']);
-                    rows.push(['Montant moyen / nuit', '', auteur.montant_nuit, '$']);
-                    rows.push(['Prise en charge REFC', auteur.prise_charge_sejour, '', '']);
-                    rows.push(['Sous-total hébergement', '', auteur.sous_total_hebergement, '$']);
-                    rows.push(['Per diem base / jour', '', auteur.perdiem_base, '$']);
+                    rows.push(["SÉJOUR", "", "", ""]);
+                    rows.push(["Nombre de nuitées", auteur.nuitees, "", ""]);
+                    rows.push(["Montant moyen / nuit", "", auteur.montant_nuit, "$"]);
+                    rows.push(["Prise en charge REFC", auteur.prise_charge_sejour, "", ""]);
+                    rows.push(["Sous-total hébergement", "", auteur.sous_total_hebergement, "$"]);
+                    rows.push(["Per diem base / jour", "", auteur.perdiem_base, "$"]);
                     if (auteur.deductions && auteur.deductions.length > 0) {
                         auteur.deductions.forEach(d => {
-                            rows.push([`  Déduction — ${d.nom}`, '', -d.montant, '$']);
+                            rows.push([`Déduction — ${d.nom}`, "", -d.montant, "$"]);
                         });
                     }
-                    rows.push(['Per diem net / jour', '', auteur.perdiem_net, '$']);
-                    rows.push([`Per diem total (${auteur.nuitees} nuit${auteur.nuitees > 1 ? 's' : ''})`, '', auteur.perdiem_total, '$']);
-                    rows.push(['Total Séjour', '', auteur.total_sejour, '$']);
-                    rows.push(['', '', '', '']);
+                    rows.push(["Per diem net / jour", "", auteur.perdiem_net, "$"]);
+                    rows.push([`Per diem total (${auteur.nuitees} nuit${auteur.nuitees > 1 ? "s" : ""})`, "", auteur.perdiem_total, "$"]);
+                    rows.push(["Total Séjour", "", auteur.total_sejour, "$"]);
+                    rows.push(["", "", "", ""]);
                 }
 
-                rows.push(['DÉROULEMENT DE L'ACTIVITÉ', '', '', '']);
-                rows.push(['Déplacement sur place (A/R)', '', auteur.deplacement_place, '$']);
-                rows.push(['Cachet auteur·ice', '', auteur.cachet, '$']);
-                rows.push(['Total Déroulement', '', auteur.total_deroulement, '$']);
-                rows.push(['', '', '', '']);
-                rows.push([`BUDGET TOTAL — ${auteur.nom}`, '', auteur.budget_total, '$']);
-                rows.push(['', '', '', '']);
-                rows.push(['', '', '', '']);
+                rows.push(["DÉROULEMENT DE L\'ACTIVITÉ", "", "", ""]);
+                rows.push(["Déplacement sur place (A/R)", "", auteur.deplacement_place, "$"]);
+                rows.push(["Cachet auteur·ice", "", auteur.cachet, "$"]);
+                rows.push(["Total Déroulement", "", auteur.total_deroulement, "$"]);
+                rows.push(["", "", "", ""]);
+                rows.push([`BUDGET TOTAL — ${auteur.nom}`, "", auteur.budget_total, "$"]);
+                rows.push(["", "", "", ""]);
             });
 
             // Promotion
-            rows.push(['PROMOTION — COMMUNICATION (REFC)', '', '', '']);
-            rows.push(['Frais de promotion (graphisme, publicité, affiches...)', '', data.promo.graphisme, '$']);
-            rows.push(['Consommation (verre d'amitié, cocktail...)', '', data.promo.consommation, '$']);
-            rows.push(['Cachet animateur·rice / Panélistes', '', data.promo.cachet_animateur, '$']);
-            rows.push(['Contribution REFC à l'aménagement', '', data.promo.amenagement, '$']);
-            rows.push(['Budget Promotion-Communication', '', data.promo.total, '$']);
-            rows.push(['', '', '', '']);
+            rows.push(["PROMOTION — COMMUNICATION (REFC)", "", "", ""]);
+            rows.push(["Frais de promotion (graphisme, publicité, affiches...)", "", data.promo.graphisme, "$"]);
+            rows.push(["Consommation (verre d\'amitié, cocktail...)", "", data.promo.consommation, "$"]);
+            rows.push(["Cachet animateur·rice / Panélistes", "", data.promo.cachet_animateur, "$"]);
+            rows.push(["Contribution REFC à l\'aménagement", "", data.promo.amenagement, "$"]);
+            rows.push(["Budget Promotion-Communication", "", data.promo.total, "$"]);
+            rows.push(["", "", "", ""]);
 
-            // Récapitulatif financier
-            rows.push(['RÉCAPITULATIF FINANCIER', '', '', '']);
+            // Récapitulatif
+            rows.push(["RÉCAPITULATIF FINANCIER", "", "", ""]);
             data.auteurs.forEach(auteur => {
-                rows.push([auteur.nom, '', auteur.budget_total, '$']);
+                rows.push([auteur.nom, "", auteur.budget_total, "$"]);
             });
-            rows.push(['Budget Promotion-Communication', '', data.promo.total, '$']);
-            rows.push(['', '', '', '']);
-            rows.push(['BUDGET TOTAL DE L'ACTIVITÉ', '', data.budget_total, '$']);
-            rows.push(['Prise en charge REFC', '', data.prise_charge_refc, '$']);
-            rows.push(['Part maison membre', '', data.part_maison, '$']);
-            rows.push(['', '', '', '']);
-            rows.push(['Approuvé par', data.approuve_par, '', '']);
-            rows.push(['Date d'approbation', data.date_approbation, '', '']);
+            rows.push(["Budget Promotion-Communication", "", data.promo.total, "$"]);
+            rows.push(["", "", "", ""]);
+            rows.push(["BUDGET TOTAL DE L\'ACTIVITÉ", "", data.budget_total, "$"]);
+            rows.push(["Prise en charge REFC", "", data.prise_charge_refc, "$"]);
+            rows.push(["Part maison membre", "", data.part_maison, "$"]);
+            rows.push(["", "", "", ""]);
+            rows.push(["Approuvé par", data.approuve_par, "", ""]);
+            rows.push(["Date d\'approbation", data.date_approbation, "", ""]);
 
             // Créer la feuille
             const ws = XLSX.utils.aoa_to_sheet(rows);
-
-            // Largeurs des colonnes
-            ws['!cols'] = [
+            ws["!cols"] = [
                 { wch: 48 },
                 { wch: 28 },
                 { wch: 18 },
                 { wch: 8  }
             ];
-
-            // Styles de base (fusion titre)
-            ws['!merges'] = [
+            ws["!merges"] = [
                 { s: { r: 0, c: 0 }, e: { r: 0, c: 3 } },
-                { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } },
+                { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } }
             ];
+            XLSX.utils.book_append_sheet(wb, ws, "Rapport");
 
-            XLSX.utils.book_append_sheet(wb, ws, 'Rapport');
-
-            // Télécharger
-            const nomFichier = `rapport_evenement_${data.nom.toLowerCase()
-                .replace(/[^a-z0-9]/g, '_')
-                .replace(/_+/g, '_')
-                .substring(0, 40)}_${data.date.replace(/-/g, '')}.xlsx`;
+            const nomFichier = `rapport_${data.date.replace(/-/g, "")}_${
+                data.nom.toLowerCase()
+                .replace(/[éèêë]/g, "e")
+                .replace(/[àâ]/g, "a")
+                .replace(/[^a-z0-9]/g, "_")
+                .replace(/_+/g, "_")
+                .substring(0, 30)
+            }.xlsx`;
 
             XLSX.writeFile(wb, nomFichier);
         }
 
-        // Données fictives par événement
         function getDataEvenement(id) {
             const events = {
                 hearst: {
