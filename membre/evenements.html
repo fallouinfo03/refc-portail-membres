@@ -1,1241 +1,613 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REFC — Événements littéraires (Membre)</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f1f5f9;
-            color: #1e293b;
-        }
-        .banniere-demo {
-            background: #1e3a5f;
-            color: #93c5fd;
-            text-align: center;
-            padding: 8px 16px;
-            font-size: 12px;
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 999;
-        }
-        .banniere-demo a { color: #60a5fa; text-decoration: none; }
-        .topbar {
-            background: #2D3F7B;
-            color: #fff;
-            padding: 12px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 36px;
-        }
-        .topbar-logo { display: flex; align-items: center; gap: 12px; }
-        .topbar-logo img { height: 32px; }
-        .topbar-titre { font-size: 14px; font-weight: 500; opacity: 0.9; }
-        .topbar-droite { display: flex; align-items: center; gap: 16px; font-size: 13px; }
-        .pill-role {
-            background: rgba(255,255,255,0.2);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-        .btn-deconnexion {
-            background: none;
-            border: 1px solid rgba(255,255,255,0.4);
-            color: #fff;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .btn-deconnexion:hover { background: rgba(255,255,255,0.1); }
-        .nav {
-            background: #253570;
-            display: flex;
-            padding: 0 24px;
-            gap: 2px;
-            overflow-x: auto;
-        }
-        .nav-btn {
-            color: rgba(255,255,255,0.7);
-            font-size: 13px;
-            padding: 10px 16px;
-            border: none;
-            background: none;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            white-space: nowrap;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .nav-btn:hover { color: #fff; }
-        .nav-btn.actif {
-            color: #fff;
-            border-bottom-color: #7B9EC8;
-            background: rgba(255,255,255,0.08);
-        }
-        .contenu {
-            padding: 24px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .entete-page {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .page-titre { font-size: 22px; font-weight: 600; }
-        .page-sous-titre { font-size: 13px; color: #64748b; margin-bottom: 20px; }
-        .btn {
-            padding: 8px 16px;
-            font-size: 13px;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            background: #fff;
-            color: #1e293b;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-            transition: background 0.15s;
-        }
-        .btn:hover { background: #f8fafc; }
-        .btn-primaire { background: #2D3F7B; color: #fff; border-color: #2D3F7B; }
-        .btn-primaire:hover { background: #253570; }
-        .info-box {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 13px;
-            color: #1d4ed8;
-            margin-bottom: 16px;
-        }
-        .section-titre {
-            font-size: 13px;
-            font-weight: 600;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin: 20px 0 10px;
-        }
-        .tableau-wrap {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th {
-            padding: 10px 14px;
-            text-align: left;
-            font-size: 11px;
-            font-weight: 500;
-            color: #64748b;
-            background: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        td {
-            padding: 10px 14px;
-            border-bottom: 1px solid #f1f5f9;
-            color: #1e293b;
-            vertical-align: middle;
-        }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: #f8fafc; }
-        .badge {
-            display: inline-block;
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: 500;
-        }
-        .badge-vert { background: #dcfce7; color: #166534; }
-        .badge-orange { background: #fef9c3; color: #854d0e; }
-        .badge-rouge { background: #fee2e2; color: #991b1b; }
-        .badge-bleu { background: #E8EEF7; color: #2D3F7B; }
-        .badge-gris { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
-
-        /* Détail événement */
-        .detail-card {
-            display: none;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            margin-bottom: 16px;
-            overflow: hidden;
-        }
-        .detail-card.visible { display: block; }
-        .detail-header {
-            background: #2D3F7B;
-            color: #fff;
-            padding: 12px 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-        }
-        .detail-header-titre { font-size: 15px; font-weight: 500; }
-        .detail-header-droite { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-        .onglets {
-            display: flex;
-            border-bottom: 1px solid #e2e8f0;
-            background: #f8fafc;
-            overflow-x: auto;
-        }
-        .onglet-btn {
-            padding: 10px 18px;
-            font-size: 13px;
-            border: none;
-            background: none;
-            color: #64748b;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -1px;
-            white-space: nowrap;
-        }
-        .onglet-btn:hover { color: #1e293b; }
-        .onglet-btn.actif {
-            color: #2D3F7B;
-            border-bottom-color: #2D3F7B;
-            font-weight: 500;
-        }
-        .onglet-contenu { display: none; padding: 18px; }
-        .onglet-contenu.visible { display: block; }
-
-        /* Formulaire */
-        .form-section {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-        .form-section-titre {
-            font-size: 13px;
-            font-weight: 600;
-            color: #2D3F7B;
-            margin-bottom: 14px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .form-row { margin-bottom: 14px; }
-        .form-label {
-            display: block;
-            font-size: 12px;
-            font-weight: 500;
-            color: #475569;
-            margin-bottom: 5px;
-        }
-        .form-label .optionnel {
-            font-weight: 400;
-            color: #94a3b8;
-            font-size: 11px;
-        }
-        .form-input {
-            width: 100%;
-            padding: 8px 12px;
-            font-size: 13px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            outline: none;
-            color: #1e293b;
-            background: #fff;
-        }
-        .form-input:focus {
-            border-color: #2D3F7B;
-            box-shadow: 0 0 0 3px rgba(45,63,123,0.1);
-        }
-        .form-select {
-            width: 100%;
-            padding: 8px 12px;
-            font-size: 13px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            outline: none;
-            color: #1e293b;
-            background: #fff;
-            cursor: pointer;
-        }
-        .grid2-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .grid3-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
-        }
-        .sep { height: 1px; background: #e2e8f0; margin: 14px 0; }
-        .note-info {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 12px;
-            color: #1d4ed8;
-            margin-bottom: 14px;
-        }
-        .actions-form { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
-        .err-msg { font-size: 11px; color: #991b1b; margin-top: 4px; display: none; }
-        .input-err { border-color: #ef4444 !important; }
-
-        /* Auteur bloc dans formulaire */
-        .auteur-form-bloc {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 14px;
-            margin-bottom: 12px;
-        }
-        .auteur-form-titre {
-            font-size: 13px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Récapitulatif événement approuvé */
-        .recap-ligne {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 7px 0;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 13px;
-        }
-        .recap-ligne:last-child { border-bottom: none; }
-        .recap-cle { color: #64748b; }
-        .recap-val { color: #1e293b; font-weight: 500; }
-        .recap-val.refc { color: #2D3F7B; }
-        .recap-bloc {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 14px 16px;
-            margin-bottom: 12px;
-        }
-        .recap-titre {
-            font-size: 11px;
-            font-weight: 600;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 10px;
-        }
-
-        /* Modal */
-        .modal-bg {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-bg.visible { display: flex; }
-        .modal-confirm {
-            background: #fff;
-            border-radius: 12px;
-            padding: 28px;
-            width: 400px;
-            max-width: 95vw;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REFC — Événements littéraires (Membre)</title>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:100}
+.banniere a{color:#60a5fa;text-decoration:none}
+.topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;margin-top:36px}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-logo img{height:32px}
+.topbar-titre{font-size:14px;font-weight:500;opacity:.9}
+.topbar-droite{display:flex;align-items:center;gap:16px;font-size:13px}
+.pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deco{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.btn-deco:hover{background:rgba(255,255,255,.1)}
+.nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto}
+.nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+.nav-btn:hover{color:#fff}
+.nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
+.contenu{padding:24px;max-width:1000px;margin:0 auto}
+.entete-page{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:12px}
+.page-titre{font-size:22px;font-weight:600}
+.page-sous-titre{font-size:13px;color:#64748b;margin-bottom:20px}
+.btn{padding:7px 14px;font-size:13px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:.15s}
+.btn:hover{background:#f8fafc}
+.btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.btn-pri:hover{background:#253570}
+.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:13px;color:#1d4ed8;margin-bottom:16px}
+.section-titre{font-size:13px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin:20px 0 10px}
+.tableau-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:500;color:#64748b;background:#f8fafc;border-bottom:1px solid #e2e8f0}
+td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#1e293b;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
+.badge-vert{background:#dcfce7;color:#166534}
+.badge-orange{background:#fef9c3;color:#854d0e}
+.badge-rouge{background:#fee2e2;color:#991b1b}
+.badge-bleu{background:#E8EEF7;color:#2D3F7B}
+.badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+.detail-card{display:none;background:#fff;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:16px;overflow:hidden}
+.detail-card.visible{display:block}
+.detail-header{background:#2D3F7B;color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.detail-header-rouge{background:#991b1b;color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.detail-header-titre{font-size:14px;font-weight:500}
+.detail-header-droite{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.onglets{display:flex;border-bottom:1px solid #e2e8f0;background:#f8fafc;overflow-x:auto}
+.onglet-btn{padding:10px 18px;font-size:13px;border:none;background:none;color:#64748b;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.onglet-btn:hover{color:#1e293b}
+.onglet-btn.actif{color:#2D3F7B;border-bottom-color:#2D3F7B;font-weight:500}
+.onglet-contenu{display:none;padding:18px}
+.onglet-contenu.visible{display:block}
+.recap-bloc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px;margin-bottom:12px}
+.recap-titre{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.recap-ligne{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:13px}
+.recap-ligne:last-child{border-bottom:none}
+.recap-cle{color:#64748b}
+.recap-val{color:#1e293b;font-weight:500}
+.recap-val.bleu{color:#2D3F7B}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
+.mini-kpi{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px}
+.mini-kpi-label{font-size:11px;color:#64748b;margin-bottom:4px}
+.mini-kpi-val{font-size:18px;font-weight:600;color:#2D3F7B}
+.sep{height:1px;background:#e2e8f0;margin:14px 0}
+.note-info{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:12px;color:#1d4ed8;margin-bottom:14px}
+.note-warn{background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;font-size:12px;color:#854d0e;margin-bottom:14px}
+.note-rouge{background:#fee2e2;border:1px solid #fecaca;border-radius:8px;padding:16px;font-size:13px;color:#991b1b;margin-bottom:14px;line-height:1.6}
+.rejet-motif{background:#fff;border:1px solid #fecaca;border-radius:8px;padding:16px;margin-bottom:14px}
+.rejet-motif-titre{font-size:11px;font-weight:600;color:#991b1b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.rejet-motif-ligne{display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #fee2e2;gap:12px}
+.rejet-motif-ligne:last-child{border-bottom:none}
+.rejet-motif-cle{color:#64748b;width:160px;flex-shrink:0}
+.rejet-motif-val{color:#1e293b;font-weight:500;flex:1}
+.form-section{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:16px}
+.form-section-titre{font-size:13px;font-weight:600;color:#2D3F7B;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #e2e8f0}
+.form-row{margin-bottom:14px}
+.form-label{display:block;font-size:12px;font-weight:500;color:#475569;margin-bottom:5px}
+.form-label .opt{font-weight:400;color:#94a3b8;font-size:11px}
+.form-input{width:100%;padding:8px 12px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;outline:none;color:#1e293b;background:#fff}
+.form-input:focus{border-color:#2D3F7B;box-shadow:0 0 0 3px rgba(45,63,123,.1)}
+.form-select{width:100%;padding:8px 12px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;outline:none;color:#1e293b;background:#fff;cursor:pointer}
+.grid2-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3-form{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.auteur-form{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:12px}
+.auteur-form-titre{font-size:13px;font-weight:600;color:#1e293b;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.actions-form{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.budget-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.budget-box{border-radius:8px;padding:14px 16px;text-align:center}
+.budget-box.demande{background:#f8fafc;border:1px solid #e2e8f0}
+.budget-box.approuve{background:#E8EEF7;border:1px solid #7B9EC8}
+.budget-box-label{font-size:11px;color:#64748b;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+.budget-box-val{font-size:22px;font-weight:700}
+.budget-box.demande .budget-box-val{color:#64748b}
+.budget-box.approuve .budget-box-val{color:#2D3F7B}
+.auteur-recap{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:10px}
+.auteur-recap-titre{font-size:13px;font-weight:600;color:#1e293b;margin-bottom:10px;display:flex;justify-content:space-between}
+.recap-auteur-ligne{display:grid;grid-template-columns:1fr 130px 130px;font-size:13px;padding:5px 0;border-bottom:1px solid #f1f5f9;gap:8px}
+.recap-auteur-ligne:last-child{border-bottom:none}
+.ra-cle{color:#64748b}
+.ra-dem{color:#64748b;text-align:right;font-size:12px}
+.ra-app{color:#2D3F7B;text-align:right;font-weight:500}
+.err-msg{font-size:11px;color:#991b1b;margin-top:4px;display:none}
+.input-err{border-color:#ef4444!important}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000;align-items:center;justify-content:center}
+.modal-bg.visible{display:flex}
+.modal-confirm{background:#fff;border-radius:12px;padding:28px;width:380px;max-width:95vw;box-shadow:0 8px 32px rgba(0,0,0,.2);text-align:center}
+</style>
 </head>
 <body>
 
-    <!-- Bannière démo -->
-    <div class="banniere-demo">
-        ⚠️ <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
-        <a href="https://github.com/fallouinfo03/refc-portail-membres"
-            target="_blank">Voir le code source</a>
+<div class="banniere">
+  ⚠️ <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
+  <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Voir le code source</a>
+</div>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../assets/logo-refc-blanc.png" alt="REFC">
+    <span class="topbar-titre">Espace membres</span>
+  </div>
+  <div class="topbar-droite">
+    <span class="pill">membre</span>
+    <span>Prise de Parole</span>
+    <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
+  </div>
+</div>
+
+<div class="nav">
+  <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
+  <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+  <a class="nav-btn" href="salons.html">Salons</a>
+  <a class="nav-btn actif" href="evenements.html">Événements littéraires</a>
+  <a class="nav-btn" href="bulletins.html">Bulletins</a>
+  <a class="nav-btn" href="ingram.html">Ingram</a>
+</div>
+
+<div class="contenu">
+
+  <div class="entete-page">
+    <div>
+      <h1 class="page-titre">Événements littéraires</h1>
+      <p class="page-sous-titre">Prise de Parole — Saison 2025–2026</p>
+    </div>
+    <button class="btn btn-pri" onclick="afficherDetail('nouvelle-demande')">+ Soumettre une demande</button>
+  </div>
+
+  <div class="info-box">
+    ℹ️ Toute demande est traitée par Noureddine Hany, puis soumise à la directrice pour approbation finale. Vous serez notifié·e par courriel.
+  </div>
+
+  <!-- Tableau des demandes -->
+  <div class="section-titre">Mes demandes</div>
+  <div class="tableau-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Activité</th>
+          <th style="width:80px">Date</th>
+          <th style="width:80px">Lieu</th>
+          <th style="width:70px">Auteur·ices</th>
+          <th style="width:100px">Budget demandé</th>
+          <th style="width:100px">Budget approuvé</th>
+          <th style="width:95px">Statut</th>
+          <th style="width:80px">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Lecture publique — Bibliothèque de Hearst</strong></td>
+          <td>15 mars 2026</td><td>Hearst, ON</td>
+          <td style="text-align:center">2</td>
+          <td>2 450,00 $</td><td>2 318,75 $</td>
+          <td><span class="badge badge-vert">Approuvé</span></td>
+          <td><button class="btn" style="padding:4px 10px;font-size:12px" onclick="afficherDetail('hearst')">Voir</button></td>
+        </tr>
+        <tr>
+          <td><strong>Animation jeunesse — École Garneau</strong></td>
+          <td>10 mai 2026</td><td>Ottawa, ON</td>
+          <td style="text-align:center">1</td>
+          <td>1 320,00 $</td><td>—</td>
+          <td><span class="badge badge-orange">En traitement</span></td>
+          <td><button class="btn" style="padding:4px 10px;font-size:12px" onclick="afficherDetail('garneau')">Voir</button></td>
+        </tr>
+        <tr>
+          <td><strong>Dédicace — Festival Chambéry Savoie Livre</strong></td>
+          <td>5 fév. 2026</td><td>Chambéry, FR</td>
+          <td style="text-align:center">1</td>
+          <td>950,00 $</td><td>—</td>
+          <td><span class="badge badge-rouge">Rejeté</span></td>
+          <td><button class="btn" style="padding:4px 10px;font-size:12px" onclick="afficherDetail('chambery')">Voir</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FORMULAIRE NOUVELLE DEMANDE -->
+  <div class="detail-card" id="detail-nouvelle-demande">
+    <div class="detail-header">
+      <span class="detail-header-titre">Nouvelle demande d'événement littéraire</span>
+      <div class="detail-header-droite">
+        <button class="btn" style="padding:4px 10px;font-size:12px;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff" onclick="fermerDetail('nouvelle-demande')">Fermer ✕</button>
+      </div>
+    </div>
+    <div style="padding:18px">
+      <div class="form-section">
+        <div class="form-section-titre">1. Informations générales</div>
+        <div class="grid2-form" style="margin-bottom:12px">
+          <div class="form-row" style="margin:0">
+            <label class="form-label">Nom de l'activité *</label>
+            <input type="text" class="form-input" id="nd-nom" placeholder="Ex. : Lecture publique, Animation...">
+            <div class="err-msg" id="err-nd-nom">Champ obligatoire.</div>
+          </div>
+          <div class="form-row" style="margin:0">
+            <label class="form-label">Date *</label>
+            <input type="date" class="form-input" id="nd-date">
+            <div class="err-msg" id="err-nd-date">Champ obligatoire.</div>
+          </div>
+        </div>
+        <div class="grid2-form" style="margin-bottom:12px">
+          <div class="form-row" style="margin:0">
+            <label class="form-label">Lieu *</label>
+            <input type="text" class="form-input" placeholder="Ex. : Bibliothèque municipale...">
+          </div>
+          <div class="form-row" style="margin:0">
+            <label class="form-label">Ville, Province *</label>
+            <input type="text" class="form-input" placeholder="Ex. : Hearst, Ontario">
+          </div>
+        </div>
+        <div class="form-row" style="margin:0">
+          <label class="form-label">Notes <span class="opt">(optionnel)</span></label>
+          <textarea class="form-input" rows="2" placeholder="Informations supplémentaires..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-titre">2. Auteurices / Participants</div>
+        <div id="liste-auteurs-form">
+          <div class="auteur-form" id="auteur-form-1">
+            <div class="auteur-form-titre">
+              <span>Auteur·ice 1</span>
+              <button class="btn" style="padding:3px 8px;font-size:11px" onclick="supprimerAuteurForm('auteur-form-1','Auteur·ice 1')">✕ Retirer</button>
+            </div>
+            <div class="grid3-form" style="margin-bottom:12px">
+              <div class="form-row" style="margin:0"><label class="form-label">Nom complet *</label><input type="text" class="form-input" placeholder="Prénom Nom"></div>
+              <div class="form-row" style="margin:0"><label class="form-label">Genre littéraire</label><input type="text" class="form-input" placeholder="Ex. : Poésie, Roman..."></div>
+              <div class="form-row" style="margin:0"><label class="form-label">Ville de résidence *</label><input type="text" class="form-input" placeholder="Ex. : Ottawa, Ontario"></div>
+            </div>
+            <div class="grid2-form" style="margin-bottom:12px">
+              <div class="form-row" style="margin:0"><label class="form-label">Mode de transport prévu</label><select class="form-select"><option value="">Choisir...</option><option>Voiture personnelle</option><option>Avion</option><option>Train</option><option>Autobus</option><option>Autre</option></select></div>
+              <div class="form-row" style="margin:0"><label class="form-label">Frais de transport estimés ($)</label><input type="number" class="form-input" placeholder="0,00" min="0" step="0.01"></div>
+            </div>
+            <div class="grid2-form" style="margin-bottom:12px">
+              <div class="form-row" style="margin:0"><label class="form-label">Autres dépenses <span class="opt">(Uber, stationnement...)</span></label><input type="number" class="form-input" placeholder="0,00" min="0" step="0.01"></div>
+              <div class="form-row" style="margin:0"><label class="form-label">Nombre de nuitées</label><input type="number" class="form-input" placeholder="0" min="0"></div>
+            </div>
+            <div class="grid2-form" style="margin-bottom:12px">
+              <div class="form-row" style="margin:0"><label class="form-label">Montant estimé / nuit ($)</label><input type="number" class="form-input" placeholder="0,00" min="0" step="0.01"></div>
+              <div class="form-row" style="margin:0"><label class="form-label">Cachet demandé ($)</label><input type="number" class="form-input" placeholder="0,00" min="0" step="0.01"></div>
+            </div>
+            <div class="form-row" style="margin:0"><label class="form-label">Déplacement sur place A/R ($) <span class="opt">(taxi, transport local...)</span></label><input type="number" class="form-input" placeholder="0,00" min="0" step="0.01" style="width:200px"></div>
+          </div>
+        </div>
+        <button class="btn" onclick="ajouterAuteurForm()">+ Ajouter un·e auteur·ice</button>
+      </div>
+
+      <div class="actions-form">
+        <button class="btn btn-pri" onclick="soumettreDemande()">✓ Soumettre la demande à la REFC</button>
+        <button class="btn">💾 Sauvegarder brouillon</button>
+        <button class="btn" onclick="fermerDetail('nouvelle-demande')">Annuler</button>
+      </div>
+      <p style="margin-top:12px;font-size:12px;color:#64748b">⚠ La demande sera traitée par Noureddine Hany, puis soumise à Piedad Saenz pour approbation. Vous serez notifié·e par courriel.</p>
+    </div>
+  </div>
+
+  <!-- RÉCAPITULATIF HEARST (approuvé) -->
+  <div class="detail-card" id="detail-hearst">
+    <div class="detail-header">
+      <span class="detail-header-titre">Lecture publique — Bibliothèque de Hearst</span>
+      <div class="detail-header-droite">
+        <span class="badge badge-vert">Approuvé</span>
+        <button class="btn" style="padding:4px 10px;font-size:12px;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff" onclick="fermerDetail('hearst')">Fermer ✕</button>
+      </div>
+    </div>
+    <div class="onglets">
+      <button class="onglet-btn actif" onclick="changerOnglet('hearst','recap',this)">Récapitulatif</button>
+      <button class="onglet-btn" onclick="changerOnglet('hearst','auteurs',this)">Auteurices</button>
+      <button class="onglet-btn" onclick="changerOnglet('hearst','budget',this)">Budget approuvé</button>
     </div>
 
-    <!-- Topbar -->
-    <div class="topbar">
-        <div class="topbar-logo">
-            <img src="../assets/logo-refc-blanc.png" alt="REFC">
-            <span class="topbar-titre">Espace membres</span>
+    <!-- Récapitulatif -->
+    <div class="onglet-contenu visible" id="hearst-recap">
+      <div class="grid2">
+        <div class="recap-bloc">
+          <div class="recap-titre">Informations de l'événement</div>
+          <div class="recap-ligne"><span class="recap-cle">Nom de l'activité</span><span class="recap-val">Lecture publique</span></div>
+          <div class="recap-ligne"><span class="recap-cle">Date</span><span class="recap-val">15 mars 2026</span></div>
+          <div class="recap-ligne"><span class="recap-cle">Lieu</span><span class="recap-val">Bibliothèque municipale de Hearst</span></div>
+          <div class="recap-ligne"><span class="recap-cle">Ville, Province</span><span class="recap-val">Hearst, Ontario</span></div>
+          <div class="recap-ligne"><span class="recap-cle">Auteurices</span><span class="recap-val">2</span></div>
         </div>
-        <div class="topbar-droite">
-            <span class="pill-role">membre</span>
-            <span>Prise de Parole</span>
-            <button class="btn-deconnexion"
-                onclick="window.location.href='../index.html'">
-                Déconnexion
-            </button>
+        <div class="recap-bloc">
+          <div class="recap-titre">Approbation</div>
+          <div class="recap-ligne"><span class="recap-cle">Statut</span><span class="recap-val"><span class="badge badge-vert">Approuvé</span></span></div>
+          <div class="recap-ligne"><span class="recap-cle">Approuvé par</span><span class="recap-val">Piedad Saenz — Directrice générale</span></div>
+          <div class="recap-ligne"><span class="recap-cle">Date d'approbation</span><span class="recap-val">28 février 2026</span></div>
+          <div class="sep"></div>
+          <div class="budget-compare">
+            <div class="budget-box demande"><div class="budget-box-label">Budget demandé</div><div class="budget-box-val">2 450,00 $</div></div>
+            <div class="budget-box approuve"><div class="budget-box-label">Budget approuvé</div><div class="budget-box-val">2 318,75 $</div></div>
+          </div>
         </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-pri" onclick="genererExcel()">↓ Télécharger le rapport Excel</button>
+      </div>
     </div>
 
-    <!-- Navigation -->
-    <div class="nav">
-        <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
-        <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
-        <a class="nav-btn" href="salons.html">Salons</a>
-        <a class="nav-btn actif" href="evenements.html">Événements littéraires</a>
-        <a class="nav-btn" href="bulletins.html">Bulletins</a>
-        <a class="nav-btn" href="ingram.html">Ingram</a>
+    <!-- Auteurices -->
+    <div class="onglet-contenu" id="hearst-auteurs">
+      <div class="note-info">ℹ️ Informations soumises dans votre demande et traitées par la REFC.</div>
+      <div class="auteur-recap">
+        <div class="auteur-recap-titre"><span>Véronique Sylvain</span><span class="badge badge-bleu">Poésie</span></div>
+        <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;display:grid;grid-template-columns:1fr 130px 130px;gap:8px"><span>Poste</span><span style="text-align:right">Demandé</span><span style="text-align:right">Approuvé REFC</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Ville de résidence</span><span class="ra-dem" style="grid-column:2/4">Ottawa, Ontario</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Transport prévu</span><span class="ra-dem">Voiture pers.</span><span class="ra-app">Voiture pers.</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Frais transport</span><span class="ra-dem">180,00 $</span><span class="ra-app">180,00 $</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Autres dépenses</span><span class="ra-dem">25,00 $</span><span class="ra-app">25,00 $</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Nuitées</span><span class="ra-dem">2 × 145,00 $</span><span class="ra-app">2 × 145,00 $</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Per diem (2 j.)</span><span class="ra-dem">—</span><span class="ra-app">120,00 $</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Cachet</span><span class="ra-dem">300,00 $</span><span class="ra-app">300,00 $</span></div>
+        <div class="sep"></div>
+        <div class="recap-auteur-ligne" style="font-weight:600"><span class="ra-cle">Total</span><span class="ra-dem" style="font-weight:600">815,00 $</span><span class="ra-app" style="font-size:14px;font-weight:700">935,00 $</span></div>
+      </div>
+      <div class="auteur-recap">
+        <div class="auteur-recap-titre"><span>Tomson Highway</span><span class="badge badge-bleu">Roman</span></div>
+        <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;display:grid;grid-template-columns:1fr 130px 130px;gap:8px"><span>Poste</span><span style="text-align:right">Demandé</span><span style="text-align:right">Approuvé REFC</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Ville de résidence</span><span class="ra-dem" style="grid-column:2/4">Sudbury, Ontario</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Transport</span><span class="ra-dem">Autobus</span><span class="ra-app">Autobus</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Frais transport</span><span class="ra-dem">85,00 $</span><span class="ra-app">85,00 $</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Cachet</span><span class="ra-dem">250,00 $</span><span class="ra-app">250,00 $</span></div>
+        <div class="sep"></div>
+        <div class="recap-auteur-ligne" style="font-weight:600"><span class="ra-cle">Total</span><span class="ra-dem" style="font-weight:600">335,00 $</span><span class="ra-app" style="font-size:14px;font-weight:700">335,00 $</span></div>
+      </div>
     </div>
 
-    <!-- Contenu -->
-    <div class="contenu">
-
-        <div class="entete-page">
-            <div>
-                <h1 class="page-titre">Événements littéraires</h1>
-                <p class="page-sous-titre">Prise de Parole — Saison 2025–2026</p>
-            </div>
-            <button class="btn btn-primaire"
-                onclick="afficherDetail('nouvelle-demande')">
-                + Soumettre une demande
-            </button>
-        </div>
-
-        <div class="info-box">
-            ℹ️ Toute demande d'événement littéraire doit être soumise
-            à la REFC pour traitement par Noureddine Hany,
-            puis approuvée par la directrice avant toute confirmation.
-        </div>
-
-        <!-- Tableau des demandes -->
-        <div class="section-titre">Mes demandes</div>
-        <div class="tableau-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Activité</th>
-                        <th style="width:80px">Date</th>
-                        <th style="width:80px">Lieu</th>
-                        <th style="width:80px">Auteurices</th>
-                        <th style="width:95px">Budget approuvé</th>
-                        <th style="width:90px">Statut</th>
-                        <th style="width:80px">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Lecture publique — Bibliothèque de Hearst</strong></td>
-                        <td>15 mars 2026</td>
-                        <td>Hearst, ON</td>
-                        <td>2</td>
-                        <td>2 318,75 $</td>
-                        <td><span class="badge badge-vert">Approuvé</span></td>
-                        <td>
-                            <button class="btn"
-                                style="padding:4px 10px;font-size:12px"
-                                onclick="afficherDetail('hearst')">
-                                Voir
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Animation jeunesse — École Garneau</strong></td>
-                        <td>10 mai 2026</td>
-                        <td>Ottawa, ON</td>
-                        <td>1</td>
-                        <td>—</td>
-                        <td><span class="badge badge-orange">En traitement</span></td>
-                        <td>
-                            <button class="btn"
-                                style="padding:4px 10px;font-size:12px"
-                                onclick="afficherDetail('garneau')">
-                                Voir
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- ===== FORMULAIRE NOUVELLE DEMANDE ===== -->
-        <div class="detail-card" id="detail-nouvelle-demande">
-            <div class="detail-header">
-                <span class="detail-header-titre">
-                    Nouvelle demande d'événement littéraire
-                </span>
-                <div class="detail-header-droite">
-                    <button class="btn"
-                        style="padding:4px 10px;font-size:12px;
-                        background:rgba(255,255,255,0.15);
-                        border-color:rgba(255,255,255,0.3);color:#fff"
-                        onclick="fermerDetail('nouvelle-demande')">
-                        Fermer ✕
-                    </button>
-                </div>
-            </div>
-
-            <div style="padding:18px">
-
-                <!-- Informations générales -->
-                <div class="form-section">
-                    <div class="form-section-titre">
-                        1. Informations générales
-                    </div>
-                    <div class="grid2-form" style="margin-bottom:12px">
-                        <div class="form-row" style="margin:0">
-                            <label class="form-label">Nom de l'activité *</label>
-                            <input type="text" class="form-input"
-                                id="nom-activite"
-                                placeholder="Ex. : Lecture publique, Animation jeunesse...">
-                        </div>
-                        <div class="form-row" style="margin:0">
-                            <label class="form-label">Date *</label>
-                            <input type="date" class="form-input" id="date-activite">
-                        </div>
-                    </div>
-                    <div class="grid2-form" style="margin-bottom:12px">
-                        <div class="form-row" style="margin:0">
-                            <label class="form-label">Lieu *</label>
-                            <input type="text" class="form-input"
-                                placeholder="Ex. : Bibliothèque municipale de Hearst">
-                        </div>
-                        <div class="form-row" style="margin:0">
-                            <label class="form-label">Ville, Province *</label>
-                            <input type="text" class="form-input"
-                                placeholder="Ex. : Hearst, Ontario">
-                        </div>
-                    </div>
-                    <div class="form-row" style="margin:0">
-                        <label class="form-label">
-                            Notes
-                            <span class="optionnel">(optionnel)</span>
-                        </label>
-                        <textarea class="form-input" rows="2"
-                            placeholder="Informations supplémentaires sur l'événement...">
-                        </textarea>
-                    </div>
-                </div>
-
-                <!-- Auteurices -->
-                <div class="form-section">
-                    <div class="form-section-titre">
-                        2. Auteurices / Participants
-                    </div>
-
-                    <div id="liste-auteurs">
-                        <!-- Auteur 1 -->
-                        <div class="auteur-form-bloc" id="auteur-1">
-                            <div class="auteur-form-titre">
-                                <span>Auteur·ice 1</span>
-                                <button class="btn"
-                                    style="padding:3px 8px;font-size:11px"
-                                    onclick="confirmerSupprAuteur('auteur-1', 'Auteur·ice 1')">
-                                    ✕ Retirer
-                                </button>
-                            </div>
-                            <div class="grid3-form" style="margin-bottom:12px">
-                                <div class="form-row" style="margin:0">
-                                    <label class="form-label">Nom complet *</label>
-                                    <input type="text" class="form-input"
-                                        placeholder="Prénom Nom">
-                                </div>
-                                <div class="form-row" style="margin:0">
-                                    <label class="form-label">Genre littéraire</label>
-                                    <input type="text" class="form-input"
-                                        placeholder="Ex. : Poésie, Roman...">
-                                </div>
-                                <div class="form-row" style="margin:0">
-                                    <label class="form-label">Ville de résidence *</label>
-                                    <input type="text" class="form-input"
-                                        placeholder="Ex. : Ottawa, Ontario">
-                                </div>
-                            </div>
-                            <div class="sep"></div>
-                            <div class="grid2-form" style="margin-bottom:12px">
-                                <div class="form-row" style="margin:0">
-                                    <label class="form-label">Mode de transport prévu</label>
-                                    <select class="form-select">
-                                        <option value="">Choisir...</option>
-                                        <option>Voiture personnelle</option>
-                                        <option>Avion</option>
-                                        <option>Train</option>
-                                        <option>Autobus</option>
-                                        <option>Autre</option>
-                                    </select>
-                                </div>
-                                <div class="form-row" style="margin:0">
-                                    <label class="form-label">Frais de transport estimés ($)</label>
-                                    <input type="number" class="form-input"
-                                        placeholder="0,00" min="0" step="0.01">
-                                </div>
-                            </div>
-                            <div class="grid2-form" style="margin-bottom:12px">
-                                <div class="form-row" style="margin:0">
-                                    <label class="form-label">
-                                        Autres dépenses
-                                        <span class="optionnel">(Uber, stationnement...)</span>
-                                    </label>
-                                    <input type="number" class="form-input"
-                                        placeholder="0,00" min="0" step="0.01">
-                                </div>
-                                <div class="form-row" style="margin:0">
-                                    <label class="form-label">Nombre de nuitées</label>
-                                    <input type="number" class="form-input"
-                                        placeholder="0" min="0">
-                                </div>
-                            </div>
-                            <div class="grid2-form" style="margin-bottom:12px">
-                                <div class="form-row" style="margin:0">
-                                    <label class="form-label">Montant moyen / nuit ($)</label>
-                                    <input type="number" class="form-input"
-                                        placeholder="0,00" min="0" step="0.01">
-                                </div>
-                                <div class="form-row" style="margin:0">
-                                    <label class="form-label">Cachet auteur·ice ($)</label>
-                                    <input type="number" class="form-input"
-                                        placeholder="0,00" min="0" step="0.01">
-                                </div>
-                            </div>
-                            <div class="form-row" style="margin:0">
-                                <label class="form-label">
-                                    Déplacement sur place A/R ($)
-                                    <span class="optionnel">(taxi, transport local...)</span>
-                                </label>
-                                <input type="number" class="form-input"
-                                    placeholder="0,00" min="0" step="0.01"
-                                    style="width:200px">
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="btn" onclick="ajouterAuteur()">
-                        + Ajouter un·e auteur·ice
-                    </button>
-                </div>
-
-                <!-- Actions -->
-                <div class="actions-form">
-                    <button class="btn btn-primaire" onclick="soumettreDemande()">
-                        ✓ Soumettre la demande à la REFC
-                    </button>
-                    <button class="btn">
-                        💾 Sauvegarder brouillon
-                    </button>
-                    <button class="btn"
-                        onclick="fermerDetail('nouvelle-demande')">
-                        Annuler
-                    </button>
-                </div>
-
-                <div style="margin-top:12px;font-size:12px;color:#64748b">
-                    ⚠ Votre demande sera traitée par Noureddine Hany,
-                    puis soumise à la directrice pour approbation finale.
-                    Vous serez notifié·e par courriel.
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ===== RÉCAPITULATIF HEARST (approuvé) ===== -->
-        <div class="detail-card" id="detail-hearst">
-            <div class="detail-header">
-                <span class="detail-header-titre">
-                    Lecture publique — Bibliothèque de Hearst
-                </span>
-                <div class="detail-header-droite">
-                    <span class="badge badge-vert">Approuvé</span>
-                    <button class="btn"
-                        style="padding:4px 10px;font-size:12px;
-                        background:rgba(255,255,255,0.15);
-                        border-color:rgba(255,255,255,0.3);color:#fff"
-                        onclick="fermerDetail('hearst')">
-                        Fermer ✕
-                    </button>
-                </div>
-            </div>
-
-            <div class="onglets">
-                <button class="onglet-btn actif"
-                    onclick="changerOnglet('hearst','recap',this)">
-                    Récapitulatif
-                </button>
-                <button class="onglet-btn"
-                    onclick="changerOnglet('hearst','auteurs',this)">
-                    Auteurices
-                </button>
-                <button class="onglet-btn"
-                    onclick="changerOnglet('hearst','budget',this)">
-                    Budget approuvé
-                </button>
-            </div>
-
-            <!-- Récapitulatif -->
-            <div class="onglet-contenu visible" id="hearst-recap">
-                <div class="recap-bloc">
-                    <div class="recap-titre">Informations de l'événement</div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Nom de l'activité</span>
-                        <span class="recap-val">Lecture publique</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Date</span>
-                        <span class="recap-val">15 mars 2026</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Lieu</span>
-                        <span class="recap-val">Bibliothèque municipale de Hearst</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Ville, Province</span>
-                        <span class="recap-val">Hearst, Ontario</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Auteurices</span>
-                        <span class="recap-val">2 (Véronique Sylvain, Tomson Highway)</span>
-                    </div>
-                </div>
-                <div class="recap-bloc">
-                    <div class="recap-titre">Approbation</div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Statut</span>
-                        <span class="recap-val">
-                            <span class="badge badge-vert">Approuvé</span>
-                        </span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Approuvé par</span>
-                        <span class="recap-val">Piedad Saenz — Directrice générale</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Date d'approbation</span>
-                        <span class="recap-val">28 février 2026</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Budget total approuvé</span>
-                        <span class="recap-val refc"
-                            style="font-size:15px;font-weight:700">
-                            2 318,75 $
-                        </span>
-                    </div>
-                </div>
-                <div style="display:flex;gap:8px">
-                    <button class="btn btn-primaire" onclick="genererExcel('hearst')">↓ Télécharger le rapport Excel</button>
-                </div>
-            </div>
-
-            <!-- Auteurices -->
-            <div class="onglet-contenu" id="hearst-auteurs">
-                <div class="note-info">
-                    ℹ️ Informations soumises par votre maison et traitées par la REFC.
-                </div>
-
-                <!-- Auteure 1 -->
-                <div class="auteur-form-bloc">
-                    <div class="auteur-form-titre">
-                        <span>Véronique Sylvain</span>
-                        <span class="badge badge-bleu">Poésie</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Ville de résidence</span>
-                        <span class="recap-val">Ottawa, Ontario</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Distance</span>
-                        <span class="recap-val">612 km</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Mode de transport</span>
-                        <span class="recap-val">Voiture personnelle</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Frais de transport</span>
-                        <span class="recap-val">180,00 $</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Autres dépenses</span>
-                        <span class="recap-val">25,00 $</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Nuitées</span>
-                        <span class="recap-val">2 × 145,00 $</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Cachet</span>
-                        <span class="recap-val">300,00 $</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Déplacement sur place</span>
-                        <span class="recap-val">20,00 $</span>
-                    </div>
-                    <div class="sep"></div>
-                    <div class="recap-ligne">
-                        <span style="font-weight:600;color:#1e293b">
-                            Budget / Véronique Sylvain
-                        </span>
-                        <span style="font-weight:700;color:#2D3F7B">
-                            935,00 $
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Auteur 2 -->
-                <div class="auteur-form-bloc">
-                    <div class="auteur-form-titre">
-                        <span>Tomson Highway</span>
-                        <span class="badge badge-bleu">Roman</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Ville de résidence</span>
-                        <span class="recap-val">Sudbury, Ontario</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Distance</span>
-                        <span class="recap-val">248 km</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Mode de transport</span>
-                        <span class="recap-val">Autobus</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Frais de transport</span>
-                        <span class="recap-val">85,00 $</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Cachet</span>
-                        <span class="recap-val">250,00 $</span>
-                    </div>
-                    <div class="sep"></div>
-                    <div class="recap-ligne">
-                        <span style="font-weight:600;color:#1e293b">
-                            Budget / Tomson Highway
-                        </span>
-                        <span style="font-weight:700;color:#2D3F7B">
-                            335,00 $
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Budget approuvé -->
-            <div class="onglet-contenu" id="hearst-budget">
-                <div class="recap-bloc">
-                    <div class="recap-titre">Détail du budget approuvé</div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Véronique Sylvain</span>
-                        <span class="recap-val">935,00 $</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Tomson Highway</span>
-                        <span class="recap-val">335,00 $</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Promotion — Communication</span>
-                        <span class="recap-val">1 175,00 $</span>
-                    </div>
-                    <div class="sep"></div>
-                    <div class="recap-ligne">
-                        <span style="font-size:14px;font-weight:700;color:#1e293b">
-                            Budget total de l'activité
-                        </span>
-                        <span style="font-size:16px;font-weight:700;color:#2D3F7B">
-                            2 445,00 $
-                        </span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Prise en charge REFC</span>
-                        <span class="recap-val refc">2 445,00 $</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Part maison membre</span>
-                        <span class="recap-val">0,00 $</span>
-                    </div>
-                </div>
-                <button class="btn btn-primaire" onclick="genererExcel('hearst')">↓ Télécharger le rapport Excel</button>
-            </div>
-        </div>
-
-        <!-- ===== EN TRAITEMENT — ÉCOLE GARNEAU ===== -->
-        <div class="detail-card" id="detail-garneau">
-            <div class="detail-header">
-                <span class="detail-header-titre">
-                    Animation jeunesse — École Garneau
-                </span>
-                <div class="detail-header-droite">
-                    <span class="badge badge-orange">En traitement</span>
-                    <button class="btn"
-                        style="padding:4px 10px;font-size:12px;
-                        background:rgba(255,255,255,0.15);
-                        border-color:rgba(255,255,255,0.3);color:#fff"
-                        onclick="fermerDetail('garneau')">
-                        Fermer ✕
-                    </button>
-                </div>
-            </div>
-            <div style="padding:18px">
-                <div class="note-info">
-                    ℹ️ Votre demande a été reçue par la REFC et est en cours
-                    de traitement par Noureddine Hany. Elle sera ensuite
-                    soumise à la directrice pour approbation finale.
-                    Vous serez notifié·e par courriel dès qu'une décision
-                    sera prise.
-                </div>
-                <div class="recap-bloc">
-                    <div class="recap-titre">Informations soumises</div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Nom de l'activité</span>
-                        <span class="recap-val">Animation jeunesse</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Date</span>
-                        <span class="recap-val">10 mai 2026</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Lieu</span>
-                        <span class="recap-val">École secondaire Garneau</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Ville, Province</span>
-                        <span class="recap-val">Ottawa, Ontario</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Auteurices</span>
-                        <span class="recap-val">1</span>
-                    </div>
-                    <div class="recap-ligne">
-                        <span class="recap-cle">Date de soumission</span>
-                        <span class="recap-val">3 avril 2026</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <!-- Budget approuvé -->
+    <div class="onglet-contenu" id="hearst-budget">
+      <div class="grid3">
+        <div class="mini-kpi"><div class="mini-kpi-label">Véronique Sylvain</div><div class="mini-kpi-val">935,00 $</div></div>
+        <div class="mini-kpi"><div class="mini-kpi-label">Tomson Highway</div><div class="mini-kpi-val">335,00 $</div></div>
+        <div class="mini-kpi"><div class="mini-kpi-label">Promotion REFC</div><div class="mini-kpi-val">1 175,00 $</div></div>
+      </div>
+      <div class="recap-bloc">
+        <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;display:grid;grid-template-columns:1fr 130px 130px;gap:8px"><span>Poste</span><span style="text-align:right">Budget demandé</span><span style="text-align:right">Budget approuvé</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Sous-total auteurices</span><span class="ra-dem">1 150,00 $</span><span class="ra-app">1 270,00 $</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Promotion-Communication</span><span class="ra-dem">1 300,00 $</span><span class="ra-app">1 175,00 $</span></div>
+        <div class="sep"></div>
+        <div class="recap-auteur-ligne"><span style="font-weight:700;color:#1e293b;font-size:14px">BUDGET TOTAL</span><span class="ra-dem" style="font-weight:700;font-size:13px">2 450,00 $</span><span class="ra-app" style="font-weight:700;font-size:14px">2 445,00 $</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Prise en charge REFC</span><span class="ra-dem">—</span><span class="ra-app">2 445,00 $</span></div>
+        <div class="recap-auteur-ligne"><span class="ra-cle">Part maison membre</span><span class="ra-dem">—</span><span class="ra-app">0,00 $</span></div>
+      </div>
+      <button class="btn btn-pri" onclick="genererExcel()">↓ Télécharger le rapport Excel</button>
     </div>
+  </div>
 
-    <!-- Modal confirmation suppression auteur -->
-    <div class="modal-bg" id="modal-suppr-auteur">
-        <div class="modal-confirm">
-            <div style="font-size:36px;margin-bottom:14px">🗑️</div>
-            <div style="font-size:16px;font-weight:600;margin-bottom:8px">
-                Confirmer la suppression
-            </div>
-            <div style="font-size:13px;color:#64748b;margin-bottom:22px"
-                id="texte-suppr-auteur">
-            </div>
-            <div class="modal-actions">
-                <button class="btn"
-                    onclick="fermerModal('modal-suppr-auteur')">
-                    Annuler
-                </button>
-                <button class="btn"
-                    style="background:#fee2e2;color:#991b1b;border-color:#fecaca"
-                    onclick="executerSupprAuteur()">
-                    Oui, retirer
-                </button>
-            </div>
-        </div>
+  <!-- EN TRAITEMENT — GARNEAU -->
+  <div class="detail-card" id="detail-garneau">
+    <div class="detail-header">
+      <span class="detail-header-titre">Animation jeunesse — École Garneau</span>
+      <div class="detail-header-droite">
+        <span class="badge badge-orange">En traitement</span>
+        <button class="btn" style="padding:4px 10px;font-size:12px;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff" onclick="fermerDetail('garneau')">Fermer ✕</button>
+      </div>
     </div>
+    <div style="padding:18px">
+      <div class="note-info">ℹ️ Votre demande a été reçue par la REFC et est en cours de traitement par Noureddine Hany. Elle sera ensuite soumise à la directrice pour approbation. Vous serez notifié·e par courriel dès qu'une décision sera prise.</div>
+      <div class="recap-bloc">
+        <div class="recap-titre">Informations soumises</div>
+        <div class="recap-ligne"><span class="recap-cle">Nom de l'activité</span><span class="recap-val">Animation jeunesse</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Date</span><span class="recap-val">10 mai 2026</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Lieu</span><span class="recap-val">École secondaire Garneau</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Ville, Province</span><span class="recap-val">Ottawa, Ontario</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Auteurices</span><span class="recap-val">1</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Budget demandé</span><span class="recap-val">1 320,00 $</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Date de soumission</span><span class="recap-val">3 avril 2026</span></div>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        let auteurCount = 1;
-        let auteurASupprimer = null;
+  <!-- REJETÉ — CHAMBÉRY -->
+  <div class="detail-card" id="detail-chambery">
+    <div class="detail-header-rouge">
+      <span class="detail-header-titre">Dédicace — Festival Chambéry Savoie Livre</span>
+      <div class="detail-header-droite">
+        <span class="badge" style="background:rgba(255,255,255,.2);color:#fff">Rejeté</span>
+        <button class="btn" style="padding:4px 10px;font-size:12px;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff" onclick="fermerDetail('chambery')">Fermer ✕</button>
+      </div>
+    </div>
+    <div style="padding:18px">
+      <div class="note-rouge">
+        ✗ Votre demande n'a pas été retenue. Veuillez consulter le motif ci-dessous.<br>
+        Pour toute question, contactez l'équipe REFC : <strong>613 691-7061</strong> ou par courriel.
+      </div>
+      <div class="recap-bloc" style="margin-bottom:14px">
+        <div class="recap-titre">Informations de la demande</div>
+        <div class="recap-ligne"><span class="recap-cle">Nom de l'activité</span><span class="recap-val">Dédicace</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Date</span><span class="recap-val">5 février 2026</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Lieu</span><span class="recap-val">Festival Chambéry Savoie Livre</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Ville, Province</span><span class="recap-val">Chambéry, France</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Budget demandé</span><span class="recap-val">950,00 $</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Budget approuvé</span><span class="recap-val" style="color:#991b1b;font-weight:600">Rejeté</span></div>
+      </div>
+      <div class="rejet-motif">
+        <div class="rejet-motif-titre">Motif du rejet — communiqué par la REFC</div>
+        <div class="rejet-motif-ligne">
+          <span class="rejet-motif-cle">Rejeté par</span>
+          <span class="rejet-motif-val">Piedad Saenz — Directrice générale</span>
+        </div>
+        <div class="rejet-motif-ligne">
+          <span class="rejet-motif-cle">Date du rejet</span>
+          <span class="rejet-motif-val">15 janvier 2026</span>
+        </div>
+        <div class="rejet-motif-ligne">
+          <span class="rejet-motif-cle">Catégorie</span>
+          <span class="rejet-motif-val">Hors territoire couvert par la REFC</span>
+        </div>
+        <div class="rejet-motif-ligne">
+          <span class="rejet-motif-cle">Message de la REFC</span>
+          <span class="rejet-motif-val">Votre demande pour le Festival Chambéry Savoie Livre ne peut être approuvée. Le programme de soutien aux événements littéraires de la REFC couvre les activités se déroulant au Canada uniquement. Les événements tenus à l'étranger ne sont pas admissibles dans le cadre de ce programme.</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        function afficherDetail(id) {
-            document.querySelectorAll('.detail-card').forEach(d => {
-                d.classList.remove('visible');
-            });
-            const cible = document.getElementById('detail-' + id);
-            cible.classList.add('visible');
-            cible.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+</div>
 
-        function fermerDetail(id) {
-            document.getElementById('detail-' + id).classList.remove('visible');
-        }
+<!-- Modal suppression auteur formulaire -->
+<div class="modal-bg" id="modal-suppr-auteur">
+  <div class="modal-confirm">
+    <div style="font-size:36px;margin-bottom:14px">🗑️</div>
+    <div style="font-size:16px;font-weight:600;margin-bottom:8px">Confirmer la suppression</div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:22px" id="texte-suppr-auteur"></div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn" onclick="fermerModalSuppr()">Annuler</button>
+      <button class="btn" style="background:#fee2e2;color:#991b1b;border-color:#fecaca" onclick="executerSupprAuteur()">Oui, retirer</button>
+    </div>
+  </div>
+</div>
 
-        function changerOnglet(section, onglet, btn) {
-            const detail = document.getElementById('detail-' + section);
-            detail.querySelectorAll('.onglet-btn').forEach(b => {
-                b.classList.remove('actif');
-            });
-            detail.querySelectorAll('.onglet-contenu').forEach(c => {
-                c.classList.remove('visible');
-            });
-            if (btn) btn.classList.add('actif');
-            const el = document.getElementById(section + '-' + onglet);
-            if (el) el.classList.add('visible');
-        }
+<script>
+let auteurFormCount = 1;
+let auteurFormASupprimer = null;
 
-        function ouvrirModal(id) {
-            document.getElementById(id).classList.add('visible');
-        }
+function afficherDetail(id){
+  document.querySelectorAll('.detail-card').forEach(d=>d.classList.remove('visible'));
+  const el=document.getElementById('detail-'+id);
+  el.classList.add('visible');
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function fermerDetail(id){document.getElementById('detail-'+id).classList.remove('visible');}
+function changerOnglet(s,o,btn){
+  const d=document.getElementById('detail-'+s);
+  d.querySelectorAll('.onglet-btn').forEach(b=>b.classList.remove('actif'));
+  d.querySelectorAll('.onglet-contenu').forEach(c=>c.classList.remove('visible'));
+  btn.classList.add('actif');
+  document.getElementById(s+'-'+o).classList.add('visible');
+}
 
-        function fermerModal(id) {
-            document.getElementById(id).classList.remove('visible');
-        }
+function ajouterAuteurForm(){
+  auteurFormCount++;
+  const n=auteurFormCount;
+  const div=document.createElement('div');
+  div.className='auteur-form'; div.id='auteur-form-'+n;
+  div.innerHTML=`<div class="auteur-form-titre"><span>Auteur·ice ${n}</span>
+    <button class="btn" style="padding:3px 8px;font-size:11px" onclick="supprimerAuteurForm('auteur-form-${n}','Auteur·ice ${n}')">✕ Retirer</button></div>
+    <div class="grid3-form" style="margin-bottom:12px">
+      <div class="form-row" style="margin:0"><label class="form-label">Nom complet *</label><input type="text" class="form-input" placeholder="Prénom Nom"></div>
+      <div class="form-row" style="margin:0"><label class="form-label">Genre littéraire</label><input type="text" class="form-input" placeholder="Ex. : Poésie..."></div>
+      <div class="form-row" style="margin:0"><label class="form-label">Ville de résidence *</label><input type="text" class="form-input" placeholder="Ex. : Ottawa, Ontario"></div>
+    </div>
+    <div class="grid2-form" style="margin-bottom:12px">
+      <div class="form-row" style="margin:0"><label class="form-label">Mode de transport prévu</label><select class="form-select"><option value="">Choisir...</option><option>Voiture personnelle</option><option>Avion</option><option>Train</option><option>Autobus</option><option>Autre</option></select></div>
+      <div class="form-row" style="margin:0"><label class="form-label">Frais de transport estimés ($)</label><input type="number" class="form-input" placeholder="0,00" min="0" step="0.01"></div>
+    </div>
+    <div class="grid2-form" style="margin-bottom:12px">
+      <div class="form-row" style="margin:0"><label class="form-label">Autres dépenses <span class="opt">(Uber...)</span></label><input type="number" class="form-input" placeholder="0,00" min="0" step="0.01"></div>
+      <div class="form-row" style="margin:0"><label class="form-label">Nombre de nuitées</label><input type="number" class="form-input" placeholder="0" min="0"></div>
+    </div>
+    <div class="grid2-form" style="margin-bottom:12px">
+      <div class="form-row" style="margin:0"><label class="form-label">Montant estimé / nuit ($)</label><input type="number" class="form-input" placeholder="0,00" min="0" step="0.01"></div>
+      <div class="form-row" style="margin:0"><label class="form-label">Cachet demandé ($)</label><input type="number" class="form-input" placeholder="0,00" min="0" step="0.01"></div>
+    </div>
+    <div class="form-row" style="margin:0"><label class="form-label">Déplacement sur place A/R ($)</label><input type="number" class="form-input" placeholder="0,00" min="0" step="0.01" style="width:200px"></div>`;
+  document.getElementById('liste-auteurs-form').appendChild(div);
+  div.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
 
-        document.querySelectorAll('.modal-bg').forEach(m => {
-            m.addEventListener('click', e => {
-                if (e.target === m) m.classList.remove('visible');
-            });
-        });
+function supprimerAuteurForm(id, nom){
+  auteurFormASupprimer=id;
+  document.getElementById('texte-suppr-auteur').textContent=`Êtes-vous sûr de vouloir retirer ${nom} ?`;
+  document.getElementById('modal-suppr-auteur').classList.add('visible');
+}
+function fermerModalSuppr(){document.getElementById('modal-suppr-auteur').classList.remove('visible');}
+function executerSupprAuteur(){
+  if(auteurFormASupprimer){const el=document.getElementById(auteurFormASupprimer);if(el)el.remove();auteurFormASupprimer=null;}
+  fermerModalSuppr();
+}
+document.getElementById('modal-suppr-auteur').addEventListener('click',function(e){if(e.target===this)fermerModalSuppr();});
 
-        function ajouterAuteur() {
-            auteurCount++;
-            const liste = document.getElementById('liste-auteurs');
-            const bloc = document.createElement('div');
-            bloc.className = 'auteur-form-bloc';
-            bloc.id = 'auteur-' + auteurCount;
-            bloc.innerHTML = `
-                <div class="auteur-form-titre">
-                    <span>Auteur·ice ${auteurCount}</span>
-                    <button class="btn"
-                        style="padding:3px 8px;font-size:11px"
-                        onclick="confirmerSupprAuteur('auteur-${auteurCount}',
-                        'Auteur·ice ${auteurCount}')">
-                        ✕ Retirer
-                    </button>
-                </div>
-                <div class="grid3-form" style="margin-bottom:12px">
-                    <div class="form-row" style="margin:0">
-                        <label class="form-label">Nom complet *</label>
-                        <input type="text" class="form-input"
-                            placeholder="Prénom Nom">
-                    </div>
-                    <div class="form-row" style="margin:0">
-                        <label class="form-label">Genre littéraire</label>
-                        <input type="text" class="form-input"
-                            placeholder="Ex. : Poésie, Roman...">
-                    </div>
-                    <div class="form-row" style="margin:0">
-                        <label class="form-label">Ville de résidence *</label>
-                        <input type="text" class="form-input"
-                            placeholder="Ex. : Ottawa, Ontario">
-                    </div>
-                </div>
-                <div class="sep"></div>
-                <div class="grid2-form" style="margin-bottom:12px">
-                    <div class="form-row" style="margin:0">
-                        <label class="form-label">Mode de transport prévu</label>
-                        <select class="form-select">
-                            <option value="">Choisir...</option>
-                            <option>Voiture personnelle</option>
-                            <option>Avion</option>
-                            <option>Train</option>
-                            <option>Autobus</option>
-                            <option>Autre</option>
-                        </select>
-                    </div>
-                    <div class="form-row" style="margin:0">
-                        <label class="form-label">Frais de transport estimés ($)</label>
-                        <input type="number" class="form-input"
-                            placeholder="0,00" min="0" step="0.01">
-                    </div>
-                </div>
-                <div class="grid2-form" style="margin-bottom:12px">
-                    <div class="form-row" style="margin:0">
-                        <label class="form-label">
-                            Autres dépenses
-                            <span class="optionnel">(Uber, stationnement...)</span>
-                        </label>
-                        <input type="number" class="form-input"
-                            placeholder="0,00" min="0" step="0.01">
-                    </div>
-                    <div class="form-row" style="margin:0">
-                        <label class="form-label">Nombre de nuitées</label>
-                        <input type="number" class="form-input"
-                            placeholder="0" min="0">
-                    </div>
-                </div>
-                <div class="grid2-form" style="margin-bottom:12px">
-                    <div class="form-row" style="margin:0">
-                        <label class="form-label">Montant moyen / nuit ($)</label>
-                        <input type="number" class="form-input"
-                            placeholder="0,00" min="0" step="0.01">
-                    </div>
-                    <div class="form-row" style="margin:0">
-                        <label class="form-label">Cachet auteur·ice ($)</label>
-                        <input type="number" class="form-input"
-                            placeholder="0,00" min="0" step="0.01">
-                    </div>
-                </div>
-                <div class="form-row" style="margin:0">
-                    <label class="form-label">
-                        Déplacement sur place A/R ($)
-                    </label>
-                    <input type="number" class="form-input"
-                        placeholder="0,00" min="0" step="0.01"
-                        style="width:200px">
-                </div>`;
-            liste.appendChild(bloc);
-            bloc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+function soumettreDemande(){
+  const nom=document.getElementById('nd-nom');
+  const date=document.getElementById('nd-date');
+  let ok=true;
+  [['nd-nom','err-nd-nom'],[' nd-date','err-nd-date']].forEach(([inp,err])=>{
+    const el=document.getElementById(inp.trim());
+    const er=document.getElementById(err.trim());
+    if(el&&!el.value.trim()){el.classList.add('input-err');if(er)er.style.display='block';ok=false;}
+    else if(el){el.classList.remove('input-err');if(er)er.style.display='none';}
+  });
+  if(!nom.value.trim()||!date.value){
+    if(!nom.value.trim()){nom.classList.add('input-err');document.getElementById('err-nd-nom').style.display='block';}
+    if(!date.value){date.classList.add('input-err');document.getElementById('err-nd-date').style.display='block';}
+    return;
+  }
+  alert('Demande soumise avec succès !\n\nNoureddine Hany va traiter votre demande et la soumettre à la directrice pour approbation.\nVous serez notifié·e par courriel.');
+  fermerDetail('nouvelle-demande');
+}
 
-        function confirmerSupprAuteur(id, nom) {
-            auteurASupprimer = id;
-            document.getElementById('texte-suppr-auteur').innerHTML =
-                `Êtes-vous sûr de vouloir retirer <strong>${nom}</strong> ?`;
-            ouvrirModal('modal-suppr-auteur');
-        }
+async function genererExcel(){
+  const wb=new ExcelJS.Workbook();
+  const ws=wb.addWorksheet("Rapport activité");
+  const B="2D3F7B",P="E8EEF7",G="F1F5F9";
+  ws.columns=[{width:45},{width:42},{width:18},{width:22},{width:20}];
+  function tp(t){const r=ws.addRow([t]);ws.mergeCells(`A${r.number}:E${r.number}`);r.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+B}};r.getCell(1).font={color:{argb:"FFFFFFFF"},bold:true,size:12};r.height=22;}
+  function ts(t){const r=ws.addRow([t]);ws.mergeCells(`A${r.number}:E${r.number}`);r.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+P}};r.getCell(1).font={color:{argb:"FF"+B},bold:true,size:11};r.height=18;}
+  function ss(t){const r=ws.addRow(["",t]);ws.mergeCells(`B${r.number}:E${r.number}`);r.getCell(2).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFE2E8F0"}};r.getCell(2).font={bold:true,size:10};r.height=16;}
+  function ec(cols){const r=ws.addRow(cols);r.eachCell(c=>{c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+G}};c.font={bold:true,size:10,color:{argb:"FF64748B"}};c.alignment={horizontal:"center",wrapText:true}});r.height=16;}
+  function dn(c1,c2,c3,c4,c5){const r=ws.addRow([c1||"",c2||"",c3||"",c4||"",c5||""]);r.eachCell(c=>{c.font={size:10};c.alignment={wrapText:true,vertical:"middle"}});if(c3)r.getCell(3).alignment={horizontal:"right",wrapText:true};if(c5)r.getCell(5).alignment={horizontal:"right",wrapText:true};r.height=16;return r;}
+  function tt(l,c2,m){const r=ws.addRow([l||"",c2||"","","",m||""]);r.eachCell(c=>{c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+G}};c.font={bold:true,size:10,color:{argb:"FF"+B}}});r.getCell(5).alignment={horizontal:"right"};r.height=16;}
+  function fmt(v){return typeof v==="number"?v.toLocaleString("fr-CA",{minimumFractionDigits:2})+" $":v;}
+  function vd(){ws.addRow([]);}
 
-        function executerSupprAuteur() {
-            if (auteurASupprimer) {
-                const el = document.getElementById(auteurASupprimer);
-                if (el) el.remove();
-                auteurASupprimer = null;
-            }
-            fermerModal('modal-suppr-auteur');
-        }
+  tp("REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)");
+  dn("435 rue Donald, bureau 214, Ottawa, Ontario  K1K 4X5");
+  dn("613 691-7061  |  refc.ca");vd();
+  const rt=ws.addRow(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE"]);ws.mergeCells(`A${rt.number}:E${rt.number}`);rt.getCell(1).font={bold:true,size:14,color:{argb:"FF"+B}};rt.getCell(1).alignment={horizontal:"center"};rt.height=24;vd();
+  ts("INFORMATIONS GÉNÉRALES");
+  dn("Nom de l\'activité","","Lecture publique — Bibliothèque de Hearst");
+  dn("Date","","15 mars 2026");dn("Lieu","","Bibliothèque municipale de Hearst");
+  dn("Ville, Province","","Hearst, Ontario");dn("Maison membre","","Prise de Parole");
+  dn("Statut","","Approuvé");dn("Approuvé par","","Piedad Saenz — Directrice générale");
+  dn("Date d\'approbation","","28 février 2026");vd();
+  ts("AUTEURICES / PARTICIPANTS");vd();
+  [{nom:"Véronique Sylvain",genre:"Poésie",ville:"Ottawa, Ontario",distance:"612 km",transport:"Voiture personnelle",frais:180,autres:25,pcv:"100 %",tv:205,nuitees:2,nuit:145,pcs:"100 %",heb:290,pb:75,ded:[{n:"Petit déjeuner inclus",v:-15}],pn:60,pt:120,ts_:410,dep:20,cachet:300,td:320,dem:815,app:935},
+   {nom:"Tomson Highway",genre:"Roman",ville:"Sudbury, Ontario",distance:"248 km",transport:"Autobus",frais:85,autres:0,pcv:"100 %",tv:85,nuitees:0,dep:0,cachet:250,td:250,dem:335,app:335}
+  ].forEach((a,i)=>{
+    const ra=ws.addRow([`Auteur·ice ${i+1} — ${a.nom}`]);ws.mergeCells(`A${ra.number}:E${ra.number}`);ra.getCell(1).font={bold:true,size:11};ra.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF8FAFC"}};ra.height=18;
+    dn("Genre littéraire","",a.genre);dn("Ville de résidence","",a.ville);dn("Distance","",a.distance);vd();
+    ss("VOYAGE (A/R)");ec(["","Détail","Montant demandé","% Prise en charge","Total approuvé REFC"]);
+    dn("","Mode de transport",a.transport);dn("","Frais à engager",fmt(a.frais),a.pcv,fmt(a.frais));
+    dn("","Autres dépenses",fmt(a.autres),a.pcv,fmt(a.autres));tt("","SOUS-TOTAL VOYAGE",fmt(a.tv));vd();
+    if(a.nuitees>0){
+      ss("SÉJOUR");ec(["","Détail","Montant demandé","% Prise en charge","Total approuvé REFC"]);
+      dn("",`Hébergement (${a.nuitees} nuit${a.nuitees>1?"s":""} × ${fmt(a.nuit)})`,fmt(a.heb),a.pcs,fmt(a.heb));
+      dn("","Per diem base / jour",fmt(a.pb));
+      a.ded.forEach(d=>dn("",`  Déduction — ${d.n}`,fmt(d.v)));
+      dn("","Per diem net / jour",fmt(a.pn),"",fmt(a.pn));
+      dn("",`Per diem total (${a.nuitees} j.)`,fmt(a.pt),"",fmt(a.pt));
+      tt("","SOUS-TOTAL SÉJOUR",fmt(a.ts_));vd();
+    }
+    ss("DÉROULEMENT");ec(["","Détail","Montant","","Total approuvé REFC"]);
+    dn("","Déplacement sur place (A/R)",fmt(a.dep),"",fmt(a.dep));
+    dn("","Cachet auteur·ice",fmt(a.cachet),"",fmt(a.cachet));
+    tt("","SOUS-TOTAL DÉROULEMENT",fmt(a.td));vd();
+    const rb=ws.addRow([`BUDGET TOTAL — ${a.nom}`,"",fmt(a.dem),"",fmt(a.app)]);
+    ws.mergeCells(`A${rb.number}:B${rb.number}`);
+    rb.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+P}};rb.getCell(1).font={bold:true,size:11,color:{argb:"FF"+B}};
+    rb.getCell(3).font={bold:true,color:{argb:"FF64748B"}};rb.getCell(3).alignment={horizontal:"right"};
+    rb.getCell(5).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+P}};rb.getCell(5).font={bold:true,size:12,color:{argb:"FF"+B}};rb.getCell(5).alignment={horizontal:"right"};
+    rb.height=20;vd();vd();
+  });
+  ts("PROMOTION — COMMUNICATION (REFC UNIQUEMENT)");
+  dn("","Frais de promotion","","",fmt(350));dn("","Consommation","","",fmt(125));
+  dn("","Cachet animateur·rice","","",fmt(500));dn("","Aménagement REFC","","",fmt(200));
+  tt("BUDGET PROMOTION-COMMUNICATION","",fmt(1175));vd();
+  ts("RÉCAPITULATIF FINANCIER");vd();
+  dn("Véronique Sylvain","",fmt(815),"",fmt(935));
+  dn("Tomson Highway","",fmt(335),"",fmt(335));
+  dn("Budget Promotion-Communication","",fmt(1300),"",fmt(1175));vd();
+  const rbt=ws.addRow(["BUDGET TOTAL DE L\'ACTIVITÉ","",fmt(2450),"",fmt(2445)]);
+  ws.mergeCells(`A${rbt.number}:B${rbt.number}`);
+  [1,3,5].forEach(i=>{rbt.getCell(i).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF"+B}};rbt.getCell(i).font={bold:true,size:12,color:{argb:"FFFFFFFF"}};});
+  rbt.getCell(3).alignment={horizontal:"right"};rbt.getCell(5).alignment={horizontal:"right"};rbt.height=22;
+  dn("Prise en charge REFC","","","",fmt(2445));dn("Part maison membre","","","",fmt(0));vd();
+  ts("APPROBATION");dn("Approuvé par","","Piedad Saenz — Directrice générale");dn("Date","","28 février 2026");vd();vd();
+  const rp=ws.addRow(["Document généré par le portail membres REFC  |  435 rue Donald, bureau 214, Ottawa, Ontario K1K 4X5  |  613 691-7061  |  refc.ca"]);
+  ws.mergeCells(`A${rp.number}:E${rp.number}`);rp.getCell(1).font={size:9,italic:true,color:{argb:"FF94A3B8"}};rp.getCell(1).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF8FAFC"}};
 
-        function soumettreDemande() {
-            const nom = document.getElementById('nom-activite').value.trim();
-            const date = document.getElementById('date-activite').value;
-            if (!nom || !date) {
-                alert('Veuillez remplir au minimum le nom de l\'activité et la date.');
-                return;
-            }
-            alert('Demande soumise avec succès !\n\n' +
-                  'Noureddine Hany va traiter votre demande et la soumettre ' +
-                  'à la directrice pour approbation.\n' +
-                  'Vous serez notifié·e par courriel.');
-            fermerDetail('nouvelle-demande');
-        }
-    
-        // ============================================================
-        // GÉNÉRATION DU RAPPORT EXCEL (côté membre — lecture seule)
-        // ============================================================
-        function genererExcel(evenement) {
-            const wb = XLSX.utils.book_new();
-            const data = getDataEvenement(evenement);
-            const rows = [];
-
-            rows.push(["REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)", "", "", ""]);
-            rows.push(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE", "", "", ""]);
-            rows.push(["", "", "", ""]);
-            rows.push(["INFORMATIONS GÉNÉRALES", "", "", ""]);
-            rows.push(["Nom de l\'activité", data.nom, "", ""]);
-            rows.push(["Date", data.date, "", ""]);
-            rows.push(["Lieu", data.lieu, "", ""]);
-            rows.push(["Ville, Province", data.ville, "", ""]);
-            rows.push(["Maison membre", data.maison, "", ""]);
-            rows.push(["Statut", data.statut, "", ""]);
-            rows.push(["Approuvé par", data.approuve_par, "", ""]);
-            rows.push(["Date d\'approbation", data.date_approbation, "", ""]);
-            rows.push(["", "", "", ""]);
-
-            rows.push(["AUTEURICES / PARTICIPANTS", "", "", ""]);
-            rows.push(["", "", "", ""]);
-
-            data.auteurs.forEach((auteur, i) => {
-                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`, "", "", ""]);
-                rows.push(["Genre littéraire", auteur.genre, "", ""]);
-                rows.push(["Ville de résidence", auteur.ville, "", ""]);
-                rows.push(["Distance", auteur.distance, "", ""]);
-                rows.push(["Mode de transport", auteur.transport, "", ""]);
-                rows.push(["Frais de transport", "", auteur.frais_transport, "$"]);
-                rows.push(["Autres dépenses", "", auteur.autres_depenses, "$"]);
-                rows.push(["Total Voyage", "", auteur.total_voyage, "$"]);
-                if (auteur.nuitees > 0) {
-                    rows.push(["Nombre de nuitées", auteur.nuitees, "", ""]);
-                    rows.push(["Total Séjour", "", auteur.total_sejour, "$"]);
-                }
-                rows.push(["Cachet auteur·ice", "", auteur.cachet, "$"]);
-                rows.push([`BUDGET TOTAL — ${auteur.nom}`, "", auteur.budget_total, "$"]);
-                rows.push(["", "", "", ""]);
-            });
-
-            rows.push(["PROMOTION — COMMUNICATION", "", "", ""]);
-            rows.push(["Total Promotion", "", data.promo.total, "$"]);
-            rows.push(["", "", "", ""]);
-            rows.push(["BUDGET TOTAL DE L\'ACTIVITÉ", "", data.budget_total, "$"]);
-            rows.push(["Prise en charge REFC", "", data.prise_charge_refc, "$"]);
-            rows.push(["Part maison membre", "", data.part_maison, "$"]);
-            rows.push(["", "", "", ""]);
-            rows.push(["Approuvé par", data.approuve_par, "", ""]);
-            rows.push(["Date d\'approbation", data.date_approbation, "", ""]);
-
-            const ws = XLSX.utils.aoa_to_sheet(rows);
-            ws["!cols"] = [{ wch: 48 }, { wch: 28 }, { wch: 18 }, { wch: 8 }];
-            ws["!merges"] = [
-                { s: { r: 0, c: 0 }, e: { r: 0, c: 3 } },
-                { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } }
-            ];
-            XLSX.utils.book_append_sheet(wb, ws, "Rapport");
-
-            const nomFichier = `rapport_${data.date.replace(/-/g, "")}_${
-                data.nom.toLowerCase()
-                .replace(/[éèêë]/g, "e")
-                .replace(/[àâ]/g, "a")
-                .replace(/[^a-z0-9]/g, "_")
-                .replace(/_+/g, "_")
-                .substring(0, 30)
-            }.xlsx`;
-
-            XLSX.writeFile(wb, nomFichier);
-        }
-
-        function getDataEvenement(id) {
-            const events = {
-                hearst: {
-                    nom: 'Lecture publique — Bibliothèque de Hearst',
-                    date: '2026-03-15',
-                    lieu: 'Bibliothèque municipale de Hearst',
-                    ville: 'Hearst, Ontario',
-                    maison: 'Prise de Parole',
-                    statut: 'Approuvé',
-                    approuve_par: 'Piedad Saenz — Directrice générale',
-                    date_approbation: '2026-02-28',
-                    auteurs: [
-                        {
-                            nom: 'Véronique Sylvain',
-                            genre: 'Poésie',
-                            ville: 'Ottawa, Ontario',
-                            distance: '612 km',
-                            transport: 'Voiture personnelle',
-                            frais_transport: 180.00,
-                            autres_depenses: 25.00,
-                            total_voyage: 205.00,
-                            nuitees: 2,
-                            total_sejour: 410.00,
-                            cachet: 300.00,
-                            budget_total: 935.00
-                        },
-                        {
-                            nom: 'Tomson Highway',
-                            genre: 'Roman',
-                            ville: 'Sudbury, Ontario',
-                            distance: '248 km',
-                            transport: 'Autobus',
-                            frais_transport: 85.00,
-                            autres_depenses: 0.00,
-                            total_voyage: 85.00,
-                            nuitees: 0,
-                            cachet: 250.00,
-                            budget_total: 335.00
-                        }
-                    ],
-                    promo: { total: 1175.00 },
-                    budget_total: 2445.00,
-                    prise_charge_refc: 2445.00,
-                    part_maison: 0.00
-                }
-            };
-            return events[id] || events['hearst'];
-        }
-
-    </script>
-
+  const buf=await wb.xlsx.writeBuffer();
+  const blob=new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download="REFC_Rapport_20260315_prise_de_parole.xlsx";a.click();URL.revokeObjectURL(url);
+}
+</script>
 </body>
 </html>
