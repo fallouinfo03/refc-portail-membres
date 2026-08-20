@@ -655,7 +655,7 @@
                 </div>
                 <div class="actions-groupe">
                     <button class="btn btn-primaire" onclick="genererExcel('hearst')">↓ Générer rapport Excel</button>
-                    <button class="btn" onclick="ouvrirModal('modal-demande-originale')">📄 Voir la demande originale</button>
+                    <button class="btn" onclick="document.getElementById('overlay-demande').classList.add('visible')">📄 Voir la demande originale</button>
                 </div>
             </div>
 
@@ -1201,7 +1201,7 @@
 
 
     <!-- Modal demande originale -->
-    <div class="modal-bg" id="modal-demande-originale">
+    <div id="overlay-demande">
         <div class="modal-demande">
 
             <!-- En-tête maison membre -->
@@ -1356,7 +1356,7 @@
             <div style="padding:14px 24px;display:flex;gap:10px;
                 border-top:1px solid #e2e8f0;background:#fff;
                 position:sticky;bottom:0">
-                <button class="btn" onclick="fermerModal('modal-demande-originale')">
+                <button class="btn" onclick="document.getElementById('overlay-demande').classList.remove('visible')">
                     Fermer
                 </button>
                 <button class="btn btn-primaire" onclick="imprimerDemande()">
@@ -1470,6 +1470,11 @@
             ouvrirModal('modal-suppression');
         }
 
+        // Fermer overlay demande en cliquant sur le fond
+        document.getElementById('overlay-demande').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('visible');
+        });
+
         document.querySelectorAll('.modal-bg').forEach(m => {
             m.addEventListener('click', e => {
                 if (e.target === m) m.classList.remove('visible');
@@ -1504,11 +1509,11 @@
 
             // Largeurs colonnes
             ws.columns = [
-                { width: 38 },
-                { width: 36 },
-                { width: 16 },
+                { width: 45 },
+                { width: 50 },
                 { width: 20 },
-                { width: 18 }
+                { width: 25 },
+                { width: 22 }
             ];
 
             // Helper : ajouter une ligne titre principale (fond bleu REFC, texte blanc)
@@ -1544,13 +1549,14 @@
             function ajouterEnTeteColonnes(cols) {
                 const row = ws.addRow(cols);
                 row.eachCell((cell, i) => {
-                    if (i > 1) {
-                        cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF1F5F9" } };
-                        cell.font = { bold: true, size: 10, color: { argb: "FF64748B" } };
-                        cell.alignment = { horizontal: "center" };
-                    }
+                    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF1F5F9" } };
+                    cell.font = { bold: true, size: 10, color: { argb: "FF64748B" } };
+                    cell.alignment = { horizontal: "center", wrapText: true };
+                    cell.border = {
+                        bottom: { style: "thin", color: { argb: "FFE2E8F0" } }
+                    };
                 });
-                row.height = 15;
+                row.height = 16;
             }
 
             // Helper : ligne de données normale
@@ -1570,11 +1576,12 @@
             function ajouterTotal(label, col2, montant) {
                 const row = ws.addRow([label || "", col2 || "", "", "", montant || ""]);
                 row.eachCell(cell => {
-                    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF8FAFC" } };
+                    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF1F5F9" } };
                     cell.font = { bold: true, size: 10, color: { argb: "FF2D3F7B" } };
                 });
-                row.getCell(5).alignment = { horizontal: "right" };
-                row.height = 15;
+                row.getCell(5).alignment = { horizontal: "right", wrapText: true };
+                row.getCell(2).alignment = { wrapText: true };
+                row.height = 18;
                 return row;
             }
 
