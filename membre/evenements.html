@@ -1121,61 +1121,68 @@
             const data = getDataEvenement(evenement);
             const rows = [];
 
-            rows.push(['REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)', '', '', '']);
-            rows.push(['RAPPORT D'ACTIVITÉ LITTÉRAIRE', '', '', '']);
-            rows.push(['', '', '', '']);
-            rows.push(['INFORMATIONS GÉNÉRALES', '', '', '']);
-            rows.push(['Nom de l'activité', data.nom, '', '']);
-            rows.push(['Date', data.date, '', '']);
-            rows.push(['Lieu', data.lieu, '', '']);
-            rows.push(['Ville, Province', data.ville, '', '']);
-            rows.push(['Maison membre', data.maison, '', '']);
-            rows.push(['Statut', data.statut, '', '']);
-            rows.push(['Approuvé par', data.approuve_par, '', '']);
-            rows.push(['Date d'approbation', data.date_approbation, '', '']);
-            rows.push(['', '', '', '']);
+            rows.push(["REGROUPEMENT DES ÉDITEURS FRANCO-CANADIENS (REFC)", "", "", ""]);
+            rows.push(["RAPPORT D\'ACTIVITÉ LITTÉRAIRE", "", "", ""]);
+            rows.push(["", "", "", ""]);
+            rows.push(["INFORMATIONS GÉNÉRALES", "", "", ""]);
+            rows.push(["Nom de l\'activité", data.nom, "", ""]);
+            rows.push(["Date", data.date, "", ""]);
+            rows.push(["Lieu", data.lieu, "", ""]);
+            rows.push(["Ville, Province", data.ville, "", ""]);
+            rows.push(["Maison membre", data.maison, "", ""]);
+            rows.push(["Statut", data.statut, "", ""]);
+            rows.push(["Approuvé par", data.approuve_par, "", ""]);
+            rows.push(["Date d\'approbation", data.date_approbation, "", ""]);
+            rows.push(["", "", "", ""]);
 
-            rows.push(['AUTEURICES / PARTICIPANTS', '', '', '']);
-            rows.push(['', '', '', '']);
+            rows.push(["AUTEURICES / PARTICIPANTS", "", "", ""]);
+            rows.push(["", "", "", ""]);
 
             data.auteurs.forEach((auteur, i) => {
-                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`, '', '', '']);
-                rows.push(['Genre littéraire', auteur.genre, '', '']);
-                rows.push(['Ville de résidence', auteur.ville, '', '']);
-                rows.push(['Distance', auteur.distance, '', '']);
-                rows.push(['Mode de transport', auteur.transport, '', '']);
-                rows.push(['Frais de transport', '', auteur.frais_transport, '$']);
-                rows.push(['Autres dépenses', '', auteur.autres_depenses, '$']);
-                rows.push(['Total Voyage', '', auteur.total_voyage, '$']);
+                rows.push([`Auteur·ice ${i + 1} — ${auteur.nom}`, "", "", ""]);
+                rows.push(["Genre littéraire", auteur.genre, "", ""]);
+                rows.push(["Ville de résidence", auteur.ville, "", ""]);
+                rows.push(["Distance", auteur.distance, "", ""]);
+                rows.push(["Mode de transport", auteur.transport, "", ""]);
+                rows.push(["Frais de transport", "", auteur.frais_transport, "$"]);
+                rows.push(["Autres dépenses", "", auteur.autres_depenses, "$"]);
+                rows.push(["Total Voyage", "", auteur.total_voyage, "$"]);
                 if (auteur.nuitees > 0) {
-                    rows.push(['Nuitées', auteur.nuitees, '', '']);
-                    rows.push(['Total Séjour', '', auteur.total_sejour, '$']);
+                    rows.push(["Nombre de nuitées", auteur.nuitees, "", ""]);
+                    rows.push(["Total Séjour", "", auteur.total_sejour, "$"]);
                 }
-                rows.push(['Cachet auteur·ice', '', auteur.cachet, '$']);
-                rows.push([`BUDGET TOTAL — ${auteur.nom}`, '', auteur.budget_total, '$']);
-                rows.push(['', '', '', '']);
+                rows.push(["Cachet auteur·ice", "", auteur.cachet, "$"]);
+                rows.push([`BUDGET TOTAL — ${auteur.nom}`, "", auteur.budget_total, "$"]);
+                rows.push(["", "", "", ""]);
             });
 
-            rows.push(['PROMOTION — COMMUNICATION', '', '', '']);
-            rows.push(['Total Promotion', '', data.promo.total, '$']);
-            rows.push(['', '', '', '']);
-            rows.push(['BUDGET TOTAL DE L'ACTIVITÉ', '', data.budget_total, '$']);
-            rows.push(['Prise en charge REFC', '', data.prise_charge_refc, '$']);
-            rows.push(['Part maison membre', '', data.part_maison, '$']);
-            rows.push(['', '', '', '']);
-            rows.push(['Approuvé par', data.approuve_par, '', '']);
+            rows.push(["PROMOTION — COMMUNICATION", "", "", ""]);
+            rows.push(["Total Promotion", "", data.promo.total, "$"]);
+            rows.push(["", "", "", ""]);
+            rows.push(["BUDGET TOTAL DE L\'ACTIVITÉ", "", data.budget_total, "$"]);
+            rows.push(["Prise en charge REFC", "", data.prise_charge_refc, "$"]);
+            rows.push(["Part maison membre", "", data.part_maison, "$"]);
+            rows.push(["", "", "", ""]);
+            rows.push(["Approuvé par", data.approuve_par, "", ""]);
+            rows.push(["Date d\'approbation", data.date_approbation, "", ""]);
 
             const ws = XLSX.utils.aoa_to_sheet(rows);
-            ws['!cols'] = [{ wch: 48 }, { wch: 28 }, { wch: 18 }, { wch: 8 }];
-            ws['!merges'] = [
+            ws["!cols"] = [{ wch: 48 }, { wch: 28 }, { wch: 18 }, { wch: 8 }];
+            ws["!merges"] = [
                 { s: { r: 0, c: 0 }, e: { r: 0, c: 3 } },
                 { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } }
             ];
-            XLSX.utils.book_append_sheet(wb, ws, 'Rapport');
+            XLSX.utils.book_append_sheet(wb, ws, "Rapport");
 
-            const nomFichier = `rapport_evenement_${data.nom.toLowerCase()
-                .replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_')
-                .substring(0, 40)}_${data.date.replace(/-/g, '')}.xlsx`;
+            const nomFichier = `rapport_${data.date.replace(/-/g, "")}_${
+                data.nom.toLowerCase()
+                .replace(/[éèêë]/g, "e")
+                .replace(/[àâ]/g, "a")
+                .replace(/[^a-z0-9]/g, "_")
+                .replace(/_+/g, "_")
+                .substring(0, 30)
+            }.xlsx`;
+
             XLSX.writeFile(wb, nomFichier);
         }
 
