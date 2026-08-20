@@ -677,7 +677,7 @@
                     </div>
                 </div>
                 <div class="actions-groupe">
-                    <button class="btn" onclick="document.getElementById('overlay-demande').classList.add('visible')">📄 Voir la demande originale</button>
+                    <button class="btn" onclick="document.getElementById('overlay-demande').style.display='block'">📄 Voir la demande originale</button>
                 </div>
             </div>
 
@@ -1223,151 +1223,101 @@
 
 
     <!-- Modal demande originale -->
-    <div id="overlay-demande">
-        <div class="modal-demande">
+    <div id="overlay-demande" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);z-index:999999;overflow-y:auto;padding:30px 20px;">
+        <div style="background:#fff;border-radius:12px;width:700px;max-width:96vw;margin:0 auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
 
             <!-- En-tête maison membre -->
-            <div class="doc-entete">
+            <div style="background:#2D3F7B;color:#fff;padding:20px 24px;display:flex;justify-content:space-between;align-items:flex-start;">
                 <div>
-                    <div class="doc-logo-maison">Prise de Parole</div>
-                    <div class="doc-coords-maison">
+                    <div style="font-size:18px;font-weight:700;">Prise de Parole</div>
+                    <div style="font-size:11px;opacity:.85;margin-top:4px;line-height:1.7;">
                         109, rue Elm, bureau 205<br>
                         Sudbury, Ontario P3C 1T4<br>
                         705 675-6491 · prisedeparole.com
                     </div>
                 </div>
-                <div class="doc-date-soumission">
+                <div style="font-size:11px;opacity:.85;text-align:right;">
                     Demande soumise le<br>
                     <strong>15 janvier 2026</strong><br><br>
                     À l'attention de la REFC
                 </div>
             </div>
 
-            <!-- Bandeau titre -->
-            <div class="doc-titre-section">
+            <!-- Titre -->
+            <div style="background:#E8EEF7;border-left:4px solid #2D3F7B;padding:10px 24px;font-size:14px;font-weight:600;color:#2D3F7B;letter-spacing:.02em;">
                 DEMANDE D'ÉVÉNEMENT LITTÉRAIRE
             </div>
 
-            <!-- Avertissement lecture seule -->
-            <div class="doc-lecture-seule">
+            <!-- Avertissement -->
+            <div style="background:#fef9c3;border-bottom:1px solid #fde68a;padding:8px 24px;font-size:12px;color:#854d0e;display:flex;align-items:center;gap:6px;">
                 🔒 Document en lecture seule — Demande originale soumise par la maison membre
             </div>
 
-            <div class="doc-corps">
+            <!-- Corps -->
+            <div style="padding:20px 24px;">
 
                 <!-- Infos générales -->
-                <div class="doc-bloc">
-                    <div class="doc-bloc-titre">Informations générales</div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Nom de l'activité</span>
-                        <span class="doc-val">Lecture publique</span>
+                <div style="margin-bottom:20px;">
+                    <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #e2e8f0;">Informations générales</div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;">
+                        <span style="color:#64748b;width:220px;flex-shrink:0;">Nom de l'activité</span>
+                        <span style="color:#1e293b;font-weight:500;">Lecture publique</span>
                     </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Date de l'événement</span>
-                        <span class="doc-val">15 mars 2026</span>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;">
+                        <span style="color:#64748b;width:220px;flex-shrink:0;">Date de l'événement</span>
+                        <span style="color:#1e293b;font-weight:500;">15 mars 2026</span>
                     </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Lieu</span>
-                        <span class="doc-val">Bibliothèque municipale de Hearst</span>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;">
+                        <span style="color:#64748b;width:220px;flex-shrink:0;">Lieu</span>
+                        <span style="color:#1e293b;font-weight:500;">Bibliothèque municipale de Hearst</span>
                     </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Ville, Province</span>
-                        <span class="doc-val">Hearst, Ontario</span>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;">
+                        <span style="color:#64748b;width:220px;flex-shrink:0;">Ville, Province</span>
+                        <span style="color:#1e293b;font-weight:500;">Hearst, Ontario</span>
                     </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Notes</span>
-                        <span class="doc-val">Événement organisé en collaboration avec la bibliothèque municipale. Participation d'auteurices autochtones souhaitée.</span>
+                    <div style="display:flex;padding:6px 0;font-size:13px;">
+                        <span style="color:#64748b;width:220px;flex-shrink:0;">Notes</span>
+                        <span style="color:#1e293b;font-weight:500;">Événement organisé en collaboration avec la bibliothèque municipale. Participation d'auteurices autochtones souhaitée.</span>
                     </div>
                 </div>
 
                 <!-- Auteure 1 -->
-                <div class="doc-bloc">
-                    <div class="doc-bloc-titre">Auteure 1 — Véronique Sylvain</div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Genre littéraire</span>
-                        <span class="doc-val">Poésie</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Ville de résidence</span>
-                        <span class="doc-val">Ottawa, Ontario</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Mode de transport prévu</span>
-                        <span class="doc-val">Voiture personnelle</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Frais de transport estimés</span>
-                        <span class="doc-val">180,00 $</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Autres dépenses (Uber, stationnement...)</span>
-                        <span class="doc-val">25,00 $</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Nombre de nuitées</span>
-                        <span class="doc-val">2</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Montant estimé / nuit</span>
-                        <span class="doc-val">145,00 $</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Cachet demandé</span>
-                        <span class="doc-val">300,00 $</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Déplacement sur place (A/R)</span>
-                        <span class="doc-val">20,00 $</span>
-                    </div>
+                <div style="margin-bottom:20px;">
+                    <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #e2e8f0;">Auteure 1 — Véronique Sylvain</div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Genre littéraire</span><span style="color:#1e293b;font-weight:500;">Poésie</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Ville de résidence</span><span style="color:#1e293b;font-weight:500;">Ottawa, Ontario</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Mode de transport prévu</span><span style="color:#1e293b;font-weight:500;">Voiture personnelle</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Frais de transport estimés</span><span style="color:#1e293b;font-weight:500;">180,00 $</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Autres dépenses</span><span style="color:#1e293b;font-weight:500;">25,00 $</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Nombre de nuitées</span><span style="color:#1e293b;font-weight:500;">2</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Montant estimé / nuit</span><span style="color:#1e293b;font-weight:500;">145,00 $</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Cachet demandé</span><span style="color:#1e293b;font-weight:500;">300,00 $</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;"><span style="color:#64748b;width:220px;flex-shrink:0;">Déplacement sur place (A/R)</span><span style="color:#1e293b;font-weight:500;">20,00 $</span></div>
                 </div>
 
                 <!-- Auteur 2 -->
-                <div class="doc-bloc">
-                    <div class="doc-bloc-titre">Auteur 2 — Tomson Highway</div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Genre littéraire</span>
-                        <span class="doc-val">Roman</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Ville de résidence</span>
-                        <span class="doc-val">Sudbury, Ontario</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Mode de transport prévu</span>
-                        <span class="doc-val">Autobus</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Frais de transport estimés</span>
-                        <span class="doc-val">85,00 $</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Autres dépenses</span>
-                        <span class="doc-val">0,00 $</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Nuitées</span>
-                        <span class="doc-val">0</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Cachet demandé</span>
-                        <span class="doc-val">250,00 $</span>
-                    </div>
-                    <div class="doc-ligne">
-                        <span class="doc-cle">Déplacement sur place (A/R)</span>
-                        <span class="doc-val">0,00 $</span>
-                    </div>
+                <div style="margin-bottom:20px;">
+                    <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #e2e8f0;">Auteur 2 — Tomson Highway</div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Genre littéraire</span><span style="color:#1e293b;font-weight:500;">Roman</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Ville de résidence</span><span style="color:#1e293b;font-weight:500;">Sudbury, Ontario</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Mode de transport prévu</span><span style="color:#1e293b;font-weight:500;">Autobus</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Frais de transport estimés</span><span style="color:#1e293b;font-weight:500;">85,00 $</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Autres dépenses</span><span style="color:#1e293b;font-weight:500;">0,00 $</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Nuitées</span><span style="color:#1e293b;font-weight:500;">0</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;border-bottom:1px solid #f8fafc;"><span style="color:#64748b;width:220px;flex-shrink:0;">Cachet demandé</span><span style="color:#1e293b;font-weight:500;">250,00 $</span></div>
+                    <div style="display:flex;padding:6px 0;font-size:13px;"><span style="color:#64748b;width:220px;flex-shrink:0;">Déplacement sur place (A/R)</span><span style="color:#1e293b;font-weight:500;">0,00 $</span></div>
                 </div>
 
             </div>
 
             <!-- Pied de page -->
-            <div class="doc-pied">
+            <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#64748b;">
                 <div>
                     Document soumis via le portail membres REFC<br>
                     Référence : EVT-2026-0042
                 </div>
-                <div class="doc-pied-refc">
-                    <strong>REFC</strong><br>
+                <div style="text-align:right;line-height:1.6;">
+                    <strong style="color:#2D3F7B;">REFC</strong><br>
                     435 rue Donald, bureau 214<br>
                     Ottawa, Ontario K1K 4X5<br>
                     613 691-7061 · refc.ca
@@ -1375,18 +1325,18 @@
             </div>
 
             <!-- Boutons -->
-            <div style="padding:14px 24px;display:flex;gap:10px;
-                border-top:1px solid #e2e8f0;background:#fff;
-                position:sticky;bottom:0">
-                <button class="btn" onclick="document.getElementById('overlay-demande').classList.remove('visible')">
+            <div style="padding:14px 24px;display:flex;gap:10px;border-top:1px solid #e2e8f0;background:#fff;">
+                <button onclick="document.getElementById('overlay-demande').style.display='none'" style="padding:8px 16px;font-size:13px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;">
                     Fermer
                 </button>
-                <button class="btn btn-primaire" onclick="imprimerDemande()">
+                <button onclick="imprimerDemande()" style="padding:8px 16px;font-size:13px;border-radius:8px;border:none;background:#2D3F7B;color:#fff;cursor:pointer;">
                     🖨️ Imprimer
                 </button>
             </div>
+
         </div>
     </div>
+
 
     <!-- Modal confirmation suppression -->
     <div class="modal-bg" id="modal-suppression">
@@ -1448,8 +1398,8 @@
         }
 
         function imprimerDemande() {
-            const modal = document.getElementById("modal-demande-originale");
-            const contenu = modal.querySelector(".modal-demande").innerHTML;
+            const overlay = document.getElementById("overlay-demande");
+            const contenu = overlay.querySelector("div").innerHTML;
             const fenetre = window.open("", "_blank");
             fenetre.document.write(`
                 <!DOCTYPE html>
@@ -1498,7 +1448,7 @@
 
         // Fermer overlay demande en cliquant sur le fond
         document.getElementById('overlay-demande').addEventListener('click', function(e) {
-            if (e.target === this) this.classList.remove('visible');
+            if (e.target === this) this.style.display = 'none';
         });
 
         document.querySelectorAll('.modal-bg').forEach(m => {
