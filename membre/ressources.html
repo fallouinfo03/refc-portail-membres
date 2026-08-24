@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REFC — Ressources (Membre)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:100}
+.banniere a{color:#60a5fa;text-decoration:none}
+.topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;margin-top:36px}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-logo img{height:36px;filter:brightness(0) invert(1)}
+.topbar-titre{font-size:14px;font-weight:500;opacity:.9}
+.topbar-droite{display:flex;align-items:center;gap:16px;font-size:13px}
+.pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deco{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.btn-deco:hover{background:rgba(255,255,255,.1)}
+.nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto}
+.nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+.nav-btn:hover{color:#fff}
+.nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
+.contenu{padding:24px;max-width:1000px;margin:0 auto}
+
+.page-titre{font-size:22px;font-weight:600;color:#1e293b;margin-bottom:4px}
+.page-soustitre{font-size:13px;color:#64748b;margin-bottom:24px}
+
+/* Cartes de types de ressources */
+.grille-types{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.carte-type{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;cursor:pointer;transition:.15s;display:flex;flex-direction:column;gap:10px}
+.carte-type:hover{border-color:#7B9EC8;box-shadow:0 2px 8px rgba(45,63,123,.08)}
+.carte-type.selec{border-color:#2D3F7B;background:#E8EEF7}
+.carte-type-icone{width:36px;height:36px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.carte-type.selec .carte-type-icone{background:#fff}
+.carte-type-nom{font-size:13px;font-weight:600;color:#1e293b}
+.carte-type-desc{font-size:12px;color:#64748b;line-height:1.5}
+.carte-type-resp{font-size:11px;color:#94a3b8;margin-top:2px}
+
+/* Formulaire nouvelle demande */
+.formulaire-demande{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:28px;display:none}
+.formulaire-demande.visible{display:block}
+.form-entete{padding:16px 20px;border-bottom:1px solid #e2e8f0;background:#f8fafc;display:flex;align-items:center;justify-content:space-between}
+.form-titre{font-size:14px;font-weight:600;color:#1e293b}
+.form-corps{padding:20px}
+.form-groupe{margin-bottom:16px}
+.form-groupe:last-child{margin-bottom:0}
+.form-label{display:block;font-size:12px;font-weight:500;color:#475569;margin-bottom:5px}
+.form-label .requis{color:#7f1d1d}
+.form-input,.form-textarea{width:100%;padding:9px 12px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;outline:none;color:#1e293b;background:#fff;font-family:inherit}
+.form-input:focus,.form-textarea:focus{border-color:#2D3F7B;box-shadow:0 0 0 3px rgba(45,63,123,.08)}
+.form-textarea{resize:vertical;min-height:120px;line-height:1.6}
+.form-input.calcule{background:#f8fafc;color:#64748b}
+.form-note{font-size:11px;color:#94a3b8;margin-top:4px;line-height:1.5}
+.upload-zone{border:1.5px dashed #cbd5e1;border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:.15s}
+.upload-zone:hover{border-color:#2D3F7B;background:#f8fafc}
+.upload-zone input{display:none}
+.upload-zone-texte{font-size:13px;color:#64748b;margin-top:6px}
+.upload-zone-sous{font-size:11px;color:#94a3b8;margin-top:3px}
+.fichiers-joints{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.fichier-joint-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:7px;font-size:12px;color:#475569}
+.fichier-joint-item button{background:none;border:none;color:#94a3b8;cursor:pointer;font-size:16px;line-height:1;margin-left:auto;padding:0 2px}
+.fichier-joint-item button:hover{color:#7f1d1d}
+.form-pied{padding:14px 20px;border-top:1px solid #e2e8f0;background:#f8fafc;display:flex;justify-content:flex-end;gap:8px}
+.btn{padding:7px 14px;font-size:13px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.15s}
+.btn:hover{background:#f8fafc}
+.btn-sm{padding:5px 11px;font-size:12px}
+.btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.btn-pri:hover{background:#253570}
+
+/* Séparateur section */
+.sep-section{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sep-section-titre{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.sep-section-ligne{flex:1;height:1px;background:#e2e8f0}
+
+/* Historique des demandes */
+.historique{display:flex;flex-direction:column;gap:0}
+.historique-item{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:10px}
+.historique-item-entete{padding:14px 18px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;cursor:pointer}
+.historique-item-entete:hover{background:#f8fafc}
+.historique-objet{font-size:13px;font-weight:600;color:#1e293b;margin-bottom:4px}
+.historique-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;white-space:nowrap}
+.badge-type{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0}
+.badge-recu{background:#E8EEF7;color:#2D3F7B}
+.badge-traitement{background:#fef9c3;color:#854d0e}
+.badge-repondu{background:#dcfce7;color:#166534}
+.badge-ferme{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+.historique-date{font-size:11px;color:#94a3b8;white-space:nowrap}
+.historique-fil{padding:0 18px 16px;display:none;border-top:1px solid #f1f5f9}
+.historique-fil.ouvert{display:block}
+.message-historique{margin-top:14px}
+.message-historique-entete{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.message-historique-auteur{font-size:12px;font-weight:600;color:#1e293b}
+.message-historique-heure{font-size:11px;color:#94a3b8}
+.message-historique-bulle{background:#f8fafc;border:1px solid #e2e8f0;border-radius:0 8px 8px 8px;padding:10px 14px;font-size:13px;color:#1e293b;line-height:1.6}
+.message-historique-bulle.admin{background:#E8EEF7;border-color:#7B9EC8}
+.pj{display:inline-flex;align-items:center;gap:6px;margin-top:7px;padding:5px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;color:#475569;cursor:pointer;text-decoration:none}
+.pj:hover{background:#f1f5f9}
+.chevron{transition:.2s;flex-shrink:0}
+.chevron.ouvert{transform:rotate(180deg)}
+
+/* Vide */
+.vide{text-align:center;padding:40px 24px;color:#94a3b8;font-size:13px;background:#fff;border:1px solid #e2e8f0;border-radius:10px}
+</style>
+</head>
+<body>
+
+<div class="banniere">
+  <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
+  <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Voir le code source</a>
+</div>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../assets/logo-refc-blanc.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
+    <span class="topbar-titre">Portail membres</span>
+  </div>
+  <div class="topbar-droite">
+    <span class="pill">membre</span>
+    <span>Prise de Parole</span>
+    <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
+  </div>
+</div>
+
+<div class="nav">
+  <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
+  <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+  <a class="nav-btn" href="salons.html">Salons</a>
+  <a class="nav-btn" href="evenements.html">Événements littéraires</a>
+  <a class="nav-btn" href="bulletins.html">Bulletins</a>
+  <a class="nav-btn" href="ingram.html">Ingram</a>
+  <a class="nav-btn actif" href="ressources.html">Ressources</a>
+</div>
+
+<div class="contenu">
+
+  <div class="page-titre">Ressources et accompagnement</div>
+  <div class="page-soustitre">Soumettez une demande à la REFC — notre équipe vous répondra dans les meilleurs délais.</div>
+
+  <!-- Sélection du type -->
+  <div class="grille-types">
+
+    <div class="carte-type" onclick="selectionnerType('mentorat',this)">
+      <div class="carte-type-icone">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="#2D3F7B" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="carte-type-nom">Mentorat</div>
+        <div class="carte-type-desc">Accompagnement direct de la REFC sur vos enjeux stratégiques et organisationnels.</div>
+        <div class="carte-type-resp">Piedad Saenz</div>
+      </div>
+    </div>
+
+    <div class="carte-type" onclick="selectionnerType('formation',this)">
+      <div class="carte-type-icone">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="#2D3F7B" stroke-width="1.5"/><path d="M6 8h8M6 11h5" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="carte-type-nom">Formation</div>
+        <div class="carte-type-desc">Identification et accès aux formations adaptées à votre maison d'édition.</div>
+        <div class="carte-type-resp">Piedad Saenz</div>
+      </div>
+    </div>
+
+    <div class="carte-type" onclick="selectionnerType('bdd',this)">
+      <div class="carte-type-icone">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><ellipse cx="10" cy="5.5" rx="7" ry="2.5" stroke="#2D3F7B" stroke-width="1.5"/><path d="M3 5.5v9c0 1.381 3.134 2.5 7 2.5s7-1.119 7-2.5v-9" stroke="#2D3F7B" stroke-width="1.5"/><path d="M3 10c0 1.381 3.134 2.5 7 2.5s7-1.119 7-2.5" stroke="#2D3F7B" stroke-width="1.5"/></svg>
+      </div>
+      <div>
+        <div class="carte-type-nom">Contact base de données</div>
+        <div class="carte-type-desc">Accès aux bases de données partenaires — bibliothèques, réseaux scolaires, diffuseurs.</div>
+        <div class="carte-type-resp">Piedad Saenz</div>
+      </div>
+    </div>
+
+    <div class="carte-type" onclick="selectionnerType('salon',this)">
+      <div class="carte-type-icone">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2L2 7v11h16V7L10 2z" stroke="#2D3F7B" stroke-width="1.5" stroke-linejoin="round"/><rect x="7" y="11" width="6" height="7" rx="1" stroke="#2D3F7B" stroke-width="1.5"/></svg>
+      </div>
+      <div>
+        <div class="carte-type-nom">Information salon</div>
+        <div class="carte-type-desc">Renseignements sur les salons du livre — participation, délais, soutien disponible.</div>
+        <div class="carte-type-resp">Mathieu Ricard</div>
+      </div>
+    </div>
+
+    <div class="carte-type" onclick="selectionnerType('congres',this)">
+      <div class="carte-type-icone">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="14" rx="2" stroke="#2D3F7B" stroke-width="1.5"/><path d="M14 2v4M6 2v4M2 9h16" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="carte-type-nom">Information congrès</div>
+        <div class="carte-type-desc">Informations sur les congrès sectoriels — dates, lieux, modalités de participation.</div>
+        <div class="carte-type-resp">Noureddine Hany</div>
+      </div>
+    </div>
+
+    <div class="carte-type" onclick="selectionnerType('autre',this)">
+      <div class="carte-type-icone">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#2D3F7B" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="carte-type-nom">Autre demande</div>
+        <div class="carte-type-desc">Toute autre demande d'accompagnement ou d'information non couverte ci-dessus.</div>
+        <div class="carte-type-resp">Équipe REFC</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Formulaire de demande -->
+  <div class="formulaire-demande" id="formulaire-demande">
+    <div class="form-entete">
+      <div class="form-titre" id="form-titre">Nouvelle demande</div>
+      <button class="btn btn-sm" onclick="fermerFormulaire()">Annuler</button>
+    </div>
+    <div class="form-corps">
+      <div class="form-groupe">
+        <label class="form-label">Type de demande</label>
+        <input type="text" class="form-input calcule" id="form-type" readonly>
+      </div>
+      <div class="form-groupe">
+        <label class="form-label">Objet <span class="requis">*</span></label>
+        <input type="text" class="form-input" id="form-objet" placeholder="Décrivez brièvement l'objet de votre demande">
+      </div>
+      <div class="form-groupe">
+        <label class="form-label">Message <span class="requis">*</span></label>
+        <textarea class="form-textarea" id="form-message" placeholder="Détaillez votre demande avec suffisamment d'information pour que la REFC puisse vous répondre efficacement..."></textarea>
+      </div>
+      <div class="form-groupe">
+        <label class="form-label">Pièces jointes <span style="font-weight:400;color:#94a3b8">(optionnel)</span></label>
+        <label class="upload-zone" id="upload-zone">
+          <input type="file" multiple accept=".pdf,.doc,.docx,.xls,.xlsx" onchange="ajouterFichiers(this)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 15V3m0 0L8 7m4-4l4 4" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div class="upload-zone-texte">Glisser un fichier ici ou cliquer pour parcourir</div>
+          <div class="upload-zone-sous">PDF, Word, Excel · Taille maximale 10 Mo par fichier</div>
+        </label>
+        <div class="fichiers-joints" id="fichiers-joints"></div>
+      </div>
+    </div>
+    <div class="form-pied">
+      <button class="btn" onclick="fermerFormulaire()">Annuler</button>
+      <button class="btn btn-pri" onclick="soumettreDemande()">Envoyer la demande</button>
+    </div>
+  </div>
+
+  <!-- Historique des demandes -->
+  <div class="sep-section">
+    <span class="sep-section-titre">Mes demandes</span>
+    <span class="sep-section-ligne"></span>
+  </div>
+
+  <div id="historique-demandes">
+
+    <!-- Demande 1 — Reçu, non lue -->
+    <div class="historique-item">
+      <div class="historique-item-entete" onclick="toggleFil(this)">
+        <div style="flex:1">
+          <div class="historique-objet">Demande de mentorat — développement stratégique</div>
+          <div class="historique-meta">
+            <span class="badge badge-type">Mentorat</span>
+            <span class="badge badge-recu">Reçu</span>
+            <span class="historique-date">24 août 2025</span>
+          </div>
+        </div>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="historique-fil">
+        <div class="message-historique">
+          <div class="message-historique-entete">
+            <span class="message-historique-auteur">Prise de Parole</span>
+            <span class="message-historique-heure">24 août 2025 · 09h14</span>
+          </div>
+          <div class="message-historique-bulle">
+            Bonjour,<br><br>
+            Nous traversons une période de repositionnement stratégique et aimerions bénéficier d'un accompagnement de la REFC sur les questions de développement à moyen terme. Serait-il possible d'organiser une rencontre avec Piedad dans les prochaines semaines ?
+          </div>
+          <a class="pj" href="#">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/></svg>
+            Plan_strategique_PdP_2025.pdf · 340 Ko
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demande 2 — Répondu -->
+    <div class="historique-item">
+      <div class="historique-item-entete" onclick="toggleFil(this)">
+        <div style="flex:1">
+          <div class="historique-objet">Information — Congrès FLA 2026</div>
+          <div class="historique-meta">
+            <span class="badge badge-type">Info congrès</span>
+            <span class="badge badge-repondu">Répondu</span>
+            <span class="historique-date">10 août 2025</span>
+          </div>
+        </div>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="historique-fil">
+        <div class="message-historique">
+          <div class="message-historique-entete">
+            <span class="message-historique-auteur">Prise de Parole</span>
+            <span class="message-historique-heure">10 août 2025 · 15h18</span>
+          </div>
+          <div class="message-historique-bulle">Bonjour, auriez-vous des informations sur le Congrès FLA 2026 ? Dates, lieu, possibilités de présence pour les éditeurs membres ?</div>
+        </div>
+        <div class="message-historique" style="margin-top:12px">
+          <div class="message-historique-entete">
+            <span class="message-historique-auteur">Noureddine Hany — REFC</span>
+            <span class="message-historique-heure">11 août 2025 · 09h30</span>
+          </div>
+          <div class="message-historique-bulle admin">
+            Bonjour,<br><br>
+            Le Congrès FLA 2026 se tiendra du 3 au 6 mars à Moncton. Les inscriptions ouvrent le 15 octobre 2025. Je vous ferai parvenir la documentation complète dès qu'elle sera disponible.
+          </div>
+          <a class="pj" href="#">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/></svg>
+            FLA_2026_Programme_préliminaire.pdf · 210 Ko
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demande 3 — Fermé -->
+    <div class="historique-item">
+      <div class="historique-item-entete" onclick="toggleFil(this)">
+        <div style="flex:1">
+          <div class="historique-objet">Demande de mentorat — exportation internationale</div>
+          <div class="historique-meta">
+            <span class="badge badge-type">Mentorat</span>
+            <span class="badge badge-ferme">Fermé</span>
+            <span class="historique-date">Juillet 2025</span>
+          </div>
+        </div>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="historique-fil">
+        <div class="message-historique">
+          <div class="message-historique-entete">
+            <span class="message-historique-auteur">Prise de Parole</span>
+            <span class="message-historique-heure">Juillet 2025</span>
+          </div>
+          <div class="message-historique-bulle">Accompagnement sur les stratégies d'exportation internationale — deux rencontres tenues les 8 et 22 juillet 2025.</div>
+        </div>
+        <div class="message-historique" style="margin-top:12px">
+          <div class="message-historique-entete">
+            <span class="message-historique-auteur">Piedad Saenz — REFC</span>
+            <span class="message-historique-heure">30 juil. 2025 · 10h00</span>
+          </div>
+          <div class="message-historique-bulle admin">
+            Bonjour,<br><br>Suite à nos deux rencontres, voici un résumé des pistes explorées et des ressources partagées. N'hésitez pas à nous recontacter si de nouveaux besoins émergent.
+          </div>
+          <a class="pj" href="#">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/></svg>
+            Synthese_mentorat_exportation.pdf · 145 Ko
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const types = {
+  mentorat:'Mentorat',
+  formation:'Formation',
+  bdd:'Contact base de données',
+  salon:'Information salon',
+  congres:'Information congrès',
+  autre:'Autre demande'
+};
+
+let typeSelec = null;
+
+function selectionnerType(type, el){
+  document.querySelectorAll('.carte-type').forEach(c=>c.classList.remove('selec'));
+  el.classList.add('selec');
+  typeSelec = type;
+  document.getElementById('form-type').value = types[type];
+  document.getElementById('form-titre').textContent = 'Nouvelle demande — ' + types[type];
+  document.getElementById('form-objet').value = '';
+  document.getElementById('form-message').value = '';
+  document.getElementById('fichiers-joints').innerHTML = '';
+  document.getElementById('formulaire-demande').classList.add('visible');
+  document.getElementById('formulaire-demande').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function fermerFormulaire(){
+  document.getElementById('formulaire-demande').classList.remove('visible');
+  document.querySelectorAll('.carte-type').forEach(c=>c.classList.remove('selec'));
+  typeSelec = null;
+}
+
+function ajouterFichiers(input){
+  const liste = document.getElementById('fichiers-joints');
+  Array.from(input.files).forEach(f=>{
+    const div = document.createElement('div');
+    div.className = 'fichier-joint-item';
+    div.innerHTML = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/></svg>
+      <span>${f.name} · ${Math.round(f.size/1024)} Ko</span>
+      <button onclick="this.parentElement.remove()" title="Supprimer">×</button>`;
+    liste.appendChild(div);
+  });
+}
+
+function soumettreDemande(){
+  const objet = document.getElementById('form-objet').value.trim();
+  const message = document.getElementById('form-message').value.trim();
+  if(!objet || !message){ alert('Veuillez remplir l'objet et le message de votre demande.'); return; }
+  fermerFormulaire();
+  // Ajouter dans l'historique
+  const hist = document.getElementById('historique-demandes');
+  const div = document.createElement('div');
+  div.className = 'historique-item';
+  const today = new Date().toLocaleDateString('fr-CA',{day:'numeric',month:'long',year:'numeric'});
+  div.innerHTML = `<div class="historique-item-entete" onclick="toggleFil(this)">
+    <div style="flex:1">
+      <div class="historique-objet">${objet}</div>
+      <div class="historique-meta">
+        <span class="badge badge-type">${types[typeSelec]}</span>
+        <span class="badge badge-recu">Reçu</span>
+        <span class="historique-date">${today}</span>
+      </div>
+    </div>
+    <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="historique-fil ouvert">
+    <div class="message-historique">
+      <div class="message-historique-entete">
+        <span class="message-historique-auteur">Prise de Parole</span>
+        <span class="message-historique-heure">${today}</span>
+      </div>
+      <div class="message-historique-bulle">${message.replace(/
+/g,'<br>')}</div>
+    </div>
+  </div>`;
+  hist.insertBefore(div, hist.firstChild);
+}
+
+function toggleFil(entete){
+  const fil = entete.nextElementSibling;
+  const chevron = entete.querySelector('.chevron');
+  const ouvert = fil.classList.toggle('ouvert');
+  chevron.classList.toggle('ouvert', ouvert);
+}
+</script>
+</body>
+</html>
