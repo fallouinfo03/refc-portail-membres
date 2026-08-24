@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REFC — Ressources (Admin)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:100}
+.banniere a{color:#60a5fa;text-decoration:none}
+.topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;margin-top:36px}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-logo img{height:36px;filter:brightness(0) invert(1)}
+.topbar-titre{font-size:14px;font-weight:500;opacity:.9}
+.topbar-droite{display:flex;align-items:center;gap:16px;font-size:13px}
+.pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deco{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.btn-deco:hover{background:rgba(255,255,255,.1)}
+.nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto}
+.nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+.nav-btn:hover{color:#fff}
+.nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
+.contenu{padding:24px;max-width:1200px;margin:0 auto}
+
+/* En-tête */
+.entete-page{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.page-titre{font-size:22px;font-weight:600;color:#1e293b}
+.page-soustitre{font-size:13px;color:#64748b;margin-top:3px}
+
+/* Filtres */
+.filtres{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.filtre-select{padding:7px 11px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#1e293b;cursor:pointer;outline:none}
+.filtre-select:focus{border-color:#2D3F7B}
+
+/* Grille principale — liste + détail */
+.grille-messagerie{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start}
+
+/* Liste des demandes */
+.liste-demandes{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
+.liste-entete{padding:14px 16px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between}
+.liste-entete-titre{font-size:13px;font-weight:600;color:#1e293b}
+.badge-count{background:#2D3F7B;color:#fff;font-size:11px;font-weight:600;padding:2px 7px;border-radius:20px}
+.demande-item{padding:14px 16px;border-bottom:1px solid #f1f5f9;cursor:pointer;transition:.1s;position:relative}
+.demande-item:last-child{border-bottom:none}
+.demande-item:hover{background:#f8fafc}
+.demande-item.actif{background:#E8EEF7;border-left:3px solid #2D3F7B}
+.demande-item.actif .demande-maison{color:#2D3F7B}
+.demande-item.non-lue::after{content:'';position:absolute;top:16px;right:14px;width:7px;height:7px;border-radius:50%;background:#2D3F7B}
+.demande-maison{font-size:13px;font-weight:600;color:#1e293b;margin-bottom:3px}
+.demande-objet{font-size:12px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;margin-bottom:5px}
+.demande-meta{display:flex;align-items:center;gap:6px}
+.badge{display:inline-flex;align-items:center;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;white-space:nowrap}
+.badge-type{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0}
+.badge-recu{background:#E8EEF7;color:#2D3F7B}
+.badge-traitement{background:#fef9c3;color:#854d0e}
+.badge-repondu{background:#dcfce7;color:#166534}
+.badge-ferme{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+.demande-date{font-size:11px;color:#94a3b8;margin-left:auto}
+
+/* Panneau détail */
+.panneau-detail{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.panneau-vide{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center;color:#94a3b8}
+.panneau-vide svg{margin-bottom:16px;opacity:.4}
+.panneau-vide p{font-size:13px;line-height:1.6}
+
+/* En-tête du fil */
+.fil-entete{padding:18px 22px;border-bottom:1px solid #e2e8f0;background:#f8fafc}
+.fil-entete-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.fil-objet{font-size:16px;font-weight:600;color:#1e293b}
+.fil-actions{display:flex;gap:6px;flex-shrink:0}
+.fil-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fil-meta-item{font-size:12px;color:#64748b;display:flex;align-items:center;gap:4px}
+.fil-meta-sep{color:#cbd5e1}
+
+/* Corps du fil — messages */
+.fil-corps{padding:20px 22px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;max-height:420px}
+.message{display:flex;gap:12px}
+.message-avatar{width:34px;height:34px;border-radius:50%;background:#E8EEF7;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#2D3F7B;border:1px solid #cbd5e1}
+.message-avatar.admin{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.message-contenu{flex:1}
+.message-entete{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.message-auteur{font-size:13px;font-weight:600;color:#1e293b}
+.message-heure{font-size:11px;color:#94a3b8}
+.message-bulle{background:#f8fafc;border:1px solid #e2e8f0;border-radius:0 8px 8px 8px;padding:12px 14px;font-size:13px;color:#1e293b;line-height:1.6}
+.message-bulle.admin-bulle{background:#E8EEF7;border-color:#7B9EC8;border-radius:8px 0 8px 8px}
+.message.admin-msg{flex-direction:row-reverse}
+.message.admin-msg .message-contenu{text-align:right}
+.message.admin-msg .message-entete{flex-direction:row-reverse}
+.message.admin-msg .message-bulle{border-radius:8px 0 8px 8px}
+.piece-jointe{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:6px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;color:#475569;cursor:pointer;text-decoration:none}
+.piece-jointe:hover{background:#f1f5f9}
+.piece-jointe svg{flex-shrink:0}
+
+/* Zone réponse */
+.zone-reponse{border-top:1px solid #e2e8f0;padding:16px 22px;background:#fff}
+.zone-reponse-titre{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.reponse-textarea{width:100%;padding:10px 12px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;resize:vertical;min-height:90px;color:#1e293b;outline:none;font-family:inherit;line-height:1.6}
+.reponse-textarea:focus{border-color:#2D3F7B;box-shadow:0 0 0 3px rgba(45,63,123,.08)}
+.zone-reponse-pied{display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:8px}
+.zone-reponse-gauche{display:flex;align-items:center;gap:8px}
+.statut-select{padding:6px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#1e293b;cursor:pointer;outline:none}
+
+/* Boutons */
+.btn{padding:7px 14px;font-size:13px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.15s;text-decoration:none}
+.btn:hover{background:#f8fafc}
+.btn-sm{padding:5px 11px;font-size:12px}
+.btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.btn-pri:hover{background:#253570}
+.btn-upload{background:none;border:1px dashed #cbd5e1;color:#64748b;padding:6px 12px;border-radius:7px;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn-upload:hover{border-color:#2D3F7B;color:#2D3F7B}
+
+/* Séparateur date */
+.sep-date{text-align:center;font-size:11px;color:#94a3b8;margin:4px 0;display:flex;align-items:center;gap:10px}
+.sep-date::before,.sep-date::after{content:'';flex:1;height:1px;background:#e2e8f0}
+
+/* Assignation */
+.tag-assigne{display:inline-flex;align-items:center;gap:5px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:3px 8px;font-size:12px;color:#475569}
+.tag-assigne strong{color:#1e293b}
+</style>
+</head>
+<body>
+
+<div class="banniere">
+  <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
+  <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Voir le code source</a>
+</div>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../assets/logo-refc-blanc.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
+    <span class="topbar-titre">Portail membres</span>
+  </div>
+  <div class="topbar-droite">
+    <span class="pill">admin</span>
+    <span>Noureddine Hany</span>
+    <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
+  </div>
+</div>
+
+<div class="nav">
+  <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
+  <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+  <a class="nav-btn" href="salons.html">Salons</a>
+  <a class="nav-btn" href="evenements.html">Événements littéraires</a>
+  <a class="nav-btn" href="bulletins.html">Bulletins</a>
+  <a class="nav-btn" href="ingram.html">Ingram</a>
+  <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
+  <a class="nav-btn actif" href="ressources.html">Ressources</a>
+</div>
+
+<div class="contenu">
+
+  <div class="entete-page">
+    <div>
+      <div class="page-titre">Ressources — Demandes des membres</div>
+      <div class="page-soustitre">Suivi des demandes d'accompagnement et d'information reçues des maisons membres</div>
+    </div>
+    <div class="filtres">
+      <select class="filtre-select" onchange="filtrer()">
+        <option>Toutes les maisons</option>
+        <option>Prise de Parole</option>
+        <option>Éditions David</option>
+        <option>Bouton d'or d'Acadie</option>
+        <option>L'Interligne</option>
+      </select>
+      <select class="filtre-select" onchange="filtrer()">
+        <option>Tous les types</option>
+        <option>Mentorat</option>
+        <option>Formation</option>
+        <option>Contact base de données</option>
+        <option>Information salon</option>
+        <option>Information congrès</option>
+        <option>Autre</option>
+      </select>
+      <select class="filtre-select" onchange="filtrer()">
+        <option>Tous les statuts</option>
+        <option>Reçu</option>
+        <option>En traitement</option>
+        <option>Répondu</option>
+        <option>Fermé</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grille-messagerie">
+
+    <!-- Liste des demandes -->
+    <div class="liste-demandes">
+      <div class="liste-entete">
+        <span class="liste-entete-titre">Demandes reçues</span>
+        <span class="badge-count">7</span>
+      </div>
+
+      <div class="demande-item non-lue actif" onclick="afficherFil(0)">
+        <div class="demande-maison">Prise de Parole</div>
+        <div class="demande-objet">Demande de mentorat — développement stratégique</div>
+        <div class="demande-meta">
+          <span class="badge badge-type">Mentorat</span>
+          <span class="badge badge-recu">Reçu</span>
+          <span class="demande-date">Aujourd'hui</span>
+        </div>
+      </div>
+
+      <div class="demande-item non-lue" onclick="afficherFil(1)">
+        <div class="demande-maison">Éditions David</div>
+        <div class="demande-objet">Information — Salon du livre de Paris 2026</div>
+        <div class="demande-meta">
+          <span class="badge badge-type">Info salon</span>
+          <span class="badge badge-recu">Reçu</span>
+          <span class="demande-date">22 août</span>
+        </div>
+      </div>
+
+      <div class="demande-item" onclick="afficherFil(2)">
+        <div class="demande-maison">Bouton d'or d'Acadie</div>
+        <div class="demande-objet">Formation — gestion des droits numériques</div>
+        <div class="demande-meta">
+          <span class="badge badge-type">Formation</span>
+          <span class="badge badge-traitement">En traitement</span>
+          <span class="demande-date">19 août</span>
+        </div>
+      </div>
+
+      <div class="demande-item" onclick="afficherFil(3)">
+        <div class="demande-maison">L'Interligne</div>
+        <div class="demande-objet">Contact base de données — bibliothèques scolaires</div>
+        <div class="demande-meta">
+          <span class="badge badge-type">Base de données</span>
+          <span class="badge badge-traitement">En traitement</span>
+          <span class="demande-date">15 août</span>
+        </div>
+      </div>
+
+      <div class="demande-item" onclick="afficherFil(4)">
+        <div class="demande-maison">Prise de Parole</div>
+        <div class="demande-objet">Information — Congrès FLA 2026</div>
+        <div class="demande-meta">
+          <span class="badge badge-type">Info congrès</span>
+          <span class="badge badge-repondu">Répondu</span>
+          <span class="demande-date">10 août</span>
+        </div>
+      </div>
+
+      <div class="demande-item" onclick="afficherFil(5)">
+        <div class="demande-maison">La Nouvelle Plume</div>
+        <div class="demande-objet">Accompagnement — révision plan de communication</div>
+        <div class="demande-meta">
+          <span class="badge badge-type">Autre</span>
+          <span class="badge badge-repondu">Répondu</span>
+          <span class="demande-date">3 août</span>
+        </div>
+      </div>
+
+      <div class="demande-item" onclick="afficherFil(6)">
+        <div class="demande-maison">Éditions David</div>
+        <div class="demande-objet">Demande de mentorat — exportation internationale</div>
+        <div class="demande-meta">
+          <span class="badge badge-type">Mentorat</span>
+          <span class="badge badge-ferme">Fermé</span>
+          <span class="demande-date">Juil. 2025</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panneau détail - fil actif -->
+    <div class="panneau-detail" id="panneau-detail">
+
+      <div class="fil-entete">
+        <div class="fil-entete-top">
+          <div class="fil-objet" id="fil-objet">Demande de mentorat — développement stratégique</div>
+          <div class="fil-actions">
+            <select class="statut-select" id="statut-select">
+              <option value="recu">Reçu</option>
+              <option value="traitement">En traitement</option>
+              <option value="repondu">Répondu</option>
+              <option value="ferme">Fermé</option>
+            </select>
+            <button class="btn btn-sm" onclick="archiverDemande()">Fermer</button>
+          </div>
+        </div>
+        <div class="fil-meta">
+          <span class="fil-meta-item">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8z" fill="#64748b"/><path d="M8 4a.75.75 0 01.75.75v3.5h2a.75.75 0 010 1.5H7.25V4.75A.75.75 0 018 4z" fill="#64748b"/></svg>
+            24 août 2025 à 09h14
+          </span>
+          <span class="fil-meta-sep">·</span>
+          <span class="fil-meta-item">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5H13V1.5H4.5a1 1 0 000 2H7a.75.75 0 010 1.5H4.5A2.5 2.5 0 012 2.5z" fill="#64748b"/></svg>
+            Mentorat
+          </span>
+          <span class="fil-meta-sep">·</span>
+          <span class="tag-assigne">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3.5" stroke="#64748b" stroke-width="1.5"/><path d="M1.5 14.5c0-3.314 2.91-6 6.5-6s6.5 2.686 6.5 6" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Assigné à <strong>Piedad Saenz</strong>
+          </span>
+          <span class="fil-meta-sep">·</span>
+          <span class="fil-meta-item">Prise de Parole</span>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="fil-corps" id="fil-corps">
+
+        <div class="sep-date">24 août 2025</div>
+
+        <!-- Message membre -->
+        <div class="message">
+          <div class="message-avatar">PP</div>
+          <div class="message-contenu">
+            <div class="message-entete">
+              <span class="message-auteur">Prise de Parole</span>
+              <span class="message-heure">09h14</span>
+            </div>
+            <div class="message-bulle">
+              Bonjour,<br><br>
+              Nous traversons une période de repositionnement stratégique et aimerions bénéficier d'un accompagnement de la REFC sur les questions de développement à moyen terme. Plus précisément, nous cherchons des repères sur la structuration de notre catalogue et sur les opportunités de diffusion hors Québec.<br><br>
+              Serait-il possible d'organiser une rencontre avec Piedad dans les prochaines semaines ?
+            </div>
+            <a class="piece-jointe" href="#">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 012 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/><path d="M9.5 2v3.5H13" stroke="#64748b" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Plan_strategique_PdP_2025.pdf · 340 Ko
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Zone réponse -->
+      <div class="zone-reponse">
+        <div class="zone-reponse-titre">Répondre à Prise de Parole</div>
+        <textarea class="reponse-textarea" id="reponse-textarea" placeholder="Rédigez votre réponse..."></textarea>
+        <div class="zone-reponse-pied">
+          <div class="zone-reponse-gauche">
+            <label class="btn-upload">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="currentColor" stroke-width="1.2"/><path d="M9.5 2v3.5H13M8 7v4M6 9l2-2 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Joindre un fichier
+              <input type="file" style="display:none" onchange="ajouterFichier(this)">
+            </label>
+            <span id="fichier-joint" style="font-size:12px;color:#64748b"></span>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-sm" onclick="envoyerReponse('traitement')">Marquer en traitement</button>
+            <button class="btn btn-sm btn-pri" onclick="envoyerReponse('repondu')">Envoyer la réponse</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const demandes = [
+  {
+    maison:'Prise de Parole', objet:'Demande de mentorat — développement stratégique',
+    type:'Mentorat', statut:'recu', date:'24 août 2025', heure:'09h14',
+    assigne:'Piedad Saenz', initiales:'PP',
+    message:'Bonjour,<br><br>Nous traversons une période de repositionnement stratégique et aimerions bénéficier d'un accompagnement de la REFC sur les questions de développement à moyen terme. Plus précisément, nous cherchons des repères sur la structuration de notre catalogue et sur les opportunités de diffusion hors Québec.<br><br>Serait-il possible d'organiser une rencontre avec Piedad dans les prochaines semaines ?',
+    pj:'Plan_strategique_PdP_2025.pdf · 340 Ko',
+    reponses:[]
+  },
+  {
+    maison:'Éditions David', objet:'Information — Salon du livre de Paris 2026',
+    type:'Info salon', statut:'recu', date:'22 août 2025', heure:'14h32',
+    assigne:'Mathieu Ricard', initiales:'ED',
+    message:'Bonjour,<br><br>Nous souhaitons participer au Salon du livre de Paris en mars 2026. Pourriez-vous nous informer des conditions de participation, des délais d'inscription et du soutien que la REFC peut offrir ?',
+    pj:null, reponses:[]
+  },
+  {
+    maison:'Bouton d'or d'Acadie', objet:'Formation — gestion des droits numériques',
+    type:'Formation', statut:'traitement', date:'19 août 2025', heure:'10h05',
+    assigne:'Piedad Saenz', initiales:'BA',
+    message:'Bonjour,<br><br>Notre équipe manque d'expertise sur la gestion des droits numériques. Existe-t-il des formations adaptées à notre réalité de petite maison d'édition ?',
+    pj:null,
+    reponses:[{auteur:'Piedad Saenz',heure:'20 août · 11h22',texte:'Bonjour,<br><br>Merci pour votre demande. Je suis en train d'identifier les formations disponibles et je vous reviens d'ici la fin de la semaine avec des propositions concrètes.',pj:null}]
+  },
+  {
+    maison:'L'Interligne', objet:'Contact base de données — bibliothèques scolaires',
+    type:'Base de données', statut:'traitement', date:'15 août 2025', heure:'08h47',
+    assigne:'Piedad Saenz', initiales:'LI',
+    message:'Bonjour,<br><br>Nous cherchons à accéder à la base de données des bibliothèques scolaires francophones afin de cibler nos envois promotionnels. La REFC peut-elle faciliter cet accès ?',
+    pj:null, reponses:[]
+  },
+  {
+    maison:'Prise de Parole', objet:'Information — Congrès FLA 2026',
+    type:'Info congrès', statut:'repondu', date:'10 août 2025', heure:'15h18',
+    assigne:'Noureddine Hany', initiales:'PP',
+    message:'Bonjour,<br><br>Auriez-vous des informations sur le Congrès FLA 2026 ? Dates, lieu, possibilités de présence pour les éditeurs membres ?',
+    pj:null,
+    reponses:[{auteur:'Noureddine Hany',heure:'11 août · 09h30',texte:'Bonjour,<br><br>Le Congrès FLA 2026 se tiendra du 3 au 6 mars à Moncton. Les inscriptions ouvrent le 15 octobre 2025. Je vous ferai parvenir la documentation complète dès qu'elle sera disponible. N'hésitez pas à me contacter si vous avez d'autres questions.',pj:'FLA_2026_Programme_préliminaire.pdf · 210 Ko'}]
+  },
+  {
+    maison:'La Nouvelle Plume', objet:'Accompagnement — révision plan de communication',
+    type:'Autre', statut:'repondu', date:'3 août 2025', heure:'11h00',
+    assigne:'Piedad Saenz', initiales:'NP',
+    message:'Bonjour,<br><br>Nous avons révisé notre plan de communication pour 2025-2026 et souhaiterions avoir un regard externe avant de le finaliser. La REFC pourrait-elle nous offrir un accompagnement à ce sujet ?',
+    pj:'Plan_communication_NP_2025-2026.pdf · 580 Ko',
+    reponses:[{auteur:'Piedad Saenz',heure:'5 août · 14h15',texte:'Bonjour,<br><br>Bien sûr, nous serons ravis de vous accompagner. J'ai pris connaissance de votre document — il est bien structuré. Je vous propose une rencontre virtuelle le 12 août pour en discuter en détail. Une invitation vous sera envoyée.',pj:null}]
+  },
+  {
+    maison:'Éditions David', objet:'Demande de mentorat — exportation internationale',
+    type:'Mentorat', statut:'ferme', date:'Juil. 2025', heure:'',
+    assigne:'Piedad Saenz', initiales:'ED',
+    message:'Accompagnement complété. Rencontres tenues les 8 et 22 juillet 2025.',
+    pj:null,
+    reponses:[{auteur:'Piedad Saenz',heure:'30 juil. · 10h00',texte:'Bonjour,<br><br>Suite à nos deux rencontres, voici un résumé des pistes explorées et des ressources partagées. N'hésitez pas à nous recontacter si de nouveaux besoins émergent.',pj:'Synthese_mentorat_exportation_David.pdf · 145 Ko'}]
+  }
+];
+
+let filActif = 0;
+
+function badgeStatut(s){
+  const m={'recu':'badge-recu Reçu','traitement':'badge-traitement En traitement','repondu':'badge-repondu Répondu','ferme':'badge-ferme Fermé'};
+  const [cls,lbl]=(m[s]||'badge-gris Inconnu').split(' ');
+  return `<span class="badge ${cls}">${lbl}</span>`;
+}
+
+function afficherFil(idx){
+  filActif = idx;
+  const d = demandes[idx];
+
+  // Marquer actif dans la liste
+  document.querySelectorAll('.demande-item').forEach((el,i)=>{
+    el.classList.toggle('actif', i===idx);
+    if(i===idx) el.classList.remove('non-lue');
+  });
+
+  document.getElementById('fil-objet').textContent = d.objet;
+  document.getElementById('statut-select').value = d.statut;
+
+  // Rebuild corps
+  let html = `<div class="sep-date">${d.date}</div>
+    <div class="message">
+      <div class="message-avatar">${d.initiales}</div>
+      <div class="message-contenu">
+        <div class="message-entete">
+          <span class="message-auteur">${d.maison}</span>
+          <span class="message-heure">${d.heure}</span>
+        </div>
+        <div class="message-bulle">${d.message}</div>
+        ${d.pj ? `<a class="piece-jointe" href="#">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/></svg>
+          ${d.pj}</a>` : ''}
+      </div>
+    </div>`;
+
+  d.reponses.forEach(r=>{
+    html += `<div class="message admin-msg">
+      <div class="message-avatar admin">${r.auteur.split(' ').map(w=>w[0]).join('')}</div>
+      <div class="message-contenu">
+        <div class="message-entete">
+          <span class="message-auteur">${r.auteur}</span>
+          <span class="message-heure">${r.heure}</span>
+        </div>
+        <div class="message-bulle admin-bulle">${r.texte}</div>
+        ${r.pj ? `<a class="piece-jointe" href="#">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/></svg>
+          ${r.pj}</a>` : ''}
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('fil-corps').innerHTML = html;
+  document.getElementById('fil-corps').scrollTop = 9999;
+
+  // Zone réponse
+  document.querySelector('.zone-reponse-titre').textContent = `Répondre à ${d.maison}`;
+  document.getElementById('reponse-textarea').value = '';
+  document.getElementById('fichier-joint').textContent = '';
+}
+
+function envoyerReponse(nouveauStatut){
+  const texte = document.getElementById('reponse-textarea').value.trim();
+  const fichier = document.getElementById('fichier-joint').textContent;
+  if(!texte){ alert('Veuillez rédiger une réponse avant d'envoyer.'); return; }
+  const d = demandes[filActif];
+  d.statut = nouveauStatut;
+  d.reponses.push({
+    auteur:'Noureddine Hany',
+    heure:'À l'instant',
+    texte: texte.replace(/
+/g,'<br>'),
+    pj: fichier || null
+  });
+  afficherFil(filActif);
+  // Mettre à jour badge dans la liste
+  const items = document.querySelectorAll('.demande-item');
+  const badges = items[filActif].querySelectorAll('.badge');
+  badges.forEach(b=>{ if(['Reçu','En traitement','Répondu','Fermé'].includes(b.textContent)) b.remove(); });
+  items[filActif].querySelector('.demande-meta').insertAdjacentHTML('afterbegin', badgeStatut(nouveauStatut).replace('badge ','badge '));
+}
+
+function ajouterFichier(input){
+  if(input.files[0]) document.getElementById('fichier-joint').textContent = input.files[0].name + ' · ' + Math.round(input.files[0].size/1024) + ' Ko';
+}
+
+function archiverDemande(){
+  if(confirm('Marquer cette demande comme fermée ?')){
+    demandes[filActif].statut = 'ferme';
+    afficherFil(filActif);
+  }
+}
+
+function filtrer(){ /* filtrage dynamique à implémenter */ }
+</script>
+</body>
+</html>
