@@ -174,7 +174,7 @@ tbody tr:hover td{background:#f8fafc}
   <div class="entete-page">
     <div class="entete-gauche">
       <div class="page-titre">Services à coûts partagés</div>
-      <div class="page-soustitre">Suivi des factures et refacturations — Année budgétaire 2025–2026 (avril 2025 – mars 2026)</div>
+      <div class="page-soustitre">Suivi des factures et refacturations — Année budgétaire 2025–2026 · Enveloppe individuelle : 6 000 $ / maison</div>
     </div>
     <div class="filtres">
       <select class="filtre-select" id="filtre-annee">
@@ -210,7 +210,7 @@ tbody tr:hover td{background:#f8fafc}
     <div class="kpi">
       <div class="kpi-label">Budget global 2025–2026</div>
       <div class="kpi-valeur">84 000 $</div>
-      <div class="kpi-sous">Enveloppes cumulées — 14 maisons membres</div>
+      <div class="kpi-sous">14 maisons × 6 000 $ — enveloppe initiale identique par maison</div>
     </div>
     <div class="kpi">
       <div class="kpi-label">Budget utilisé</div>
@@ -240,53 +240,59 @@ tbody tr:hover td{background:#f8fafc}
       </div>
       <div class="carte-corps">
 
+        <div style="background:#E8EEF7;border:1px solid #7B9EC8;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#2D3F7B;line-height:1.6">
+          <strong>Enveloppe initiale identique :</strong> 6 000 $ par maison membre au 1er avril 2025.<br>
+          En mi-année, les soldes non utilisés sont redistribués aux maisons qui en font la demande.
+          Les enveloppes ci-dessous reflètent les soldes <strong>après redistribution de mi-année</strong>.
+        </div>
+
         <div class="barre-maison">
           <div class="barre-maison-entete">
             <span class="barre-maison-nom">Prise de Parole</span>
-            <span class="barre-maison-chiffres"><strong>12 600 $</strong> / 18 000 $</span>
+            <span class="barre-maison-chiffres"><strong>4 200 $</strong> / 6 000 $ <span style="color:#2D3F7B;font-size:10px">+ 0 $ redistribué</span></span>
           </div>
           <div class="barre-track"><div class="barre-fill" style="width:70%"></div></div>
-          <div class="barre-pct">70 % utilisé</div>
+          <div class="barre-pct">70 % utilisé · Solde restant : 1 800 $</div>
         </div>
 
         <div class="barre-maison">
           <div class="barre-maison-entete">
             <span class="barre-maison-nom">Éditions David</span>
-            <span class="barre-maison-chiffres"><strong>9 625 $</strong> / 15 000 $</span>
+            <span class="barre-maison-chiffres"><strong>3 850 $</strong> / 8 000 $ <span style="color:#2D3F7B;font-size:10px">+ 2 000 $ redistribués</span></span>
           </div>
-          <div class="barre-track"><div class="barre-fill" style="width:64%"></div></div>
-          <div class="barre-pct">64 % utilisé</div>
+          <div class="barre-track"><div class="barre-fill" style="width:48%"></div></div>
+          <div class="barre-pct">48 % utilisé · Solde restant : 4 150 $</div>
         </div>
 
         <div class="barre-maison">
           <div class="barre-maison-entete">
             <span class="barre-maison-nom">Bouton d'or d'Acadie</span>
-            <span class="barre-maison-chiffres"><strong>5 250 $</strong> / 9 000 $</span>
+            <span class="barre-maison-chiffres"><strong>5 250 $</strong> / 6 000 $ <span style="color:#2D3F7B;font-size:10px">+ 0 $ redistribué</span></span>
           </div>
-          <div class="barre-track"><div class="barre-fill" style="width:58%"></div></div>
-          <div class="barre-pct">58 % utilisé</div>
+          <div class="barre-track"><div class="barre-fill" style="width:88%" class="warn"></div></div>
+          <div class="barre-pct">88 % utilisé · Solde restant : 750 $</div>
         </div>
 
         <div class="barre-maison">
           <div class="barre-maison-entete">
             <span class="barre-maison-nom">La Nouvelle Plume</span>
-            <span class="barre-maison-chiffres"><strong>2 975 $</strong> / 6 000 $</span>
+            <span class="barre-maison-chiffres"><strong>1 800 $</strong> / 6 000 $ <span style="color:#2D3F7B;font-size:10px">+ 0 $ redistribué</span></span>
           </div>
-          <div class="barre-track"><div class="barre-fill" style="width:50%"></div></div>
-          <div class="barre-pct">50 % utilisé</div>
+          <div class="barre-track"><div class="barre-fill" style="width:30%"></div></div>
+          <div class="barre-pct">30 % utilisé · Solde restant : 4 200 $</div>
         </div>
 
         <div class="barre-maison">
           <div class="barre-maison-entete">
             <span class="barre-maison-nom">L'Interligne</span>
-            <span class="barre-maison-chiffres"><strong>1 050 $</strong> / 7 500 $</span>
+            <span class="barre-maison-chiffres"><strong>450 $</strong> / 6 000 $ <span style="color:#2D3F7B;font-size:10px">+ 0 $ redistribué</span></span>
           </div>
-          <div class="barre-track"><div class="barre-fill" style="width:14%"></div></div>
-          <div class="barre-pct">14 % utilisé</div>
+          <div class="barre-track"><div class="barre-fill" style="width:8%"></div></div>
+          <div class="barre-pct">8 % utilisé · Solde restant : 5 550 $</div>
         </div>
 
         <div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8;text-align:center">
-          9 autres maisons membres — voir le filtre ci-dessus pour les détails
+          9 autres maisons membres — voir le filtre ci-dessus pour les détails individuels
         </div>
       </div>
     </div>
@@ -524,6 +530,10 @@ tbody tr:hover td{background:#f8fafc}
       </div>
 
       <div class="form-sep"></div>
+
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#854d0e;line-height:1.5">
+        <strong>Vérification automatique :</strong> le système vérifiera que le montant ne dépasse pas le solde restant de la maison (enveloppe initiale + redistribution éventuelle). Un avertissement s'affichera en cas de dépassement.
+      </div>
 
       <div class="recapitulatif">
         <div class="recap-titre">Récapitulatif calculé automatiquement</div>
