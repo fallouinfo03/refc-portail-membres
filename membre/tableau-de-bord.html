@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REFC — Espace membre</title>
-    <link rel="stylesheet" href="../assets/style.css">
+    <title>REFC — Portail membres</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -12,6 +11,17 @@
             background: #f1f5f9;
             color: #1e293b;
         }
+        .banniere {
+            background: #1e3a5f;
+            color: #93c5fd;
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 12px;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 999;
+        }
+        .banniere a { color: #60a5fa; text-decoration: none; }
         .topbar {
             background: #2D3F7B;
             color: #fff;
@@ -19,20 +29,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-top: 36px;
         }
-        .topbar-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-      
+        .topbar-logo { display: flex; align-items: center; gap: 12px; }
         .topbar-titre { font-size: 14px; font-weight: 500; opacity: 0.9; }
-        .topbar-droite {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 13px;
-        }
+        .topbar-droite { display: flex; align-items: center; gap: 16px; font-size: 13px; }
         .pill-role {
             background: rgba(255,255,255,0.2);
             padding: 3px 10px;
@@ -55,6 +56,7 @@
             display: flex;
             padding: 0 24px;
             gap: 2px;
+            overflow-x: auto;
         }
         .nav-btn {
             color: rgba(255,255,255,0.7);
@@ -74,11 +76,7 @@
             border-bottom-color: #7B9EC8;
             background: rgba(255,255,255,0.08);
         }
-        .contenu {
-            padding: 24px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        .contenu { padding: 24px; max-width: 1000px; margin: 0 auto; }
         .page-titre { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
         .page-sous-titre { font-size: 13px; color: #64748b; margin-bottom: 20px; }
         .kpis {
@@ -92,28 +90,40 @@
             border-radius: 10px;
             padding: 16px 18px;
             border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
         }
-        .kpi-label { font-size: 12px; color: #64748b; margin-bottom: 6px; }
-        .kpi-valeur { font-size: 24px; font-weight: 600; color: #1e293b; }
-        .kpi-valeur.vert { color: #166534; }
-        .kpi-valeur.orange { color: #854d0e; }
-        .kpi-valeur.rouge { color: #991b1b; }
-        .section-titre {
+        .kpi::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px; height: 100%;
+            background: #2D3F7B;
+        }
+        .kpi-label { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+        .kpi-valeur { font-size: 24px; font-weight: 700; color: #1e293b; }
+        .kpi-valeur.vert { color: #2D3F7B; }
+        .kpi-valeur.orange { color: #1e293b; }
+        .kpi-valeur.rouge { color: #1e293b; }
+        .kpi-sous { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+        .alerte-danger {
+            background: #f1f5f9;
+            border: 1px solid #fecaca;
+            border-left: 4px solid #1e293b;
+            color: #1e293b;
+            border-radius: 8px;
+            padding: 12px 16px;
             font-size: 13px;
-            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .section-titre {
+            font-size: 11px;
+            font-weight: 700;
             color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
             margin: 20px 0 10px;
-        }
-        .alerte-danger {
-            background: #fee2e2;
-            border: 1px solid #fecaca;
-            color: #991b1b;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 13px;
-            margin-bottom: 16px;
         }
         .tableau-wrap {
             background: #fff;
@@ -127,49 +137,34 @@
             padding: 10px 14px;
             text-align: left;
             font-size: 11px;
-            font-weight: 500;
+            font-weight: 600;
             color: #64748b;
             background: #f8fafc;
             border-bottom: 1px solid #e2e8f0;
+            letter-spacing: .02em;
         }
         td {
             padding: 10px 14px;
             border-bottom: 1px solid #f1f5f9;
             color: #1e293b;
+            vertical-align: middle;
         }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #f8fafc; }
         .badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
+            padding: 3px 9px;
+            border-radius: 20px;
             font-weight: 500;
+            white-space: nowrap;
         }
-        .badge-vert { background: #dcfce7; color: #166534; }
-        .badge-orange { background: #fef9c3; color: #854d0e; }
-        .badge-rouge { background: #fee2e2; color: #991b1b; }
+        .badge-statut { background: #E8EEF7; color: #2D3F7B; }
+        .badge-attente { background: #f1f5f9; color: #1e293b; }
+        .badge-alerte { background: #f1f5f9; color: #1e293b; }
         .badge-bleu { background: #E8EEF7; color: #2D3F7B; }
-        .badge-gris { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
-        .metre-wrap { margin: 8px 0; }
-        .metre-track {
-            height: 10px;
-            background: #f1f5f9;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        .metre-fill {
-            height: 100%;
-            background: #7B9EC8;
-            border-radius: 5px;
-        }
-        .metre-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #94a3b8;
-            margin-top: 4px;
-        }
+        .badge-neutre { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
         .grid2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -180,232 +175,312 @@
             background: #fff;
             border: 1px solid #e2e8f0;
             border-radius: 10px;
-            padding: 16px 18px;
-        }
-        .card-titre {
-            font-size: 13px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 12px;
-        }
-        .barre-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
-        .barre-nom { flex: 1; color: #475569; }
-        .barre-track {
-            flex: 2;
-            height: 7px;
-            background: #f1f5f9;
-            border-radius: 4px;
             overflow: hidden;
         }
-        .barre-fill { height: 100%; background: #7B9EC8; border-radius: 4px; }
-        .barre-val { width: 60px; text-align: right; color: #64748b; }
+        .card-entete {
+            padding: 14px 18px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .card-titre { font-size: 13px; font-weight: 600; color: #1e293b; }
+        .card-corps { padding: 16px 18px; }
+        .metre-track {
+            height: 12px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+        .metre-fill {
+            height: 100%;
+            background: #2D3F7B;
+            border-radius: 6px;
+        }
+        .metre-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+        .lien-page {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #2D3F7B;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+        .lien-page:hover { text-decoration: underline; }
+        .encart-info {
+            background: #E8EEF7;
+            border: 1px solid #7B9EC8;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #2D3F7B;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+        .raccourcis {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .raccourci {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px 18px;
+            text-decoration: none;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: .15s;
+        }
+        .raccourci:hover { border-color: #7B9EC8; background: #f8fafc; }
+        .raccourci-icone {
+            width: 36px; height: 36px;
+            background: #E8EEF7;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .raccourci-nom { font-size: 13px; font-weight: 600; color: #1e293b; }
+        .raccourci-desc { font-size: 11px; color: #64748b; margin-top: 2px; }
     </style>
 </head>
 <body>
-<!-- Bannière démo — à retirer dans la version finale -->
-<div style="
-    background: #1e3a5f;
-    color: #93c5fd;
-    text-align: center;
-    padding: 8px 16px;
-    font-size: 12px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
-">
-    ⚠️ <strong>DÉMONSTRATION</strong> — Données entièrement fictives · 
-    Aucune donnée réelle de la REFC · 
-    <a href="https://github.com/fallouinfo03/refc-portail-membres" 
-       target="_blank" 
-       style="color: #60a5fa; text-decoration: none;">
-        Voir le code source
-    </a>
+
+<div class="banniere">
+    <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
+    <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Voir le code source</a>
 </div>
 
-<!-- Ajouter un padding-top au body pour compenser la bannière fixe -->
-<div style="height: 36px"></div>
-    <div class="topbar">
-        <div class="topbar-logo">
-            <img src="../assets/logo-refc-blanc.png" alt="REFC" style="height:32px">
-            <span class="topbar-titre">Portail membres</span>
+<div class="topbar">
+    <div class="topbar-logo">
+        <img src="../assets/logo-refc-blanc.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
+        <span class="topbar-titre">Portail membres</span>
+    </div>
+    <div class="topbar-droite">
+        <span class="pill-role">membre</span>
+        <span>Prise de Parole</span>
+        <button class="btn-deconnexion" onclick="window.location.href='../index.html'">Déconnexion</button>
+    </div>
+</div>
+
+<div class="nav">
+    <a class="nav-btn actif" href="tableau-de-bord.html">Accueil</a>
+    <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+    <a class="nav-btn" href="salons.html">Salons</a>
+    <a class="nav-btn" href="evenements.html">Événements littéraires</a>
+    <a class="nav-btn" href="bulletins.html">Bulletins</a>
+    <a class="nav-btn" href="ingram.html">Ingram</a>
+    <a class="nav-btn" href="ressources.html">Ressources</a>
+</div>
+
+<div class="contenu">
+
+    <h1 class="page-titre">Mon espace — Prise de Parole</h1>
+    <p class="page-sous-titre">Année budgétaire 2025–2026 · Du 1er avril 2025 au 31 mars 2026</p>
+
+    <!-- Alerte retard -->
+    <div class="alerte-danger">
+        Une refacturation est en retard de paiement — <strong>189,84 $</strong> dus depuis le 15 juillet 2025. Veuillez contacter le bureau de la REFC au 613 691-7061.
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpis">
+        <div class="kpi">
+            <div class="kpi-label">Enveloppe initiale</div>
+            <div class="kpi-valeur">6 000 $</div>
+            <div class="kpi-sous">Identique pour toutes les maisons</div>
         </div>
-        <div class="topbar-droite">
-            <span class="pill-role">membre</span>
-            <span>Prise de Parole</span>
-            <button class="btn-deconnexion" onclick="window.location.href='../index.html'">
-                Déconnexion
-            </button>
+        <div class="kpi">
+            <div class="kpi-label">Montant utilisé</div>
+            <div class="kpi-valeur orange">500 $</div>
+            <div class="kpi-sous">8,3 % de l'enveloppe</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">Solde restant</div>
+            <div class="kpi-valeur vert">5 500 $</div>
+            <div class="kpi-sous">Disponible jusqu'au 31 mars 2026</div>
+        </div>
+        <div class="kpi" style="--accent:#991b1b">
+            <div class="kpi-label">Part 35 % en retard</div>
+            <div class="kpi-valeur rouge">189,84 $</div>
+            <div class="kpi-sous">Facture #3612 — échue</div>
         </div>
     </div>
 
-    <div class="nav">
-        <a class="nav-btn actif" href="tableau-de-bord.html">Accueil</a>
-        <a class="nav-btn" href="couts-partages.html">Services à coûts partagés</a>
-        <a class="nav-btn" href="salons.html">Salons</a>
-        <a class="nav-btn" href="bulletins.html">Bulletins</a>
-        <a class="nav-btn" href="ingram.html">Ingram</a>
-    </div>
+    <div class="grid2">
 
-    <div class="contenu">
-
-        <h1 class="page-titre">Mon espace — Prise de Parole</h1>
-        <p class="page-sous-titre">Période budgétaire : 1er avril 2025 – 31 mars 2026</p>
-
-        <!-- Alerte retard -->
-        <div class="alerte-danger">
-            ⚠ Vous avez une facture de refacturation en retard — Montant dû : 189,84 $. Veuillez contacter le bureau REFC.
-        </div>
-
-        <!-- KPIs -->
-        <div class="kpis">
-            <div class="kpi">
-                <div class="kpi-label">Solde autorisé</div>
-                <div class="kpi-valeur">6 000 $</div>
+        <!-- Jauge utilisation -->
+        <div class="card">
+            <div class="card-entete">
+                <div class="card-titre">Utilisation de l'enveloppe</div>
             </div>
-            <div class="kpi">
-                <div class="kpi-label">Solde utilisé</div>
-                <div class="kpi-valeur orange">500 $</div>
-            </div>
-            <div class="kpi">
-                <div class="kpi-label">Solde restant</div>
-                <div class="kpi-valeur vert">5 500 $</div>
-            </div>
-            <div class="kpi">
-                <div class="kpi-label">Part à régler (35%)</div>
-                <div class="kpi-valeur rouge">189,84 $</div>
+            <div class="card-corps">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+                    <span style="font-size:20px;font-weight:700;color:#2D3F7B">8,3 %</span>
+                    <span style="font-size:12px;color:#64748b">500 $ utilisés sur 6 000 $</span>
+                </div>
+                <div class="metre-track">
+                    <div class="metre-fill" style="width:8.3%"></div>
+                </div>
+                <div class="metre-labels">
+                    <span>0 $</span>
+                    <span>Seuil alerte : 5 400 $ (90 %)</span>
+                    <span>6 000 $</span>
+                </div>
+                <div class="encart-info" style="margin-top:14px">
+                    En mi-année, les soldes non utilisés peuvent être redistribués aux maisons qui en font la demande.
+                </div>
+                <a class="lien-page" href="couts-partages.html">Voir le détail complet des coûts partagés &rarr;</a>
             </div>
         </div>
 
-        <div class="grid2">
-
-            <!-- Jauge utilisation -->
-            <div class="card">
-                <div class="card-titre">Utilisation du solde</div>
-                <div class="metre-wrap">
-                    <div class="metre-track">
-                        <div class="metre-fill" style="width: 8.3%"></div>
-                    </div>
-                    <div class="metre-labels">
-                        <span>0 $</span>
-                        <span>500 $ utilisés (8,3 %)</span>
-                        <span>6 000 $</span>
-                    </div>
-                </div>
-                <div style="margin-top: 16px">
-                    <div class="barre-row">
-                        <span class="barre-nom">Publicité</span>
-                        <div class="barre-track"><div class="barre-fill" style="width:60%"></div></div>
-                        <span class="barre-val">150,00 $</span>
-                    </div>
-                    <div class="barre-row">
-                        <span class="barre-nom">Numérique</span>
-                        <div class="barre-track"><div class="barre-fill" style="width:80%"></div></div>
-                        <span class="barre-val">200,00 $</span>
-                    </div>
-                    <div class="barre-row">
-                        <span class="barre-nom">Agent de presse</span>
-                        <div class="barre-track"><div class="barre-fill" style="width:60%"></div></div>
-                        <span class="barre-val">150,00 $</span>
-                    </div>
-                    <div class="barre-row">
-                        <span class="barre-nom">Fiches pédagogiques</span>
-                        <div class="barre-track"><div class="barre-fill" style="width:0%"></div></div>
-                        <span class="barre-val">0,00 $</span>
-                    </div>
-                    <div class="barre-row">
-                        <span class="barre-nom">Surdiffusion</span>
-                        <div class="barre-track"><div class="barre-fill" style="width:0%"></div></div>
-                        <span class="barre-val">0,00 $</span>
-                    </div>
-                </div>
+        <!-- État de compte 35% -->
+        <div class="card">
+            <div class="card-entete">
+                <div class="card-titre">État de compte — part 35 %</div>
             </div>
-
-            <!-- État de compte -->
-            <div class="card">
-                <div class="card-titre">État de compte — part 35%</div>
-                <div class="tableau-wrap" style="margin:0">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Facture</th>
-                                <th>Date</th>
-                                <th>Montant</th>
-                                <th>Statut</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#3612</td>
-                                <td>2025-07-15</td>
-                                <td>189,84 $</td>
-                                <td><span class="badge badge-rouge">En retard</span></td>
-                            </tr>
-                            <tr>
-                                <td>#3320</td>
-                                <td>2025-05-17</td>
-                                <td>59,33 $</td>
-                                <td><span class="badge badge-vert">Réglé</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Salons -->
-        <div class="section-titre">Mes salons — saison 2025–2026</div>
-        <div class="tableau-wrap">
             <table>
                 <thead>
                     <tr>
-                        <th>Salon</th>
-                        <th>Dates</th>
-                        <th>Date limite</th>
-                        <th>Participation</th>
-                        <th>Commande</th>
-                        <th>Ma part</th>
+                        <th>Facture</th>
+                        <th>Date</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Salon de Toronto</td>
-                        <td>Oct 2025</td>
-                        <td>15 août</td>
-                        <td><span class="badge badge-vert">Confirmée</span></td>
-                        <td><span class="badge badge-vert">Envoyée</span></td>
-                        <td>1 190 $</td>
+                        <td style="color:#64748b;font-size:12px">#3612</td>
+                        <td style="font-size:12px;color:#991b1b;font-weight:600">15 juil. 2025</td>
+                        <td style="font-weight:600;color:#1e293b">189,84 $</td>
+                        <td><span class="badge badge-alerte">En retard</span></td>
                     </tr>
                     <tr>
-                        <td>Salon du Grand Sudbury</td>
-                        <td>Nov 2025</td>
-                        <td>15 sept.</td>
-                        <td><span class="badge badge-vert">Confirmée</span></td>
-                        <td><span class="badge badge-orange">À soumettre</span></td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td>Salon de Hearst</td>
-                        <td>Fév 2026</td>
-                        <td>15 déc.</td>
-                        <td><span class="badge badge-bleu">Pas ouvert</span></td>
-                        <td>—</td>
-                        <td>—</td>
+                        <td style="color:#64748b;font-size:12px">#3320</td>
+                        <td style="font-size:12px;color:#64748b">17 mai 2025</td>
+                        <td>59,33 $</td>
+                        <td><span class="badge badge-statut">Réglé</span></td>
                     </tr>
                 </tbody>
             </table>
+            <div style="padding:12px 18px">
+                <a class="lien-page" href="couts-partages.html">Voir tous mes relevés &rarr;</a>
+            </div>
         </div>
 
     </div>
 
+    <!-- Salons -->
+    <div class="section-titre">Mes salons — saison 2025–2026</div>
+    <div class="tableau-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Salon</th>
+                    <th>Dates</th>
+                    <th>Limite confirmation</th>
+                    <th>Participation</th>
+                    <th>Commande</th>
+                    <th>Ma part</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Salon du livre de Toronto</td>
+                    <td style="color:#64748b;font-size:12px">Oct. 2025</td>
+                    <td style="color:#64748b;font-size:12px">15 août 2025</td>
+                    <td><span class="badge badge-statut">Confirmée</span></td>
+                    <td><span class="badge badge-statut">Envoyée</span></td>
+                    <td style="font-weight:600">1 190 $</td>
+                </tr>
+                <tr>
+                    <td>Salon du Grand Sudbury</td>
+                    <td style="color:#64748b;font-size:12px">Nov. 2025</td>
+                    <td style="color:#64748b;font-size:12px">15 sept. 2025</td>
+                    <td><span class="badge badge-statut">Confirmée</span></td>
+                    <td><span class="badge badge-attente">À soumettre</span></td>
+                    <td style="color:#64748b">—</td>
+                </tr>
+                <tr>
+                    <td>Salon de Hearst</td>
+                    <td style="color:#64748b;font-size:12px">Fév. 2026</td>
+                    <td style="color:#64748b;font-size:12px">15 déc. 2025</td>
+                    <td><span class="badge badge-neutre">Pas encore ouvert</span></td>
+                    <td style="color:#64748b">—</td>
+                    <td style="color:#64748b">—</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <a class="lien-page" href="salons.html">Voir tous mes salons &rarr;</a>
+
+    <!-- Raccourcis -->
+    <div class="section-titre" style="margin-top:24px">Accès rapide</div>
+    <div class="raccourcis">
+        <a class="raccourci" href="evenements.html">
+            <div class="raccourci-icone">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="14" rx="2" stroke="#2D3F7B" stroke-width="1.5"/><path d="M14 2v4M6 2v4M2 9h16" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+                <div class="raccourci-nom">Événements littéraires</div>
+                <div class="raccourci-desc">Soumettre ou suivre une demande</div>
+            </div>
+        </a>
+        <a class="raccourci" href="bulletins.html">
+            <div class="raccourci-icone">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="#2D3F7B" stroke-width="1.5"/><path d="M6 8h8M6 11h5" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+                <div class="raccourci-nom">Bulletins</div>
+                <div class="raccourci-desc">Derniers bulletins et infolettres</div>
+            </div>
+        </a>
+        <a class="raccourci" href="ressources.html">
+            <div class="raccourci-icone">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="#2D3F7B" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+                <div class="raccourci-nom">Ressources</div>
+                <div class="raccourci-desc">Mentorat, formation, accompagnement</div>
+            </div>
+        </a>
+        <a class="raccourci" href="ingram.html">
+            <div class="raccourci-icone">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 4h12v12H4z" stroke="#2D3F7B" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 8h12M8 8v8" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+                <div class="raccourci-nom">Ingram</div>
+                <div class="raccourci-desc">Rapports de ventes</div>
+            </div>
+        </a>
+        <a class="raccourci" href="couts-partages.html">
+            <div class="raccourci-icone">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M6 6h6a2 2 0 010 4H8a2 2 0 000 4h7" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+                <div class="raccourci-nom">Coûts partagés</div>
+                <div class="raccourci-desc">Solde et historique des services</div>
+            </div>
+        </a>
+        <a class="raccourci" href="salons.html">
+            <div class="raccourci-icone">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2L2 7v11h16V7L10 2z" stroke="#2D3F7B" stroke-width="1.5" stroke-linejoin="round"/><rect x="7" y="11" width="6" height="7" rx="1" stroke="#2D3F7B" stroke-width="1.5"/></svg>
+            </div>
+            <div>
+                <div class="raccourci-nom">Salons</div>
+                <div class="raccourci-desc">Confirmations et commandes</div>
+            </div>
+        </a>
+    </div>
+
+</div>
 </body>
 </html>
