@@ -1,354 +1,314 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REFC — Tableau de bord Admin</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f1f5f9;
-            color: #1e293b;
-        }
-        .topbar {
-            background: #2D3F7B;
-            color: #fff;
-            padding: 12px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .topbar-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .topbar-titre {
-            font-size: 14px;
-            font-weight: 500;
-            opacity: 0.9;
-        }
-        .topbar-droite {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 13px;
-        }
-        .pill-role {
-            background: rgba(255,255,255,0.2);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-        .btn-deconnexion {
-            background: none;
-            border: 1px solid rgba(255,255,255,0.4);
-            color: #fff;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .btn-deconnexion:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        .nav {
-            background: #253570;
-            display: flex;
-            padding: 0 24px;
-            gap: 2px;
-        }
-        .nav-btn {
-            color: rgba(255,255,255,0.7);
-            font-size: 13px;
-            padding: 10px 16px;
-            border: none;
-            background: none;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            white-space: nowrap;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .nav-btn:hover { color: #fff; }
-        .nav-btn.actif {
-            color: #fff;
-            border-bottom-color: #7B9EC8;
-            background: rgba(255,255,255,0.08);
-        }
-        .contenu {
-            padding: 24px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .page-titre {
-            font-size: 22px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 20px;
-        }
-        .kpis {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .kpi {
-            background: #fff;
-            border-radius: 10px;
-            padding: 16px 18px;
-            border: 1px solid #e2e8f0;
-        }
-        .kpi-label {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 6px;
-        }
-        .kpi-valeur {
-            font-size: 24px;
-            font-weight: 600;
-            color: #1e293b;
-        }
-        .kpi-valeur.vert { color: #166534; }
-        .kpi-valeur.orange { color: #854d0e; }
-        .kpi-valeur.rouge { color: #991b1b; }
-        .section-titre {
-            font-size: 13px;
-            font-weight: 600;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin: 20px 0 10px;
-        }
-        .alerte {
-            background: #fef9c3;
-            border: 1px solid #fde68a;
-            color: #854d0e;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 13px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .tableau-wrap {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-        th {
-            padding: 10px 14px;
-            text-align: left;
-            font-size: 11px;
-            font-weight: 500;
-            color: #64748b;
-            background: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        td {
-            padding: 10px 14px;
-            border-bottom: 1px solid #f1f5f9;
-            color: #1e293b;
-        }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: #f8fafc; }
-        .badge {
-            display: inline-block;
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: 500;
-        }
-        .badge-vert { background: #dcfce7; color: #166534; }
-        .badge-orange { background: #fef9c3; color: #854d0e; }
-        .badge-rouge { background: #fee2e2; color: #991b1b; }
-        .badge-bleu { background: #E8EEF7; color: #2D3F7B; }
-        .badge-gris { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REFC — Tableau de bord Admin</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:999}
+.banniere a{color:#60a5fa;text-decoration:none}
+.topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;margin-top:36px}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-titre{font-size:14px;font-weight:500;opacity:.9}
+.topbar-droite{display:flex;align-items:center;gap:16px;font-size:13px}
+.pill-role{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deconnexion{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.btn-deconnexion:hover{background:rgba(255,255,255,.1)}
+.nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto}
+.nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+.nav-btn:hover{color:#fff}
+.nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
+.contenu{padding:24px;max-width:1100px;margin:0 auto}
+.page-titre{font-size:22px;font-weight:600;color:#1e293b;margin-bottom:6px}
+.page-soustitre{font-size:13px;color:#64748b;margin-bottom:20px}
+.alerte{background:#f8fafc;border:1px solid #e2e8f0;border-left:3px solid #1e293b;border-radius:8px;padding:12px 16px;font-size:13px;margin-bottom:20px;color:#1e293b;line-height:1.5}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.kpi{background:#fff;border-radius:10px;padding:16px 18px;border:1px solid #e2e8f0;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:#2D3F7B}
+.kpi-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.kpi-valeur{font-size:24px;font-weight:700;color:#1e293b}
+.kpi-valeur.alerte{color:#1e293b}
+.kpi-sous{font-size:11px;color:#94a3b8;margin-top:4px}
+.section-titre{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin:20px 0 10px;display:flex;align-items:center;justify-content:space-between}
+.lien-section{font-size:11px;color:#2D3F7B;text-decoration:none;font-weight:500}
+.lien-section:hover{text-decoration:underline}
+.tableau-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:#64748b;background:#f8fafc;border-bottom:1px solid #e2e8f0;letter-spacing:.02em}
+td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#1e293b;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
+.badge-statut{background:#E8EEF7;color:#2D3F7B}
+.badge-attente{background:#f1f5f9;color:#1e293b;border:1px solid #e2e8f0}
+.badge-neutre{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+.badge-alerte{background:#1e293b;color:#fff}
+.badge-bleu{background:#E8EEF7;color:#2D3F7B}
+.grille2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.carte{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
+.carte-entete{padding:14px 18px;border-bottom:1px solid #e2e8f0}
+.carte-titre{font-size:13px;font-weight:600;color:#1e293b}
+.pt-urgence{width:7px;height:7px;border-radius:50%;background:#1e293b;display:inline-block;margin-right:6px;animation:pulse 1.5s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.raccourcis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+.raccourci{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;text-decoration:none;color:#1e293b;display:flex;align-items:center;gap:10px;transition:.15s}
+.raccourci:hover{border-color:#7B9EC8;background:#f8fafc}
+.raccourci-icone{width:32px;height:32px;background:#E8EEF7;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.raccourci-nom{font-size:12px;font-weight:600;color:#1e293b}
+.raccourci-desc{font-size:11px;color:#64748b;margin-top:1px}
+</style>
 </head>
 <body>
-<!-- Bannière démo — à retirer dans la version finale -->
-<div style="
-    background: #1e3a5f;
-    color: #93c5fd;
-    text-align: center;
-    padding: 8px 16px;
-    font-size: 12px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
-">
-    ⚠️ <strong>DÉMONSTRATION</strong> — Données entièrement fictives · 
-    Aucune donnée réelle de la REFC · 
-    <a href="https://github.com/fallouinfo03/refc-portail-membres" 
-       target="_blank" 
-       style="color: #60a5fa; text-decoration: none;">
-        Voir le code source
-    </a>
+
+<div class="banniere">
+  <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
+  <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Voir le code source</a>
 </div>
 
-<!-- Ajouter un padding-top au body pour compenser la bannière fixe -->
-<div style="height: 36px"></div>
-    <!-- BARRE DU HAUT -->
-    <div class="topbar">
-        <div class="topbar-logo">
-            <img src="../assets/logo-refc-blanc.png" alt="REFC" style="height:32px">
-            <span class="topbar-titre">Portail membres</span>
-        </div>
-        <div class="topbar-droite">
-            <span class="pill-role">admin</span>
-            <span>Piedad Saenz</span>
-            <button class="btn-deconnexion" onclick="window.location.href='../index.html'">
-                Déconnexion
-            </button>
-        </div>
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../assets/logo-refc-blanc.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
+    <span class="topbar-titre">Portail membres</span>
+  </div>
+  <div class="topbar-droite">
+    <span class="pill-role">admin</span>
+    <span>Piedad Saenz</span>
+    <button class="btn-deconnexion" onclick="window.location.href='../index.html'">Déconnexion</button>
+  </div>
+</div>
+
+<div class="nav">
+  <a class="nav-btn actif" href="tableau-de-bord.html">Accueil</a>
+  <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+  <a class="nav-btn" href="salons.html">Salons</a>
+  <a class="nav-btn" href="evenements.html">Événements littéraires</a>
+  <a class="nav-btn" href="bulletins.html">Bulletins</a>
+  <a class="nav-btn" href="ingram.html">Ingram</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
+  <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
+  <a class="nav-btn" href="ressources.html">Ressources</a>
+</div>
+
+<div class="contenu">
+
+  <div class="page-titre">Tableau de bord — Administration REFC</div>
+  <div class="page-soustitre">Bonjour Piedad · <span id="date-jour"></span></div>
+
+  <div class="alerte">
+    <span class="pt-urgence"></span>
+    <strong>2 refacturations en retard de paiement</strong> — Bouton d'or d'Acadie et La Nouvelle Plume ·
+    <strong>1 facture en attente</strong> depuis 3 jours — Studio Web 3C / Éditions David ·
+    <strong>3 confirmations de salon manquantes</strong>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">Maisons membres</div>
+      <div class="kpi-valeur">14</div>
+      <div class="kpi-sous">Actives — année 2025–2026</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Budget coûts partagés</div>
+      <div class="kpi-valeur">84 000 $</div>
+      <div class="kpi-sous">14 × 6 000 $ · 37,5 % utilisé</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Factures en attente</div>
+      <div class="kpi-valeur">4</div>
+      <div class="kpi-sous">Approbation requise</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Refacturations en retard</div>
+      <div class="kpi-valeur">2</div>
+      <div class="kpi-sous">Relance envoyée automatiquement</div>
+    </div>
+  </div>
+
+  <div class="grille2">
+
+    <!-- Salons à venir -->
+    <div class="carte">
+      <div class="carte-entete" style="display:flex;align-items:center;justify-content:space-between">
+        <div class="carte-titre">Salons à venir — confirmations</div>
+        <a class="lien-section" href="salons.html">Voir tout &rarr;</a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Salon</th>
+            <th>Date</th>
+            <th>Confirmations</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Salon du livre de Toronto</td>
+            <td style="font-size:12px;color:#64748b">Oct. 2025</td>
+            <td style="font-size:12px">12 / 14</td>
+            <td><span class="badge badge-statut">Confirmé</span></td>
+          </tr>
+          <tr>
+            <td>Salon du Grand Sudbury</td>
+            <td style="font-size:12px;color:#64748b">Nov. 2025</td>
+            <td style="font-size:12px">8 / 14</td>
+            <td><span class="badge badge-attente">En cours</span></td>
+          </tr>
+          <tr>
+            <td>Salon de Hearst</td>
+            <td style="font-size:12px;color:#64748b">Fév. 2026</td>
+            <td style="font-size:12px">0 / 14</td>
+            <td><span class="badge badge-neutre">À ouvrir</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- NAVIGATION -->
-    <div class="nav">
-        <a class="nav-btn actif" href="tableau-de-bord.html">Accueil</a>
-        <a class="nav-btn" href="couts-partages.html">Services à coûts partagés</a>
-        <a class="nav-btn" href="salons.html">Salons</a>
-        <a class="nav-btn" href="evenements.html">Événements littéraires</a>
-        <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
-        <a class="nav-btn" href="bulletins.html">Bulletins</a>
-        <a class="nav-btn" href="ingram.html">Ingram</a>
-        <a class="nav-btn" href="rapports.html">rapports</a>
+    <!-- Factures en attente -->
+    <div class="carte">
+      <div class="carte-entete" style="display:flex;align-items:center;justify-content:space-between">
+        <div class="carte-titre">Factures en attente d'approbation</div>
+        <a class="lien-section" href="couts-partages.html">Voir tout &rarr;</a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Maison</th>
+            <th>Fournisseur</th>
+            <th style="text-align:right">Montant</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Éditions David</td>
+            <td style="font-size:12px;color:#64748b">Studio Web 3C</td>
+            <td style="font-family:monospace;font-size:12px;text-align:right">542,40 $</td>
+            <td><span class="badge badge-alerte">3 jours</span></td>
+          </tr>
+          <tr>
+            <td>Bouton d'or Acadie</td>
+            <td style="font-size:12px;color:#64748b">Magazine Alpha</td>
+            <td style="font-family:monospace;font-size:12px;text-align:right">395,50 $</td>
+            <td><span class="badge badge-attente">En attente</span></td>
+          </tr>
+          <tr>
+            <td>Prise de Parole</td>
+            <td style="font-size:12px;color:#64748b">Agence Oméga</td>
+            <td style="font-family:monospace;font-size:12px;text-align:right">169,50 $</td>
+            <td><span class="badge badge-statut">Approuvée</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- CONTENU PRINCIPAL -->
-    <div class="contenu">
-        <h1 class="page-titre">Tableau de bord — Administration REFC</h1>
+  </div>
 
-        <!-- Alerte -->
-        <div class="alerte">
-            ⚠ 2 refacturations en retard · 3 confirmations de salon manquantes
-        </div>
+  <!-- Événements littéraires en attente -->
+  <div class="section-titre">
+    <span>Événements littéraires — demandes récentes</span>
+    <a class="lien-section" href="evenements.html">Voir tout &rarr;</a>
+  </div>
+  <div class="tableau-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Maison</th>
+          <th>Événement</th>
+          <th>Date demandée</th>
+          <th style="text-align:right">Budget demandé</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Prise de Parole</td>
+          <td style="font-size:12px;color:#64748b">Festival des voix du Nord — Hearst</td>
+          <td style="font-size:12px;color:#64748b">15 fév. 2026</td>
+          <td style="font-family:monospace;font-size:12px;text-align:right">2 400 $</td>
+          <td><span class="badge badge-attente">En attente</span></td>
+        </tr>
+        <tr>
+          <td>Éditions David</td>
+          <td style="font-size:12px;color:#64748b">Salon du livre de Montréal</td>
+          <td style="font-size:12px;color:#64748b">20 nov. 2025</td>
+          <td style="font-family:monospace;font-size:12px;text-align:right">1 800 $</td>
+          <td><span class="badge badge-statut">Approuvé</span></td>
+        </tr>
+        <tr>
+          <td>Bouton d'or Acadie</td>
+          <td style="font-size:12px;color:#64748b">Congrès FLA 2026 — Moncton</td>
+          <td style="font-size:12px;color:#64748b">4 mars 2026</td>
+          <td style="font-family:monospace;font-size:12px;text-align:right">3 100 $</td>
+          <td><span class="badge badge-attente">En attente</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-        <!-- KPIs -->
-        <div class="kpis">
-            <div class="kpi">
-                <div class="kpi-label">Maisons membres</div>
-                <div class="kpi-valeur">15</div>
-            </div>
-            <div class="kpi">
-                <div class="kpi-label">Budget coûts partagés</div>
-                <div class="kpi-valeur vert">84 000 $</div>
-            </div>
-            <div class="kpi">
-                <div class="kpi-label">Factures en attente</div>
-                <div class="kpi-valeur orange">4</div>
-            </div>
-            <div class="kpi">
-                <div class="kpi-label">Refacturations en retard</div>
-                <div class="kpi-valeur rouge">2</div>
-            </div>
-        </div>
+  <!-- Raccourcis -->
+  <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Accès rapide</div>
+  <div class="raccourcis">
+    <a class="raccourci" href="couts-partages.html">
+      <div class="raccourci-icone">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M6 6h6a2 2 0 010 4H8a2 2 0 000 4h7" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="raccourci-nom">Coûts partagés</div><div class="raccourci-desc">Factures et refacturations</div></div>
+    </a>
+    <a class="raccourci" href="evenements.html">
+      <div class="raccourci-icone">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="14" rx="2" stroke="#2D3F7B" stroke-width="1.5"/><path d="M14 2v4M6 2v4M2 9h16" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="raccourci-nom">Événements</div><div class="raccourci-desc">Demandes et approbations</div></div>
+    </a>
+    <a class="raccourci" href="rapports.html">
+      <div class="raccourci-icone">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 4h12v12H4z" stroke="#2D3F7B" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 8h12M8 8v8" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="raccourci-nom">Rapports</div><div class="raccourci-desc">Importer Square / Ingram</div></div>
+    </a>
+    <a class="raccourci" href="ressources.html">
+      <div class="raccourci-icone">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="#2D3F7B" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="raccourci-nom">Ressources</div><div class="raccourci-desc">Demandes des membres</div></div>
+    </a>
+    <a class="raccourci" href="salons.html">
+      <div class="raccourci-icone">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2L2 7v11h16V7L10 2z" stroke="#2D3F7B" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </div>
+      <div><div class="raccourci-nom">Salons</div><div class="raccourci-desc">Confirmations et commandes</div></div>
+    </a>
+    <a class="raccourci" href="bulletins.html">
+      <div class="raccourci-icone">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="#2D3F7B" stroke-width="1.5"/><path d="M6 8h8M6 11h5" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="raccourci-nom">Bulletins</div><div class="raccourci-desc">Publier un bulletin</div></div>
+    </a>
+    <a class="raccourci" href="prix-champlain.html">
+      <div class="raccourci-icone">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 5.4 5.6.4-4.2 3.8 1.4 5.4L10 14l-5.2 3 1.4-5.4L2 7.8l5.6-.4L10 2z" stroke="#2D3F7B" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </div>
+      <div><div class="raccourci-nom">Prix Champlain</div><div class="raccourci-desc">Jury et calendrier</div></div>
+    </a>
+    <a class="raccourci" href="ingram.html">
+      <div class="raccourci-icone">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M3 3h14v14H3z" stroke="#2D3F7B" stroke-width="1.5"/><path d="M3 7h14M7 7v10" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="raccourci-nom">Ingram</div><div class="raccourci-desc">Rapports de distribution</div></div>
+    </a>
+  </div>
 
-        <!-- Salons à venir -->
-        <div class="section-titre">Salons à venir — confirmations</div>
-        <div class="tableau-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Salon</th>
-                        <th>Date</th>
-                        <th>Limite confirmation</th>
-                        <th>Confirmations</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Salon du livre de Toronto</td>
-                        <td>Oct 2025</td>
-                        <td>15 août 2025</td>
-                        <td>12 / 15</td>
-                        <td><span class="badge badge-vert">Confirmé</span></td>
-                    </tr>
-                    <tr>
-                        <td>Salon du Grand Sudbury</td>
-                        <td>Nov 2025</td>
-                        <td>15 sept. 2025</td>
-                        <td>8 / 15</td>
-                        <td><span class="badge badge-orange">En cours</span></td>
-                    </tr>
-                    <tr>
-                        <td>Salon de Hearst</td>
-                        <td>Fév 2026</td>
-                        <td>15 déc. 2025</td>
-                        <td>0 / 15</td>
-                        <td><span class="badge badge-bleu">À ouvrir</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+</div>
 
-        <!-- Factures récentes -->
-        <div class="section-titre">Factures récentes — à approuver</div>
-        <div class="tableau-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Maison</th>
-                        <th>Fournisseur</th>
-                        <th>Type</th>
-                        <th>Montant</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2025-07-22</td>
-                        <td>La Nouvelle Plume</td>
-                        <td>Studio Web 3C</td>
-                        <td>Numérique</td>
-                        <td>542,40 $</td>
-                        <td><span class="badge badge-orange">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>2025-07-18</td>
-                        <td>Bouton d'or d'Acadie</td>
-                        <td>Magasine Alpha</td>
-                        <td>Publicité</td>
-                        <td>395,50 $</td>
-                        <td><span class="badge badge-orange">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>2025-06-10</td>
-                        <td>Prise de Parole</td>
-                        <td>Agence Oméga</td>
-                        <td>Agent de presse</td>
-                        <td>169,50 $</td>
-                        <td><span class="badge badge-vert">Approuvée</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-
-    <script>
-        // Vérifier que l'utilisateur est bien connecté
-        // Dans la démo on simule juste — dans le vrai portail 
-        // cette vérification se ferait côté serveur
-        console.log('Tableau de bord admin chargé');
-    </script>
-
+<script>
+const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const d = new Date();
+document.getElementById('date-jour').textContent =
+  jours[d.getDay()] + ' ' + d.getDate() + ' ' + mois[d.getMonth()] + ' ' + d.getFullYear();
+</script>
 </body>
 </html>
