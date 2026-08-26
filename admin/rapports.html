@@ -205,7 +205,7 @@ tbody tr:hover td{background:#f8fafc}
     <div class="kpi">
       <div class="kpi-label">Ventes nettes totales</div>
       <div class="kpi-valeur" id="kpi-ventes">4 821,14 $</div>
-      <div class="kpi-sous">Tous rapports confondus</div>
+      <div class="kpi-sous">Voir détail par devise ci-dessous</div>
     </div>
     <div class="kpi">
       <div class="kpi-label">Commission REFC</div>
@@ -430,6 +430,11 @@ function fmt(n, devise){
   return (devise ? devise+' ' : '') + s;
 }
 
+function fmtD(n, devise){
+  const s = Math.abs(n).toLocaleString('fr-CA',{minimumFractionDigits:2,maximumFractionDigits:2});
+  return s + (devise ? '\u00a0' + devise : '');
+}
+
 function badgeType(t){ return BADGES[t] || t; }
 
 function rendreLigne(d){
@@ -458,17 +463,41 @@ function calculerTotaux(lignes){
 }
 
 function rendreTotaux(t){
-  return `<tr class="total-row">
-    <td colspan="5">Total</td>
-    <td class="montant fort">${t.qte}</td>
-    <td class="montant col-ingram" style="color:#94a3b8">—</td>
-    <td class="montant col-ingram" style="color:#94a3b8">—</td>
-    <td class="montant col-ingram" style="color:#94a3b8">—</td>
-    <td class="montant fort">${fmt(t.net)}</td>
-    <td class="montant fort bleu">${fmt(t.commission)}</td>
-    <td class="montant fort">${fmt(t.remise)}</td>
-    <td></td>
-  </tr>`;
+  // Grouper par devise si plusieurs
+  const devises = [...new Set(donneesFiltrees.map(d=>d.devise))];
+  let lignesTotal = '';
+  if(devises.length === 1){
+    const dev = devises[0];
+    lignesTotal = `<tr class="total-row">
+      <td colspan="5" style="font-weight:700">Total (${dev})</td>
+      <td class="montant fort">${t.qte}</td>
+      <td class="montant col-ingram" style="color:#94a3b8">—</td>
+      <td class="montant col-ingram" style="color:#94a3b8">—</td>
+      <td class="montant col-ingram" style="color:#94a3b8">—</td>
+      <td class="montant fort">${fmtD(t.net,dev)}</td>
+      <td class="montant fort bleu">${fmtD(t.commission,dev)}</td>
+      <td class="montant fort">${fmtD(t.remise,dev)}</td>
+      <td></td>
+    </tr>`;
+  } else {
+    // Plusieurs devises — un total par devise
+    devises.forEach(dev => {
+      const lignesDev = donneesFiltrees.filter(d=>d.devise===dev);
+      const totDev = lignesDev.reduce((a,d)=>({net:a.net+d.net,commission:a.commission+d.commission,remise:a.remise+d.remise,qte:a.qte+d.qte}),{net:0,commission:0,remise:0,qte:0});
+      lignesTotal += `<tr class="total-row">
+        <td colspan="5" style="font-weight:700">Sous-total ${dev}</td>
+        <td class="montant fort">${totDev.qte}</td>
+        <td class="montant col-ingram" style="color:#94a3b8">—</td>
+        <td class="montant col-ingram" style="color:#94a3b8">—</td>
+        <td class="montant col-ingram" style="color:#94a3b8">—</td>
+        <td class="montant fort">${fmtD(totDev.net,dev)}</td>
+        <td class="montant fort bleu">${fmtD(totDev.commission,dev)}</td>
+        <td class="montant fort">${fmtD(totDev.remise,dev)}</td>
+        <td></td>
+      </tr>`;
+    });
+  }
+  return lignesTotal;
 }
 
 function filtrerTableau(){
@@ -510,9 +539,24 @@ function afficherTableau(){
   document.getElementById('btn-prev').disabled = pageCourante === 1;
   document.getElementById('btn-next').disabled = pageCourante >= pages;
   // KPIs
-  document.getElementById('kpi-ventes').textContent = fmt(tot.net) + ' $';
-  document.getElementById('kpi-commission').textContent = fmt(tot.commission) + ' $';
-  document.getElementById('kpi-remises').textContent = fmt(tot.remise) + ' $';
+  // KPIs avec gestion multi-devises
+  const devisesPresentes = [...new Set(donneesFiltrees.map(d=>d.devise))];
+  if(devisesPresentes.length === 1){
+    const dev = devisesPresentes[0];
+    document.getElementById('kpi-ventes').textContent = fmtD(tot.net, dev);
+    document.getElementById('kpi-commission').textContent = fmtD(tot.commission, dev);
+    document.getElementById('kpi-remises').textContent = fmtD(tot.remise, dev);
+  } else {
+    // Plusieurs devises — afficher par devise
+    const resumeDev = devisesPresentes.map(dev => {
+      const lignesDev = donneesFiltrees.filter(d=>d.devise===dev);
+      const totDev = lignesDev.reduce((a,d)=>({net:a.net+d.net}),{net:0});
+      return fmtD(totDev.net, dev);
+    }).join(' + ');
+    document.getElementById('kpi-ventes').textContent = resumeDev;
+    document.getElementById('kpi-commission').textContent = '—';
+    document.getElementById('kpi-remises').textContent = '—';
+  }
   document.getElementById('kpi-exemplaires').textContent = tot.qte;
 }
 
@@ -694,7 +738,7 @@ function traiterLignes(lignes, type){
       const brut = donneesImport._dernierBrut || 0;
       const coutImpression = donneesImport._dernierImpression || 0;
       const coutLogistique = donneesImport._dernierLogistique || 0;
-      donneesImport.push({maison, isbn, titre, qte, brut:estIngram?brut:0, coutImpression:estIngram?coutImpression:0, coutLogistique:estIngram?coutLogistique:0, net, devise, commission, remise, _idx:i});
+      donneesImport.push({maison, isbn, titre, qte, brut:estIngram?brut:0, coutImpression:estIngram?coutImpression:0, coutLogistique:estIngram?coutLogistique:0, net, devise:deviseRapport, commission, remise, _idx:i});
     }
   });
 
