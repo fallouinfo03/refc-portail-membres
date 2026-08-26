@@ -269,6 +269,17 @@
         .badge-intl{background:#1e293b;color:#fff}
         .badge-ingram{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-congres{background:#E8EEF7;color:#253570;border:1px solid #7B9EC8}
+
+.alertes-bloc{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.alerte{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-radius:8px;font-size:13px;line-height:1.5;border:1px solid}
+.alerte-rouge{background:#fee2e2;border-color:#fca5a5;color:#7f1d1d}
+.alerte-jaune{background:#fef9c3;border-color:#fde047;color:#854d0e}
+.alerte-bleu{background:#E8EEF7;border-color:#7B9EC8;color:#1e3a5f}
+.alerte-vert{background:#dcfce7;border-color:#86efac;color:#166534}
+.alerte-icone{font-size:16px;flex-shrink:0;margin-top:1px;font-weight:700}
+.alerte-corps{flex:1}
+.alerte-titre{font-weight:700;margin-bottom:2px}
+.alerte-detail{font-size:12px;opacity:.85}
 </style>
 </head>
 <body>
@@ -307,8 +318,31 @@
     <p class="page-sous-titre">Année budgétaire 2025–2026 · Du 1er avril 2025 au 31 mars 2026</p>
 
     <!-- Alerte retard -->
-    <div class="alerte-danger">
-        Une refacturation est en retard de paiement — <strong>189,84 $</strong> dus depuis le 15 juillet 2025. Veuillez contacter le bureau de la REFC au 613 691-7061.
+    <div class="alertes-bloc">
+      <!-- ROUGE — paiement en retard -->
+      <div class="alerte alerte-rouge">
+        <span class="alerte-icone">!</span>
+        <div class="alerte-corps">
+          <div class="alerte-titre">Refacturation en retard de paiement — 189,84 $</div>
+          <div class="alerte-detail">Facture #3612 échue le 15 juillet 2025. Veuillez contacter la REFC au 613 691-7061 pour régulariser votre situation.</div>
+        </div>
+      </div>
+      <!-- JAUNE — commande salon à soumettre -->
+      <div class="alerte alerte-jaune">
+        <span class="alerte-icone">⚠</span>
+        <div class="alerte-corps">
+          <div class="alerte-titre">Commande à soumettre — Salon du Grand Sudbury</div>
+          <div class="alerte-detail">Votre participation est confirmée mais la commande de livres n'a pas encore été soumise. Date limite : 15 septembre 2025.</div>
+        </div>
+      </div>
+      <!-- BLEU — information redistribution -->
+      <div class="alerte alerte-bleu">
+        <span class="alerte-icone">i</span>
+        <div class="alerte-corps">
+          <div class="alerte-titre">Redistribution de mi-année disponible en octobre</div>
+          <div class="alerte-detail">Si vous prévoyez utiliser l'intégralité de votre enveloppe coûts partagés, signalez-le à la REFC avant le 1er octobre pour recevoir les soldes non utilisés des autres maisons.</div>
+        </div>
+      </div>
     </div>
 
     <!-- KPIs -->
