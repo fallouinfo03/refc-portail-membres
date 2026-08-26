@@ -550,8 +550,22 @@ function lireFichier(input){
   const estCSV = fichier.name.toLowerCase().endsWith('.csv');
 
   if(estCSV){
+    // Essayer UTF-8 d'abord, puis latin1 si les accents sont cassés
     reader.onload = function(e){
-      const result = Papa.parse(e.target.result, {header:true, skipEmptyLines:true});
+      let texte = e.target.result;
+      // Détecter encodage cassé Square : Ã© = é en latin1 mal lu
+      if(texte.includes('Ã©') || texte.includes('Ã¨') || texte.includes('â€')){
+        // Re-lire en latin1
+        const reader2 = new FileReader();
+        reader2.onload = function(e2){
+          const result = Papa.parse(e2.target.result, {header:true, skipEmptyLines:true});
+          if(!result.data.length){ alert("Fichier CSV vide ou non reconnu."); return; }
+          traiterLignes(result.data, type);
+        };
+        reader2.readAsText(fichier, 'latin1');
+        return;
+      }
+      const result = Papa.parse(texte, {header:true, skipEmptyLines:true});
       if(!result.data.length){ alert("Fichier CSV vide ou non reconnu."); return; }
       traiterLignes(result.data, type);
     };
@@ -631,7 +645,7 @@ function traiterLignes(lignes, type){
     const commission = net * taux.refc;
     const remise = net * taux.editeur;
 
-    const maisonsVides = ['','uncategorized','non classé','none','-','n/a'];
+    const maisonsVides = ['','uncategorized','Uncategorized','non classé','non classe','none','-','n/a',''];
     if(maisonsVides.includes(maison.toLowerCase())){
       maison = '';
       nonClasse++;
