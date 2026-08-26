@@ -236,8 +236,11 @@ tbody tr:hover td{background:#f8fafc}
           <th onclick="trierPar('isbn')">ISBN</th>
           <th onclick="trierPar('titre')">Titre</th>
           <th style="text-align:right" onclick="trierPar('qte')">Qté</th>
+          <th style="text-align:right" id="th-brut" onclick="trierPar('brut')">Montant brut</th>
+          <th style="text-align:right" id="th-cout-imp">Coût impression</th>
+          <th style="text-align:right" id="th-cout-log">Coût logistique</th>
           <th style="text-align:right" onclick="trierPar('net')">Ventes nettes</th>
-          <th style="text-align:right" onclick="trierPar('commission')">Commission REFC</th>
+          <th style="text-align:right" id="th-commission" onclick="trierPar('commission')">Commission</th>
           <th style="text-align:right" onclick="trierPar('remise')">Remise éditeur</th>
           <th style="text-align:center">Devise</th>
         </tr>
@@ -381,20 +384,20 @@ const donneesDemo = [
   {evenement:"FLA 2025",type:"congres",maison:"Prise de Parole",isbn:"978-2-89423-201-1",titre:"Terres boréales",qte:2,net:35.98,devise:"CAD",commission:7.20,remise:28.78},
   {evenement:"Salon Paris 2025",type:"intl",maison:"Prise de Parole",isbn:"978-2-89423-156-4",titre:"Les Racines du vent",qte:8,net:184.00,devise:"CAD",commission:73.60,remise:110.40},
   {evenement:"Salon Paris 2025",type:"intl",maison:"Éditions David",isbn:"978-2-89597-134-7",titre:"L’Horizon perdu",qte:5,net:115.00,devise:"CAD",commission:46.00,remise:69.00},
-  {evenement:"Ingram Q2 2025",type:"ingram-us",maison:"Prise de Parole",isbn:"978-2-89423-156-4",titre:"Les Racines du vent",qte:12,net:198.50,devise:"USD",commission:99.25,remise:99.25},
+  {evenement:"Ingram Q2 2025",type:"ingram-us",maison:"Prise de Parole",isbn:"978-2-89423-156-4",titre:"Les Racines du vent",qte:12,brut:320.00,coutImpression:85.50,coutLogistique:36.00,net:198.50,devise:"USD",commission:99.25,remise:99.25},
   {evenement:"Ingram Q2 2025",type:"ingram-us",maison:"Éditions David",isbn:"978-2-89597-134-7",titre:"L’Horizon perdu",qte:8,net:132.40,devise:"USD",commission:66.20,remise:66.20},
   {evenement:"Ingram Q2 2025",type:"ingram-us",maison:"Bouton d’or Acadie",isbn:"978-2-924789-08-6",titre:"Alexis Trouve Sa Voix",qte:6,net:87.30,devise:"USD",commission:43.65,remise:43.65},
 ]
 
 const TAUX = {
-  salon:   {refc:0.20, editeur:0.80, label:'Commission REFC 20 % — Remise éditeur 80 %'},
-  intl:    {refc:0.40, editeur:0.60, label:'Commission Québec/Édition 40 % — Remise éditeur 60 %'},
-  congres: {refc:0.20, editeur:0.80, label:'Commission REFC 20 % — Remise éditeur 80 %'},
-  'ingram-us': {refc:0.50, editeur:0.50, label:'Commission REFC 50 % — Éditeur 50 %'},
-  'ingram-uk': {refc:0.50, editeur:0.50, label:'Commission REFC 50 % — Éditeur 50 %'},
-  'ingram-au': {refc:0.50, editeur:0.50, label:'Commission REFC 50 % — Éditeur 50 %'},
-  'ingram-eu': {refc:0.50, editeur:0.50, label:'Commission REFC 50 % — Éditeur 50 %'},
-  'ingram-fr': {refc:0.50, editeur:0.50, label:'Commission REFC 50 % — Éditeur 50 %'},
+  salon:       {refc:0.20, editeur:0.80, qed:0,    label:"Commission REFC 20 % — Remise éditeur 80 %"},
+  intl:        {refc:0,    editeur:0.60, qed:0.40,  label:"Commission Québec/Édition 40 % — Remise éditeur 60 % (REFC : 0 %)"},
+  congres:     {refc:0.20, editeur:0.80, qed:0,    label:"Commission REFC 20 % — Remise éditeur 80 %"},
+  "ingram-us": {refc:0.50, editeur:0.50, qed:0,    label:"Commission REFC 50 % — Remise éditeur 50 % (après coûts impression et logistique)"},
+  "ingram-uk": {refc:0.50, editeur:0.50, qed:0,    label:"Commission REFC 50 % — Remise éditeur 50 % (après coûts impression et logistique)"},
+  "ingram-au": {refc:0.50, editeur:0.50, qed:0,    label:"Commission REFC 50 % — Remise éditeur 50 % (après coûts impression et logistique)"},
+  "ingram-eu": {refc:0.50, editeur:0.50, qed:0,    label:"Commission REFC 50 % — Remise éditeur 50 % (après coûts impression et logistique)"},
+  "ingram-fr": {refc:0.50, editeur:0.50, qed:0,    label:"Commission REFC 50 % — Remise éditeur 50 % (après coûts impression et logistique)"},
 };
 
 const DEVISES = {
@@ -426,15 +429,21 @@ function fmt(n, devise){
 function badgeType(t){ return BADGES[t] || t; }
 
 function rendreLigne(d){
+  const estIngram = d.type && d.type.startsWith('ingram');
+  const estIntl = d.type === 'intl';
+  const labelComm = estIntl ? 'Qc/Éd 40%' : estIngram ? 'REFC 50%' : 'REFC 20%';
   return `<tr>
     <td style="font-size:12px;color:#64748b">${d.evenement}</td>
     <td>${badgeType(d.type)}</td>
     <td style="font-weight:500">${d.maison}</td>
     <td style="font-size:11px;color:#94a3b8;font-family:monospace">${d.isbn||'—'}</td>
-    <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${d.titre}">${d.titre}</td>
+    <td style="max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${d.titre}">${d.titre}</td>
     <td class="montant">${d.qte}</td>
+    <td class="montant" style="color:#94a3b8;font-size:11px">${estIngram && d.brut ? fmt(d.brut) : '—'}</td>
+    <td class="montant" style="color:#94a3b8;font-size:11px">${estIngram && d.coutImpression ? fmt(d.coutImpression) : '—'}</td>
+    <td class="montant" style="color:#94a3b8;font-size:11px">${estIngram && d.coutLogistique ? fmt(d.coutLogistique) : '—'}</td>
     <td class="montant">${fmt(d.net)}</td>
-    <td class="montant bleu">${fmt(d.commission)}</td>
+    <td class="montant bleu" title="${labelComm}">${fmt(d.commission)}</td>
     <td class="montant">${fmt(d.remise)}</td>
     <td style="text-align:center;font-size:11px;color:#64748b">${d.devise}</td>
   </tr>`;
@@ -448,6 +457,9 @@ function rendreTotaux(t){
   return `<tr class="total-row">
     <td colspan="5">Total</td>
     <td class="montant fort">${t.qte}</td>
+    <td class="montant" style="color:#94a3b8">—</td>
+    <td class="montant" style="color:#94a3b8">—</td>
+    <td class="montant" style="color:#94a3b8">—</td>
     <td class="montant fort">${fmt(t.net)}</td>
     <td class="montant fort bleu">${fmt(t.commission)}</td>
     <td class="montant fort">${fmt(t.remise)}</td>
@@ -529,8 +541,15 @@ function mettreAJourTaux(){
   const t = document.getElementById('import-type').value;
   const taux = TAUX[t];
   if(taux){
-    document.getElementById('import-taux').value =
-      (taux.refc*100).toFixed(0)+'% REFC / '+(taux.editeur*100).toFixed(0)+'% éditeur';
+    let affichage = '';
+    if(t === 'intl'){
+      affichage = 'Québec/Édition 40 % — Éditeur 60 % — REFC 0 %';
+    } else if(t.startsWith('ingram')){
+      affichage = 'REFC 50 % — Éditeur 50 % (sur ventes nettes après coûts)';
+    } else {
+      affichage = 'REFC 20 % — Éditeur 80 %';
+    }
+    document.getElementById('import-taux').value = affichage;
     document.getElementById('encart-taux').textContent = taux.label;
     document.getElementById('encart-taux').style.display='block';
   } else {
@@ -612,15 +631,19 @@ function traiterLignes(lignes, type){
     let maison, isbn, titre, qte, net;
 
     if(estIngram){
-      // Colonnes Ingram — sera ajusté quand on aura un exemple réel
-      maison = l['Publisher'] || l['Editeur'] || l['publisher'] || '';
-      isbn = l['ISBN'] || l['isbn'] || '';
-      titre = l['Title'] || l['title'] || l['Titre'] || '';
-      qte = parseInt(l['Units Sold'] || l['Qty'] || '0') || 0;
-      const brut = nettoyerMontant(l['Gross Sales'] || l['Amount'] || '0');
-      const imprim = nettoyerMontant(l['Print Cost'] || l['Printing Cost'] || '0');
-      const logist = nettoyerMontant(l['Freight Cost'] || l['Logistics'] || '0');
-      net = brut - imprim - logist;
+      // Colonnes Ingram : Montant brut / Coût impression / Coût logistique / Ventes nettes
+      maison = l['Publisher'] || l['Editeur'] || l['publisher'] || l['Maison'] || '';
+      isbn = l['ISBN'] || l['isbn'] || l['EAN'] || '';
+      titre = String(l['Title'] || l['title'] || l['Titre'] || '').trim();
+      qte = parseInt(l['Units Sold'] || l['Qty'] || l['Quantity'] || '0') || 0;
+      const brut = nettoyerMontant(l['Gross Sales'] || l['Montant brut'] || l['Amount'] || '0');
+      const imprim = nettoyerMontant(l['Print Cost'] || l['Printing Cost'] || l['Cout impression'] || l['Coût impression'] || '0');
+      const logist = nettoyerMontant(l['Freight Cost'] || l['Logistics'] || l['Cout logistique'] || l['Coût logistique'] || '0');
+      net = nettoyerMontant(l['Net Sales'] || l['Ventes nettes'] || '0') || (brut - imprim - logist);
+      // Stocker les coûts pour affichage
+      donneesImport._dernierBrut = brut;
+      donneesImport._dernierImpression = imprim;
+      donneesImport._dernierLogistique = logist;
     } else {
       // Colonnes Square exactes (CSV exporté de Square) :
       // Item Name | Item Variation | SKU | Category | Items Sold |
@@ -652,7 +675,10 @@ function traiterLignes(lignes, type){
     }
 
     if(titre && net !== 0){
-      donneesImport.push({maison, isbn, titre, qte, net, devise, commission, remise, _idx:i});
+      const brut = donneesImport._dernierBrut || 0;
+      const coutImpression = donneesImport._dernierImpression || 0;
+      const coutLogistique = donneesImport._dernierLogistique || 0;
+      donneesImport.push({maison, isbn, titre, qte, brut:estIngram?brut:0, coutImpression:estIngram?coutImpression:0, coutLogistique:estIngram?coutLogistique:0, net, devise, commission, remise, _idx:i});
     }
   });
 
