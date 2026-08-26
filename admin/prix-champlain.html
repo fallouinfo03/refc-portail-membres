@@ -142,6 +142,11 @@ tr:last-child td{border-bottom:none}
         .badge-intl{background:#1e293b;color:#fff}
         .badge-ingram{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-congres{background:#E8EEF7;color:#253570;border:1px solid #7B9EC8}
+
+.etape-body{flex:1;padding:0 0 24px 16px;position:relative}
+.btn-suppr-etape{position:absolute;top:0;right:0;background:none;border:none;cursor:pointer;color:#94a3b8;font-size:18px;line-height:1;padding:2px 4px;border-radius:4px;display:none}
+.etape-cal:hover .btn-suppr-etape{display:block}
+.btn-suppr-etape:hover{color:#7f1d1d;background:#fee2e2}
 </style>
 </head>
 <body>
@@ -170,6 +175,7 @@ tr:last-child td{border-bottom:none}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
   <a class="nav-btn actif" href="prix-champlain.html">Prix Champlain</a>
   <a class="nav-btn" href="assistance.html">Assistance</a>
 </div>
@@ -224,6 +230,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Ouverture de l'appel à candidatures</div>
           <div class="etape-date">1er septembre 2025</div>
           <span class="etape-statut stat-done">Réalisé</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -233,6 +240,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Réception et évaluation de l'admissibilité des ouvrages</div>
           <div class="etape-date">1er septembre – 31 octobre 2025</div>
           <span class="etape-statut stat-done">Réalisé</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -242,6 +250,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Envoi des ouvrages admissibles aux membres du jury et aux présidences (volet adulte et jeunesse)</div>
           <div class="etape-date">15 novembre 2025</div>
           <span class="etape-statut stat-done">Réalisé</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -251,6 +260,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Date limite d'envoi des choix préliminaires des membres aux présidences du jury (volet adulte et jeunesse)</div>
           <div class="etape-date">15 janvier 2026</div>
           <span class="etape-statut stat-done">Réalisé</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -260,6 +270,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Lecture approfondie des ouvrages retenus en présélection</div>
           <div class="etape-date">15 janvier – 15 février 2026</div>
           <span class="etape-statut stat-done">Réalisé</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -269,6 +280,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Date limite d'envoi des grilles d'évaluation des membres du jury à la présidence</div>
           <div class="etape-date">28 février 2026</div>
           <span class="etape-statut stat-current">En cours</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -278,6 +290,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Compilation des grilles d'évaluation par la présidence du jury et partage des résultats avec les membres du jury</div>
           <div class="etape-date">7 mars 2026</div>
           <span class="etape-statut stat-upcoming">À venir</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -287,6 +300,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Les trois titres obtenant le meilleur pointage sont retenus comme finalistes dans chaque volet</div>
           <div class="etape-date">7 mars 2026</div>
           <span class="etape-statut stat-upcoming">À venir</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -296,6 +310,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Délibération par téléconférence — Choix du titre lauréat (volet adulte et volet jeunesse)</div>
           <div class="etape-date">14 mars 2026</div>
           <span class="etape-statut stat-upcoming">À venir</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -305,6 +320,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Envoi des résultats à la REFC — Annonce publique des finalistes aux médias</div>
           <div class="etape-date">21 mars 2026</div>
           <span class="etape-statut stat-upcoming">À venir</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -314,6 +330,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Promotion des titres finalistes du Prix Champlain</div>
           <div class="etape-date">21 mars – 30 avril 2026</div>
           <span class="etape-statut stat-upcoming">À venir</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -323,6 +340,7 @@ tr:last-child td{border-bottom:none}
           <div class="etape-titre">Cérémonie de remise des prix — Salon du livre de l'Outaouais</div>
           <div class="etape-date">30 avril 2026</div>
           <span class="etape-statut stat-upcoming">À venir</span>
+          <button class="btn-suppr-etape" onclick="supprimerEtape(this)" title="Supprimer cette étape">×</button>
         </div>
       </div>
 
@@ -809,6 +827,20 @@ function ajouterActionDepuisModal() {
   document.getElementById('action-texte').style.borderColor = '';
   fermerModal('modal-action');
 }
+
+function supprimerEtape(btn){
+  const etape = btn.closest('.etape-cal');
+  const titre = etape.querySelector('.etape-titre').textContent.trim();
+  if(confirm('Supprimer l\'étape «\u00a0' + titre + '\u00a0» ?')){
+    etape.remove();
+    // Renuméroter
+    document.querySelectorAll('.etape-cal').forEach((el,i)=>{
+      const num = el.querySelector('.etape-num');
+      if(num) num.textContent = i+1;
+    });
+  }
+}
+
 </script>
 </body>
 </html>
