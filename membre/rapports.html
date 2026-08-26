@@ -356,7 +356,157 @@ function changerPage(dir){
 }
 
 
-const cartesData = [{"id": "slm2025", "nom": "SLM 2025", "type": "Salon CAD", "taux_refc": 20, "taux_editeur": 80, "devise": "CAD", "qte": 9, "net": 161.71, "comm": 32.34, "remise": 129.37, "lignes": [{"isbn": "978-2-89423-156-4", "titre": "Les Racines du vent", "qte": 5, "net": 89.75, "comm": 17.95, "rem": 71.8}, {"isbn": "978-2-89423-201-1", "titre": "Terres boréales", "qte": 4, "net": 71.96, "comm": 14.39, "rem": 57.57}]}, {"id": "toronto2025", "nom": "Salon de Toronto 2025", "type": "Salon CAD", "taux_refc": 20, "taux_editeur": 80, "devise": "CAD", "qte": 3, "net": 53.85, "comm": 10.77, "remise": 43.08, "lignes": [{"isbn": "978-2-89423-156-4", "titre": "Les Racines du vent", "qte": 3, "net": 53.85, "comm": 10.77, "rem": 43.08}]}, {"id": "paris2025", "nom": "Salon Paris 2025", "type": "Salon international CAD", "taux_refc": 40, "taux_editeur": 60, "devise": "CAD", "qte": 8, "net": 184.0, "comm": 73.6, "remise": 110.4, "lignes": [{"isbn": "978-2-89423-156-4", "titre": "Les Racines du vent", "qte": 8, "net": 184.0, "comm": 73.6, "rem": 110.4}]}, {"id": "fla2025", "nom": "FLA 2025", "type": "Congrès CAD", "taux_refc": 20, "taux_editeur": 80, "devise": "CAD", "qte": 2, "net": 35.98, "comm": 7.2, "remise": 28.78, "lignes": [{"isbn": "978-2-89423-201-1", "titre": "Terres boréales", "qte": 2, "net": 35.98, "comm": 7.2, "rem": 28.78}]}, {"id": "ingramq22025", "nom": "Ingram Q2 2025", "type": "Ingram USD", "taux_refc": 50, "taux_editeur": 50, "devise": "USD", "qte": 12, "net": 198.5, "comm": 99.25, "remise": 99.25, "lignes": [{"isbn": "978-2-89423-156-4", "titre": "Les Racines du vent", "qte": 12, "net": 198.5, "comm": 99.25, "rem": 99.25}]}];
+const cartesData = [
+  {
+    "id": "slm2025",
+    "nom": "SLM 2025",
+    "type": "Salon Canada",
+    "typeCode": "salon",
+    "taux_refc": 20,
+    "taux_editeur": 80,
+    "taux_qed": 0,
+    "devise": "CAD",
+    "qte": 9,
+    "net": 161.71,
+    "comm": 32.34,
+    "remise": 129.37,
+    "lignes": [
+      {
+        "isbn": "978-2-89423-156-4",
+        "titre": "Les Racines du vent",
+        "qte": 5,
+        "net": 89.75,
+        "comm": 17.95,
+        "rem": 71.8,
+        "brut": 0,
+        "imprim": 0,
+        "logist": 0
+      },
+      {
+        "isbn": "978-2-89423-201-1",
+        "titre": "Terres boréales",
+        "qte": 4,
+        "net": 71.96,
+        "comm": 14.39,
+        "rem": 57.57,
+        "brut": 0,
+        "imprim": 0,
+        "logist": 0
+      }
+    ]
+  },
+  {
+    "id": "toronto2025",
+    "nom": "Salon de Toronto 2025",
+    "type": "Salon Canada",
+    "typeCode": "salon",
+    "taux_refc": 20,
+    "taux_editeur": 80,
+    "taux_qed": 0,
+    "devise": "CAD",
+    "qte": 3,
+    "net": 53.85,
+    "comm": 10.77,
+    "remise": 43.08,
+    "lignes": [
+      {
+        "isbn": "978-2-89423-156-4",
+        "titre": "Les Racines du vent",
+        "qte": 3,
+        "net": 53.85,
+        "comm": 10.77,
+        "rem": 43.08,
+        "brut": 0,
+        "imprim": 0,
+        "logist": 0
+      }
+    ]
+  },
+  {
+    "id": "paris2025",
+    "nom": "Salon Paris 2025",
+    "type": "Salon international",
+    "typeCode": "intl",
+    "taux_refc": 0,
+    "taux_editeur": 60,
+    "taux_qed": 40,
+    "devise": "CAD",
+    "qte": 8,
+    "net": 184.0,
+    "comm": 0,
+    "remise": 110.4,
+    "lignes": [
+      {
+        "isbn": "978-2-89423-156-4",
+        "titre": "Les Racines du vent",
+        "qte": 8,
+        "net": 184.0,
+        "comm": 0,
+        "rem": 110.4,
+        "brut": 0,
+        "imprim": 0,
+        "logist": 0
+      }
+    ]
+  },
+  {
+    "id": "fla2025",
+    "nom": "FLA 2025",
+    "type": "Congrès",
+    "typeCode": "congres",
+    "taux_refc": 20,
+    "taux_editeur": 80,
+    "taux_qed": 0,
+    "devise": "CAD",
+    "qte": 2,
+    "net": 35.98,
+    "comm": 7.2,
+    "remise": 28.78,
+    "lignes": [
+      {
+        "isbn": "978-2-89423-201-1",
+        "titre": "Terres boréales",
+        "qte": 2,
+        "net": 35.98,
+        "comm": 7.2,
+        "rem": 28.78,
+        "brut": 0,
+        "imprim": 0,
+        "logist": 0
+      }
+    ]
+  },
+  {
+    "id": "ingramq22025",
+    "nom": "Ingram Q2 2025",
+    "type": "Ingram US",
+    "typeCode": "ingram-us",
+    "taux_refc": 50,
+    "taux_editeur": 50,
+    "taux_qed": 0,
+    "devise": "USD",
+    "qte": 12,
+    "brut_total": 320.0,
+    "cout_impression_total": 85.5,
+    "cout_logistique_total": 36.0,
+    "net": 198.5,
+    "comm": 99.25,
+    "remise": 99.25,
+    "lignes": [
+      {
+        "isbn": "978-2-89423-156-4",
+        "titre": "Les Racines du vent",
+        "qte": 12,
+        "brut": 320.0,
+        "imprim": 85.5,
+        "logist": 36.0,
+        "net": 198.5,
+        "comm": 99.25,
+        "rem": 99.25
+      }
+    ]
+  }
+]
 
 function telechargerPDFRapport(id){
   const d = cartesData.find(c => c.id === id);
@@ -437,11 +587,23 @@ function telechargerPDFRapport(id){
 
   // ===== KPIs =====
   y = 72;
-  const kpis = [
+  const estIngram = d.typeCode && d.typeCode.startsWith('ingram');
+  const estIntl = d.typeCode === 'intl';
+  const kpis = estIngram ? [
+    {label:'Exemplaires vendus', val: String(d.qte)},
+    {label:'Montant brut', val: (d.brut_total||0).toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
+    {label:'Ventes nettes', val: d.net.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
+    {label:'REFC 50% / Éditeur 50%', val: d.comm.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' / ' + d.remise.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
+  ] : estIntl ? [
+    {label:'Exemplaires vendus', val: String(d.qte)},
+    {label:'Ventes nettes', val: d.net.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
+    {label:'Commission Qc/Éd (40%)', val: (d.net*0.40).toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
+    {label:'Remise éditeur (60%)', val: d.remise.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
+  ] : [
     {label:'Exemplaires vendus', val: String(d.qte)},
     {label:'Ventes nettes', val: d.net.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
     {label:'Commission REFC (' + d.taux_refc + '%)', val: d.comm.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
-    {label:'Remise editeur (' + d.taux_editeur + '%)', val: d.remise.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
+    {label:'Remise éditeur (' + d.taux_editeur + '%)', val: d.remise.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
   ];
   const kpiW = (W - 28 - 6) / 4;
   kpis.forEach((k, i) => {
@@ -473,13 +635,30 @@ function telechargerPDFRapport(id){
   y += 5;
 
   // En-tête tableau
-  const colsTbl = [
+  const colsTbl = estIngram ? [
+    {label:'ISBN', w:36},
+    {label:'Titre', w:60},
+    {label:'Qte', w:12, align:'right'},
+    {label:'Montant brut', w:24, align:'right'},
+    {label:'Cout impr.', w:22, align:'right'},
+    {label:'Cout logist.', w:22, align:'right'},
+    {label:'Ventes nettes', w:24, align:'right'},
+    {label:'REFC 50%', w:20, align:'right'},
+    {label:'Editeur 50%', w:20, align:'right'},
+  ] : estIntl ? [
     {label:'ISBN', w:38},
     {label:'Titre', w:72},
     {label:'Qte', w:14, align:'right'},
     {label:'Ventes nettes', w:28, align:'right'},
-    {label:'Commission REFC', w:30, align:'right'},
-    {label:'Remise editeur', w:28, align:'right'},
+    {label:'Comm. Qc/Ed 40%', w:34, align:'right'},
+    {label:'Remise editeur 60%', w:30, align:'right'},
+  ] : [
+    {label:'ISBN', w:38},
+    {label:'Titre', w:72},
+    {label:'Qte', w:14, align:'right'},
+    {label:'Ventes nettes', w:28, align:'right'},
+    {label:'Commission REFC 20%', w:30, align:'right'},
+    {label:'Remise editeur 80%', w:28, align:'right'},
   ];
 
   doc.setFillColor(...BLEU);
@@ -504,13 +683,24 @@ function telechargerPDFRapport(id){
       doc.rect(14, y, W - 28, 7, 'F');
     }
     doc.setTextColor(...NOIR);
-    const vals = [
+    const fmtN = (n) => (n||0).toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise;
+    const vals = estIngram ? [
+      {v: l.isbn || '—', w:36},
+      {v: l.titre.length > 26 ? l.titre.substring(0,25)+'…' : l.titre, w:60},
+      {v: String(l.qte), w:12, align:'right'},
+      {v: fmtN(l.brut), w:24, align:'right'},
+      {v: fmtN(l.imprim), w:22, align:'right'},
+      {v: fmtN(l.logist), w:22, align:'right'},
+      {v: fmtN(l.net), w:24, align:'right'},
+      {v: fmtN(l.comm), w:20, align:'right', bleu:true},
+      {v: fmtN(l.rem), w:20, align:'right', bleu:true},
+    ] : [
       {v: l.isbn || '—', w:38},
       {v: l.titre.length > 30 ? l.titre.substring(0,29)+'…' : l.titre, w:72},
       {v: String(l.qte), w:14, align:'right'},
-      {v: l.net.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise, w:28, align:'right'},
-      {v: l.comm.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise, w:30, align:'right', bleu:true},
-      {v: l.rem.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise, w:28, align:'right', bleu:true},
+      {v: fmtN(l.net), w:28, align:'right'},
+      {v: fmtN(l.comm), w: estIntl ? 34 : 30, align:'right', bleu:true},
+      {v: fmtN(l.rem), w: estIntl ? 30 : 28, align:'right', bleu:true},
     ];
     let xV = 14;
     vals.forEach(v => {
@@ -550,7 +740,12 @@ function telechargerPDFRapport(id){
   doc.setFontSize(7.5);
   doc.setFont('helvetica','normal');
   doc.text('Ce document est genere automatiquement par le Portail membres de la REFC.', 20, y + 6);
-  doc.text('Les montants sont calcules selon le taux en vigueur : ' + d.taux_refc + '% commission REFC / ' + d.taux_editeur + '% remise editeur.', 20, y + 12);
+  const noteTexte = estIngram
+    ? 'REFC 50 % / Éditeur 50 % calculés sur les ventes nettes (après coûts impression et logistique).'
+    : estIntl
+    ? 'Commission Québec/Édition 40 % — Remise éditeur 60 % — REFC : 0 %.'
+    : 'Commission REFC ' + d.taux_refc + '% / Remise éditeur ' + d.taux_editeur + '%.';
+  doc.text(noteTexte, 20, y + 12);
 
   // ===== PIED DE PAGE =====
   doc.setDrawColor(226, 232, 240);
