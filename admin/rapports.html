@@ -369,22 +369,22 @@ tbody tr:hover td{background:#f8fafc}
 <script>
 // ===== DONNÉES DE DÉMONSTRATION =====
 const donneesDemo = [
-  {evenement:'SLM 2025',type:'salon',maison:'Bouton d'or Acadie',isbn:'978-2-924789-12-3',titre:'Ah ! Pour Atlantique',qte:2,net:31.90,devise:'CAD',commission:6.38,remise:25.52},
-  {evenement:'SLM 2025',type:'salon',maison:'Bouton d'or Acadie',isbn:'978-2-924789-08-6',titre:'Alexis Trouve Sa Voix',qte:3,net:52.24,devise:'CAD',commission:10.45,remise:41.79},
-  {evenement:'SLM 2025',type:'salon',maison:'Prise de Parole',isbn:'978-2-89423-156-4',titre:'Les Racines du vent',qte:5,net:89.75,devise:'CAD',commission:17.95,remise:71.80},
-  {evenement:'SLM 2025',type:'salon',maison:'Prise de Parole',isbn:'978-2-89423-201-1',titre:'Terres boréales',qte:4,net:71.96,devise:'CAD',commission:14.39,remise:57.57},
-  {evenement:'SLM 2025',type:'salon',maison:'Éditions David',isbn:'978-2-89597-134-7',titre:'L'Horizon perdu',qte:7,net:125.93,devise:'CAD',commission:25.19,remise:100.74},
-  {evenement:'SLM 2025',type:'salon',maison:'Non classé',isbn:'',titre:'Port-Royal — La création',qte:1,net:11.31,devise:'CAD',commission:2.26,remise:9.05},
-  {evenement:'Salon de Toronto 2025',type:'salon',maison:'Prise de Parole',isbn:'978-2-89423-156-4',titre:'Les Racines du vent',qte:3,net:53.85,devise:'CAD',commission:10.77,remise:43.08},
-  {evenement:'Salon de Toronto 2025',type:'salon',maison:'L'Interligne',isbn:'978-2-923274-89-2',titre:'Mémoire vive',qte:6,net:107.94,devise:'CAD',commission:21.59,remise:86.35},
-  {evenement:'FLA 2025',type:'congres',maison:'Bouton d'or Acadie',isbn:'978-2-924789-12-3',titre:'Ah ! Pour Atlantique',qte:4,net:63.80,devise:'CAD',commission:12.76,remise:51.04},
-  {evenement:'FLA 2025',type:'congres',maison:'Prise de Parole',isbn:'978-2-89423-201-1',titre:'Terres boréales',qte:2,net:35.98,devise:'CAD',commission:7.20,remise:28.78},
-  {evenement:'Salon Paris 2025',type:'intl',maison:'Prise de Parole',isbn:'978-2-89423-156-4',titre:'Les Racines du vent',qte:8,net:184.00,devise:'CAD',commission:73.60,remise:110.40},
-  {evenement:'Salon Paris 2025',type:'intl',maison:'Éditions David',isbn:'978-2-89597-134-7',titre:'L'Horizon perdu',qte:5,net:115.00,devise:'CAD',commission:46.00,remise:69.00},
-  {evenement:'Ingram Q2 2025',type:'ingram-us',maison:'Prise de Parole',isbn:'978-2-89423-156-4',titre:'Les Racines du vent',qte:12,net:198.50,devise:'USD',commission:99.25,remise:99.25},
-  {evenement:'Ingram Q2 2025',type:'ingram-us',maison:'Éditions David',isbn:'978-2-89597-134-7',titre:'L'Horizon perdu',qte:8,net:132.40,devise:'USD',commission:66.20,remise:66.20},
-  {evenement:'Ingram Q2 2025',type:'ingram-us',maison:'Bouton d'or Acadie',isbn:'978-2-924789-08-6',titre:'Alexis Trouve Sa Voix',qte:6,net:87.30,devise:'USD',commission:43.65,remise:43.65},
-];
+  {evenement:"SLM 2025",type:"salon",maison:"Bouton d’or Acadie",isbn:"978-2-924789-12-3",titre:"Ah ! Pour Atlantique",qte:2,net:31.90,devise:"CAD",commission:6.38,remise:25.52},
+  {evenement:"SLM 2025",type:"salon",maison:"Bouton d’or Acadie",isbn:"978-2-924789-08-6",titre:"Alexis Trouve Sa Voix",qte:3,net:52.24,devise:"CAD",commission:10.45,remise:41.79},
+  {evenement:"SLM 2025",type:"salon",maison:"Prise de Parole",isbn:"978-2-89423-156-4",titre:"Les Racines du vent",qte:5,net:89.75,devise:"CAD",commission:17.95,remise:71.80},
+  {evenement:"SLM 2025",type:"salon",maison:"Prise de Parole",isbn:"978-2-89423-201-1",titre:"Terres boréales",qte:4,net:71.96,devise:"CAD",commission:14.39,remise:57.57},
+  {evenement:"SLM 2025",type:"salon",maison:"Éditions David",isbn:"978-2-89597-134-7",titre:"L’Horizon perdu",qte:7,net:125.93,devise:"CAD",commission:25.19,remise:100.74},
+  {evenement:"SLM 2025",type:"salon",maison:"Non classé",isbn:"",titre:"Port-Royal — La création",qte:1,net:11.31,devise:"CAD",commission:2.26,remise:9.05},
+  {evenement:"Salon de Toronto 2025",type:"salon",maison:"Prise de Parole",isbn:"978-2-89423-156-4",titre:"Les Racines du vent",qte:3,net:53.85,devise:"CAD",commission:10.77,remise:43.08},
+  {evenement:"Salon de Toronto 2025",type:"salon",maison:"L’Interligne",isbn:"978-2-923274-89-2",titre:"Mémoire vive",qte:6,net:107.94,devise:"CAD",commission:21.59,remise:86.35},
+  {evenement:"FLA 2025",type:"congres",maison:"Bouton d’or Acadie",isbn:"978-2-924789-12-3",titre:"Ah ! Pour Atlantique",qte:4,net:63.80,devise:"CAD",commission:12.76,remise:51.04},
+  {evenement:"FLA 2025",type:"congres",maison:"Prise de Parole",isbn:"978-2-89423-201-1",titre:"Terres boréales",qte:2,net:35.98,devise:"CAD",commission:7.20,remise:28.78},
+  {evenement:"Salon Paris 2025",type:"intl",maison:"Prise de Parole",isbn:"978-2-89423-156-4",titre:"Les Racines du vent",qte:8,net:184.00,devise:"CAD",commission:73.60,remise:110.40},
+  {evenement:"Salon Paris 2025",type:"intl",maison:"Éditions David",isbn:"978-2-89597-134-7",titre:"L’Horizon perdu",qte:5,net:115.00,devise:"CAD",commission:46.00,remise:69.00},
+  {evenement:"Ingram Q2 2025",type:"ingram-us",maison:"Prise de Parole",isbn:"978-2-89423-156-4",titre:"Les Racines du vent",qte:12,net:198.50,devise:"USD",commission:99.25,remise:99.25},
+  {evenement:"Ingram Q2 2025",type:"ingram-us",maison:"Éditions David",isbn:"978-2-89597-134-7",titre:"L’Horizon perdu",qte:8,net:132.40,devise:"USD",commission:66.20,remise:66.20},
+  {evenement:"Ingram Q2 2025",type:"ingram-us",maison:"Bouton d’or Acadie",isbn:"978-2-924789-08-6",titre:"Alexis Trouve Sa Voix",qte:6,net:87.30,devise:"USD",commission:43.65,remise:43.65},
+]
 
 const TAUX = {
   salon:   {refc:0.20, editeur:0.80, label:'Commission REFC 20 % — Remise éditeur 80 %'},
@@ -714,16 +714,16 @@ function confirmerImport(){
   const evt = document.getElementById('import-evenement').value || 'Import ' + new Date().toLocaleDateString('fr-CA');
   const nonAssignes = donneesImport.filter(d=>!d.maison).length;
   if(nonAssignes > 0){
-    if(!confirm(`${nonAssignes} ligne(s) sont encore sans maison assignée. Confirmer quand même l'import ?`)) return;
+    if(!confirm(nonAssignes + " ligne(s) encore sans maison. Confirmer quand même ?")) return;
   }
   donneesImport.forEach(d=>{
-    donnees.push({evenement:evt, type, maison:d.maison||'Non classé', isbn:d.isbn, titre:d.titre, qte:d.qte, net:d.net, devise:d.devise, commission:d.commission, remise:d.remise});
+    donnees.push({evenement:evt, type, maison:d.maison||"Non classé", isbn:d.isbn, titre:d.titre, qte:d.qte, net:d.net, devise:d.devise, commission:d.commission, remise:d.remise});
   });
   donneesFiltrees = [...donnees];
   document.getElementById('kpi-rapports').textContent = parseInt(document.getElementById('kpi-rapports').textContent)+1;
   fermerModal('modal-import');
   afficherTableau();
-  alert(`Import réussi — ${donneesImport.length} lignes ajoutées pour "${evt}".`);
+  alert("Import réussi — " + donneesImport.length + " lignes ajoutées pour \"" + evt + "\"");
 }
 
 async function exporterExcel(){
