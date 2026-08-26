@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>REFC — Rapports de ventes (Membre)</title>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
@@ -89,6 +90,10 @@ tbody tr:hover td{background:#f8fafc}
         .badge-intl{background:#1e293b;color:#fff}
         .badge-ingram{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-congres{background:#E8EEF7;color:#253570;border:1px solid #7B9EC8}
+
+.recap-carte-pied{padding:10px 18px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end}
+.btn-pdf-carte{padding:5px 12px;font-size:11px;border-radius:7px;border:1px solid #cbd5e1;background:#fff;color:#2D3F7B;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-weight:500;transition:.15s}
+.btn-pdf-carte:hover{background:#E8EEF7;border-color:#7B9EC8}
 </style>
 </head>
 <body>
@@ -114,7 +119,10 @@ tbody tr:hover td{background:#f8fafc}
       <div class="page-titre">Mes rapports de ventes — Prise de Parole</div>
       <div class="page-soustitre">Vos ventes par salon, congrès et distribution Ingram · Données filtrées sur votre maison uniquement</div>
     </div>
-    <button class="btn btn-pri" onclick="exporterExcel()">↓ Exporter mes données</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn" onclick="exporterExcel()">↓ Excel</button>
+      <button class="btn btn-pri" onclick="exporterPDF()">↓ Télécharger en PDF</button>
+    </div>
   </div>
 
   <div class="encart-info">
@@ -186,6 +194,7 @@ tbody tr:hover td{background:#f8fafc}
       <div class="recap-ligne"><span>Ventes nettes</span><span class="recap-val">161,71 $</span></div>
       <div class="recap-ligne"><span>Commission REFC (20%)</span><span class="recap-val">32,34 $</span></div>
       <div class="recap-ligne"><span>Ma remise (80%)</span><span class="recap-val bleu">129,37 $</span></div>
+      <div class="recap-carte-pied"><button class="btn-pdf-carte" onclick="telechargerPDFRapport('slm2025')">&#8595; PDF</button></div>
     </div>
     <div class="recap-carte">
       <div class="recap-carte-entete">
@@ -196,6 +205,7 @@ tbody tr:hover td{background:#f8fafc}
       <div class="recap-ligne"><span>Ventes nettes</span><span class="recap-val">53,85 $</span></div>
       <div class="recap-ligne"><span>Commission REFC (20%)</span><span class="recap-val">10,77 $</span></div>
       <div class="recap-ligne"><span>Ma remise (80%)</span><span class="recap-val bleu">43,08 $</span></div>
+      <div class="recap-carte-pied"><button class="btn-pdf-carte" onclick="telechargerPDFRapport('toronto2025')">&#8595; PDF</button></div>
     </div>
     <div class="recap-carte">
       <div class="recap-carte-entete">
@@ -206,6 +216,7 @@ tbody tr:hover td{background:#f8fafc}
       <div class="recap-ligne"><span>Ventes nettes</span><span class="recap-val">184,00 $</span></div>
       <div class="recap-ligne"><span>Commission Qc/Éd (40%)</span><span class="recap-val">73,60 $</span></div>
       <div class="recap-ligne"><span>Ma remise (60%)</span><span class="recap-val bleu">110,40 $</span></div>
+      <div class="recap-carte-pied"><button class="btn-pdf-carte" onclick="telechargerPDFRapport('paris2025')">&#8595; PDF</button></div>
     </div>
     <div class="recap-carte">
       <div class="recap-carte-entete">
@@ -216,6 +227,7 @@ tbody tr:hover td{background:#f8fafc}
       <div class="recap-ligne"><span>Ventes nettes</span><span class="recap-val">35,98 $</span></div>
       <div class="recap-ligne"><span>Commission REFC (20%)</span><span class="recap-val">7,20 $</span></div>
       <div class="recap-ligne"><span>Ma remise (80%)</span><span class="recap-val bleu">28,78 $</span></div>
+      <div class="recap-carte-pied"><button class="btn-pdf-carte" onclick="telechargerPDFRapport('fla2025')">&#8595; PDF</button></div>
     </div>
     <div class="recap-carte">
       <div class="recap-carte-entete">
@@ -226,6 +238,7 @@ tbody tr:hover td{background:#f8fafc}
       <div class="recap-ligne"><span>Ventes nettes</span><span class="recap-val">198,50 USD</span></div>
       <div class="recap-ligne"><span>Commission REFC (50%)</span><span class="recap-val">99,25 USD</span></div>
       <div class="recap-ligne"><span>Ma remise (50%)</span><span class="recap-val bleu">99,25 USD</span></div>
+      <div class="recap-carte-pied"><button class="btn-pdf-carte" onclick="telechargerPDFRapport('ingramq22025')">&#8595; PDF</button></div>
     </div>
   </div>
 
@@ -340,6 +353,464 @@ function afficher(){
 function changerPage(dir){
   pageCourante=Math.max(1,Math.min(Math.ceil(filtrees.length/PAR_PAGE),pageCourante+dir));
   afficher();
+}
+
+
+const cartesData = [{"id": "slm2025", "nom": "SLM 2025", "type": "Salon CAD", "taux_refc": 20, "taux_editeur": 80, "devise": "CAD", "qte": 9, "net": 161.71, "comm": 32.34, "remise": 129.37, "lignes": [{"isbn": "978-2-89423-156-4", "titre": "Les Racines du vent", "qte": 5, "net": 89.75, "comm": 17.95, "rem": 71.8}, {"isbn": "978-2-89423-201-1", "titre": "Terres boréales", "qte": 4, "net": 71.96, "comm": 14.39, "rem": 57.57}]}, {"id": "toronto2025", "nom": "Salon de Toronto 2025", "type": "Salon CAD", "taux_refc": 20, "taux_editeur": 80, "devise": "CAD", "qte": 3, "net": 53.85, "comm": 10.77, "remise": 43.08, "lignes": [{"isbn": "978-2-89423-156-4", "titre": "Les Racines du vent", "qte": 3, "net": 53.85, "comm": 10.77, "rem": 43.08}]}, {"id": "paris2025", "nom": "Salon Paris 2025", "type": "Salon international CAD", "taux_refc": 40, "taux_editeur": 60, "devise": "CAD", "qte": 8, "net": 184.0, "comm": 73.6, "remise": 110.4, "lignes": [{"isbn": "978-2-89423-156-4", "titre": "Les Racines du vent", "qte": 8, "net": 184.0, "comm": 73.6, "rem": 110.4}]}, {"id": "fla2025", "nom": "FLA 2025", "type": "Congrès CAD", "taux_refc": 20, "taux_editeur": 80, "devise": "CAD", "qte": 2, "net": 35.98, "comm": 7.2, "remise": 28.78, "lignes": [{"isbn": "978-2-89423-201-1", "titre": "Terres boréales", "qte": 2, "net": 35.98, "comm": 7.2, "rem": 28.78}]}, {"id": "ingramq22025", "nom": "Ingram Q2 2025", "type": "Ingram USD", "taux_refc": 50, "taux_editeur": 50, "devise": "USD", "qte": 12, "net": 198.5, "comm": 99.25, "remise": 99.25, "lignes": [{"isbn": "978-2-89423-156-4", "titre": "Les Racines du vent", "qte": 12, "net": 198.5, "comm": 99.25, "rem": 99.25}]}];
+
+function telechargerPDFRapport(id){
+  const d = cartesData.find(c => c.id === id);
+  if(!d){ alert("Données introuvables."); return; }
+  
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({orientation:'portrait', unit:'mm', format:'a4'});
+  const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
+  const BLEU = [45, 63, 123];
+  const GRIS = [100, 116, 139];
+  const NOIR = [30, 41, 59];
+  const BLANC = [255, 255, 255];
+  const FOND = [241, 245, 249];
+  const now = new Date();
+
+  // ===== EN-TÊTE =====
+  doc.setFillColor(...BLEU);
+  doc.rect(0, 0, W, 28, 'F');
+
+  doc.setTextColor(...BLANC);
+  doc.setFontSize(18);
+  doc.setFont('helvetica','bold');
+  doc.text('REFC', 14, 13);
+  doc.setFontSize(9);
+  doc.setFont('helvetica','normal');
+  doc.text('Regroupement des editeurs franco-canadiens', 14, 19);
+  doc.setFontSize(8);
+  doc.text('435 rue Donald, bureau 214, Ottawa, Ontario K1K 4X5  |  refc.ca', 14, 24);
+
+  // Titre à droite
+  doc.setFontSize(10);
+  doc.setFont('helvetica','bold');
+  doc.text('RAPPORT DE VENTES', W - 14, 13, {align:'right'});
+  doc.setFontSize(8);
+  doc.setFont('helvetica','normal');
+  doc.text(d.nom, W - 14, 19, {align:'right'});
+  doc.text(d.type + ' · ' + d.devise, W - 14, 24, {align:'right'});
+
+  // ===== FICHE RAPPORT =====
+  let y = 36;
+  doc.setFillColor(...FOND);
+  doc.roundedRect(14, y, W - 28, 28, 2, 2, 'F');
+  doc.setDrawColor(226, 232, 240);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(14, y, W - 28, 28, 2, 2, 'S');
+
+  // Colonne gauche
+  doc.setTextColor(...GRIS);
+  doc.setFontSize(8);
+  doc.setFont('helvetica','bold');
+  const infos = [
+    ['Maison membre', 'Prise de Parole'],
+    ['Evenement', d.nom],
+    ['Type de rapport', d.type],
+    ['Devise', d.devise],
+    ['Date de generation', now.toLocaleDateString('fr-CA')],
+  ];
+  infos.forEach((info, i) => {
+    const col = i < 3 ? 0 : 1;
+    const row = i < 3 ? i : i - 3;
+    const xBase = col === 0 ? 20 : W/2 + 6;
+    doc.setFont('helvetica','bold');
+    doc.setTextColor(...GRIS);
+    doc.text(info[0] + ' :', xBase, y + 8 + row * 7);
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(...NOIR);
+    doc.text(info[1], xBase + 38, y + 8 + row * 7);
+  });
+
+  // Taux commission
+  doc.setFont('helvetica','bold');
+  doc.setTextColor(...GRIS);
+  doc.text('Taux REFC / Editeur :', W/2 + 6, y + 22);
+  doc.setFont('helvetica','normal');
+  doc.setTextColor(...BLEU);
+  doc.text(d.taux_refc + '% / ' + d.taux_editeur + '%', W/2 + 50, y + 22);
+
+  // ===== KPIs =====
+  y = 72;
+  const kpis = [
+    {label:'Exemplaires vendus', val: String(d.qte)},
+    {label:'Ventes nettes', val: d.net.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
+    {label:'Commission REFC (' + d.taux_refc + '%)', val: d.comm.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
+    {label:'Remise editeur (' + d.taux_editeur + '%)', val: d.remise.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise},
+  ];
+  const kpiW = (W - 28 - 6) / 4;
+  kpis.forEach((k, i) => {
+    const x = 14 + i * (kpiW + 2);
+    doc.setFillColor(...BLANC);
+    doc.setDrawColor(226, 232, 240);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(x, y, kpiW, 18, 2, 2, 'FD');
+    doc.setFillColor(...BLEU);
+    doc.roundedRect(x, y, 2, 18, 0.5, 0.5, 'F');
+    doc.setTextColor(...GRIS);
+    doc.setFontSize(7);
+    doc.setFont('helvetica','bold');
+    // Découper le label si trop long
+    const lbl = k.label.length > 20 ? k.label.substring(0,19)+'.' : k.label;
+    doc.text(lbl.toUpperCase(), x + 5, y + 7);
+    doc.setTextColor(i >= 2 ? BLEU[0] : NOIR[0], i >= 2 ? BLEU[1] : NOIR[1], i >= 2 ? BLEU[2] : NOIR[2]);
+    doc.setFontSize(11);
+    doc.setFont('helvetica','bold');
+    doc.text(k.val, x + 5, y + 14);
+  });
+
+  // ===== TABLEAU DÉTAIL =====
+  y = 98;
+  doc.setFontSize(9);
+  doc.setFont('helvetica','bold');
+  doc.setTextColor(...NOIR);
+  doc.text('Detail par titre', 14, y);
+  y += 5;
+
+  // En-tête tableau
+  const colsTbl = [
+    {label:'ISBN', w:38},
+    {label:'Titre', w:72},
+    {label:'Qte', w:14, align:'right'},
+    {label:'Ventes nettes', w:28, align:'right'},
+    {label:'Commission REFC', w:30, align:'right'},
+    {label:'Remise editeur', w:28, align:'right'},
+  ];
+
+  doc.setFillColor(...BLEU);
+  doc.rect(14, y, W - 28, 7, 'F');
+  doc.setTextColor(...BLANC);
+  doc.setFontSize(7);
+  doc.setFont('helvetica','bold');
+  let xC = 14;
+  colsTbl.forEach(col => {
+    const align = col.align || 'left';
+    const xT = align === 'right' ? xC + col.w - 2 : xC + 2;
+    doc.text(col.label, xT, y + 4.5, {align});
+    xC += col.w;
+  });
+  y += 7;
+
+  // Lignes
+  doc.setFont('helvetica','normal');
+  d.lignes.forEach((l, i) => {
+    if(i % 2 === 1){
+      doc.setFillColor(248, 250, 252);
+      doc.rect(14, y, W - 28, 7, 'F');
+    }
+    doc.setTextColor(...NOIR);
+    const vals = [
+      {v: l.isbn || '—', w:38},
+      {v: l.titre.length > 30 ? l.titre.substring(0,29)+'…' : l.titre, w:72},
+      {v: String(l.qte), w:14, align:'right'},
+      {v: l.net.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise, w:28, align:'right'},
+      {v: l.comm.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise, w:30, align:'right', bleu:true},
+      {v: l.rem.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise, w:28, align:'right', bleu:true},
+    ];
+    let xV = 14;
+    vals.forEach(v => {
+      const align = v.align || 'left';
+      const xT = align === 'right' ? xV + v.w - 2 : xV + 2;
+      if(v.bleu) doc.setTextColor(...BLEU);
+      else doc.setTextColor(...NOIR);
+      doc.text(v.v, xT, y + 4.5, {align});
+      xV += v.w;
+    });
+    doc.setDrawColor(241, 245, 249);
+    doc.setLineWidth(0.1);
+    doc.line(14, y + 7, W - 14, y + 7);
+    y += 7;
+  });
+
+  // Ligne total
+  doc.setFillColor(232, 238, 247);
+  doc.rect(14, y, W - 28, 8, 'F');
+  doc.setDrawColor(...BLEU);
+  doc.setLineWidth(0.4);
+  doc.line(14, y, W - 14, y);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7.5);
+  doc.setTextColor(...NOIR);
+  doc.text('TOTAL', 16, y + 5);
+  doc.text(String(d.qte), 14 + 38 + 72 + 14 - 2, y + 5, {align:'right'});
+  doc.setTextColor(...BLEU);
+  doc.text(d.comm.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise, 14 + 38 + 72 + 14 + 28 + 30 - 2, y + 5, {align:'right'});
+  doc.text(d.remise.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' ' + d.devise, 14 + 38 + 72 + 14 + 28 + 30 + 28 - 2, y + 5, {align:'right'});
+
+  // ===== NOTE =====
+  y += 16;
+  doc.setFillColor(...FOND);
+  doc.roundedRect(14, y, W - 28, 16, 2, 2, 'F');
+  doc.setTextColor(...GRIS);
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica','normal');
+  doc.text('Ce document est genere automatiquement par le Portail membres de la REFC.', 20, y + 6);
+  doc.text('Les montants sont calcules selon le taux en vigueur : ' + d.taux_refc + '% commission REFC / ' + d.taux_editeur + '% remise editeur.', 20, y + 12);
+
+  // ===== PIED DE PAGE =====
+  doc.setDrawColor(226, 232, 240);
+  doc.setLineWidth(0.3);
+  doc.line(14, H - 14, W - 14, H - 14);
+  doc.setTextColor(...GRIS);
+  doc.setFontSize(7);
+  doc.text('REFC — 435 rue Donald, bureau 214, Ottawa, Ontario K1K 4X5 — 613 691-7061 — refc.ca', 14, H - 8);
+  doc.text('Genere le ' + now.toLocaleDateString('fr-CA') + ' — Confidentiel', W - 14, H - 8, {align:'right'});
+
+  // Export
+  const nomId = d.nom.toLowerCase().replace(/[^a-z0-9]/g,'_');
+  doc.save('REFC_Rapport_' + nomId + '_Prise_de_Parole.pdf');
+}
+
+async function exporterPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({orientation:'landscape', unit:'mm', format:'a4'});
+  const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
+  const BLEU = [45, 63, 123];
+  const GRIS = [100, 116, 139];
+  const NOIR = [30, 41, 59];
+  const BLANC = [255, 255, 255];
+  const FOND = [241, 245, 249];
+
+  // ===== EN-TÊTE =====
+  doc.setFillColor(...BLEU);
+  doc.rect(0, 0, W, 22, 'F');
+
+  // Logo texte REFC
+  doc.setTextColor(...BLANC);
+  doc.setFontSize(16);
+  doc.setFont('helvetica','bold');
+  doc.text('REFC', 14, 13);
+  doc.setFontSize(9);
+  doc.setFont('helvetica','normal');
+  doc.text('Regroupement des editeurs franco-canadiens', 32, 10);
+  doc.setFontSize(8);
+  doc.text('Portail membres — refc.ca', 32, 15);
+
+  // Titre document (droite)
+  doc.setFontSize(11);
+  doc.setFont('helvetica','bold');
+  doc.text('RAPPORT DE VENTES', W - 14, 10, {align:'right'});
+  doc.setFontSize(8);
+  doc.setFont('helvetica','normal');
+  doc.text('Prise de Parole', W - 14, 15, {align:'right'});
+
+  // Ligne sous en-tête
+  doc.setDrawColor(...BLEU);
+  doc.setLineWidth(0.5);
+  doc.line(0, 22, W, 22);
+
+  // ===== BLOC INFO MAISON =====
+  let y = 30;
+  doc.setFillColor(...FOND);
+  doc.roundedRect(14, y, W - 28, 18, 2, 2, 'F');
+  doc.setDrawColor(226, 232, 240);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(14, y, W - 28, 18, 2, 2, 'S');
+
+  doc.setTextColor(...NOIR);
+  doc.setFontSize(9);
+  doc.setFont('helvetica','bold');
+  doc.text('Maison membre :', 20, y + 7);
+  doc.setFont('helvetica','normal');
+  doc.text('Prise de Parole', 60, y + 7);
+
+  doc.setFont('helvetica','bold');
+  doc.text('Periode :', 120, y + 7);
+  doc.setFont('helvetica','normal');
+  doc.text('2025–2026', 145, y + 7);
+
+  doc.setFont('helvetica','bold');
+  doc.text('Date de generation :', 180, y + 7);
+  doc.setFont('helvetica','normal');
+  const now = new Date();
+  doc.text(now.toLocaleDateString('fr-CA'), 225, y + 7);
+
+  // Filtres actifs
+  const typeF = document.getElementById('filtre-type').value;
+  const evtF = document.getElementById('filtre-evenement').value;
+  let filtreTexte = 'Tous les rapports';
+  if(typeF || evtF){
+    filtreTexte = [typeF,evtF].filter(Boolean).join(' · ');
+  }
+  doc.setFont('helvetica','bold');
+  doc.text('Filtre applique :', 20, y + 13);
+  doc.setFont('helvetica','normal');
+  doc.text(filtreTexte, 60, y + 13);
+
+  // ===== KPIs =====
+  y = 55;
+  const kpiData = [
+    {label:'Ventes nettes totales', val: document.getElementById('kpi-ventes').textContent},
+    {label:'Ma remise totale', val: document.getElementById('kpi-remise').textContent},
+    {label:'Commission REFC', val: document.getElementById('kpi-commission').textContent},
+    {label:'Exemplaires vendus', val: document.getElementById('kpi-qte').textContent},
+  ];
+  const kpiW = (W - 28 - 9) / 4;
+
+  kpiData.forEach((k, i) => {
+    const x = 14 + i * (kpiW + 3);
+    doc.setFillColor(...BLANC);
+    doc.setDrawColor(226, 232, 240);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(x, y, kpiW, 16, 2, 2, 'FD');
+    // Barre bleu gauche
+    doc.setFillColor(...BLEU);
+    doc.roundedRect(x, y, 2, 16, 0.5, 0.5, 'F');
+    doc.setTextColor(...GRIS);
+    doc.setFontSize(7);
+    doc.setFont('helvetica','bold');
+    doc.text(k.label.toUpperCase(), x + 5, y + 6);
+    doc.setTextColor(...NOIR);
+    doc.setFontSize(12);
+    doc.setFont('helvetica','bold');
+    doc.text(k.val, x + 5, y + 13);
+  });
+
+  // ===== TABLEAU =====
+  y = 78;
+  const cols = [
+    {label:'Evenement / Rapport', w:52},
+    {label:'Type', w:24},
+    {label:'ISBN', w:32},
+    {label:'Titre', w:60},
+    {label:'Qte', w:10, align:'right'},
+    {label:'Ventes nettes', w:24, align:'right'},
+    {label:'Commission REFC', w:26, align:'right'},
+    {label:'Ma remise', w:24, align:'right'},
+    {label:'Devise', w:12, align:'center'},
+  ];
+
+  // En-tête tableau
+  doc.setFillColor(...BLEU);
+  doc.rect(14, y, W - 28, 7, 'F');
+  doc.setTextColor(...BLANC);
+  doc.setFontSize(7);
+  doc.setFont('helvetica','bold');
+  let xCol = 14;
+  cols.forEach(col => {
+    const align = col.align || 'left';
+    const xText = align === 'right' ? xCol + col.w - 2 :
+                  align === 'center' ? xCol + col.w / 2 : xCol + 2;
+    doc.text(col.label, xText, y + 4.5, {align});
+    xCol += col.w;
+  });
+
+  y += 7;
+
+  // Lignes données
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7);
+
+  filtrees.forEach((d, i) => {
+    if(y > H - 25){
+      doc.addPage();
+      y = 20;
+      // Re-dessiner entête tableau
+      doc.setFillColor(...BLEU);
+      doc.rect(14, y, W - 28, 7, 'F');
+      doc.setTextColor(...BLANC);
+      doc.setFont('helvetica','bold');
+      let xC = 14;
+      cols.forEach(col => {
+        const align = col.align || 'left';
+        const xT = align === 'right' ? xC + col.w - 2 : align === 'center' ? xC + col.w/2 : xC + 2;
+        doc.text(col.label, xT, y + 4.5, {align});
+        xC += col.w;
+      });
+      y += 7;
+      doc.setFont('helvetica','normal');
+    }
+
+    // Fond alterné
+    if(i % 2 === 1){
+      doc.setFillColor(248, 250, 252);
+      doc.rect(14, y, W - 28, 6, 'F');
+    }
+
+    doc.setTextColor(...NOIR);
+    const typeLabel = {
+      salon:'Salon CAD', intl:'Intl CAD', congres:'Congres',
+      'ingram-us':'Ingram USD','ingram-uk':'Ingram GBP',
+      'ingram-au':'Ingram AUD','ingram-eu':'Ingram EUR','ingram-fr':'Ingram FR'
+    }[d.type] || d.type;
+
+    const valeurs = [
+      {v: d.evenement, w:52},
+      {v: typeLabel, w:24},
+      {v: d.isbn || '—', w:32},
+      {v: d.titre.length > 28 ? d.titre.substring(0,27)+'…' : d.titre, w:60},
+      {v: String(d.qte), w:10, align:'right'},
+      {v: d.net.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' $', w:24, align:'right'},
+      {v: d.commission.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' $', w:26, align:'right', bleu:true},
+      {v: d.remise.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' $', w:24, align:'right', bleu:true},
+      {v: d.devise, w:12, align:'center'},
+    ];
+
+    let xV = 14;
+    valeurs.forEach(v => {
+      const align = v.align || 'left';
+      const xT = align === 'right' ? xV + v.w - 2 : align === 'center' ? xV + v.w/2 : xV + 2;
+      if(v.bleu) doc.setTextColor(...BLEU);
+      else doc.setTextColor(...NOIR);
+      doc.text(v.v, xT, y + 4, {align});
+      xV += v.w;
+    });
+
+    // Séparateur
+    doc.setDrawColor(241, 245, 249);
+    doc.setLineWidth(0.1);
+    doc.line(14, y + 6, W - 14, y + 6);
+    y += 6;
+  });
+
+  // Ligne totaux
+  const tot = filtrees.reduce((a,d)=>({net:a.net+d.net,comm:a.comm+d.commission,rem:a.rem+d.remise,qte:a.qte+d.qte}),{net:0,comm:0,rem:0,qte:0});
+  doc.setFillColor(232, 238, 247);
+  doc.rect(14, y, W - 28, 7, 'F');
+  doc.setDrawColor(...BLEU);
+  doc.setLineWidth(0.4);
+  doc.line(14, y, W - 14, y);
+  doc.setTextColor(...NOIR);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7.5);
+  doc.text('TOTAL', 16, y + 4.5);
+  // Qté
+  doc.text(String(tot.qte), 14 + 52 + 24 + 32 + 60 + 10 - 2, y + 4.5, {align:'right'});
+  // Net
+  doc.text(tot.net.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' $', 14 + 52 + 24 + 32 + 60 + 10 + 24 - 2, y + 4.5, {align:'right'});
+  // Commission
+  doc.setTextColor(...BLEU);
+  doc.text(tot.comm.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' $', 14 + 52 + 24 + 32 + 60 + 10 + 24 + 26 - 2, y + 4.5, {align:'right'});
+  // Remise
+  doc.text(tot.rem.toLocaleString('fr-CA',{minimumFractionDigits:2}) + ' $', 14 + 52 + 24 + 32 + 60 + 10 + 24 + 26 + 24 - 2, y + 4.5, {align:'right'});
+
+  y += 14;
+
+  // ===== NOTE BAS DE PAGE =====
+  const nbPages = doc.internal.getNumberOfPages();
+  for(let p = 1; p <= nbPages; p++){
+    doc.setPage(p);
+    doc.setDrawColor(226, 232, 240);
+    doc.setLineWidth(0.3);
+    doc.line(14, H - 12, W - 14, H - 12);
+    doc.setTextColor(...GRIS);
+    doc.setFontSize(7);
+    doc.setFont('helvetica','normal');
+    doc.text('REFC — 435 rue Donald, bureau 214, Ottawa, Ontario K1K 4X5 — 613 691-7061 — refc.ca', 14, H - 7);
+    doc.text('Page ' + p + ' / ' + nbPages, W - 14, H - 7, {align:'right'});
+    doc.text('Document genere le ' + now.toLocaleDateString('fr-CA') + ' — Confidentiel', W/2, H - 7, {align:'center'});
+  }
+
+  // ===== EXPORT =====
+  const mois = ['jan','fev','mar','avr','mai','jun','jul','aou','sep','oct','nov','dec'];
+  const nomFichier = 'REFC_Rapport_Ventes_Prise_de_Parole_' + now.getFullYear() + '-' + mois[now.getMonth()] + '.pdf';
+  doc.save(nomFichier);
 }
 
 async function exporterExcel(){
