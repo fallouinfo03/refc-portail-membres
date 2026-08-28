@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REFC — Planification stratégique (Admin)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:100}
+.banniere a{color:#60a5fa;text-decoration:none}
+.topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;margin-top:36px}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-logo img{height:36px;filter:brightness(0) invert(1)}
+.topbar-titre{font-size:14px;font-weight:500;opacity:.9}
+.topbar-droite{display:flex;align-items:center;gap:16px;font-size:13px}
+.pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deco{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.btn-deco:hover{background:rgba(255,255,255,.1)}
+.nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto}
+.nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+.nav-btn:hover{color:#fff}
+.nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
+.contenu{padding:24px;max-width:1100px;margin:0 auto}
+
+/* En-tête page */
+.entete-page{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.page-titre{font-size:22px;font-weight:600;color:#1e293b}
+.page-soustitre{font-size:13px;color:#64748b;margin-top:3px}
+.filtre-annee{padding:7px 12px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#1e293b;cursor:pointer;outline:none}
+.filtre-annee:focus{border-color:#2D3F7B}
+
+/* Onglets sections */
+.sections-nav{display:flex;gap:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:20px}
+.section-tab{flex:1;padding:12px 16px;font-size:13px;font-weight:500;color:#64748b;border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:.15s;text-align:center}
+.section-tab:hover{background:#f8fafc;color:#1e293b}
+.section-tab.actif{color:#2D3F7B;border-bottom-color:#2D3F7B;background:#E8EEF7;font-weight:600}
+.section-tab:not(:last-child){border-right:1px solid #e2e8f0}
+
+/* Section contenu */
+.section-contenu{display:none}
+.section-contenu.visible{display:block}
+
+/* En-tête section */
+.section-entete{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-nom{font-size:16px;font-weight:600;color:#1e293b}
+.section-desc{font-size:12px;color:#64748b;margin-top:2px}
+.section-stats{display:flex;gap:16px}
+.section-stat{font-size:12px;color:#64748b}
+.section-stat strong{color:#2D3F7B}
+
+/* Cartes réalisations */
+.realisations-liste{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+
+.realisation-carte{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;transition:.15s}
+.realisation-carte:hover{border-color:#7B9EC8}
+
+.realisation-entete{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.realisation-entete:hover{background:#f8fafc}
+
+.realisation-icone{width:32px;height:32px;border-radius:7px;background:#E8EEF7;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.realisation-icone svg{opacity:.7}
+
+.realisation-resume{flex:1;min-width:0}
+.realisation-objectif{font-size:13px;font-weight:600;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.realisation-meta{display:flex;align-items:center;gap:10px;margin-top:3px;flex-wrap:wrap}
+.realisation-date{font-size:11px;color:#94a3b8}
+.realisation-auteurs{display:flex;gap:4px}
+.auteur-chip{font-size:10px;padding:2px 7px;border-radius:20px;background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0;font-weight:500}
+.auteur-chip.actif{background:#E8EEF7;color:#2D3F7B;border-color:#7B9EC8}
+
+.realisation-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.chevron-icon{transition:.2s;flex-shrink:0;color:#94a3b8}
+.realisation-carte.ouvert .chevron-icon{transform:rotate(180deg)}
+
+/* Corps déplié */
+.realisation-corps{display:none;padding:20px 18px;border-top:1px solid #f1f5f9;background:#f8fafc}
+.realisation-carte.ouvert .realisation-corps{display:block}
+
+.form-grille{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-grille3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.form-col-full{grid-column:1/-1}
+
+.form-groupe{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em}
+.form-input,.form-select,.form-textarea{padding:8px 12px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;outline:none;color:#1e293b;background:#fff;font-family:inherit;transition:.15s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:#2D3F7B;box-shadow:0 0 0 3px rgba(45,63,123,.08)}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.6}
+
+/* Cases à cocher auteurs */
+.auteurs-groupe{display:flex;gap:8px;flex-wrap:wrap}
+.auteur-check{display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;transition:.15s;user-select:none}
+.auteur-check:hover{border-color:#7B9EC8;background:#f8fafc}
+.auteur-check input{display:none}
+.auteur-check.coche{background:#E8EEF7;border-color:#2D3F7B}
+.auteur-check-nom{font-size:13px;font-weight:500;color:#1e293b}
+.auteur-check.coche .auteur-check-nom{color:#2D3F7B}
+.auteur-check-coche{width:16px;height:16px;border:1.5px solid #cbd5e1;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s}
+.auteur-check.coche .auteur-check-coche{background:#2D3F7B;border-color:#2D3F7B}
+
+/* Lien SharePoint */
+.sharepoint-groupe{display:flex;gap:8px;align-items:flex-end}
+.sharepoint-groupe .form-input{flex:1}
+.btn-sp{padding:8px 12px;font-size:12px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#64748b;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;text-decoration:none;transition:.15s;height:36px}
+.btn-sp:hover{border-color:#2D3F7B;color:#2D3F7B;background:#E8EEF7}
+
+/* Pied de carte */
+.realisation-pied{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid #e2e8f0;margin-top:6px}
+.btn{padding:7px 14px;font-size:13px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.15s}
+.btn:hover{background:#f8fafc}
+.btn-sm{padding:5px 11px;font-size:12px}
+.btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.btn-pri:hover{background:#253570}
+.btn-danger{color:#7f1d1d;border-color:#fca5a5;background:#fff}
+.btn-danger:hover{background:#fee2e2}
+
+/* Bouton ajouter */
+.btn-ajouter{width:100%;padding:12px;border:1.5px dashed #cbd5e1;border-radius:10px;background:#fff;color:#64748b;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+.btn-ajouter:hover{border-color:#2D3F7B;color:#2D3F7B;background:#f8fafc}
+
+/* État vide */
+.etat-vide{text-align:center;padding:48px 24px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:10px}
+.etat-vide-titre{font-size:14px;font-weight:600;color:#1e293b;margin-bottom:6px}
+.etat-vide-desc{font-size:13px;color:#64748b}
+
+/* Séparateur section */
+.sep-form{height:1px;background:#e2e8f0;margin:14px 0}
+</style>
+</head>
+<body>
+
+<div class="banniere">
+  <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
+  <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Voir le code source</a>
+</div>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../assets/logo-refc-blanc.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
+    <span class="topbar-titre">Portail membres</span>
+  </div>
+  <div class="topbar-droite">
+    <span class="pill">admin</span>
+    <span>Piedad Saenz</span>
+    <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
+  </div>
+</div>
+
+<div class="nav">
+  <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
+  <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+  <a class="nav-btn" href="salons.html">Salons</a>
+  <a class="nav-btn" href="evenements.html">Événements littéraires</a>
+  <a class="nav-btn" href="bulletins.html">Bulletins</a>
+  <a class="nav-btn" href="ingram.html">Ingram</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
+  <a class="nav-btn actif" href="planification.html">Planification stratégique</a>
+  <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
+  <a class="nav-btn" href="assistance.html">Assistance</a>
+</div>
+
+<div class="contenu">
+
+  <div class="entete-page">
+    <div>
+      <div class="page-titre">Planification stratégique</div>
+      <div class="page-soustitre">Suivi des objectifs annuels par axe — Représentations, Consolidations, Promotions</div>
+    </div>
+    <select class="filtre-annee" onchange="changerAnnee(this.value)">
+      <option value="2025-2026" selected>2025–2026</option>
+      <option value="2024-2025">2024–2025</option>
+      <option value="2023-2024">2023–2024</option>
+    </select>
+  </div>
+
+  <!-- Onglets sections -->
+  <div class="sections-nav">
+    <button class="section-tab actif" onclick="afficherSection('representations',this)">
+      Représentations
+    </button>
+    <button class="section-tab" onclick="afficherSection('consolidations',this)">
+      Consolidations
+    </button>
+    <button class="section-tab" onclick="afficherSection('promotions',this)">
+      Promotions
+    </button>
+  </div>
+
+  <!-- ===== REPRÉSENTATIONS ===== -->
+  <div id="section-representations" class="section-contenu visible">
+    <div class="section-entete">
+      <div>
+        <div class="section-nom">Représentations</div>
+        <div class="section-desc">Présence et rayonnement de la REFC auprès des partenaires, instances et événements</div>
+      </div>
+      <div class="section-stats">
+        <span class="section-stat"><strong id="stat-repr-total">3</strong> réalisations</span>
+        <span class="section-stat"><strong id="stat-repr-pct">2</strong> objectifs atteints</span>
+      </div>
+    </div>
+    <div class="realisations-liste" id="liste-representations">
+
+      <!-- Réalisation 1 -->
+      <div class="realisation-carte ouvert" id="repr-1">
+        <div class="realisation-entete" onclick="toggleCarte('repr-1')">
+          <div class="realisation-icone">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="#2D3F7B" stroke-width="1.5"/><path d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="realisation-resume">
+            <div class="realisation-objectif">Participation au Congrès FLA 2026</div>
+            <div class="realisation-meta">
+              <span class="realisation-date">4 mars 2026</span>
+              <div class="realisation-auteurs">
+                <span class="auteur-chip actif">Piedad</span>
+                <span class="auteur-chip actif">Noureddine</span>
+              </div>
+            </div>
+          </div>
+          <div class="realisation-actions">
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="realisation-corps">
+          <div class="form-grille">
+            <div class="form-groupe">
+              <label class="form-label">Objectif</label>
+              <select class="form-select">
+                <option selected>Participation au Congrès FLA 2026</option>
+                <option>Renforcer les partenariats institutionnels</option>
+                <option>Augmenter la visibilité nationale</option>
+                <option>— Ajouter un objectif —</option>
+              </select>
+            </div>
+            <div class="form-groupe">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-input" value="2026-03-04" onchange="mettreAJourMeta('repr-1')">
+            </div>
+          </div>
+
+          <div class="form-groupe" style="margin-bottom:14px">
+            <label class="form-label">Réalisation</label>
+            <textarea class="form-textarea" placeholder="Décrivez la réalisation concrète...">Présence de la REFC au Congrès FLA à Moncton — kiosque, rencontres avec les partenaires acadiens, présentation du portail membres aux éditeurs francophones.</textarea>
+          </div>
+
+          <div class="form-groupe" style="margin-bottom:14px">
+            <label class="form-label">Auteurs responsables</label>
+            <div class="auteurs-groupe">
+              <label class="auteur-check coche" onclick="toggleAuteur(this,'repr-1')">
+                <input type="checkbox" checked>
+                <div class="auteur-check-coche">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="auteur-check-nom">Piedad Saenz</span>
+              </label>
+              <label class="auteur-check" onclick="toggleAuteur(this,'repr-1')">
+                <input type="checkbox">
+                <div class="auteur-check-coche"></div>
+                <span class="auteur-check-nom">Mathieu Ricard</span>
+              </label>
+              <label class="auteur-check coche" onclick="toggleAuteur(this,'repr-1')">
+                <input type="checkbox" checked>
+                <div class="auteur-check-coche">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="auteur-check-nom">Noureddine Hany</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-grille">
+            <div class="form-groupe">
+              <label class="form-label">Indicateurs</label>
+              <textarea class="form-textarea" style="min-height:70px" placeholder="Indicateurs de mesure...">Nombre de contacts établis, partenariats conclus, visibilité presse obtenue.</textarea>
+            </div>
+            <div class="form-groupe">
+              <label class="form-label">Performance</label>
+              <textarea class="form-textarea" style="min-height:70px" placeholder="Évaluation de la performance...">Objectif atteint. 12 nouveaux contacts, 2 partenariats en discussion, mention dans le bulletin FLA.</textarea>
+            </div>
+          </div>
+
+          <div class="sep-form"></div>
+
+          <div class="form-groupe" style="margin-bottom:14px">
+            <label class="form-label">Document (lien SharePoint)</label>
+            <div class="sharepoint-groupe">
+              <input type="url" class="form-input" placeholder="https://refc.sharepoint.com/..." value="https://refc.sharepoint.com/Documents/FLA2026_rapport.pdf">
+              <a href="https://refc.sharepoint.com/Documents/FLA2026_rapport.pdf" target="_blank" class="btn-sp">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 2h4v4M14 2L8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Ouvrir
+              </a>
+            </div>
+          </div>
+
+          <div class="realisation-pied">
+            <button class="btn btn-sm btn-danger" onclick="supprimerRealisation('repr-1')">Supprimer</button>
+            <button class="btn btn-sm btn-pri" onclick="sauvegarderRealisation('repr-1')">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Réalisation 2 -->
+      <div class="realisation-carte" id="repr-2">
+        <div class="realisation-entete" onclick="toggleCarte('repr-2')">
+          <div class="realisation-icone">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="#2D3F7B" stroke-width="1.5"/><path d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="realisation-resume">
+            <div class="realisation-objectif">Rencontre avec le Conseil des arts du Canada</div>
+            <div class="realisation-meta">
+              <span class="realisation-date">15 janv. 2026</span>
+              <div class="realisation-auteurs">
+                <span class="auteur-chip actif">Piedad</span>
+              </div>
+            </div>
+          </div>
+          <div class="realisation-actions">
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="realisation-corps">
+          <div class="form-grille">
+            <div class="form-groupe">
+              <label class="form-label">Objectif</label>
+              <select class="form-select">
+                <option selected>Renforcer les partenariats institutionnels</option>
+                <option>Participation au Congrès FLA 2026</option>
+                <option>Augmenter la visibilité nationale</option>
+                <option>— Ajouter un objectif —</option>
+              </select>
+            </div>
+            <div class="form-groupe">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-input" value="2026-01-15">
+            </div>
+          </div>
+          <div class="form-groupe" style="margin-bottom:14px">
+            <label class="form-label">Réalisation</label>
+            <textarea class="form-textarea" placeholder="Décrivez la réalisation concrète...">Réunion de travail avec la responsable du programme Édition et diffusion du Conseil des arts. Présentation du bilan 2024-2025 et des projets à venir.</textarea>
+          </div>
+          <div class="form-groupe" style="margin-bottom:14px">
+            <label class="form-label">Auteurs responsables</label>
+            <div class="auteurs-groupe">
+              <label class="auteur-check coche" onclick="toggleAuteur(this,'repr-2')">
+                <input type="checkbox" checked>
+                <div class="auteur-check-coche"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <span class="auteur-check-nom">Piedad Saenz</span>
+              </label>
+              <label class="auteur-check" onclick="toggleAuteur(this,'repr-2')">
+                <input type="checkbox">
+                <div class="auteur-check-coche"></div>
+                <span class="auteur-check-nom">Mathieu Ricard</span>
+              </label>
+              <label class="auteur-check" onclick="toggleAuteur(this,'repr-2')">
+                <input type="checkbox">
+                <div class="auteur-check-coche"></div>
+                <span class="auteur-check-nom">Noureddine Hany</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-grille">
+            <div class="form-groupe">
+              <label class="form-label">Indicateurs</label>
+              <textarea class="form-textarea" style="min-height:70px" placeholder="Indicateurs de mesure...">Renouvellement du financement, nouvelles modalités de rapport.</textarea>
+            </div>
+            <div class="form-groupe">
+              <label class="form-label">Performance</label>
+              <textarea class="form-textarea" style="min-height:70px" placeholder="Évaluation de la performance...">En cours — retour attendu avant le 31 mars 2026.</textarea>
+            </div>
+          </div>
+          <div class="sep-form"></div>
+          <div class="form-groupe" style="margin-bottom:14px">
+            <label class="form-label">Document (lien SharePoint)</label>
+            <div class="sharepoint-groupe">
+              <input type="url" class="form-input" placeholder="https://refc.sharepoint.com/...">
+              <button class="btn-sp" onclick="ouvrirLien(this)">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 2h4v4M14 2L8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Ouvrir
+              </button>
+            </div>
+          </div>
+          <div class="realisation-pied">
+            <button class="btn btn-sm btn-danger" onclick="supprimerRealisation('repr-2')">Supprimer</button>
+            <button class="btn btn-sm btn-pri" onclick="sauvegarderRealisation('repr-2')">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <button class="btn-ajouter" onclick="ajouterRealisation('representations')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Ajouter une réalisation — Représentations
+    </button>
+  </div>
+
+  <!-- ===== CONSOLIDATIONS ===== -->
+  <div id="section-consolidations" class="section-contenu">
+    <div class="section-entete">
+      <div>
+        <div class="section-nom">Consolidations</div>
+        <div class="section-desc">Renforcement des pratiques internes, outils, gouvernance et structure organisationnelle</div>
+      </div>
+      <div class="section-stats">
+        <span class="section-stat"><strong>2</strong> réalisations</span>
+        <span class="section-stat"><strong>1</strong> objectif atteint</span>
+      </div>
+    </div>
+    <div class="realisations-liste" id="liste-consolidations">
+
+      <div class="realisation-carte" id="cons-1">
+        <div class="realisation-entete" onclick="toggleCarte('cons-1')">
+          <div class="realisation-icone">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="#2D3F7B" stroke-width="1.5"/><path d="M5 8h6M5 5h4M5 11h3" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="realisation-resume">
+            <div class="realisation-objectif">Développement du portail membres</div>
+            <div class="realisation-meta">
+              <span class="realisation-date">Printemps 2026</span>
+              <div class="realisation-auteurs">
+                <span class="auteur-chip actif">Piedad</span>
+                <span class="auteur-chip actif">Noureddine</span>
+                <span class="auteur-chip actif">Mathieu</span>
+              </div>
+            </div>
+          </div>
+          <div class="realisation-actions">
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="realisation-corps">
+          <div class="form-grille">
+            <div class="form-groupe">
+              <label class="form-label">Objectif</label>
+              <select class="form-select">
+                <option selected>Consolider les outils numériques internes</option>
+                <option>Améliorer la gouvernance</option>
+                <option>— Ajouter un objectif —</option>
+              </select>
+            </div>
+            <div class="form-groupe">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-input" value="2026-06-01">
+            </div>
+          </div>
+          <div class="form-groupe" style="margin-bottom:14px">
+            <label class="form-label">Réalisation</label>
+            <textarea class="form-textarea" placeholder="Décrivez la réalisation concrète...">Conception et développement du portail membres REFC — espace membres, coûts partagés, événements littéraires, salons, rapports de ventes, planification stratégique.</textarea>
+          </div>
+          <div class="form-groupe" style="margin-bottom:14px">
+            <label class="form-label">Auteurs responsables</label>
+            <div class="auteurs-groupe">
+              <label class="auteur-check coche" onclick="toggleAuteur(this,'cons-1')">
+                <input type="checkbox" checked>
+                <div class="auteur-check-coche"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <span class="auteur-check-nom">Piedad Saenz</span>
+              </label>
+              <label class="auteur-check coche" onclick="toggleAuteur(this,'cons-1')">
+                <input type="checkbox" checked>
+                <div class="auteur-check-coche"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <span class="auteur-check-nom">Mathieu Ricard</span>
+              </label>
+              <label class="auteur-check coche" onclick="toggleAuteur(this,'cons-1')">
+                <input type="checkbox" checked>
+                <div class="auteur-check-coche"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <span class="auteur-check-nom">Noureddine Hany</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-grille">
+            <div class="form-groupe">
+              <label class="form-label">Indicateurs</label>
+              <textarea class="form-textarea" style="min-height:70px" placeholder="Indicateurs de mesure...">Nombre de modules livrés, taux d'adoption par les maisons membres, réduction du temps de gestion administratif.</textarea>
+            </div>
+            <div class="form-groupe">
+              <label class="form-label">Performance</label>
+              <textarea class="form-textarea" style="min-height:70px" placeholder="Évaluation de la performance...">En cours — 8 modules complétés sur 10, livraison finale prévue juin 2026.</textarea>
+            </div>
+          </div>
+          <div class="sep-form"></div>
+          <div class="form-groupe" style="margin-bottom:14px">
+            <label class="form-label">Document (lien SharePoint)</label>
+            <div class="sharepoint-groupe">
+              <input type="url" class="form-input" placeholder="https://refc.sharepoint.com/..." value="https://refc.sharepoint.com/Documents/Portail_cahier_charges.pdf">
+              <button class="btn-sp" onclick="ouvrirLien(this)">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 2h4v4M14 2L8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Ouvrir
+              </button>
+            </div>
+          </div>
+          <div class="realisation-pied">
+            <button class="btn btn-sm btn-danger" onclick="supprimerRealisation('cons-1')">Supprimer</button>
+            <button class="btn btn-sm btn-pri" onclick="sauvegarderRealisation('cons-1')">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <button class="btn-ajouter" onclick="ajouterRealisation('consolidations')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Ajouter une réalisation — Consolidations
+    </button>
+  </div>
+
+  <!-- ===== PROMOTIONS ===== -->
+  <div id="section-promotions" class="section-contenu">
+    <div class="section-entete">
+      <div>
+        <div class="section-nom">Promotions</div>
+        <div class="section-desc">Activités de promotion des membres, des titres et de la francophonie canadienne</div>
+      </div>
+      <div class="section-stats">
+        <span class="section-stat"><strong>0</strong> réalisation</span>
+        <span class="section-stat"><strong>0</strong> objectif atteint</span>
+      </div>
+    </div>
+    <div class="realisations-liste" id="liste-promotions">
+      <div class="etat-vide">
+        <div class="etat-vide-titre">Aucune réalisation pour cette section</div>
+        <div class="etat-vide-desc">Cliquez sur le bouton ci-dessous pour ajouter la première réalisation.</div>
+      </div>
+    </div>
+    <button class="btn-ajouter" onclick="ajouterRealisation('promotions')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Ajouter une réalisation — Promotions
+    </button>
+  </div>
+
+</div>
+
+<script>
+const AUTEURS = ["Piedad Saenz","Mathieu Ricard","Noureddine Hany"];
+let compteur = 100;
+
+function afficherSection(id, btn){
+  document.querySelectorAll(".section-contenu").forEach(s=>s.classList.remove("visible"));
+  document.querySelectorAll(".section-tab").forEach(t=>t.classList.remove("actif"));
+  document.getElementById("section-"+id).classList.add("visible");
+  btn.classList.add("actif");
+}
+
+function toggleCarte(id){
+  const carte = document.getElementById(id);
+  carte.classList.toggle("ouvert");
+}
+
+function toggleAuteur(label, carteId){
+  label.classList.toggle("coche");
+  const cb = label.querySelector("input");
+  cb.checked = !cb.checked;
+  const coche = label.querySelector(".auteur-check-coche");
+  if(cb.checked){
+    coche.innerHTML = "<svg width='10' height='10' viewBox='0 0 10 10' fill='none'><path d='M2 5l2.5 2.5L8 3' stroke='#fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>";
+  } else {
+    coche.innerHTML = "";
+  }
+  mettreAJourMeta(carteId);
+}
+
+function mettreAJourMeta(carteId){
+  const carte = document.getElementById(carteId);
+  if(!carte) return;
+  // Mettre à jour les chips auteurs dans l'en-tête
+  const auteursCoche = [...carte.querySelectorAll(".auteur-check.coche .auteur-check-nom")]
+    .map(el => el.textContent.split(" ")[0]);
+  const chips = carte.querySelector(".realisation-auteurs");
+  if(chips){
+    chips.innerHTML = auteursCoche.map(a=>`<span class="auteur-chip actif">${a}</span>`).join("");
+  }
+  // Date
+  const dateInput = carte.querySelector("input[type='date']");
+  const dateEl = carte.querySelector(".realisation-date");
+  if(dateInput && dateEl && dateInput.value){
+    const d = new Date(dateInput.value);
+    dateEl.textContent = d.toLocaleDateString("fr-CA",{day:"numeric",month:"short",year:"numeric"});
+  }
+}
+
+function sauvegarderRealisation(id){
+  // Mettre à jour objectif dans titre
+  const carte = document.getElementById(id);
+  const sel = carte.querySelector("select");
+  const titre = carte.querySelector(".realisation-objectif");
+  if(sel && titre && sel.value !== "— Ajouter un objectif —"){
+    titre.textContent = sel.value;
+  }
+  mettreAJourMeta(id);
+  // Feedback visuel
+  const btn = carte.querySelector(".btn-pri");
+  const orig = btn.textContent;
+  btn.textContent = "Enregistré !";
+  btn.style.background = "#166534";
+  btn.style.borderColor = "#166534";
+  setTimeout(()=>{btn.textContent=orig;btn.style.background="";btn.style.borderColor="";},1500);
+}
+
+function supprimerRealisation(id){
+  const carte = document.getElementById(id);
+  const objectif = carte.querySelector(".realisation-objectif").textContent;
+  if(confirm("Supprimer la réalisation « "+objectif+" » ?")) carte.remove();
+}
+
+function ajouterRealisation(section){
+  compteur++;
+  const id = section.substring(0,4)+"-"+compteur;
+  const prefixSection = {"representations":"Représentations","consolidations":"Consolidations","promotions":"Promotions"}[section];
+  const carte = document.createElement("div");
+  carte.className = "realisation-carte ouvert";
+  carte.id = id;
+  carte.innerHTML = `
+    <div class="realisation-entete" onclick="toggleCarte('${id}')">
+      <div class="realisation-icone">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="#2D3F7B" stroke-width="1.5"/><path d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="realisation-resume">
+        <div class="realisation-objectif">Nouvelle réalisation</div>
+        <div class="realisation-meta">
+          <span class="realisation-date">—</span>
+          <div class="realisation-auteurs"></div>
+        </div>
+      </div>
+      <div class="realisation-actions">
+        <svg class="chevron-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+    <div class="realisation-corps">
+      <div class="form-grille">
+        <div class="form-groupe">
+          <label class="form-label">Objectif</label>
+          <select class="form-select">
+            <option value="">Sélectionner un objectif...</option>
+            <option>Objectif 1 — à compléter</option>
+            <option>Objectif 2 — à compléter</option>
+            <option>— Ajouter un objectif —</option>
+          </select>
+        </div>
+        <div class="form-groupe">
+          <label class="form-label">Date</label>
+          <input type="date" class="form-input" onchange="mettreAJourMeta('${id}')">
+        </div>
+      </div>
+      <div class="form-groupe" style="margin-bottom:14px">
+        <label class="form-label">Réalisation</label>
+        <textarea class="form-textarea" placeholder="Décrivez la réalisation concrète..."></textarea>
+      </div>
+      <div class="form-groupe" style="margin-bottom:14px">
+        <label class="form-label">Auteurs responsables</label>
+        <div class="auteurs-groupe">
+          ${AUTEURS.map(a=>`
+          <label class="auteur-check" onclick="toggleAuteur(this,'${id}')">
+            <input type="checkbox">
+            <div class="auteur-check-coche"></div>
+            <span class="auteur-check-nom">${a}</span>
+          </label>`).join("")}
+        </div>
+      </div>
+      <div class="form-grille">
+        <div class="form-groupe">
+          <label class="form-label">Indicateurs</label>
+          <textarea class="form-textarea" style="min-height:70px" placeholder="Indicateurs de mesure..."></textarea>
+        </div>
+        <div class="form-groupe">
+          <label class="form-label">Performance</label>
+          <textarea class="form-textarea" style="min-height:70px" placeholder="Évaluation de la performance..."></textarea>
+        </div>
+      </div>
+      <div class="sep-form"></div>
+      <div class="form-groupe" style="margin-bottom:14px">
+        <label class="form-label">Document (lien SharePoint)</label>
+        <div class="sharepoint-groupe">
+          <input type="url" class="form-input" placeholder="https://refc.sharepoint.com/...">
+          <button class="btn-sp" onclick="ouvrirLien(this)">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 2h4v4M14 2L8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ouvrir
+          </button>
+        </div>
+      </div>
+      <div class="realisation-pied">
+        <button class="btn btn-sm btn-danger" onclick="supprimerRealisation('${id}')">Supprimer</button>
+        <button class="btn btn-sm btn-pri" onclick="sauvegarderRealisation('${id}')">Enregistrer</button>
+      </div>
+    </div>`;
+
+  // Retirer l'état vide si présent
+  const liste = document.getElementById("liste-"+section);
+  const vide = liste.querySelector(".etat-vide");
+  if(vide) vide.remove();
+  liste.appendChild(carte);
+  carte.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function ouvrirLien(btn){
+  const url = btn.previousElementSibling.value;
+  if(url) window.open(url,"_blank");
+  else alert("Veuillez d'abord saisir un lien SharePoint.");
+}
+
+function changerAnnee(annee){
+  // Dans le portail réel : rechargement des données selon l'année
+  console.log("Année sélectionnée :", annee);
+}
+</script>
+</body>
+</html>
