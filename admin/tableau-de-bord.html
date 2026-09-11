@@ -18,7 +18,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 /* CONTENU — décalé pour ne pas être caché sous les barres fixes */
 /* banniere(36) + topbar(60) + nav(42) = 138px */
-.contenu{padding:24px;max-width:1100px;margin:0 auto;padding-top:172px}
+.contenu{padding:24px;max-width:1100px;margin:0 auto;padding-top:140px}
 
 .topbar-logo{display:flex;align-items:center;gap:12px}
 .topbar-titre{font-size:14px;font-weight:500;opacity:.9}
@@ -84,6 +84,47 @@ tr:hover td{background:#f8fafc}
 .raccourci-icone{width:32px;height:32px;background:#E8EEF7;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .raccourci-nom{font-size:12px;font-weight:600;color:#1e293b}
 .raccourci-desc{font-size:11px;color:#64748b;margin-top:1px}
+
+.widget{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:16px}
+.widget-entete{padding:12px 16px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between}
+.widget-titre{font-size:11px;font-weight:700;color:#1e293b;text-transform:uppercase;letter-spacing:.04em}
+.widget-corps{padding:8px 16px}
+.tache-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f1f5f9}
+.tache-item:last-child{border-bottom:none}
+.tache-puce{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tache-puce-rouge{background:#ef4444}
+.tache-puce-jaune{background:#eab308}
+.tache-puce-bleu{background:#3b82f6}
+.tache-texte{font-size:11px;color:#1e293b;line-height:1.4}
+.tache-echeance{font-size:10px;color:#94a3b8}
+.badge-sm{display:inline-flex;align-items:center;font-size:9px;padding:2px 6px;border-radius:10px;font-weight:600}
+.badge-rouge{background:#fee2e2;color:#7f1d1d}
+.badge-jaune{background:#fef9c3;color:#854d0e}
+.badge-bleu{background:#E8EEF7;color:#2D3F7B}
+.mini-cal-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #e2e8f0}
+.mini-cal-mois{font-size:12px;font-weight:700;color:#1e293b}
+.mini-cal-btn{background:none;border:none;cursor:pointer;color:#64748b;font-size:18px;padding:2px 6px;border-radius:4px;line-height:1}
+.mini-cal-btn:hover{background:#f1f5f9}
+.mini-cal-grille{padding:10px}
+.mini-cal-jours{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
+.mini-cal-jour-nom{text-align:center;font-size:9px;font-weight:600;color:#94a3b8;padding:3px 0}
+.mini-cal-cases{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.mini-cal-case{text-align:center;font-size:11px;padding:5px 2px;border-radius:5px;cursor:pointer;color:#1e293b;position:relative}
+.mini-cal-case:hover{background:#E8EEF7}
+.mini-cal-case.autre-mois{color:#cbd5e1}
+.mini-cal-case.aujourd-hui{background:#2D3F7B;color:#fff;font-weight:700}
+.mini-cal-case.a-evenement::after{content:"";position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#7B9EC8}
+.mini-cal-case.aujourd-hui.a-evenement::after{background:#fff}
+.mini-cal-evenements{padding:0 12px 12px}
+.mini-cal-ev-titre{font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.mini-cal-ev{display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid #f1f5f9}
+.mini-cal-ev:last-child{border-bottom:none}
+.mini-cal-ev-barre{width:3px;min-height:32px;border-radius:2px;flex-shrink:0;margin-top:2px}
+.mini-cal-ev-corps{flex:1}
+.mini-cal-ev-nom{font-size:10px;font-weight:600;color:#1e293b;line-height:1.3}
+.mini-cal-ev-heure{font-size:9px;color:#94a3b8;margin-top:1px}
+.colonne-droite{width:280px;flex-shrink:0;display:flex;flex-direction:column}
+.layout-tdb{display:flex;gap:20px;align-items:start}
 </style>
 </head>
 <body>
@@ -113,12 +154,13 @@ tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
   <a class="nav-btn" href="rapports.html">Rapports</a>
-  <a class="nav-btn" href="planification.html">Réalisations et performances</a>
+  <a class="nav-btn" href="calendrier.html">Calendrier</a>
+  <a class="nav-btn" href="planification.html">Planification stratégique</a>
   <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
   <a class="nav-btn" href="assistance.html">Assistance</a>
 </div>
 
-<div class="contenu">
+<div class="contenu"><div class="layout-tdb"><div style="flex:1;min-width:0">
 
   <div class="page-titre">Tableau de bord — Administration REFC</div>
   <div class="page-soustitre">Bonjour Piedad · <span id="date-jour"></span></div>
@@ -237,6 +279,107 @@ tr:hover td{background:#f8fafc}
   </div>
 
 </div>
+<div class="colonne-droite">
+      <!-- TÂCHES ASSIGNÉES -->
+      <div class="widget">
+        <div class="widget-entete">
+          <span class="widget-titre">Mes tâches</span>
+          <span style="font-size:10px;color:#64748b;font-weight:600">Piedad Saenz</span>
+        </div>
+        <div class="widget-corps">
+          <div class="tache-item">
+            <div class="tache-puce tache-puce-rouge"></div>
+            <div style="flex:1">
+              <div class="tache-texte">Approuver la facture Studio Web 3C</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:3px">
+                <span class="badge-sm badge-rouge">En retard</span>
+                <span class="tache-echeance">Échéance 8 sept. 2026</span>
+              </div>
+            </div>
+          </div>
+          <div class="tache-item">
+            <div class="tache-puce tache-puce-rouge"></div>
+            <div style="flex:1">
+              <div class="tache-texte">Valider le PV — Rencontre BD 21 avr.</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:3px">
+                <span class="badge-sm badge-rouge">En retard</span>
+                <span class="tache-echeance">Échéance 5 mai 2026</span>
+              </div>
+            </div>
+          </div>
+          <div class="tache-item">
+            <div class="tache-puce tache-puce-jaune"></div>
+            <div style="flex:1">
+              <div class="tache-texte">Téléverser OdJ — Rencontre BD 26 mai</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:3px">
+                <span class="badge-sm badge-jaune">Cette semaine</span>
+                <span class="tache-echeance">Échéance 20 mai 2026</span>
+              </div>
+            </div>
+          </div>
+          <div class="tache-item">
+            <div class="tache-puce tache-puce-jaune"></div>
+            <div style="flex:1">
+              <div class="tache-texte">Traiter demande — Prise de Parole</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:3px">
+                <span class="badge-sm badge-jaune">En attente</span>
+                <span class="tache-echeance">Soumis le 3 sept. 2026</span>
+              </div>
+            </div>
+          </div>
+          <div class="tache-item">
+            <div class="tache-puce tache-puce-bleu"></div>
+            <div style="flex:1">
+              <div class="tache-texte">Confirmer participation — Salon Sudbury</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:3px">
+                <span class="badge-sm badge-bleu">À faire</span>
+                <span class="tache-echeance">Échéance 15 sept. 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MINI CALENDRIER -->
+      <div class="widget">
+        <div class="mini-cal-nav">
+          <button class="mini-cal-btn" onclick="changerMois(-1)">&#8249;</button>
+          <span class="mini-cal-mois" id="cal-mois-titre">Septembre 2026</span>
+          <button class="mini-cal-btn" onclick="changerMois(1)">&#8250;</button>
+        </div>
+        <div class="mini-cal-grille">
+          <div class="mini-cal-jours">
+            <div class="mini-cal-jour-nom">Lun</div><div class="mini-cal-jour-nom">Mar</div>
+            <div class="mini-cal-jour-nom">Mer</div><div class="mini-cal-jour-nom">Jeu</div>
+            <div class="mini-cal-jour-nom">Ven</div><div class="mini-cal-jour-nom">Sam</div>
+            <div class="mini-cal-jour-nom">Dim</div>
+          </div>
+          <div class="mini-cal-cases" id="cal-cases"></div>
+        </div>
+        <div class="mini-cal-evenements">
+          <div class="mini-cal-ev-titre">Prochains événements</div>
+          <div class="mini-cal-ev">
+            <div class="mini-cal-ev-barre" style="background:#2D3F7B"></div>
+            <div class="mini-cal-ev-corps">
+              <div class="mini-cal-ev-nom">Réunion d'équipe REFC</div>
+              <div class="mini-cal-ev-heure">Mar 10 sept. · 10h00 – 11h00</div>
+            </div>
+          </div>
+          <div class="mini-cal-ev">
+            <div class="mini-cal-ev-barre" style="background:#eab308"></div>
+            <div class="mini-cal-ev-corps">
+              <div class="mini-cal-ev-nom">Limite confirmations — Salon Sudbury</div>
+              <div class="mini-cal-ev-heure">Lun 15 sept. · Toute la journée</div>
+            </div>
+          </div>
+          <div class="mini-cal-ev">
+            <div class="mini-cal-ev-barre" style="background:#7B9EC8"></div>
+            <div class="mini-cal-ev-corps">
+              <div class="mini-cal-ev-nom">Appel planification — Mathieu</div>
+              <div class="mini-cal-ev-heure">Mer 17 sept. · 14h30 – 15h00</div>
+            </div>
+          </div>
+        </div>
+      </div></div></div>
 
 <script>
 const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
@@ -244,6 +387,36 @@ const mois = ['janvier','février','mars','avril','mai','juin','juillet','août'
 const d = new Date();
 document.getElementById('date-jour').textContent =
   jours[d.getDay()] + ' ' + d.getDate() + ' ' + mois[d.getMonth()] + ' ' + d.getFullYear();
+
+const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const EVENEMENTS_CAL = {'2026-09-10':true,'2026-09-15':true,'2026-09-17':true};
+let calDate = new Date(2026,8,1);
+function rendreCal(){
+  const y=calDate.getFullYear(),m=calDate.getMonth();
+  document.getElementById('cal-mois-titre').textContent=MOIS_FR[m]+' '+y;
+  const cases=document.getElementById('cal-cases');
+  cases.innerHTML='';
+  const dernier=new Date(y,m+1,0).getDate();
+  let debut=new Date(y,m,1).getDay();
+  debut=debut===0?6:debut-1;
+  const auj=new Date();
+  for(let i=0;i<debut;i++){
+    const d=document.createElement('div');
+    d.className='mini-cal-case autre-mois';
+    d.textContent=new Date(y,m,-debut+i+1).getDate();
+    cases.appendChild(d);
+  }
+  for(let d=1;d<=dernier;d++){
+    const div=document.createElement('div');
+    const ds=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    let cls='mini-cal-case';
+    if(d===auj.getDate()&&m===auj.getMonth()&&y===auj.getFullYear())cls+=' aujourd-hui';
+    if(EVENEMENTS_CAL[ds])cls+=' a-evenement';
+    div.className=cls;div.textContent=d;cases.appendChild(div);
+  }
+}
+function changerMois(delta){calDate.setMonth(calDate.getMonth()+delta);rendreCal();}
+rendreCal();
 </script>
 </body>
 </html>
