@@ -84,7 +84,6 @@ refc-portail-membres/
 ## 👥 Développé par
 
 - **SFM** — Stagiaire en coordination et communications, REFC
-- **Bachir** — Développeur
 
 ---
 
