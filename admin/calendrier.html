@@ -824,12 +824,7 @@ function confirmerAjout() {
   if (!date) { alert('Veuillez choisir une date.'); return; }
   const d = new Date(date + 'T12:00:00');
   const label = d.toLocaleDateString('fr-CA', {year:'numeric',month:'long',day:'numeric'});
-  alert('Rencontre ajoutée (démo) :
-' + organe + ' · ' + label + '
-' + lieu + (notes ? '
-Note : ' + notes : '') + '
-
-Dans la vraie version, cette entrée sera créée dans SharePoint.');
+  alert('Rencontre ajoutée (démo) : ' + organe + ' · ' + label + ' | ' + lieu + (notes ? ' | ' + notes : '') + ' — Dans la vraie version, cette entrée sera créée dans SharePoint.');
   document.getElementById('modal-overlay').classList.remove('ouvert');
 }
 </script>
