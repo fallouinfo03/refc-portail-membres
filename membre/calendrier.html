@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REFC — Calendrier</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:999}
+.banniere a{color:#60a5fa;text-decoration:none}
+.topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:36px;left:0;right:0;z-index:998}
+.nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto;position:fixed;top:96px;left:0;right:0;z-index:997}
+.contenu{padding:24px;padding-top:140px;max-width:1400px;margin:0 auto}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-titre{font-size:14px;font-weight:500;opacity:.9}
+.topbar-droite{display:flex;align-items:center;gap:16px;font-size:13px}
+.pill-role{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deconnexion{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.btn-deconnexion:hover{background:rgba(255,255,255,.1)}
+.nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+.nav-btn:hover{color:#fff}
+.nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
+.page-titre{font-size:22px;font-weight:600;color:#1e293b;margin-bottom:4px}
+.page-soustitre{font-size:13px;color:#64748b;margin-bottom:20px}
+
+/* Layout principal */
+.layout{display:block}
+.colonne-principale{min-width:0}
+
+
+/* Filtres */
+.filtres-bloc{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.filtre-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.filtre-select{border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:12px;color:#1e293b;background:#f8fafc;cursor:pointer;outline:none}
+.filtre-select:focus{border-color:#7B9EC8}
+.filtre-date{border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:12px;color:#1e293b;background:#f8fafc;cursor:pointer;outline:none}
+.filtre-separateur{color:#94a3b8;font-size:12px}
+.btn-filtre{background:#2D3F7B;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;cursor:pointer;font-weight:500}
+.btn-filtre:hover{background:#253570}
+.btn-filtre-reset{background:none;color:#64748b;border:1px solid #e2e8f0;border-radius:6px;padding:6px 14px;font-size:12px;cursor:pointer}
+.btn-filtre-reset:hover{background:#f8fafc}
+
+/* Section titre */
+.section-titre{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin:20px 0 10px;display:flex;align-items:center;justify-content:space-between}
+
+
+.btn-ajouter svg{width:12px;height:12px}
+
+/* Organes */
+.organe-bloc{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:10px}
+.organe-entete{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none;transition:.15s}
+.organe-entete:hover{background:#f8fafc}
+.organe-gauche{display:flex;align-items:center;gap:12px}
+.organe-sigle{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.organe-nom{font-size:13px;font-weight:600;color:#1e293b}
+.organe-sous{font-size:11px;color:#64748b;margin-top:1px}
+.organe-droite{display:flex;align-items:center;gap:10px}
+.organe-count{background:#E8EEF7;color:#2D3F7B;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px}
+.organe-fleche{color:#94a3b8;font-size:16px;transition:.2s;display:inline-block}
+.organe-fleche.ouvert{transform:rotate(180deg)}
+.organe-corps{border-top:1px solid #e2e8f0;display:none}
+.organe-corps.ouvert{display:block}
+
+/* Sélecteur année dans organe */
+.organe-annees{display:flex;gap:6px;padding:12px 18px;border-bottom:1px solid #f1f5f9;background:#f8fafc;flex-wrap:wrap;align-items:center}
+.annee-label{font-size:11px;color:#64748b;font-weight:600}
+.btn-annee{border:1px solid #e2e8f0;background:#fff;border-radius:20px;padding:3px 10px;font-size:11px;cursor:pointer;color:#64748b}
+.btn-annee:hover{border-color:#7B9EC8;color:#2D3F7B}
+.btn-annee.actif{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+
+/* Rencontres */
+.rencontres-liste{padding:8px 0}
+.rencontre-item{border-bottom:1px solid #f1f5f9}
+.rencontre-item:last-child{border-bottom:none}
+.rencontre-entete{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;cursor:pointer;transition:.1s}
+.rencontre-entete:hover{background:#f8fafc}
+.rencontre-gauche{display:flex;align-items:center;gap:10px}
+.rencontre-date-badge{background:#E8EEF7;color:#2D3F7B;font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;white-space:nowrap;min-width:90px;text-align:center}
+.rencontre-nom{font-size:12px;font-weight:600;color:#1e293b}
+.rencontre-sous{font-size:11px;color:#94a3b8;margin-top:1px}
+.rencontre-droite{display:flex;align-items:center;gap:8px}
+.doc-pill{display:flex;align-items:center;gap:3px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:20px;padding:2px 8px;font-size:10px;color:#64748b}
+.doc-pill.ok{background:#dcfce7;border-color:#bbf7d0;color:#166534}
+.doc-pill svg{width:10px;height:10px}
+.rencontre-fleche{color:#94a3b8;font-size:14px;transition:.2s}
+.rencontre-fleche.ouvert{transform:rotate(180deg)}
+
+/* Contenu rencontre */
+.rencontre-corps{background:#f8fafc;border-top:1px solid #f1f5f9;padding:14px 18px;display:none}
+.rencontre-corps.ouvert{display:block}
+.docs-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.doc-carte{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px}
+.doc-carte-titre{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.doc-carte-titre svg{width:12px;height:12px;color:#2D3F7B}
+
+
+
+.doc-upload-texte strong{color:#2D3F7B;display:block;margin-bottom:2px}
+.doc-fichier{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f1f5f9;border-radius:6px;cursor:pointer;transition:.15s}
+.doc-fichier:hover{background:#E8EEF7}
+.doc-fichier-nom{font-size:11px;color:#1e293b;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.doc-fichier-date{font-size:10px;color:#94a3b8}
+.btn-telecharger{background:none;border:none;color:#2D3F7B;cursor:pointer;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px}
+.btn-telecharger:hover{background:#E8EEF7}
+
+
+
+
+
+
+
+/* Ajouter rencontre */
+
+
+
+/* Colonne droite — tâches */
+
+
+
+
+
+
+
+
+
+
+
+
+.tache-assign{font-size:10px;font-weight:600;color:#2D3F7B}
+
+
+
+.badge-vert{background:#dcfce7;color:#166534}
+
+/* Mini calendrier */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Modal ajout */
+
+
+
+
+
+
+
+
+
+
+
+</style>
+</head>
+<body>
+
+<div class="banniere">
+  <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
+  <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Voir le code source</a>
+</div>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../assets/REFC_Logo_acelf.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
+    <span class="topbar-titre">Portail membres</span>
+  </div>
+  <div class="topbar-droite">
+    <span class="pill-role">membre</span>
+    <span>Prise de Parole</span>
+    <button class="btn-deconnexion" onclick="window.location.href='../index.html'">Déconnexion</button>
+  </div>
+</div>
+
+<div class="nav">
+  <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
+  <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+  <a class="nav-btn" href="salons.html">Salons</a>
+  <a class="nav-btn" href="evenements.html">Événements littéraires</a>
+  <a class="nav-btn" href="bulletins.html">Bulletins</a>
+  <a class="nav-btn" href="ingram.html">Ingram</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
+  <a class="nav-btn actif" href="calendrier.html">Calendrier</a>
+  <a class="nav-btn" href="assistance.html">Assistance</a>
+</div>
+
+<div class="contenu">
+  <div class="page-titre">Calendrier & Gouvernance</div>
+  <div class="page-soustitre">Consultez les ordres du jour et procès-verbaux des rencontres</div>
+
+  <!-- FILTRES -->
+  <div class="filtres-bloc">
+    <span class="filtre-label">Filtrer</span>
+    <select class="filtre-select" id="filtre-annee">
+      <option value="">Toutes les années</option>
+      <option value="2026" selected>2025–2026</option>
+      <option value="2025">2024–2025</option>
+      <option value="2024">2023–2024</option>
+    </select>
+    <span class="filtre-separateur">ou par période :</span>
+    <input type="date" class="filtre-date" id="date-debut" value="2025-09-01">
+    <span class="filtre-separateur">→</span>
+    <input type="date" class="filtre-date" id="date-fin" value="2026-08-31">
+    <button class="btn-filtre" onclick="appliquerFiltres()">Appliquer</button>
+    <button class="btn-filtre-reset" onclick="resetFiltres()">Réinitialiser</button>
+  </div>
+
+  <div class="layout">
+    <!-- COLONNE PRINCIPALE -->
+    <div class="colonne-principale">
+      <div class="section-titre">
+        <span>Organes de gouvernance</span>
+        
+      </div>
+
+      <!-- BD -->
+      <div class="organe-bloc" data-organe="bd">
+        <div class="organe-entete" onclick="toggleOrgane('bd')">
+          <div class="organe-gauche">
+            <div class="organe-sigle" style="background:#E8EEF7;color:#2D3F7B">BD</div>
+            <div>
+              <div class="organe-nom">Bureau de direction</div>
+              <div class="organe-sous">Rencontres de coordination — 2025–2026</div>
+            </div>
+          </div>
+          <div class="organe-droite">
+            <span class="organe-count">4 rencontres</span>
+            <span class="organe-fleche" id="fleche-bd">▼</span>
+          </div>
+        </div>
+        <div class="organe-corps" id="corps-bd" data-organe="bd">
+          <div class="organe-annees">
+            <span class="annee-label">Année :</span>
+            <button class="btn-annee actif">2025–2026</button>
+            <button class="btn-annee">2024–2025</button>
+            <button class="btn-annee">2023–2024</button>
+          </div>
+          <div class="rencontres-liste">
+
+            <div class="rencontre-item" data-date="2026-02-09">
+              <div class="rencontre-entete" onclick="toggleRencontre('bd-1')">
+                <div class="rencontre-gauche">
+                  <span class="rencontre-date-badge">9 fév. 2026</span>
+                  <div>
+                    <div class="rencontre-nom">Rencontre BD — 9 février 2026</div>
+                    <div class="rencontre-sous">Bureau de direction · En ligne (Teams)</div>
+                  </div>
+                </div>
+                <div class="rencontre-droite">
+                  <span class="doc-pill ok"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 12l-2-2-1.5 1.5L9 15l5.5-5.5L13 8z"/></svg> OdJ</span>
+                  <span class="doc-pill ok"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 12l-2-2-1.5 1.5L9 15l5.5-5.5L13 8z"/></svg> PV</span>
+                  <span class="rencontre-fleche" id="fleche-bd-1">▼</span>
+                </div>
+              </div>
+              <div class="rencontre-corps" id="corps-bd-1">
+                <div class="docs-grille">
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">
+                      <svg viewBox="0 0 20 20" fill="currentColor" style="color:#2D3F7B"><path d="M4 4h12v12H4z"/></svg>
+                      Ordre du jour
+                    </div>
+                    <div class="doc-fichier">
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M6 2h8l4 4v12H2V2z" stroke="#2D3F7B" stroke-width="1.5"/></svg>
+                      <div style="flex:1;min-width:0">
+                        <div class="doc-fichier-nom">OdJ_BD_09fev2026.pdf</div>
+                        <div class="doc-fichier-date">Ajouté le 5 fév. 2026</div>
+                      </div>
+                      <button class="btn-telecharger">↓</button>
+                    </div>
+                  </div>
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">
+                      <svg viewBox="0 0 20 20" fill="currentColor" style="color:#2D3F7B"><path d="M4 4h12v12H4z"/></svg>
+                      Procès-verbal
+                    </div>
+                    <div class="doc-fichier">
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M6 2h8l4 4v12H2V2z" stroke="#2D3F7B" stroke-width="1.5"/></svg>
+                      <div style="flex:1;min-width:0">
+                        <div class="doc-fichier-nom">PV_BD_09fev2026.pdf</div>
+                        <div class="doc-fichier-date">Ajouté le 20 fév. 2026</div>
+                      </div>
+                      <button class="btn-telecharger">↓</button>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+
+            <div class="rencontre-item" data-date="2026-04-21">
+              <div class="rencontre-entete" onclick="toggleRencontre('bd-2')">
+                <div class="rencontre-gauche">
+                  <span class="rencontre-date-badge">21 avr. 2026</span>
+                  <div>
+                    <div class="rencontre-nom">Rencontre BD — 21 avril 2026</div>
+                    <div class="rencontre-sous">Bureau de direction · Présentiel — 435 rue Donald</div>
+                  </div>
+                </div>
+                <div class="rencontre-droite">
+                  <span class="doc-pill ok"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 12l-2-2-1.5 1.5L9 15l5.5-5.5L13 8z"/></svg> OdJ</span>
+                  <span class="doc-pill">PV</span>
+                  <span class="rencontre-fleche" id="fleche-bd-2">▼</span>
+                </div>
+              </div>
+              <div class="rencontre-corps" id="corps-bd-2">
+                <div class="docs-grille">
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">Ordre du jour</div>
+                    <div class="doc-fichier">
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M6 2h8l4 4v12H2V2z" stroke="#2D3F7B" stroke-width="1.5"/></svg>
+                      <div style="flex:1;min-width:0">
+                        <div class="doc-fichier-nom">OdJ_BD_21avr2026.pdf</div>
+                        <div class="doc-fichier-date">Ajouté le 18 avr. 2026</div>
+                      </div>
+                      <button class="btn-telecharger">↓</button>
+                    </div>
+                  </div>
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">Procès-verbal</div>
+                    <div style="padding:8px 10px;background:#f8fafc;border-radius:6px;font-size:11px;color:#94a3b8;text-align:center;border:1px solid #e2e8f0">Document non encore disponible</div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+
+            <div class="rencontre-item" data-date="2026-05-26">
+              <div class="rencontre-entete" onclick="toggleRencontre('bd-3')">
+                <div class="rencontre-gauche">
+                  <span class="rencontre-date-badge">26 mai 2026</span>
+                  <div>
+                    <div class="rencontre-nom">Rencontre BD — 26 mai 2026</div>
+                    <div class="rencontre-sous">Bureau de direction · En ligne (Teams)</div>
+                  </div>
+                </div>
+                <div class="rencontre-droite">
+                  <span class="doc-pill">OdJ</span>
+                  <span class="doc-pill">PV</span>
+                  <span class="rencontre-fleche" id="fleche-bd-3">▼</span>
+                </div>
+              </div>
+              <div class="rencontre-corps" id="corps-bd-3">
+                <div class="docs-grille">
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">Ordre du jour</div>
+                    <div style="padding:8px 10px;background:#f8fafc;border-radius:6px;font-size:11px;color:#94a3b8;text-align:center;border:1px solid #e2e8f0">Document non encore disponible</div>
+                    </div>
+                  </div>
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">Procès-verbal</div>
+                    <div style="padding:8px 10px;background:#f8fafc;border-radius:6px;font-size:11px;color:#94a3b8;text-align:center;border:1px solid #e2e8f0">Document non encore disponible</div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+
+            <div class="rencontre-item" data-date="2026-06-11">
+              <div class="rencontre-entete" onclick="toggleRencontre('bd-4')">
+                <div class="rencontre-gauche">
+                  <span class="rencontre-date-badge">11 juin 2026</span>
+                  <div>
+                    <div class="rencontre-nom">Rencontre BD — 11 juin 2026</div>
+                    <div class="rencontre-sous">Bureau de direction · Présentiel</div>
+                  </div>
+                </div>
+                <div class="rencontre-droite">
+                  <span class="doc-pill">OdJ</span>
+                  <span class="doc-pill">PV</span>
+                  <span class="rencontre-fleche" id="fleche-bd-4">▼</span>
+                </div>
+              </div>
+              <div class="rencontre-corps" id="corps-bd-4">
+                <div class="docs-grille">
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">Ordre du jour</div>
+                    <div style="padding:8px 10px;background:#f8fafc;border-radius:6px;font-size:11px;color:#94a3b8;text-align:center;border:1px solid #e2e8f0">Document non encore disponible</div>
+                    </div>
+                  </div>
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">Procès-verbal</div>
+                    <div style="padding:8px 10px;background:#f8fafc;border-radius:6px;font-size:11px;color:#94a3b8;text-align:center;border:1px solid #e2e8f0">Document non encore disponible</div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- AGA -->
+      <div class="organe-bloc" data-organe="aga">
+        <div class="organe-entete" onclick="toggleOrgane('aga')">
+          <div class="organe-gauche">
+            <div class="organe-sigle" style="background:#dcfce7;color:#166534">AGA</div>
+            <div>
+              <div class="organe-nom">Assemblée générale annuelle</div>
+              <div class="organe-sous">AGA — Documents officiels et programmation</div>
+            </div>
+          </div>
+          <div class="organe-droite">
+            <span class="organe-count">1 rencontre</span>
+            <span class="organe-fleche" id="fleche-aga">▼</span>
+          </div>
+        </div>
+        <div class="organe-corps" id="corps-aga" data-organe="aga">
+          <div class="organe-annees">
+            <span class="annee-label">Année :</span>
+            <button class="btn-annee actif">2025–2026</button>
+            <button class="btn-annee">2024–2025</button>
+          </div>
+          <div class="rencontres-liste">
+            <div class="rencontre-item" data-date="2026-06-02">
+              <div class="rencontre-entete" onclick="toggleRencontre('aga-1')">
+                <div class="rencontre-gauche">
+                  <span class="rencontre-date-badge" style="background:#dcfce7;color:#166534">2 juin 2026</span>
+                  <div>
+                    <div class="rencontre-nom">AGA — 2 juin 2026</div>
+                    <div class="rencontre-sous">Assemblée générale annuelle · Présentiel — Ottawa</div>
+                  </div>
+                </div>
+                <div class="rencontre-droite">
+                  <span class="doc-pill ok">OdJ</span>
+                  <span class="doc-pill">PV</span>
+                  <span class="doc-pill">Prog.</span>
+                  <span class="rencontre-fleche" id="fleche-aga-1">▼</span>
+                </div>
+              </div>
+              <div class="rencontre-corps" id="corps-aga-1">
+                <div class="docs-grille">
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">Ordre du jour</div>
+                    <div class="doc-fichier">
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M6 2h8l4 4v12H2V2z" stroke="#2D3F7B" stroke-width="1.5"/></svg>
+                      <div style="flex:1;min-width:0">
+                        <div class="doc-fichier-nom">OdJ_AGA_02juin2026.pdf</div>
+                        <div class="doc-fichier-date">Ajouté le 25 mai 2026</div>
+                      </div>
+                      <button class="btn-telecharger">↓</button>
+                    </div>
+                  </div>
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">Procès-verbal</div>
+                    <div style="padding:8px 10px;background:#f8fafc;border-radius:6px;font-size:11px;color:#94a3b8;text-align:center;border:1px solid #e2e8f0">Document non encore disponible</div>
+                    </div>
+                  </div>
+                  <div class="doc-carte" style="border-color:#7B9EC8">
+                    <div class="doc-carte-titre" style="color:#2D3F7B">
+                      <svg viewBox="0 0 20 20" fill="currentColor" style="color:#2D3F7B;width:12px;height:12px"><path d="M4 4h12v12H4z"/></svg>
+                      Programmation des journées
+                      <span style="background:#E8EEF7;color:#2D3F7B;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:4px">AGA</span>
+                    </div>
+                    <div style="padding:8px 10px;background:#f8fafc;border-radius:6px;font-size:11px;color:#94a3b8;text-align:center;border:1px solid #e2e8f0">Document non encore disponible</div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- ASA -->
+      <div class="organe-bloc" data-organe="asa">
+        <div class="organe-entete" onclick="toggleOrgane('asa')">
+          <div class="organe-gauche">
+            <div class="organe-sigle" style="background:#fef9c3;color:#854d0e">ASA</div>
+            <div>
+              <div class="organe-nom">Assemblée semi-annuelle</div>
+              <div class="organe-sous">ASA — Rencontre de mi-parcours</div>
+            </div>
+          </div>
+          <div class="organe-droite">
+            <span class="organe-count">1 rencontre</span>
+            <span class="organe-fleche" id="fleche-asa">▼</span>
+          </div>
+        </div>
+        <div class="organe-corps" id="corps-asa" data-organe="asa">
+          <div class="organe-annees">
+            <span class="annee-label">Année :</span>
+            <button class="btn-annee actif">2025–2026</button>
+            <button class="btn-annee">2024–2025</button>
+          </div>
+          <div class="rencontres-liste">
+            <div class="rencontre-item" data-date="2026-01-15">
+              <div class="rencontre-entete" onclick="toggleRencontre('asa-1')">
+                <div class="rencontre-gauche">
+                  <span class="rencontre-date-badge" style="background:#fef9c3;color:#854d0e">15 jan. 2026</span>
+                  <div>
+                    <div class="rencontre-nom">ASA — 15 janvier 2026</div>
+                    <div class="rencontre-sous">Assemblée semi-annuelle · Hybride</div>
+                  </div>
+                </div>
+                <div class="rencontre-droite">
+                  <span class="doc-pill ok">OdJ</span>
+                  <span class="doc-pill ok">PV</span>
+                  <span class="doc-pill ok">Prog.</span>
+                  <span class="rencontre-fleche" id="fleche-asa-1">▼</span>
+                </div>
+              </div>
+              <div class="rencontre-corps" id="corps-asa-1">
+                <div class="docs-grille">
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">Ordre du jour</div>
+                    <div class="doc-fichier">
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M6 2h8l4 4v12H2V2z" stroke="#2D3F7B" stroke-width="1.5"/></svg>
+                      <div style="flex:1;min-width:0">
+                        <div class="doc-fichier-nom">OdJ_ASA_15jan2026.pdf</div>
+                        <div class="doc-fichier-date">Ajouté le 10 jan. 2026</div>
+                      </div>
+                      <button class="btn-telecharger">↓</button>
+                    </div>
+                  </div>
+                  <div class="doc-carte">
+                    <div class="doc-carte-titre">Procès-verbal</div>
+                    <div class="doc-fichier">
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M6 2h8l4 4v12H2V2z" stroke="#2D3F7B" stroke-width="1.5"/></svg>
+                      <div style="flex:1;min-width:0">
+                        <div class="doc-fichier-nom">PV_ASA_15jan2026.pdf</div>
+                        <div class="doc-fichier-date">Ajouté le 28 jan. 2026</div>
+                      </div>
+                      <button class="btn-telecharger">↓</button>
+                    </div>
+                  </div>
+                  <div class="doc-carte" style="border-color:#7B9EC8">
+                    <div class="doc-carte-titre" style="color:#2D3F7B">Programmation des journées <span style="background:#E8EEF7;color:#2D3F7B;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:4px">ASA</span></div>
+                    <div class="doc-fichier">
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M6 2h8l4 4v12H2V2z" stroke="#2D3F7B" stroke-width="1.5"/></svg>
+                      <div style="flex:1;min-width:0">
+                        <div class="doc-fichier-nom">Prog_ASA_15jan2026.pdf</div>
+                        <div class="doc-fichier-date">Ajouté le 8 jan. 2026</div>
+                      </div>
+                      <button class="btn-telecharger">↓</button>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- CG -->
+      <div class="organe-bloc" data-organe="cg">
+        <div class="organe-entete" onclick="toggleOrgane('cg')">
+          <div class="organe-gauche">
+            <div class="organe-sigle" style="background:#f3e8ff;color:#6b21a8">CG</div>
+            <div>
+              <div class="organe-nom">Comité de gouvernance</div>
+              <div class="organe-sous">Rencontres et documents de gouvernance</div>
+            </div>
+          </div>
+          <div class="organe-droite">
+            <span class="organe-count">0 rencontre</span>
+            <span class="organe-fleche" id="fleche-cg">▼</span>
+          </div>
+        </div>
+        <div class="organe-corps" id="corps-cg" data-organe="cg">
+          <div class="organe-annees">
+            <span class="annee-label">Année :</span>
+            <button class="btn-annee actif">2025–2026</button>
+          </div>
+          <div style="padding:20px 18px;text-align:center;color:#94a3b8;font-size:12px">Aucune rencontre enregistrée pour cette année.</div>
+          
+        </div>
+      </div>
+
+      <!-- CP -->
+      <div class="organe-bloc" data-organe="cp">
+        <div class="organe-entete" onclick="toggleOrgane('cp')">
+          <div class="organe-gauche">
+            <div class="organe-sigle" style="background:#ffe4e6;color:#9f1239">CP</div>
+            <div>
+              <div class="organe-nom">Comité de promotion</div>
+              <div class="organe-sous">Rencontres et documents promotionnels</div>
+            </div>
+          </div>
+          <div class="organe-droite">
+            <span class="organe-count">0 rencontre</span>
+            <span class="organe-fleche" id="fleche-cp">▼</span>
+          </div>
+        </div>
+        <div class="organe-corps" id="corps-cp" data-organe="cp">
+          <div class="organe-annees">
+            <span class="annee-label">Année :</span>
+            <button class="btn-annee actif">2025–2026</button>
+          </div>
+          <div style="padding:20px 18px;text-align:center;color:#94a3b8;font-size:12px">Aucune rencontre enregistrée pour cette année.</div>
+          
+        </div>
+      </div>
+
+      <!-- CProg -->
+      <div class="organe-bloc" data-organe="cprog">
+        <div class="organe-entete" onclick="toggleOrgane('cprog')">
+          <div class="organe-gauche">
+            <div class="organe-sigle" style="background:#e0f2fe;color:#0c4a6e">CProg</div>
+            <div>
+              <div class="organe-nom">Comité de programmation</div>
+              <div class="organe-sous">Rencontres et documents de programmation</div>
+            </div>
+          </div>
+          <div class="organe-droite">
+            <span class="organe-count">0 rencontre</span>
+            <span class="organe-fleche" id="fleche-cprog">▼</span>
+          </div>
+        </div>
+        <div class="organe-corps" id="corps-cprog" data-organe="cprog">
+          <div class="organe-annees">
+            <span class="annee-label">Année :</span>
+            <button class="btn-annee actif">2025–2026</button>
+          </div>
+          <div style="padding:20px 18px;text-align:center;color:#94a3b8;font-size:12px">Aucune rencontre enregistrée pour cette année.</div>
+          
+        </div>
+      </div>
+
+    </div><!-- fin colonne principale -->
+  </div><!-- fin layout -->
+</div>
+
+<script>
+// ===== TOGGLE ORGANE =====
+function toggleOrgane(id) {
+  const corps = document.getElementById('corps-' + id);
+  const fleche = document.getElementById('fleche-' + id);
+  if (!corps || !fleche) return;
+  const ouvert = corps.classList.contains('ouvert');
+  corps.classList.toggle('ouvert', !ouvert);
+  fleche.classList.toggle('ouvert', !ouvert);
+}
+
+// ===== TOGGLE RENCONTRE =====
+function toggleRencontre(id) {
+  const corps = document.getElementById('corps-' + id);
+  const fleche = document.getElementById('fleche-' + id);
+  if (!corps || !fleche) return;
+  const ouvert = corps.classList.contains('ouvert');
+  corps.classList.toggle('ouvert', !ouvert);
+  fleche.classList.toggle('ouvert', !ouvert);
+}
+
+// ===== ADAPTER MODAL selon organe choisi =====
+
+
+// ===== OUVRIR MODAL =====
+
+
+
+
+
+
+// ===== FILTRES =====
+function appliquerFiltres() {
+  const annee = document.getElementById('filtre-annee').value;
+  const debut = document.getElementById('date-debut').value;
+  const fin   = document.getElementById('date-fin').value;
+
+  document.querySelectorAll('.rencontre-item[data-date]').forEach(item => {
+    const date = item.dataset.date;
+    let visible = true;
+    if (debut && date < debut) visible = false;
+    if (fin   && date > fin)   visible = false;
+    if (annee) {
+      const y = parseInt(annee);
+      const anneeDebut = (y - 1) + '-09-01';
+      const anneeFin   = y + '-08-31';
+      if (date < anneeDebut || date > anneeFin) visible = false;
+    }
+    item.style.display = visible ? '' : 'none';
+  });
+
+  document.querySelectorAll('.organe-bloc[data-organe]').forEach(bloc => {
+    const id       = bloc.dataset.organe;
+    const tous     = bloc.querySelectorAll('.rencontre-item[data-date]');
+    const visibles = [...tous].filter(i => i.style.display !== 'none').length;
+    const count    = document.getElementById('count-' + id);
+    if (count) count.textContent = visibles + ' rencontre' + (visibles !== 1 ? 's' : '');
+  });
+}
+
+function resetFiltres() {
+  document.getElementById('filtre-annee').value = '2026';
+  document.getElementById('date-debut').value   = '2025-09-01';
+  document.getElementById('date-fin').value     = '2026-08-31';
+  document.querySelectorAll('.rencontre-item').forEach(i => i.style.display = '');
+  document.querySelectorAll('.organe-bloc[data-organe]').forEach(bloc => {
+    const id    = bloc.dataset.organe;
+    const n     = bloc.querySelectorAll('.rencontre-item[data-date]').length;
+    const count = document.getElementById('count-' + id);
+    if (count) count.textContent = n + ' rencontre' + (n !== 1 ? 's' : '');
+  });
+}
+
+// ===== UPLOAD =====
+
+
+// ===== SUPPRIMER =====
+
+
+</script>
+</body>
+</html>
