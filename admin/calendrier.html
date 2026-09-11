@@ -237,7 +237,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
 
       <!-- BD -->
-      <div class="organe-bloc">
+      <div class="organe-bloc" data-organe="bd">
         <div class="organe-entete" onclick="toggleOrgane('bd')">
           <div class="organe-gauche">
             <div class="organe-sigle" style="background:#E8EEF7;color:#2D3F7B">BD</div>
@@ -251,7 +251,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <span class="organe-fleche" id="fleche-bd">▼</span>
           </div>
         </div>
-        <div class="organe-corps" id="corps-bd">
+        <div class="organe-corps" id="corps-bd" data-organe="bd">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
             <button class="btn-annee actif">2025–2026</button>
@@ -260,7 +260,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           </div>
           <div class="rencontres-liste">
 
-            <div class="rencontre-item">
+            <div class="rencontre-item" data-date="2026-02-09">
               <div class="rencontre-entete" onclick="toggleRencontre('bd-1')">
                 <div class="rencontre-gauche">
                   <span class="rencontre-date-badge">9 fév. 2026</span>
@@ -313,7 +313,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
               </div>
             </div>
 
-            <div class="rencontre-item">
+            <div class="rencontre-item" data-date="2026-04-21">
               <div class="rencontre-entete" onclick="toggleRencontre('bd-2')">
                 <div class="rencontre-gauche">
                   <span class="rencontre-date-badge">21 avr. 2026</span>
@@ -355,7 +355,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
               </div>
             </div>
 
-            <div class="rencontre-item">
+            <div class="rencontre-item" data-date="2026-05-26">
               <div class="rencontre-entete" onclick="toggleRencontre('bd-3')">
                 <div class="rencontre-gauche">
                   <span class="rencontre-date-badge">26 mai 2026</span>
@@ -392,7 +392,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
               </div>
             </div>
 
-            <div class="rencontre-item">
+            <div class="rencontre-item" data-date="2026-06-11">
               <div class="rencontre-entete" onclick="toggleRencontre('bd-4')">
                 <div class="rencontre-gauche">
                   <span class="rencontre-date-badge">11 juin 2026</span>
@@ -437,7 +437,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
 
       <!-- AGA -->
-      <div class="organe-bloc">
+      <div class="organe-bloc" data-organe="aga">
         <div class="organe-entete" onclick="toggleOrgane('aga')">
           <div class="organe-gauche">
             <div class="organe-sigle" style="background:#dcfce7;color:#166534">AGA</div>
@@ -451,14 +451,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <span class="organe-fleche" id="fleche-aga">▼</span>
           </div>
         </div>
-        <div class="organe-corps" id="corps-aga">
+        <div class="organe-corps" id="corps-aga" data-organe="aga">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
             <button class="btn-annee actif">2025–2026</button>
             <button class="btn-annee">2024–2025</button>
           </div>
           <div class="rencontres-liste">
-            <div class="rencontre-item">
+            <div class="rencontre-item" data-date="2026-06-02">
               <div class="rencontre-entete" onclick="toggleRencontre('aga-1')">
                 <div class="rencontre-gauche">
                   <span class="rencontre-date-badge" style="background:#dcfce7;color:#166534">2 juin 2026</span>
@@ -518,7 +518,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
 
       <!-- ASA -->
-      <div class="organe-bloc">
+      <div class="organe-bloc" data-organe="asa">
         <div class="organe-entete" onclick="toggleOrgane('asa')">
           <div class="organe-gauche">
             <div class="organe-sigle" style="background:#fef9c3;color:#854d0e">ASA</div>
@@ -532,14 +532,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <span class="organe-fleche" id="fleche-asa">▼</span>
           </div>
         </div>
-        <div class="organe-corps" id="corps-asa">
+        <div class="organe-corps" id="corps-asa" data-organe="asa">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
             <button class="btn-annee actif">2025–2026</button>
             <button class="btn-annee">2024–2025</button>
           </div>
           <div class="rencontres-liste">
-            <div class="rencontre-item">
+            <div class="rencontre-item" data-date="2026-01-15">
               <div class="rencontre-entete" onclick="toggleRencontre('asa-1')">
                 <div class="rencontre-gauche">
                   <span class="rencontre-date-badge" style="background:#fef9c3;color:#854d0e">15 jan. 2026</span>
@@ -605,7 +605,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
 
       <!-- CG -->
-      <div class="organe-bloc">
+      <div class="organe-bloc" data-organe="cg">
         <div class="organe-entete" onclick="toggleOrgane('cg')">
           <div class="organe-gauche">
             <div class="organe-sigle" style="background:#f3e8ff;color:#6b21a8">CG</div>
@@ -619,7 +619,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <span class="organe-fleche" id="fleche-cg">▼</span>
           </div>
         </div>
-        <div class="organe-corps" id="corps-cg">
+        <div class="organe-corps" id="corps-cg" data-organe="cg">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
             <button class="btn-annee actif">2025–2026</button>
@@ -632,7 +632,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
 
       <!-- CP -->
-      <div class="organe-bloc">
+      <div class="organe-bloc" data-organe="cp">
         <div class="organe-entete" onclick="toggleOrgane('cp')">
           <div class="organe-gauche">
             <div class="organe-sigle" style="background:#ffe4e6;color:#9f1239">CP</div>
@@ -646,7 +646,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <span class="organe-fleche" id="fleche-cp">▼</span>
           </div>
         </div>
-        <div class="organe-corps" id="corps-cp">
+        <div class="organe-corps" id="corps-cp" data-organe="cp">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
             <button class="btn-annee actif">2025–2026</button>
@@ -659,7 +659,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
 
       <!-- CProg -->
-      <div class="organe-bloc">
+      <div class="organe-bloc" data-organe="cprog">
         <div class="organe-entete" onclick="toggleOrgane('cprog')">
           <div class="organe-gauche">
             <div class="organe-sigle" style="background:#e0f2fe;color:#0c4a6e">CProg</div>
@@ -673,7 +673,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <span class="organe-fleche" id="fleche-cprog">▼</span>
           </div>
         </div>
-        <div class="organe-corps" id="corps-cprog">
+        <div class="organe-corps" id="corps-cprog" data-organe="cprog">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
             <button class="btn-annee actif">2025–2026</button>
@@ -722,27 +722,81 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <script>
-// ===== ORGANES =====
+const ORGANES_INFO = {
+  bd:    {sigle:'BD',    nom:'Bureau de direction'},
+  aga:   {sigle:'AGA',  nom:'Assemblée générale annuelle'},
+  asa:   {sigle:'ASA',  nom:'Assemblée semi-annuelle'},
+  cg:    {sigle:'CG',   nom:'Comité de gouvernance'},
+  cp:    {sigle:'CP',   nom:'Comité de promotion'},
+  cprog: {sigle:'CProg',nom:'Comité de programmation'}
+};
+
+// ===== TOGGLE ORGANE =====
 function toggleOrgane(id) {
   const corps = document.getElementById('corps-' + id);
   const fleche = document.getElementById('fleche-' + id);
+  if (!corps || !fleche) return;
   const ouvert = corps.classList.contains('ouvert');
   corps.classList.toggle('ouvert', !ouvert);
   fleche.classList.toggle('ouvert', !ouvert);
 }
 
-// ===== RENCONTRES =====
+// ===== TOGGLE RENCONTRE =====
 function toggleRencontre(id) {
   const corps = document.getElementById('corps-' + id);
   const fleche = document.getElementById('fleche-' + id);
+  if (!corps || !fleche) return;
   const ouvert = corps.classList.contains('ouvert');
   corps.classList.toggle('ouvert', !ouvert);
   fleche.classList.toggle('ouvert', !ouvert);
 }
 
-// ===== UPLOAD simulé =====
+// ===== FILTRES =====
+function appliquerFiltres() {
+  const annee = document.getElementById('filtre-annee').value;
+  const debut = document.getElementById('date-debut').value;
+  const fin   = document.getElementById('date-fin').value;
+
+  document.querySelectorAll('.rencontre-item[data-date]').forEach(item => {
+    const date = item.dataset.date;
+    let visible = true;
+    if (debut && date < debut) visible = false;
+    if (fin   && date > fin)   visible = false;
+    if (annee) {
+      const y = parseInt(annee);
+      const anneeDebut = (y - 1) + '-09-01';
+      const anneeFin   = y + '-08-31';
+      if (date < anneeDebut || date > anneeFin) visible = false;
+    }
+    item.style.display = visible ? '' : 'none';
+  });
+
+  // Mettre à jour les compteurs
+  document.querySelectorAll('.organe-bloc').forEach(bloc => {
+    const id = bloc.dataset.organe;
+    const total = bloc.querySelectorAll('.rencontre-item[data-date]');
+    const visibles = [...total].filter(i => i.style.display !== 'none').length;
+    const count = document.getElementById('count-' + id);
+    if (count) count.textContent = visibles + ' rencontre' + (visibles !== 1 ? 's' : '');
+  });
+}
+
+function resetFiltres() {
+  document.getElementById('filtre-annee').value = '2026';
+  document.getElementById('date-debut').value   = '2025-09-01';
+  document.getElementById('date-fin').value     = '2026-08-31';
+  document.querySelectorAll('.rencontre-item').forEach(i => i.style.display = '');
+  document.querySelectorAll('.organe-bloc').forEach(bloc => {
+    const id = bloc.dataset.organe;
+    const n = bloc.querySelectorAll('.rencontre-item[data-date]').length;
+    const count = document.getElementById('count-' + id);
+    if (count) count.textContent = n + ' rencontre' + (n !== 1 ? 's' : '');
+  });
+}
+
+// ===== UPLOAD =====
 function simulerUpload(nom) {
-  alert('Dans la vraie version : téléversement de "' + nom + '" vers SharePoint REFC.');
+  alert('Téléversement de "' + nom + '" — dans la vraie version ce document sera envoyé vers SharePoint REFC.');
 }
 
 // ===== SUPPRIMER =====
@@ -763,28 +817,20 @@ function fermerModal(e) {
     document.getElementById('modal-overlay').classList.remove('ouvert');
 }
 function confirmerAjout() {
-  const date = document.getElementById('modal-date').value;
+  const date   = document.getElementById('modal-date').value;
   const organe = document.getElementById('modal-organe').value;
+  const lieu   = document.getElementById('modal-lieu').value;
+  const notes  = document.getElementById('modal-notes').value;
   if (!date) { alert('Veuillez choisir une date.'); return; }
-  alert('Dans la vraie version : rencontre ajoutée dans SharePoint.\n' + organe + ' — ' + date);
+  const d = new Date(date + 'T12:00:00');
+  const label = d.toLocaleDateString('fr-CA', {year:'numeric',month:'long',day:'numeric'});
+  alert('Rencontre ajoutée (démo) :
+' + organe + ' · ' + label + '
+' + lieu + (notes ? '
+Note : ' + notes : '') + '
+
+Dans la vraie version, cette entrée sera créée dans SharePoint.');
   document.getElementById('modal-overlay').classList.remove('ouvert');
-}
-
-// ===== FILTRES =====
-function appliquerFiltres() {
-  const annee = document.getElementById('filtre-annee').value;
-  const debut = document.getElementById('date-debut').value;
-  const fin = document.getElementById('date-fin').value;
-  alert('Dans la vraie version : filtrage par année=' + (annee||'toutes') + ', période ' + debut + ' → ' + fin);
-}
-function resetFiltres() {
-  document.getElementById('filtre-annee').value = '2026';
-  document.getElementById('date-debut').value = '2025-09-01';
-  document.getElementById('date-fin').value = '2026-08-31';
-}
-
-// ===== MINI CALENDRIER =====
-
 }
 </script>
 </body>
