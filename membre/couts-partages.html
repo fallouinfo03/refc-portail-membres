@@ -258,6 +258,69 @@ tr:hover td{background:#f8fafc}
     </div>
   </div>
 
+
+  <!-- ===== SECTION REFACTURATIONS ===== -->
+  <div class="section-titre" style="margin-top:32px;padding-top:20px;border-top:2px solid #e2e8f0">
+    <span>Mes refacturations (35 %)</span>
+  </div>
+
+  <div class="note-info">
+    La refacturation correspond à votre part de 35 % sur les services à coûts partagés utilisés.
+    Le document est généré par le comptable de la REFC via QuickBooks et mis à disposition ici dès qu'il est disponible.
+  </div>
+
+  <div class="tableau-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:110px">N° refact.</th>
+          <th>Service facturé</th>
+          <th style="width:100px">Montant HT</th>
+          <th style="width:110px">Ma part 35 %</th>
+          <th style="width:120px">Statut</th>
+          <th style="width:100px">Échéance</th>
+          <th style="width:100px">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2026-001</td>
+          <td><strong>Magazine Alpha</strong><div style="font-size:11px;color:#64748b">Publicité — FAC-2026-004</div></td>
+          <td style="font-family:monospace">1 500,00 $</td>
+          <td style="font-family:monospace;font-weight:700;color:#854d0e">525,00 $</td>
+          <td><span class="badge badge-orange">À payer</span></td>
+          <td style="font-size:12px">30 sept. 2026</td>
+          <td><button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2026-001','Magazine Alpha','1 500,00 $','525,00 $','À payer')">Voir</button></td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2025-012</td>
+          <td><strong>Agence Oméga</strong><div style="font-size:11px;color:#64748b">Agent de presse — FAC-2025-008</div></td>
+          <td style="font-family:monospace">1 800,00 $</td>
+          <td style="font-family:monospace;font-weight:700;color:#166534">630,00 $</td>
+          <td><span class="badge badge-vert">Payée</span></td>
+          <td style="font-size:12px;color:#64748b">5 mai 2025</td>
+          <td><button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2025-012','Agence Oméga','1 800,00 $','630,00 $','Payée')">Voir</button></td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2025-008</td>
+          <td><strong>Magazine Alpha</strong><div style="font-size:11px;color:#64748b">Publicité — FAC-2025-003</div></td>
+          <td style="font-family:monospace">900,00 $</td>
+          <td style="font-family:monospace;font-weight:700;color:#166534">315,00 $</td>
+          <td><span class="badge badge-vert">Payée</span></td>
+          <td style="font-size:12px;color:#64748b">21 avr. 2025</td>
+          <td><button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2025-008','Magazine Alpha','900,00 $','315,00 $','Payée')">Voir</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <span>Page 1 sur 1 — 3 refacturations</span>
+      <div class="pagination-btns">
+        <button class="btn btn-sm" onclick="msg('Page précédente.')">Précédent</button>
+        <button class="btn btn-sm" onclick="msg('Page suivante.')">Suivant</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- Modal soumettre facture -->
@@ -416,6 +479,47 @@ function ouvrirDetail(no, fourn, montant, type, statut) {
   document.getElementById('detail-trace').innerHTML = html;
   ouvrirModal('modal-detail');
 }
+
+function ouvrirDetailRefact(no, service, montantHT, part, statut) {
+  document.getElementById('refact-detail-titre').textContent = 'Refacturation ' + no;
+  document.getElementById('refact-pdf-nom').textContent = no + '_PriseDeParole.pdf';
+  document.getElementById('refact-service').textContent    = service;
+  document.getElementById('refact-montant-ht').textContent = montantHT;
+  document.getElementById('refact-part').textContent       = part;
+  const badgeMap = {'À payer':'badge-orange','Payée':'badge-vert','En retard':'badge-rouge'};
+  document.getElementById('refact-statut-badge').innerHTML = '<span class="badge ' + (badgeMap[statut]||'badge-gris') + '">' + statut + '</span>';
+  let actions = '';
+  if (statut === 'À payer') {
+    actions = '<button class="btn btn-primaire" onclick="msg('Dans la vraie version : vous confirmez le paiement effectué. L\'équipe REFC sera notifiée et mettra le statut à jour.')">Confirmer mon paiement</button><button class="btn" onclick="window.location.href='assistance.html'">Contacter la REFC</button>';
+  } else {
+    actions = '<button class="btn" onclick="msg('Dans la vraie version : téléchargement du reçu de paiement.')">↓ Télécharger le reçu</button>';
+  }
+  document.getElementById('refact-actions-zone').innerHTML = actions;
+  ouvrirModal('modal-detail-refact');
+}
 </script>
+
+<!-- Modal détail refacturation membre -->
+<div class="modal-bg" id="modal-detail-refact">
+  <div class="modal" style="width:560px">
+    <div class="modal-titre">
+      <span class="modal-titre-txt" id="refact-detail-titre">Détail refacturation</span>
+      <button class="btn-fermer" onclick="fermerModal('modal-detail-refact')">✕</button>
+    </div>
+    <div class="pdf-viewer">
+      <div class="pdf-viewer-nom" id="refact-pdf-nom"></div>
+      <div class="pdf-viewer-sous">Refacturation générée par QuickBooks — archivée dans SharePoint REFC</div>
+      <button class="pdf-viewer-btn" onclick="msg('Dans la vraie version : le PDF de refacturation s'ouvre directement.')">Télécharger la refacturation PDF</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:13px">
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">SERVICE FACTURÉ</span><span id="refact-service" style="font-weight:600"></span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">MONTANT HT</span><span id="refact-montant-ht" style="font-family:monospace;font-weight:600"></span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">VOTRE PART (35 %)</span><span id="refact-part" style="font-family:monospace;font-weight:700;color:#854d0e"></span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">STATUT</span><span id="refact-statut-badge"></span></div>
+    </div>
+    <div class="note-info">Pour toute question sur cette refacturation, contactez l'équipe REFC via l'onglet Assistance.</div>
+    <div id="refact-actions-zone" style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"></div>
+  </div>
+</div>
 </body>
 </html>
