@@ -117,7 +117,7 @@ refc-portail-membres/
 
 ## Contexte
 
-Ce prototype s'inscrit dans une démarche de digitalisation des processus internes de la REFC, organisme qui regroupe 14 maisons d'édition franco-canadiennes. Les besoins identifiés incluent :
+Ce prototype s'inscrit dans une démarche de digitalisation des processus internes de la REFC, organisme qui regroupe 15 maisons d'édition franco-canadiennes. Les besoins identifiés incluent :
 
 - La gestion des services à coûts partagés entre la REFC et ses membres
 - La coordination des participations aux salons, congrès et festivals du livre
@@ -125,12 +125,13 @@ Ce prototype s'inscrit dans une démarche de digitalisation des processus intern
 - L'automatisation des processus répétitifs avec Microsoft Power Automate
 - La centralisation des données dans Microsoft SharePoint
 
-Une fois ce prototype validé par l'assemblée des membres, un cahier des charges sera soumis à un prestataire de développement pour la construction de la version finale avec backend, authentification Microsoft 365 et connexion aux outils de la REFC.
+Une fois ce prototype validé par l'assemblée des membres, un cahier des charges sera rédigé à partir de la version approuvée et soumis à un prestataire de développement pour la construction de la version finale avec backend, authentification Microsoft 365 et connexion aux outils de la REFC.
 
 ---
 
 ## Développé par
 
-**Serigne Fallou Mbacke** — Stagiaire en administration, promotion et communication  
+**Serigne Fallou Mbacke** — Data scientist junior;
+Stagiaire en administration, promotion et communication  
 Regroupement des éditeurs franco-canadiens (REFC), Ottawa  
 Stage 2025–2026
