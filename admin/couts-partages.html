@@ -400,9 +400,8 @@ SharePoint mis à jour automatiquement.')">Encaisser</button>
           <td><span class="badge badge-rouge">En retard — 60j</span></td>
           <td style="font-size:12px;color:#7f1d1d;font-weight:600">15 juil. 2026</td>
           <td><div class="actions-btn">
-            <button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2026-002','Bouton d'or d'Acadie','2 100,00 $','735,00 $','En retard')">Voir</button>
-            <button class="btn btn-orange btn-sm" onclick="msg('Rappel envoyé à Bouton d'or d'Acadie par courriel automatiquement.
-Copie enregistrée dans SharePoint.')">Rappel</button>
+            <button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2026-002','Bouton d&#39;or d&#39;Acadie','2 100,00 $','735,00 $','En retard')">Voir</button>
+            <button class="btn btn-orange btn-sm" onclick="msg('Rappel envoyé à Bouton d&#39;or d&#39;Acadie par courriel automatiquement. Copie enregistrée dans SharePoint.')">Rappel</button>
             <button class="btn btn-vert btn-sm" onclick="msg('Refacturation REF-2026-002 marquée comme encaissée.')">Encaisser</button>
           </div></td>
         </tr>
@@ -626,34 +625,61 @@ function ouvrirDetail(no, fourn, maison, montant, type, statut) {
     'Refusée':               'badge-rouge',
     'Envoyée à Dext':        'badge-vert',
   };
-  document.getElementById('detail-statut-badge').innerHTML = '<span class="badge ' + (badgeMap[statut]||'badge-gris') + '">' + statut + '</span>';
+  document.getElementById('detail-statut-badge').innerHTML =
+    '<span class="badge ' + (badgeMap[statut]||'badge-gris') + '">' + statut + '</span>';
 
-  // Traçabilité
   const trace = TRACES[no] || [];
-  let html = '<div class="tracabilite-titre">Traçabilité complète</div>';
-  trace.forEach(t => {
-    html += '<div class="trace-ligne">';
-    html += '<div class="trace-dot trace-dot-' + t.dot + '"></div>';
-    html += '<div class="trace-info">';
-    html += '<div class="trace-action">' + t.action + '</div>';
-    html += '<div class="trace-qui">' + t.qui + '</div>';
-    if (t.just) html += '<div class="trace-just">Motif : ' + t.just + '</div>';
-    if (t.sig)  html += '<div class="signature-bloc"><div class="signature-titre">Signature électronique</div><div class="signature-val">' + t.sig.nom + '</div><div class="signature-meta">Apposée le ' + t.sig.date + ' via le portail REFC</div></div>';
-    if (t.sharepoint) html += '<div class="trace-sharepoint">SharePoint : ' + t.sharepoint + '</div>';
-    html += '</div></div>';
+  let traceHtml = '<div class="tracabilite-titre">Tracabilite complete</div>';
+  trace.forEach(function(t) {
+    traceHtml += '<div class="trace-ligne">';
+    traceHtml += '<div class="trace-dot trace-dot-' + t.dot + '"></div>';
+    traceHtml += '<div class="trace-info">';
+    traceHtml += '<div class="trace-action">' + t.action + '</div>';
+    traceHtml += '<div class="trace-qui">' + t.qui + '</div>';
+    if (t.just) traceHtml += '<div class="trace-just">Motif : ' + t.just + '</div>';
+    if (t.sig)  traceHtml += '<div class="signature-bloc"><div class="signature-titre">Signature electronique</div><div class="signature-val">' + t.sig.nom + '</div><div class="signature-meta">Apposee le ' + t.sig.date + ' via le portail REFC</div></div>';
+    if (t.sharepoint) traceHtml += '<div class="trace-sharepoint">SharePoint : ' + t.sharepoint + '</div>';
+    traceHtml += '</div></div>';
   });
-  document.getElementById('detail-trace').innerHTML = html;
+  document.getElementById('detail-trace').innerHTML = traceHtml;
 
-  // Actions selon statut
-  let actions = '';
+  // Stocker le no courant pour les boutons d'action
+  document.getElementById('detail-actions-zone').dataset.no = no;
+  document.getElementById('detail-actions-zone').dataset.statut = statut;
+
+  // Boutons d'action selon statut
+  const zone = document.getElementById('detail-actions-zone');
+  zone.innerHTML = '';
+
   if (statut === 'En attente Noureddine') {
-    actions = '<button class="btn btn-vert" onclick="approuverNoureddine(\'' + no + '\');fermerModal(\'modal-detail\')">Approuver (Noureddine)</button><button class="btn btn-rouge" onclick="fermerModal(\'modal-detail\');ouvrirRefus(\'' + no + '\',\'Noureddine\')">Refuser</button>';
+    const b1 = document.createElement('button');
+    b1.className = 'btn btn-vert';
+    b1.textContent = 'Approuver (Noureddine)';
+    b1.onclick = function() { approuverNoureddine(no); fermerModal('modal-detail'); };
+    const b2 = document.createElement('button');
+    b2.className = 'btn btn-rouge';
+    b2.textContent = 'Refuser';
+    b2.onclick = function() { fermerModal('modal-detail'); ouvrirRefus(no, 'Noureddine'); };
+    zone.appendChild(b1);
+    zone.appendChild(b2);
   } else if (statut === 'En attente Piedad') {
-    actions = '<button class="btn btn-vert" onclick="approuverPiedad(\'' + no + '\');fermerModal(\'modal-detail\')">Approuver (Piedad)</button><button class="btn btn-rouge" onclick="fermerModal(\'modal-detail\');ouvrirRefus(\'' + no + '\',\'Piedad\')">Refuser</button>';
+    const b1 = document.createElement('button');
+    b1.className = 'btn btn-vert';
+    b1.textContent = 'Approuver (Piedad)';
+    b1.onclick = function() { approuverPiedad(no); fermerModal('modal-detail'); };
+    const b2 = document.createElement('button');
+    b2.className = 'btn btn-rouge';
+    b2.textContent = 'Refuser';
+    b2.onclick = function() { fermerModal('modal-detail'); ouvrirRefus(no, 'Piedad'); };
+    zone.appendChild(b1);
+    zone.appendChild(b2);
   } else if (statut === 'Approuvée') {
-    actions = '<button class="btn btn-primaire" onclick="envoyerDext(\'' + no + '\')">Envoyer à Dext</button>';
+    const b1 = document.createElement('button');
+    b1.className = 'btn btn-primaire';
+    b1.textContent = 'Envoyer a Dext';
+    b1.onclick = function() { envoyerDext(no); };
+    zone.appendChild(b1);
   }
-  document.getElementById('detail-actions-zone').innerHTML = actions;
 
   ouvrirModal('modal-detail');
 }
@@ -692,17 +718,29 @@ function ouvrirDetailRefact(no, maison, montantHT, part, statut) {
   document.getElementById('refact-maison').textContent    = maison;
   document.getElementById('refact-montant-ht').textContent = montantHT;
   document.getElementById('refact-part').textContent      = part;
-  const badgeMap = {'À venir':'badge-bleu','En attente':'badge-orange','En retard':'badge-rouge','Encaissée':'badge-vert'};
+  const badgeMap = {'A venir':'badge-bleu','En attente':'badge-orange','En retard':'badge-rouge','Encaissee':'badge-vert','Encaissée':'badge-vert'};
   const statLabel = statut.startsWith('En retard') ? 'En retard' : statut;
-  document.getElementById('refact-statut-badge').innerHTML = '<span class="badge ' + (badgeMap[statLabel]||'badge-gris') + '">' + statut + '</span>';
-  let actions = '';
+  document.getElementById('refact-statut-badge').innerHTML =
+    '<span class="badge ' + (badgeMap[statLabel]||'badge-gris') + '">' + statut + '</span>';
+
+  const zone = document.getElementById('refact-actions-zone');
+  zone.innerHTML = '';
+
   if (statut !== 'Encaissée') {
-    actions += '<button class="btn btn-vert" onclick="msg('Refacturation ' + no + ' marquée comme encaissée.\nSharePoint mis à jour.')">Marquer comme encaissée</button>';
+    const b1 = document.createElement('button');
+    b1.className = 'btn btn-vert';
+    b1.textContent = 'Marquer comme encaissee';
+    b1.onclick = function() { msg('Refacturation ' + no + ' encaissee. SharePoint mis a jour.'); };
+    zone.appendChild(b1);
+
     if (statut.includes('retard') || statut === 'En attente') {
-      actions += '<button class="btn btn-orange" onclick="msg('Rappel envoyé à ' + maison + ' par courriel.')">Envoyer un rappel</button>';
+      const b2 = document.createElement('button');
+      b2.className = 'btn btn-orange';
+      b2.textContent = 'Envoyer un rappel';
+      b2.onclick = function() { msg('Rappel envoye a ' + maison + ' par courriel automatiquement.'); };
+      zone.appendChild(b2);
     }
   }
-  document.getElementById('refact-actions-zone').innerHTML = actions;
   ouvrirModal('modal-detail-refact');
 }
 </script>
@@ -717,7 +755,7 @@ function ouvrirDetailRefact(no, maison, montantHT, part, statut) {
     <div class="pdf-viewer">
       <div class="pdf-viewer-nom" id="refact-pdf-nom">REF-2026-001_PriseDeParole.pdf</div>
       <div class="pdf-viewer-sous">Refacturation générée par QuickBooks — archivée dans SharePoint REFC / Refacturations / 2025-2026</div>
-      <button class="pdf-viewer-btn" onclick="msg('Dans la vraie version : la refacturation PDF générée par QuickBooks s'ouvre directement.')">Visualiser la refacturation PDF</button>
+      <button class="pdf-viewer-btn" onclick="msg('Dans la vraie version : la refacturation PDF generee par QuickBooks souvre directement.')">Visualiser la refacturation PDF</button>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:13px">
       <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">MAISON MEMBRE</span><span id="refact-maison" style="font-weight:600"></span></div>
