@@ -72,17 +72,17 @@ refc-portail-membres/
 
 | Module | Admin | Membre | Statut |
 |--------|-------|--------|--------|
-| Tableau de bord | ✅ | ✅ | Terminé |
-| Coûts partagés | ✅ | ✅ | Terminé |
-| Salons du livre | ✅ | ✅ | Terminé |
-| Événements littéraires | ✅ | ✅ | Terminé |
-| Bulletins membres | ✅ | ✅ | Terminé |
-| Rapports de ventes | ✅ | ✅ | Terminé |
-| Calendrier & Gouvernance | ✅ | ✅ | Terminé |
-| Réalisations et performances | ✅ | — | Terminé |
-| Prix Champlain | ✅ | — | Terminé |
+| Tableau de bord | ✅ | ✅ | 1ère partie terminée |
+| Coûts partagés | ✅ | ✅ | 1ère partie terminée |
+| Salons du livre | ✅ | ✅ | 1ère partie terminée |
+| Événements littéraires | ✅ | ✅ | 1ère partie terminée |
+| Bulletins membres | ✅ | ✅ | 1ère partie terminée |
+| Rapports de ventes | ✅ | ✅ | 1ère partie terminée |
+| Calendrier & Gouvernance | ✅ | ✅ | 1ère partie terminée |
+| Réalisations et performances | ✅ | — | 1ère partie terminée |
+| Prix Champlain | ✅ | — | 1ère partie terminée |
 | Ingram | ⏳ | ⏳ | À compléter |
-| Assistance | ✅ | ✅ | Terminé |
+| Assistance | ✅ | ✅ | 1ère partie terminée |
 
 ---
 
