@@ -215,7 +215,7 @@ tr:hover td{background:#f8fafc}
           <td style="font-family:monospace;color:#64748b">138,43 $</td>
           <td><span class="badge badge-violet">En cours d'examen</span></td>
           <td style="font-size:12px;color:#64748b">13 sept. 2026</td>
-          <td><button class="btn btn-sm" onclick="ouvrirDetail('FAC-2026-006','Agence Oméga','395,50 $','Agent de presse','En cours d\'examen')">Voir</button></td>
+          <td><button class="btn btn-sm" onclick="ouvrirDetail('FAC-2026-006','Agence Oméga','395,50 $','Agent de presse','En cours d&#39;examen')">Voir</button></td>
         </tr>
         <tr data-statut="Approuvée">
           <td style="font-family:monospace;font-size:12px">FAC-2026-004</td>
@@ -364,14 +364,14 @@ tr:hover td{background:#f8fafc}
     </div>
     <div class="form-row">
       <label class="form-label">Facture PDF *</label>
-      <div class="upload-zone" onclick="msg('Dans la vraie version : le PDF est uploadé dans SharePoint REFC et l\'équipe sera notifiée automatiquement.')">
+      <div class="upload-zone" onclick="msg('Dans la vraie version : le PDF est uploade dans SharePoint REFC et notifie automatiquement.')">
         <div class="upload-zone-titre">Cliquer pour uploader le PDF</div>
         <div class="upload-zone-sous">PDF uniquement — max 10 Mo</div>
       </div>
     </div>
     <div class="modal-actions">
       <button class="btn" onclick="fermerModal('modal-ajout')">Annuler</button>
-      <button class="btn btn-primaire" onclick="msg('Facture soumise — l\'équipe REFC a été notifiée et examinera votre facture sous 48h.');fermerModal('modal-ajout')">Soumettre</button>
+      <button class="btn btn-primaire" onclick="msg('Facture soumise. Equipe REFC notifiee - examen sous 48h.');fermerModal('modal-ajout')">Soumettre</button>
     </div>
   </div>
 </div>
@@ -386,7 +386,7 @@ tr:hover td{background:#f8fafc}
     <div class="pdf-viewer">
       <div class="pdf-viewer-nom" id="detail-pdf-nom"></div>
       <div class="pdf-viewer-sous">Document archivé dans SharePoint REFC</div>
-      <button class="pdf-viewer-btn" onclick="msg('Dans la vraie version : le PDF s\'ouvre directement.')">Visualiser la facture PDF</button>
+      <button class="pdf-viewer-btn" onclick="msg('Dans la vraie version : le PDF souvre directement.')">Visualiser la facture PDF</button>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:13px">
       <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">FOURNISSEUR</span><span id="detail-fourn" style="font-weight:600"></span></div>
@@ -468,15 +468,23 @@ function ouvrirDetail(no, fourn, montant, type, statut) {
   document.getElementById('detail-fourn').textContent   = fourn;
   document.getElementById('detail-montant').textContent = montant;
   document.getElementById('detail-type').textContent    = type;
-  const badgeMap = {'En cours d\'examen':'badge-violet','Approuvée':'badge-vert','Réglée':'badge-vert','Refusée':'badge-rouge'};
-  document.getElementById('detail-statut-badge').innerHTML = '<span class="badge ' + (badgeMap[statut]||'badge-gris') + '">' + statut + '</span>';
+  const badgeMap = {
+    'En cours d'examen':'badge-violet',
+    'Approuvee':'badge-vert','Approuvée':'badge-vert',
+    'Reglee':'badge-vert','Réglée':'badge-vert',
+    'Refusee':'badge-rouge','Refusée':'badge-rouge'
+  };
+  document.getElementById('detail-statut-badge').innerHTML =
+    '<span class="badge ' + (badgeMap[statut]||'badge-gris') + '">' + statut + '</span>';
 
   const trace = TRACES_MEMBRE[no] || [];
-  let html = '<div class="tracabilite-titre">Suivi de votre facture</div>';
-  trace.forEach(t => {
-    html += '<div class="trace-ligne"><div class="trace-dot trace-dot-' + t.dot + '"></div><div class="trace-info"><div class="trace-action">' + t.action + '</div><div class="trace-qui">' + t.qui + '</div></div></div>';
+  let traceHtml = '<div class="tracabilite-titre">Suivi de votre facture</div>';
+  trace.forEach(function(t) {
+    traceHtml += '<div class="trace-ligne"><div class="trace-dot trace-dot-' + t.dot + '"></div>';
+    traceHtml += '<div class="trace-info"><div class="trace-action">' + t.action + '</div>';
+    traceHtml += '<div class="trace-qui">' + t.qui + '</div></div></div>';
   });
-  document.getElementById('detail-trace').innerHTML = html;
+  document.getElementById('detail-trace').innerHTML = traceHtml;
   ouvrirModal('modal-detail');
 }
 
@@ -486,15 +494,31 @@ function ouvrirDetailRefact(no, service, montantHT, part, statut) {
   document.getElementById('refact-service').textContent    = service;
   document.getElementById('refact-montant-ht').textContent = montantHT;
   document.getElementById('refact-part').textContent       = part;
-  const badgeMap = {'À payer':'badge-orange','Payée':'badge-vert','En retard':'badge-rouge'};
-  document.getElementById('refact-statut-badge').innerHTML = '<span class="badge ' + (badgeMap[statut]||'badge-gris') + '">' + statut + '</span>';
-  let actions = '';
-  if (statut === 'À payer') {
-    actions = '<button class="btn btn-primaire" onclick="msg('Dans la vraie version : vous confirmez le paiement effectué. L\'équipe REFC sera notifiée et mettra le statut à jour.')">Confirmer mon paiement</button><button class="btn" onclick="window.location.href='assistance.html'">Contacter la REFC</button>';
+  const badgeMap = {'A payer':'badge-orange','Payee':'badge-vert','Payée':'badge-vert','En retard':'badge-rouge'};
+  document.getElementById('refact-statut-badge').innerHTML =
+    '<span class="badge ' + (badgeMap[statut]||'badge-gris') + '">' + statut + '</span>';
+
+  const zone = document.getElementById('refact-actions-zone');
+  zone.innerHTML = '';
+
+  if (statut === 'A payer' || statut === 'À payer') {
+    const b1 = document.createElement('button');
+    b1.className = 'btn btn-primaire';
+    b1.textContent = 'Confirmer mon paiement';
+    b1.onclick = function() { msg('Dans la vraie version : vous confirmez le paiement. La REFC sera notifiee et mettra le statut a jour.'); };
+    const b2 = document.createElement('button');
+    b2.className = 'btn';
+    b2.textContent = 'Contacter la REFC';
+    b2.onclick = function() { window.location.href = 'assistance.html'; };
+    zone.appendChild(b1);
+    zone.appendChild(b2);
   } else {
-    actions = '<button class="btn" onclick="msg('Dans la vraie version : téléchargement du reçu de paiement.')">↓ Télécharger le reçu</button>';
+    const b1 = document.createElement('button');
+    b1.className = 'btn';
+    b1.textContent = 'Telecharger le recu';
+    b1.onclick = function() { msg('Dans la vraie version : telechargement du recu de paiement PDF.'); };
+    zone.appendChild(b1);
   }
-  document.getElementById('refact-actions-zone').innerHTML = actions;
   ouvrirModal('modal-detail-refact');
 }
 </script>
@@ -509,7 +533,7 @@ function ouvrirDetailRefact(no, service, montantHT, part, statut) {
     <div class="pdf-viewer">
       <div class="pdf-viewer-nom" id="refact-pdf-nom"></div>
       <div class="pdf-viewer-sous">Refacturation générée par QuickBooks — archivée dans SharePoint REFC</div>
-      <button class="pdf-viewer-btn" onclick="msg('Dans la vraie version : le PDF de refacturation s'ouvre directement.')">Télécharger la refacturation PDF</button>
+      <button class="pdf-viewer-btn" onclick="msg('Dans la vraie version : le PDF de refacturation souvre directement.')">Télécharger la refacturation PDF</button>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:13px">
       <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">SERVICE FACTURÉ</span><span id="refact-service" style="font-weight:600"></span></div>
