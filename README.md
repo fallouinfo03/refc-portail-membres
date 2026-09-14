@@ -112,7 +112,6 @@ refc-portail-membres/
 - HTML5 / CSS3 / JavaScript vanilla — aucun framework
 - Déployé sur GitHub Pages (HTTPS automatique)
 - Aucune base de données — données fictives intégrées dans le code
-- Compatible avec tous les navigateurs modernes
 
 ---
 
