@@ -350,6 +350,112 @@ tr.masque{display:none}
     </div>
   </div>
 
+
+  <!-- ===== SECTION REFACTURATIONS ===== -->
+  <div class="section-titre" style="margin-top:32px;padding-top:20px;border-top:2px solid #e2e8f0">
+    <span>Refacturations 35 % aux maisons membres</span>
+    <button class="btn btn-primaire btn-sm" onclick="ouvrirModal('modal-refact')">+ Émettre une refacturation</button>
+  </div>
+
+  <div class="alerte alerte-rouge" style="margin-bottom:10px">
+    <span class="alerte-icone">!</span>
+    <div>2 refacturations en retard de paiement — <strong>Bouton d'or d'Acadie</strong> (60 jours) et <strong>La Nouvelle Plume</strong> (45 jours).</div>
+  </div>
+
+  <div class="tableau-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:110px">N° refact.</th>
+          <th>Maison membre</th>
+          <th>Facture liée</th>
+          <th style="width:90px">Montant HT</th>
+          <th style="width:110px">Part 35 % due</th>
+          <th style="width:120px">Statut</th>
+          <th style="width:100px">Échéance</th>
+          <th style="width:120px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2026-001</td>
+          <td><strong>Prise de Parole</strong></td>
+          <td style="font-size:12px;color:#64748b">FAC-2026-004 — Magazine Alpha</td>
+          <td style="font-family:monospace">1 500,00 $</td>
+          <td style="font-family:monospace;font-weight:600;color:#854d0e">525,00 $</td>
+          <td><span class="badge badge-bleu">À venir</span></td>
+          <td style="font-size:12px">30 sept. 2026</td>
+          <td><div class="actions-btn">
+            <button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2026-001','Prise de Parole','1 500,00 $','525,00 $','À venir')">Voir</button>
+            <button class="btn btn-vert btn-sm" onclick="msg('Refacturation REF-2026-001 marquée comme encaissée.
+SharePoint mis à jour automatiquement.')">Encaisser</button>
+          </div></td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2026-002</td>
+          <td><strong>Bouton d'or d'Acadie</strong></td>
+          <td style="font-size:12px;color:#64748b">FAC-2026-003 — Studio Graph</td>
+          <td style="font-family:monospace">2 100,00 $</td>
+          <td style="font-family:monospace;font-weight:600;color:#7f1d1d">735,00 $</td>
+          <td><span class="badge badge-rouge">En retard — 60j</span></td>
+          <td style="font-size:12px;color:#7f1d1d;font-weight:600">15 juil. 2026</td>
+          <td><div class="actions-btn">
+            <button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2026-002','Bouton d'or d'Acadie','2 100,00 $','735,00 $','En retard')">Voir</button>
+            <button class="btn btn-orange btn-sm" onclick="msg('Rappel envoyé à Bouton d'or d'Acadie par courriel automatiquement.
+Copie enregistrée dans SharePoint.')">Rappel</button>
+            <button class="btn btn-vert btn-sm" onclick="msg('Refacturation REF-2026-002 marquée comme encaissée.')">Encaisser</button>
+          </div></td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2026-003</td>
+          <td><strong>La Nouvelle Plume</strong></td>
+          <td style="font-size:12px;color:#64748b">FAC-2026-002 — Éducation+</td>
+          <td style="font-family:monospace">800,00 $</td>
+          <td style="font-family:monospace;font-weight:600;color:#7f1d1d">183,76 $</td>
+          <td><span class="badge badge-rouge">En retard — 45j</span></td>
+          <td style="font-size:12px;color:#7f1d1d;font-weight:600">30 juil. 2026</td>
+          <td><div class="actions-btn">
+            <button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2026-003','La Nouvelle Plume','800,00 $','183,76 $','En retard')">Voir</button>
+            <button class="btn btn-orange btn-sm" onclick="msg('Rappel envoyé à La Nouvelle Plume par courriel automatiquement.')">Rappel</button>
+            <button class="btn btn-vert btn-sm" onclick="msg('Refacturation REF-2026-003 marquée comme encaissée.')">Encaisser</button>
+          </div></td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2026-004</td>
+          <td><strong>Éditions David</strong></td>
+          <td style="font-size:12px;color:#64748b">FAC-2026-005 — Studio Web 3C</td>
+          <td style="font-family:monospace">542,40 $</td>
+          <td style="font-family:monospace;font-weight:600;color:#854d0e">189,84 $</td>
+          <td><span class="badge badge-orange">En attente</span></td>
+          <td style="font-size:12px">15 oct. 2026</td>
+          <td><div class="actions-btn">
+            <button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2026-004','Éditions David','542,40 $','189,84 $','En attente')">Voir</button>
+            <button class="btn btn-vert btn-sm" onclick="msg('Refacturation REF-2026-004 marquée comme encaissée.')">Encaisser</button>
+          </div></td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2025-012</td>
+          <td><strong>Prise de Parole</strong></td>
+          <td style="font-size:12px;color:#64748b">FAC-2025-008 — Agence Oméga</td>
+          <td style="font-family:monospace">1 800,00 $</td>
+          <td style="font-family:monospace;font-weight:600;color:#166534">630,00 $</td>
+          <td><span class="badge badge-vert">Encaissée</span></td>
+          <td style="font-size:12px;color:#64748b">5 mai 2025</td>
+          <td><div class="actions-btn">
+            <button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2025-012','Prise de Parole','1 800,00 $','630,00 $','Encaissée')">Voir</button>
+          </div></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <span>Page 1 sur 1 — 5 refacturations</span>
+      <div class="pagination-btns">
+        <button class="btn btn-sm" onclick="msg('Page précédente.')">Précédent</button>
+        <button class="btn btn-sm" onclick="msg('Page suivante.')">Suivant</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- Modal ajouter facture -->
@@ -579,6 +685,88 @@ function confirmerRefus() {
   msg('Facture ' + no + ' refusée par ' + qui + '.\n\nMotif enregistré : ' + motif + '\nSignature électronique apposée.\nDocument déplacé dans SharePoint / Factures / Refusées.\nNotification envoyée à l\'expéditeur.');
   fermerModal('modal-refus');
 }
+
+function ouvrirDetailRefact(no, maison, montantHT, part, statut) {
+  document.getElementById('refact-detail-titre').textContent = 'Refacturation ' + no;
+  document.getElementById('refact-pdf-nom').textContent = no + '_' + maison.replace(/ /g,'') + '.pdf';
+  document.getElementById('refact-maison').textContent    = maison;
+  document.getElementById('refact-montant-ht').textContent = montantHT;
+  document.getElementById('refact-part').textContent      = part;
+  const badgeMap = {'À venir':'badge-bleu','En attente':'badge-orange','En retard':'badge-rouge','Encaissée':'badge-vert'};
+  const statLabel = statut.startsWith('En retard') ? 'En retard' : statut;
+  document.getElementById('refact-statut-badge').innerHTML = '<span class="badge ' + (badgeMap[statLabel]||'badge-gris') + '">' + statut + '</span>';
+  let actions = '';
+  if (statut !== 'Encaissée') {
+    actions += '<button class="btn btn-vert" onclick="msg('Refacturation ' + no + ' marquée comme encaissée.\nSharePoint mis à jour.')">Marquer comme encaissée</button>';
+    if (statut.includes('retard') || statut === 'En attente') {
+      actions += '<button class="btn btn-orange" onclick="msg('Rappel envoyé à ' + maison + ' par courriel.')">Envoyer un rappel</button>';
+    }
+  }
+  document.getElementById('refact-actions-zone').innerHTML = actions;
+  ouvrirModal('modal-detail-refact');
+}
 </script>
+
+<!-- Modal détail refacturation -->
+<div class="modal-bg" id="modal-detail-refact">
+  <div class="modal" style="width:580px">
+    <div class="modal-titre">
+      <span class="modal-titre-txt" id="refact-detail-titre">Détail refacturation</span>
+      <button class="btn-fermer" onclick="fermerModal('modal-detail-refact')">✕</button>
+    </div>
+    <div class="pdf-viewer">
+      <div class="pdf-viewer-nom" id="refact-pdf-nom">REF-2026-001_PriseDeParole.pdf</div>
+      <div class="pdf-viewer-sous">Refacturation générée par QuickBooks — archivée dans SharePoint REFC / Refacturations / 2025-2026</div>
+      <button class="pdf-viewer-btn" onclick="msg('Dans la vraie version : la refacturation PDF générée par QuickBooks s'ouvre directement.')">Visualiser la refacturation PDF</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:13px">
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">MAISON MEMBRE</span><span id="refact-maison" style="font-weight:600"></span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">MONTANT FACTURE HT</span><span id="refact-montant-ht" style="font-family:monospace;font-weight:600"></span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">PART DUE (35 %)</span><span id="refact-part" style="font-family:monospace;font-weight:700;color:#854d0e"></span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">STATUT</span><span id="refact-statut-badge"></span></div>
+    </div>
+    <div class="note-info">
+      <strong>Traçabilité SharePoint :</strong> Ce document est automatiquement classé dans<br>
+      SharePoint / Refacturations / 2025-2026 / [Statut] / [Maison]
+    </div>
+    <div id="refact-actions-zone" style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- Modal émettre refacturation -->
+<div class="modal-bg" id="modal-refact">
+  <div class="modal">
+    <div class="modal-titre">
+      <span class="modal-titre-txt">Émettre une refacturation</span>
+      <button class="btn-fermer" onclick="fermerModal('modal-refact')">✕</button>
+    </div>
+    <div class="note-info">Cette refacturation correspond à la part de 35 % due par la maison pour une facture fournisseur approuvée et envoyée à Dext. Le document PDF a été généré par QuickBooks.</div>
+    <div class="form-row">
+      <label class="form-label">Maison membre *</label>
+      <select class="form-select"><option>-- Choisir --</option><option>Prise de Parole</option><option>Éditions David</option><option>Bouton d'or d'Acadie</option><option>La Nouvelle Plume</option><option>L'Interligne</option></select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Facture fournisseur liée *</label>
+      <select class="form-select"><option>-- Choisir la facture approuvée --</option><option>FAC-2026-004 — Magazine Alpha — 1 500,00 $</option><option>FAC-2026-003 — Studio Graph — 2 100,00 $</option><option>FAC-2026-005 — Studio Web 3C — 542,40 $</option></select>
+    </div>
+    <div class="grid2-form">
+      <div><label class="form-label">Part 35 % HT ($)</label><input type="number" class="form-input" placeholder="Calculé automatiquement" readonly style="background:#f8fafc"></div>
+      <div><label class="form-label">Date d'échéance *</label><input type="date" class="form-input"></div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Refacturation PDF (QuickBooks) *</label>
+      <div class="upload-zone" onclick="msg('Dans la vraie version : upload du PDF généré par QuickBooks. Il sera automatiquement classé dans SharePoint et visible par la maison membre dans son portail.')">
+        <div class="upload-zone-titre">Uploader le PDF de refacturation QuickBooks</div>
+        <div class="upload-zone-sous">PDF uniquement — max 10 Mo — visible par la maison dans son portail</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="fermerModal('modal-refact')">Annuler</button>
+      <button class="btn btn-primaire" onclick="msg('Refacturation émise et visible par la maison dans son portail.
+Document classé dans SharePoint / Refacturations / 2025-2026 / En attente.
+Notification envoyée à la maison par courriel.');fermerModal('modal-refact')">Émettre la refacturation</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
