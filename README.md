@@ -63,7 +63,6 @@ refc-portail-membres/
 |------|-------------|--------------|
 | Admin REFC | `admin` | `refc2026` |
 | Membre — Prise de Parole | `prisedeparole` | `demo2026` |
-| Membre — Éditions David | `david` | `demo2026` |
 
 > Ces comptes sont fictifs et n'ont aucun lien avec les systèmes réels de la REFC.
 
