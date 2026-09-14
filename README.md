@@ -1,97 +1,138 @@
 # Portail membres — Démo interactive
 
-Démonstration interactive du portail membres du Regroupement des éditeurs franco-canadiens (REFC), développée dans le cadre d'un stage en coordination et communications.
+Prototype interactif du portail membres du **Regroupement des éditeurs franco-canadiens (REFC)**, développé dans le cadre d'un stage en administration, promotion et communication.
 
 > ⚠️ **DÉMONSTRATION UNIQUEMENT** — Toutes les données affichées sont entièrement fictives. Ce projet ne contient aucune donnée réelle de la REFC ou de ses maisons membres.
 
 ---
 
-## 🔗 Lien de démonstration
+## Lien de démonstration
 
 [https://fallouinfo03.github.io/refc-portail-membres/](https://fallouinfo03.github.io/refc-portail-membres/)
 
 ---
 
-## 🎯 Objectif du projet
+## Objectif du projet
 
-Visualiser et valider le fonctionnement du futur portail membres de la REFC avant de soumettre le cahier des charges au prestataire de développement. Ce prototype permet de :
+Visualiser et valider le fonctionnement du futur portail membres de la REFC avant de soumettre le cahier des charges à un prestataire de développement. Ce prototype permet de :
 
-- Tester les parcours utilisateurs (admin et membre)
-- Valider les flux de travail documentés
+- Tester les parcours utilisateurs (vue admin et vue membre)
+- Valider les flux de travail internes de la REFC
 - Identifier les améliorations avant le développement réel
-- Servir de référence visuelle pour le prestataire
+- Servir de référence visuelle et fonctionnelle pour le développeur
 
 ---
 
-## 📁 Structure du projet
+## Structure du projet
+
+```
 refc-portail-membres/
-├── index.html ← Page de connexion
+├── index.html                        ← Page de connexion
 ├── assets/
-│ ├── logo-refc.png ← Logo REFC (fond transparent)
-│ └── logo-refc-blanc.png ← Logo REFC (version blanche topbar)
-├── admin/ ← Pages vue Administrateur REFC
-│ ├── tableau-de-bord.html
-│ ├── couts-partages.html
-│ ├── salons.html
-│ ├── bulletins.html
-│ └── ingram.html
-├── membre/ ← Pages vue Maison membre
-│ ├── tableau-de-bord.html
-│ ├── couts-partages.html
-│ ├── salons.html
-│ ├── bulletins.html
-│ └── ingram.html
+│   └── REFC_Logo_acelf.png           ← Logo REFC (fond transparent)
+├── admin/                            ← Vue Administrateur REFC
+│   ├── tableau-de-bord.html
+│   ├── couts-partages.html
+│   ├── salons.html
+│   ├── evenements.html
+│   ├── bulletins.html
+│   ├── rapports.html
+│   ├── calendrier.html
+│   ├── planification.html
+│   ├── prix-champlain.html
+│   ├── ingram.html                   ← À compléter
+│   └── assistance.html
+├── membre/                           ← Vue Maison membre
+│   ├── tableau-de-bord.html
+│   ├── couts-partages.html
+│   ├── salons.html
+│   ├── evenements.html
+│   ├── bulletins.html
+│   ├── rapports.html
+│   ├── calendrier.html
+│   ├── ingram.html                   ← À compléter
+│   └── assistance.html
 └── README.md
-
-
----
-
+```
 
 ---
 
-## 🔐 Comptes de démonstration
+## Comptes de démonstration
 
 | Rôle | Identifiant | Mot de passe |
 |------|-------------|--------------|
-| Admin REFC (Fadel) | `admin` | `refc2026` |
+| Admin REFC | `admin` | `refc2026` |
 | Membre — Prise de Parole | `prisedeparole` | `demo2026` |
-| Membre — David | `david` | `demo2026` |
+| Membre — Éditions David | `david` | `demo2026` |
 
 > Ces comptes sont fictifs et n'ont aucun lien avec les systèmes réels de la REFC.
 
 ---
 
-## 📋 Sections couvertes
+## Modules couverts
 
-| Section | Admin | Membre | Statut |
-|---------|-------|--------|--------|
-| Tableau de bord | ✅ | ✅ | Fait |
-| Services à coûts partagés | 🔄 | 🔄 | En cours |
-| Salons | 🔄 | 🔄 | En cours |
-| Bulletins membres | ⏳ | ⏳ | À faire |
-| Ingram | ⏳ | ⏳ | À faire |
+| Module | Admin | Membre | Statut |
+|--------|-------|--------|--------|
+| Tableau de bord | ✅ | ✅ | Terminé |
+| Coûts partagés | ✅ | ✅ | Terminé |
+| Salons du livre | ✅ | ✅ | Terminé |
+| Événements littéraires | ✅ | ✅ | Terminé |
+| Bulletins membres | ✅ | ✅ | Terminé |
+| Rapports de ventes | ✅ | ✅ | Terminé |
+| Calendrier & Gouvernance | ✅ | ✅ | Terminé |
+| Réalisations et performances | ✅ | — | Terminé |
+| Prix Champlain | ✅ | — | Terminé |
+| Ingram | ⏳ | ⏳ | À compléter |
+| Assistance | ✅ | ✅ | Terminé |
 
 ---
 
-## 🛠️ Technologies
+## Fonctionnalités clés
 
-- HTML5 / CSS3 / JavaScript vanilla (aucun framework)
+**Vue admin**
+- Tableau de bord avec alertes prioritaires, KPIs, tâches assignées et mini-calendrier
+- Gestion complète des salons du livre — confirmations, commandes, factures, documents
+- Approbation des factures à coûts partagés
+- Suivi des événements littéraires soumis par les membres
+- Calendrier de gouvernance — organes BD, AGA, ASA, CG, CP, CProg avec documents officiels (OdJ, PV, Programmation)
+- Rapports de ventes — import Square et Ingram avec calcul automatique des commissions
+- Prix Champlain — gestion du jury et du calendrier
+- Réalisations et performances — planification stratégique annuelle
+
+**Vue membre**
+- Tableau de bord personnalisé par maison
+- Confirmation de participation aux salons + soumission des commandes de livres et auteurices
+- Suivi de sa propre facturation et refacturation
+- Consultation des bulletins et comptes rendus
+- Accès en lecture seule au calendrier de gouvernance avec téléchargement des documents
+
+---
+
+## Technologies
+
+- HTML5 / CSS3 / JavaScript vanilla — aucun framework
 - Déployé sur GitHub Pages (HTTPS automatique)
-- Aucune base de données — données fictives en dur dans le code
+- Aucune base de données — données fictives intégrées dans le code
+- Compatible avec tous les navigateurs modernes
 
 ---
 
-## 👥 Développé par
+## Contexte
 
-- **SFM** — Stagiaire en coordination et communications, REFC
+Ce prototype s'inscrit dans une démarche de digitalisation des processus internes de la REFC, organisme qui regroupe 14 maisons d'édition franco-canadiennes. Les besoins identifiés incluent :
+
+- La gestion des services à coûts partagés entre la REFC et ses membres
+- La coordination des participations aux salons, congrès et festivals du livre
+- Le suivi des distributions via Ingram (Canada, USA, Europe)
+- L'automatisation des processus répétitifs avec Microsoft Power Automate
+- La centralisation des données dans Microsoft SharePoint
+
+Une fois ce prototype validé par l'assemblée des membres, un cahier des charges sera soumis à un prestataire de développement pour la construction de la version finale avec backend, authentification Microsoft 365 et connexion aux outils de la REFC.
 
 ---
 
-## 📌 Contexte
+## Développé par
 
-Ce projet s'inscrit dans une démarche de digitalisation des processus internes de la REFC, notamment :
-- La gestion des services à coûts partagés entre la REFC et ses 15 maisons membres
-- La coordination des participations aux salons du livre
-- Le suivi des distributions via Ingram (USA/Canada et Europe)
-
-Le cahier des charges complet sera soumis à **Coloc** (coopérative web, Gatineau) pour le développement du vrai portail WordPress.
+**Serigne Fallou Mbacke** — Stagiaire en administration, promotion et communication  
+Regroupement des éditeurs franco-canadiens (REFC), Ottawa  
+Stage 2025–2026
