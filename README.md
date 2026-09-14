@@ -19,7 +19,7 @@ Visualiser et valider le fonctionnement du futur portail membres de la REFC avan
 - Tester les parcours utilisateurs (admin et membre)
 - Valider les flux de travail documentés
 - Identifier les améliorations avant le développement réel
-- Servir de référence visuelle pour le prestataire (Coloc, Gatineau)
+- Servir de référence visuelle pour le prestataire
 
 ---
 
