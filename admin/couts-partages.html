@@ -428,7 +428,7 @@ tbody tr:hover td{background:#f8fafc}
           <td class="montant bleu">226,00 $</td>
           <td><span class="badge badge-vert">Approuvée</span></td>
           <td><div class="actions-td">
-            <button class="btn btn-sm" onclick="ouvrirDetail('F-20250603','Éditions David','Agence Bêta','Numérique','Adaptation numérique — L&#39;Horizon perdu','200.00','26.00','226.00','Approuvée','3 juin 2025')">Voir</button>
+            <button class="btn btn-sm" onclick="ouvrirDetail('F-20250603','Éditions David','Agence Bêta','Numérique','Adaptation numérique - L-Horizon perdu','200.00','26.00','226.00','Approuvée','3 juin 2025')">Voir</button>
           </div></td>
         </tr>
         <tr style="background:#fffbeb">
@@ -573,7 +573,7 @@ tbody tr:hover td{background:#f8fafc}
     </div>
     <div class="modal-pied">
       <button class="btn" onclick="fermerModal('modal-ajout')">Annuler</button>
-      <button class="btn" onclick="fermerModal('modal-ajout');alert('Brouillon enregistré.')">Enregistrer brouillon</button>
+      <button class="btn" onclick="fermerModal('modal-ajout');alert('Brouillon enregistre.')">Enregistrer brouillon</button>
       <button class="btn btn-pri" onclick="soumettreFacture()">Soumettre pour approbation</button>
     </div>
   </div>
@@ -590,7 +590,7 @@ tbody tr:hover td{background:#f8fafc}
     </div>
     <div class="modal-pied">
       <button class="btn" onclick="fermerModal('modal-detail')">Fermer</button>
-      <button class="btn btn-pri" onclick="alert('PDF généré.')">↓ Télécharger PDF</button>
+      <button class="btn btn-pri" onclick="alert('PDF genere.')">↓ Télécharger PDF</button>
     </div>
   </div>
 </div>
@@ -705,7 +705,7 @@ tbody tr:hover td{background:#f8fafc}
   <div style="margin-top:32px;padding-top:20px;border-top:2px solid #e2e8f0">
     <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
       <span>Refacturations 35 % aux maisons membres</span>
-      <button class="btn btn-pri btn-sm" onclick="alert('Dans la vraie version : émettre une refacturation depuis le PDF QuickBooks.')">+ Émettre une refacturation</button>
+      <button class="btn btn-pri btn-sm" onclick="alert('Emettre une refacturation depuis le PDF QuickBooks.')">+ Émettre une refacturation</button>
     </div>
     <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden">
       <table>
@@ -729,7 +729,7 @@ tbody tr:hover td{background:#f8fafc}
             <td><span class="badge badge-warn">À venir</span></td>
             <td style="font-size:12px">30 sept. 2026</td>
             <td><div style="display:flex;gap:4px">
-              <button class="btn btn-sm btn-succ" onclick="alert('Refacturation REF-2026-001 marquée comme encaissée.\nSharePoint mis à jour automatiquement.')">Encaisser</button>
+              <button class="btn btn-sm btn-succ" onclick="alert('Refacturation REF-2026-001 encaissee. SharePoint mis a jour.')">Encaisser</button>
             </div></td>
           </tr>
           <tr>
@@ -740,7 +740,7 @@ tbody tr:hover td{background:#f8fafc}
             <td><span class="badge badge-err">En retard — 60j</span></td>
             <td style="font-size:12px;color:#dc2626;font-weight:600">15 juil. 2026</td>
             <td><div style="display:flex;gap:4px">
-              <button class="btn btn-sm" onclick="alert('Rappel envoyé automatiquement par courriel.')">Rappel</button>
+              <button class="btn btn-sm" onclick="alert('Rappel envoye automatiquement par courriel.')">Rappel</button>
               <button class="btn btn-sm btn-succ" onclick="alert('Refacturation REF-2026-002 encaissée.')">Encaisser</button>
             </div></td>
           </tr>
@@ -832,7 +832,7 @@ function confirmerApprobation(){
   const type = document.getElementById('type-approbation').value;
   const pct = type === 'conforme' ? '35' : '100';
   fermerModal('modal-approbation');
-  alert('Facture '+factureEnCours+' approuvée par Noureddine Hany.\nSignature électronique apposée automatiquement.\nEnvoyée à Piedad Saenz pour validation finale.\nDocument sauvegardé dans SharePoint / Factures / En attente Piedad.');
+  alert('Facture '+factureEnCours+' approuvee par Noureddine. Envoyee a Piedad pour validation. Sauvegardee dans SharePoint.');
 }
 function refuserFacture(no){
   factureEnCours = no;
@@ -840,7 +840,7 @@ function refuserFacture(no){
 }
 function confirmerRefus(){
   fermerModal('modal-refus');
-  alert('Facture '+factureEnCours+' refusée.\nSignature électronique + motif enregistrés.\nDocument classé dans SharePoint / Factures / Refusées.\nNotification envoyée automatiquement à la maison membre.');
+  alert('Facture '+factureEnCours+' refusee. Motif enregistre. Document classe dans SharePoint / Refusees.');
 }
 function enregistrerEncaissement(maison, facture){
   document.getElementById('enc-maison').value = maison;
@@ -850,11 +850,11 @@ function enregistrerEncaissement(maison, facture){
 }
 function confirmerEncaissement(){
   fermerModal('modal-encaissement');
-  alert('Encaissement enregistré. Le statut de la refacturation est mis à jour.');
+  alert('Encaissement enregistre. Statut mis a jour.');
 }
 function soumettreFacture(){
   fermerModal('modal-ajout');
-  alert('Facture soumise. Elle sera visible dans le tableau en attente d'approbation par la directrice.');
+  alert("Facture soumise. Elle sera visible dans le tableau en attente d'approbation par la directrice.");
 }
 async function exporterExcel(){
   const wb = new ExcelJS.Workbook();
@@ -867,10 +867,10 @@ async function exporterExcel(){
   ws.getRow(1).eachCell(c=>{c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF2D3F7B'}};c.font={color:{argb:'FFFFFFFF'},bold:true};c.alignment={horizontal:'center'};});
   const data=[
     ['10 juin 2025','Prise de Parole','Agence Oméga','F-20250610','Agent de presse','Service de presse — roman Les Racines',150,19.50,169.50,'Approuvée'],
-    ['3 juin 2025','Éditions David','Agence Bêta','F-20250603','Numérique','Adaptation numérique — L&#39;Horizon perdu',200,26,226,'Approuvée'],
-    ['18 juil. 2025','Bouton d'or d'Acadie','Magazine Alpha','F-20250718','Publicité','Publicité 1/2 page — Magazine Alpha',350,45.50,395.50,'En attente'],
+    ['3 juin 2025','Éditions David','Agence Bêta','F-20250603','Numérique','Adaptation numérique - L-Horizon perdu',200,26,226,'Approuvée'],
+    ['18 juil. 2025','Bouton d\'or d\'Acadie','Magazine Alpha','F-20250718','Publicité','Publicité 1/2 page — Magazine Alpha',350,45.50,395.50,'En attente'],
     ['22 juil. 2025','Éditions David','Studio Web 3C','F-20250722','Numérique','Mise à jour site web et boutique',480,62.40,542.40,'En attente'],
-    ['5 août 2025','L'Interligne','Agence Gamma','F-20250805','Surdiffusion','Service de surdiffusion Q3 2025',105,13.65,118.65,'Approuvée'],
+    ['5 août 2025','L\'Interligne','Agence Gamma','F-20250805','Surdiffusion','Service de surdiffusion Q3 2025',105,13.65,118.65,'Approuvée'],
   ];
   data.forEach((r,i)=>{
     const row=ws.addRow(r);
