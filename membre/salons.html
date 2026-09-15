@@ -25,7 +25,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .page-soustitre{font-size:13px;color:#64748b;margin-bottom:16px}
 /* Alerte */
 .alerte{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-radius:8px;font-size:13px;line-height:1.5;border:1px solid;margin-bottom:16px}
-.alerte-jaune{background:#fef9c3;border-color:#fde047;color:#854d0e}
+.alerte-jaune{background:#E8EEF7;border-color:#7B9EC8;color:#64748b}
 .alerte-icone{font-size:15px;flex-shrink:0;font-weight:700;margin-top:1px}
 /* KPIs */
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
@@ -46,8 +46,8 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:#f8fafc}
 /* Badges */
 .badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
-.badge-vert{background:#dcfce7;color:#166534}
-.badge-orange{background:#fef9c3;color:#854d0e}
+.badge-vert{background:#E8EEF7;color:#2D3F7B}
+.badge-orange{background:#E8EEF7;color:#64748b}
 .badge-rouge{background:#fee2e2;color:#7f1d1d}
 .badge-bleu{background:#E8EEF7;color:#2D3F7B}
 .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
@@ -100,6 +100,45 @@ tr:hover td{background:#f8fafc}
 .btn-fermer{background:none;border:none;font-size:20px;cursor:pointer;color:#64748b;padding:2px 6px;border-radius:4px}
 .btn-fermer:hover{background:#f1f5f9}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0}
+
+/* ===== PALETTE REFC ===== */
+:root {
+  --refc-bleu:    #2D3F7B;
+  --refc-accent:  #7B9EC8;
+  --refc-clair:   #E8EEF7;
+  --refc-texte:   #1e293b;
+  --refc-gris:    #64748b;
+  --refc-bordure: #e2e8f0;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .kpis { grid-template-columns: repeat(2,1fr) !important; }
+  .grille2 { grid-template-columns: 1fr !important; }
+  .contenu { padding: 16px !important; padding-top: 140px !important; }
+  .filtres-ligne, .entete-actions { flex-wrap: wrap !important; }
+  table { font-size: 12px !important; }
+  th, td { padding: 8px 10px !important; }
+  .page-entete { flex-direction: column !important; }
+  .nav { overflow-x: auto !important; }
+  .layout-tdb { flex-direction: column !important; }
+  .colonne-droite { width: 100% !important; }
+}
+@media (max-width: 480px) {
+  .kpis { grid-template-columns: 1fr !important; }
+  .page-titre { font-size: 18px !important; }
+  .banniere { font-size: 11px !important; }
+}
+.theme-toggle {
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
 </style>
 </head>
 <body>
@@ -128,7 +167,7 @@ tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="assistance.html">Assistance</a>
 </div>
@@ -247,7 +286,7 @@ tr:hover td{background:#f8fafc}
         <div class="recap-ligne"><span class="recap-cle">Statut</span><span class="recap-val"><span class="badge badge-vert">Confirmée</span></span></div>
         <div class="recap-ligne"><span class="recap-cle">Livres apportés</span><span class="recap-val">3 titres · 72 exemplaires</span></div>
         <div class="recap-ligne"><span class="recap-cle">Auteurices</span><span class="recap-val">2 auteur·ices</span></div>
-        <div class="recap-ligne"><span class="recap-cle">Ma part (70 %)</span><span class="recap-val" style="font-weight:700;color:#166534">1 190,00 $</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Ma part (70 %)</span><span class="recap-val" style="font-weight:700;color:#2D3F7B">1 190,00 $</span></div>
       </div>
       <button class="btn btn-primaire">↓ Télécharger PDF</button>
     </div>
@@ -282,7 +321,7 @@ tr:hover td{background:#f8fafc}
         <div class="recap-ligne"><span class="recap-cle">N° facture</span><span class="recap-val">#S2025-001</span></div>
         <div class="recap-ligne"><span class="recap-cle">Date d'émission</span><span class="recap-val">28 octobre 2025</span></div>
         <div class="recap-ligne"><span class="recap-cle">Taux refacturation</span><span class="recap-val">70 %</span></div>
-        <div class="recap-ligne"><span class="recap-cle">Montant dû</span><span class="recap-val" style="font-size:16px;font-weight:700;color:#166534">1 190,00 $</span></div>
+        <div class="recap-ligne"><span class="recap-cle">Montant dû</span><span class="recap-val" style="font-size:16px;font-weight:700;color:#2D3F7B">1 190,00 $</span></div>
         <div class="recap-ligne"><span class="recap-cle">Statut</span><span class="recap-val"><span class="badge badge-vert">Encaissé</span></span></div>
         <div class="recap-ligne"><span class="recap-cle">Date d'encaissement</span><span class="recap-val">12 novembre 2025</span></div>
       </div>
@@ -470,6 +509,23 @@ document.querySelectorAll('.modal-bg').forEach(m => {
 function soumettre() {
   alert('Confirmation soumise — dans la vraie version, la REFC sera notifiée automatiquement.');
 }
+
+function toggleTheme(){
+  var html = document.documentElement;
+  var actuel = html.getAttribute('data-theme');
+  if(actuel === 'dark'){
+    html.setAttribute('data-theme','light');
+    localStorage.setItem('refc-theme','light');
+  } else {
+    html.setAttribute('data-theme','dark');
+    localStorage.setItem('refc-theme','dark');
+  }
+}
+(function(){
+  var t = localStorage.getItem('refc-theme');
+  if(t) document.documentElement.setAttribute('data-theme', t);
+})();
+
 </script>
 </body>
 </html>
