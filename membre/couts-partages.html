@@ -4,7 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>REFC — Coûts partagés (Membre)</title>
-<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js">
+function toggleTheme(){
+  var html = document.documentElement;
+  var actuel = html.getAttribute('data-theme');
+  if(actuel === 'dark'){
+    html.setAttribute('data-theme','light');
+    localStorage.setItem('refc-theme','light');
+  } else {
+    html.setAttribute('data-theme','dark');
+    localStorage.setItem('refc-theme','dark');
+  }
+}
+(function(){
+  var t = localStorage.getItem('refc-theme');
+  if(t) document.documentElement.setAttribute('data-theme', t);
+})();
+
+</script>
 <script>
 
 function ouvrirModal(id){ document.getElementById(id).classList.add('visible'); }
@@ -100,7 +117,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .jauge-detail{font-size:12px;color:#64748b}
 .jauge-track{height:16px;background:#f1f5f9;border-radius:8px;overflow:hidden;margin-bottom:8px;position:relative}
 .jauge-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#2D3F7B,#7B9EC8);transition:.5s}
-.jauge-fill.warn{background:linear-gradient(90deg,#854d0e,#b97f3a)}
+.jauge-fill.warn{background:linear-gradient(90deg,#64748b,#b97f3a)}
 .jauge-fill.danger{background:linear-gradient(90deg,#7f1d1d,#b91c1c)}
 .jauge-bas{display:flex;justify-content:space-between;font-size:11px;color:#94a3b8}
 /* Grille 2 colonnes */
@@ -124,8 +141,8 @@ tbody tr:hover td{background:#f8fafc}
 .montant.danger{color:#7f1d1d;font-weight:600}
 /* Badges */
 .badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
-.badge-vert{background:#dcfce7;color:#166534}
-.badge-orange{background:#fef9c3;color:#854d0e}
+.badge-vert{background:#E8EEF7;color:#2D3F7B}
+.badge-orange{background:#E8EEF7;color:#64748b}
 .badge-rouge{background:#fee2e2;color:#7f1d1d}
 .badge-bleu{background:#E8EEF7;color:#2D3F7B}
 .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
@@ -136,18 +153,18 @@ tbody tr:hover td{background:#f8fafc}
 .filtres-historique{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .filtre-select{padding:6px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#1e293b;cursor:pointer;outline:none}
 
-        .badge-vert{background:#dcfce7;color:#166534}
-        .badge-orange{background:#fef9c3;color:#854d0e}
+        .badge-vert{background:#E8EEF7;color:#2D3F7B}
+        .badge-orange{background:#E8EEF7;color:#64748b}
         .badge-rouge{background:#fee2e2;color:#7f1d1d}
         .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-bleu{background:#E8EEF7;color:#2D3F7B}
         .badge-recu{background:#E8EEF7;color:#2D3F7B}
-        .badge-repondu{background:#dcfce7;color:#166534}
-        .badge-traitement{background:#fef9c3;color:#854d0e}
+        .badge-repondu{background:#E8EEF7;color:#2D3F7B}
+        .badge-traitement{background:#E8EEF7;color:#64748b}
         .badge-ferme{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-retard{background:#fee2e2;color:#7f1d1d;font-weight:700}
-        .badge-statut{background:#dcfce7;color:#166534}
-        .badge-attente{background:#fef9c3;color:#854d0e}
+        .badge-statut{background:#E8EEF7;color:#2D3F7B}
+        .badge-attente{background:#E8EEF7;color:#64748b}
         .badge-alerte{background:#fee2e2;color:#7f1d1d}
         .badge-neutre{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-salon{background:#E8EEF7;color:#2D3F7B}
@@ -158,6 +175,45 @@ tbody tr:hover td{background:#f8fafc}
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;align-items:center;justify-content:center}
 .modal-bg.visible{display:flex}
 .modal{background:#fff;border-radius:12px;padding:24px;width:520px;max-width:92vw;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+
+/* ===== PALETTE REFC ===== */
+:root {
+  --refc-bleu:    #2D3F7B;
+  --refc-accent:  #7B9EC8;
+  --refc-clair:   #E8EEF7;
+  --refc-texte:   #1e293b;
+  --refc-gris:    #64748b;
+  --refc-bordure: #e2e8f0;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .kpis { grid-template-columns: repeat(2,1fr) !important; }
+  .grille2 { grid-template-columns: 1fr !important; }
+  .contenu { padding: 16px !important; padding-top: 140px !important; }
+  .filtres-ligne, .entete-actions { flex-wrap: wrap !important; }
+  table { font-size: 12px !important; }
+  th, td { padding: 8px 10px !important; }
+  .page-entete { flex-direction: column !important; }
+  .nav { overflow-x: auto !important; }
+  .layout-tdb { flex-direction: column !important; }
+  .colonne-droite { width: 100% !important; }
+}
+@media (max-width: 480px) {
+  .kpis { grid-template-columns: 1fr !important; }
+  .page-titre { font-size: 18px !important; }
+  .banniere { font-size: 11px !important; }
+}
+.theme-toggle {
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
 </style>
 </head>
 <body>
@@ -186,7 +242,7 @@ tbody tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="assistance.html">Assistance</a>
 </div>
@@ -246,7 +302,7 @@ tbody tr:hover td{background:#f8fafc}
       <span>Seuil d'alerte : 5 400 $ (90 %)</span>
       <span>6 000 $</span>
     </div>
-    <div style="margin-top:12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:12px;color:#1d4ed8;line-height:1.6">
+    <div style="margin-top:12px;background:#E8EEF7;border:1px solid #E8EEF7;border-radius:8px;padding:10px 14px;font-size:12px;color:#2D3F7B;line-height:1.6">
       <strong>Redistribution de mi-année :</strong> En octobre, la REFC contacte toutes les maisons membres pour savoir si elles comptent utiliser l'intégralité de leur enveloppe. Les soldes non utilisés sont redistribués aux maisons qui en font la demande. Votre solde peut donc être ajusté à la hausse en cours d'année.
     </div>
   </div>
@@ -475,7 +531,7 @@ tbody tr:hover td{background:#f8fafc}
           <td><span class="badge badge-bleu">Publicité</span></td>
           <td style="font-size:12px;color:#64748b">Publicité double page — Magazine Alpha, automne 2025</td>
           <td class="montant">600,00 $</td>
-          <td class="montant bleu" style="color:#854d0e">256,41 $</td>
+          <td class="montant bleu" style="color:#64748b">256,41 $</td>
           <td><span class="badge badge-orange">En attente</span></td>
         </tr>
         <tr data-type="Agent de presse" data-statut="En traitement">
@@ -562,7 +618,7 @@ async function exporterExcel(){
       <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">FOURNISSEUR</span><span style="font-weight:600">Magazine Alpha</span></div>
       <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">DATE</span><span>12 sept. 2025</span></div>
       <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">MONTANT HT</span><span style="font-family:monospace;font-weight:700">600,00 $</span></div>
-      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">VOTRE PART 35 %</span><span style="font-family:monospace;font-weight:700;color:#854d0e">256,41 $</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">VOTRE PART 35 %</span><span style="font-family:monospace;font-weight:700;color:#64748b">256,41 $</span></div>
       <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">STATUT</span><span class="badge badge-orange">En attente</span></div>
     </div>
     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:12px">
@@ -590,12 +646,12 @@ async function exporterExcel(){
       <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">TYPE</span><span class="badge badge-bleu">Agent de presse</span></div>
       <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">STATUT</span><span class="badge badge-gris">En traitement</span></div>
       <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">MONTANT HT</span><span style="font-family:monospace;font-weight:700">500,00 $</span></div>
-      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">VOTRE PART 35 %</span><span style="font-family:monospace;font-weight:700;color:#854d0e">213,68 $</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">VOTRE PART 35 %</span><span style="font-family:monospace;font-weight:700;color:#64748b">213,68 $</span></div>
     </div>
     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Suivi de traitement</div>
       <div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:12px"><div style="width:8px;height:8px;border-radius:50%;background:#2D3F7B;flex-shrink:0;margin-top:3px"></div><div><div style="font-weight:600">Facture soumise</div><div style="color:#64748b">Prise de Parole — 28 sept. 2025</div></div></div>
-      <div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:12px"><div style="width:8px;height:8px;border-radius:50%;background:#eab308;flex-shrink:0;margin-top:3px"></div><div><div style="font-weight:600">En cours d&#39;examen</div><div style="color:#64748b">Noureddine Hany — notification reçue</div></div></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:12px"><div style="width:8px;height:8px;border-radius:50%;background:#7B9EC8;flex-shrink:0;margin-top:3px"></div><div><div style="font-weight:600">En cours d&#39;examen</div><div style="color:#64748b">Noureddine Hany — notification reçue</div></div></div>
     </div>
     <div style="display:flex;gap:8px">
       <button class="btn" onclick="fermerModal('modal-detail-facture')">Fermer</button>
@@ -638,7 +694,7 @@ async function exporterExcel(){
       <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9"><span>TPS (5 %)</span><span id="r-tps" style="font-family:monospace">0,00 $</span></div>
       <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9"><span>TVQ (9,975 %)</span><span id="r-tvq" style="font-family:monospace">0,00 $</span></div>
       <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9"><span>Total TTC</span><span id="r-ttc" style="font-family:monospace">0,00 $</span></div>
-      <div style="display:flex;justify-content:space-between;padding:6px 0 4px;font-weight:700"><span style="color:#854d0e">Votre part 35 %</span><span id="r-35" style="font-family:monospace;color:#854d0e">0,00 $</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0 4px;font-weight:700"><span style="color:#64748b">Votre part 35 %</span><span id="r-35" style="font-family:monospace;color:#64748b">0,00 $</span></div>
     </div>
     <div style="margin-bottom:12px">
       <label style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block">Description *</label>
