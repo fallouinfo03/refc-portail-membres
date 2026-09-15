@@ -104,24 +104,63 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 /* Vide */
 .vide{text-align:center;padding:40px 24px;color:#94a3b8;font-size:13px;background:#fff;border:1px solid #e2e8f0;border-radius:10px}
 
-        .badge-vert{background:#dcfce7;color:#166534}
-        .badge-orange{background:#fef9c3;color:#854d0e}
+        .badge-vert{background:#E8EEF7;color:#2D3F7B}
+        .badge-orange{background:#E8EEF7;color:#64748b}
         .badge-rouge{background:#fee2e2;color:#7f1d1d}
         .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-bleu{background:#E8EEF7;color:#2D3F7B}
         .badge-recu{background:#E8EEF7;color:#2D3F7B}
-        .badge-repondu{background:#dcfce7;color:#166534}
-        .badge-traitement{background:#fef9c3;color:#854d0e}
+        .badge-repondu{background:#E8EEF7;color:#2D3F7B}
+        .badge-traitement{background:#E8EEF7;color:#64748b}
         .badge-ferme{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-retard{background:#fee2e2;color:#7f1d1d;font-weight:700}
-        .badge-statut{background:#dcfce7;color:#166534}
-        .badge-attente{background:#fef9c3;color:#854d0e}
+        .badge-statut{background:#E8EEF7;color:#2D3F7B}
+        .badge-attente{background:#E8EEF7;color:#64748b}
         .badge-alerte{background:#fee2e2;color:#7f1d1d}
         .badge-neutre{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-salon{background:#E8EEF7;color:#2D3F7B}
         .badge-intl{background:#1e293b;color:#fff}
         .badge-ingram{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-congres{background:#E8EEF7;color:#253570;border:1px solid #7B9EC8}
+
+/* ===== PALETTE REFC ===== */
+:root {
+  --refc-bleu:    #2D3F7B;
+  --refc-accent:  #7B9EC8;
+  --refc-clair:   #E8EEF7;
+  --refc-texte:   #1e293b;
+  --refc-gris:    #64748b;
+  --refc-bordure: #e2e8f0;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .kpis { grid-template-columns: repeat(2,1fr) !important; }
+  .grille2 { grid-template-columns: 1fr !important; }
+  .contenu { padding: 16px !important; padding-top: 140px !important; }
+  .filtres-ligne, .entete-actions { flex-wrap: wrap !important; }
+  table { font-size: 12px !important; }
+  th, td { padding: 8px 10px !important; }
+  .page-entete { flex-direction: column !important; }
+  .nav { overflow-x: auto !important; }
+  .layout-tdb { flex-direction: column !important; }
+  .colonne-droite { width: 100% !important; }
+}
+@media (max-width: 480px) {
+  .kpis { grid-template-columns: 1fr !important; }
+  .page-titre { font-size: 18px !important; }
+  .banniere { font-size: 11px !important; }
+}
+.theme-toggle {
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
 </style>
 </head>
 <body>
@@ -150,7 +189,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn actif" href="assistance.html">Assistance</a>
 </div>
@@ -466,6 +505,23 @@ function toggleFil(entete){
   const ouvert = fil.classList.toggle('ouvert');
   chevron.classList.toggle('ouvert', ouvert);
 }
+
+function toggleTheme(){
+  var html = document.documentElement;
+  var actuel = html.getAttribute('data-theme');
+  if(actuel === 'dark'){
+    html.setAttribute('data-theme','light');
+    localStorage.setItem('refc-theme','light');
+  } else {
+    html.setAttribute('data-theme','dark');
+    localStorage.setItem('refc-theme','dark');
+  }
+}
+(function(){
+  var t = localStorage.getItem('refc-theme');
+  if(t) document.documentElement.setAttribute('data-theme', t);
+})();
+
 </script>
 </body>
 </html>
