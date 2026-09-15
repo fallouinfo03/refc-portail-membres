@@ -494,6 +494,75 @@ tbody tr:hover td{background:#f8fafc}
 
 </div>
 
+<!-- ===== SECTION REFACTURATIONS ===== -->
+<div style="margin-top:32px;padding-top:20px;border-top:2px solid #e2e8f0;margin-left:-0px" class="contenu-section">
+  <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+    <span>Refacturations 35 % aux maisons membres</span>
+    <button class="btn btn-pri btn-sm" onclick="alert('Emettre une refacturation depuis le PDF QuickBooks. Document sera visible par la maison dans son portail.')">+ Emettre une refacturation</button>
+  </div>
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:16px">
+    <table>
+      <thead>
+        <tr>
+          <th>N° refact.</th>
+          <th>Maison membre</th>
+          <th>Facture liee</th>
+          <th style="text-align:right">Part 35%</th>
+          <th>Statut</th>
+          <th>Echeance</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2026-001</td>
+          <td><strong>Prise de Parole</strong></td>
+          <td style="font-size:12px;color:#64748b">FAC-2026-004</td>
+          <td style="font-family:monospace;text-align:right;color:#854d0e;font-weight:600">525,00 $</td>
+          <td><span class="badge badge-warn">A venir</span></td>
+          <td style="font-size:12px">30 sept. 2026</td>
+          <td><button class="btn btn-sm btn-succ" onclick="alert('REF-2026-001 encaissee. SharePoint mis a jour.')">Encaisser</button></td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2026-002</td>
+          <td><strong>Bouton d&#39;or d&#39;Acadie</strong></td>
+          <td style="font-size:12px;color:#64748b">FAC-2026-003</td>
+          <td style="font-family:monospace;text-align:right;color:#dc2626;font-weight:600">735,00 $</td>
+          <td><span class="badge badge-err">En retard 60j</span></td>
+          <td style="font-size:12px;color:#dc2626;font-weight:600">15 juil. 2026</td>
+          <td><div style="display:flex;gap:4px">
+            <button class="btn btn-sm" onclick="alert('Rappel envoye automatiquement a Bouton d&#39;or par courriel.')">Rappel</button>
+            <button class="btn btn-sm btn-succ" onclick="alert('REF-2026-002 encaissee.')">Encaisser</button>
+          </div></td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2026-003</td>
+          <td><strong>La Nouvelle Plume</strong></td>
+          <td style="font-size:12px;color:#64748b">FAC-2026-002</td>
+          <td style="font-family:monospace;text-align:right;color:#dc2626;font-weight:600">183,76 $</td>
+          <td><span class="badge badge-err">En retard 45j</span></td>
+          <td style="font-size:12px;color:#dc2626;font-weight:600">30 juil. 2026</td>
+          <td><div style="display:flex;gap:4px">
+            <button class="btn btn-sm" onclick="alert('Rappel envoye automatiquement a La Nouvelle Plume.')">Rappel</button>
+            <button class="btn btn-sm btn-succ" onclick="alert('REF-2026-003 encaissee.')">Encaisser</button>
+          </div></td>
+        </tr>
+        <tr>
+          <td style="font-family:monospace;font-size:12px">REF-2025-012</td>
+          <td><strong>Prise de Parole</strong></td>
+          <td style="font-size:12px;color:#64748b">FAC-2025-008</td>
+          <td style="font-family:monospace;text-align:right;color:#166534;font-weight:600">630,00 $</td>
+          <td><span class="badge badge-ok">Encaissee</span></td>
+          <td style="font-size:12px;color:#64748b">5 mai 2025</td>
+          <td><button class="btn btn-sm" onclick="alert('Recu de paiement disponible dans SharePoint.')">Voir recu</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
 <!-- ===== MODAL AJOUT FACTURE ===== -->
 <div class="modal-bg" id="modal-ajout">
   <div class="modal">
@@ -832,7 +901,7 @@ function confirmerApprobation(){
   const type = document.getElementById('type-approbation').value;
   const pct = type === 'conforme' ? '35' : '100';
   fermerModal('modal-approbation');
-  alert('Facture '+factureEnCours+' approuvee par Noureddine. Envoyee a Piedad pour validation. Sauvegardee dans SharePoint.');
+  alert('Facture '+factureEnCours+' approuvee par Noureddine Hany. Signature electronique apposee. Envoyee a Piedad Saenz pour validation finale. Sauvegardee dans SharePoint.');
 }
 function refuserFacture(no){
   factureEnCours = no;
@@ -850,7 +919,7 @@ function enregistrerEncaissement(maison, facture){
 }
 function confirmerEncaissement(){
   fermerModal('modal-encaissement');
-  alert('Encaissement enregistre. Statut mis a jour.');
+  alert('Encaissement enregistre. Statut mis a jour dans SharePoint.');
 }
 function soumettreFacture(){
   fermerModal('modal-ajout');
