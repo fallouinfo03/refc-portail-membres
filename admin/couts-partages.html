@@ -8,173 +8,156 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
-.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:100}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:999}
 .banniere a{color:#60a5fa;text-decoration:none}
 .topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:36px;left:0;right:0;z-index:998}
-.topbar-logo{display:flex;align-items:center;gap:12px}
-.topbar-logo img{height:36px}
-.topbar-titre{font-size:14px;font-weight:500;opacity:.9}
-.topbar-droite{display:flex;align-items:center;gap:16px;font-size:13px}
-.pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
-.btn-deco{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
-.btn-deco:hover{background:rgba(255,255,255,.1)}
 .nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto;position:fixed;top:96px;left:0;right:0;z-index:997}
+.contenu{padding:24px;max-width:1300px;margin:0 auto;padding-top:140px}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-droite{display:flex;align-items:center;gap:16px;font-size:13px}
+.pill-role{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deconnexion{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
 .nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
 .nav-btn:hover{color:#fff}
 .nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
-.contenu{padding:24px;max-width:1200px;margin:0 auto;padding-top:140px}
-.entete-page{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-.entete-gauche .page-titre{font-size:22px;font-weight:600;color:#1e293b}
-.entete-gauche .page-soustitre{font-size:13px;color:#64748b;margin-top:3px}
-.filtres{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.filtre-select{padding:7px 12px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#1e293b;cursor:pointer;outline:none}
-.filtre-select:focus{border-color:#2D3F7B}
-.btn{padding:7px 14px;font-size:13px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#1e293b;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:.15s}
+/* Page */
+.page-entete{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.page-titre{font-size:22px;font-weight:600;color:#1e293b}
+.page-soustitre{font-size:13px;color:#64748b;margin-top:2px}
+.entete-actions{display:flex;gap:8px;flex-wrap:wrap}
+/* Alertes */
+.alerte{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-radius:8px;font-size:13px;line-height:1.5;border:1px solid;margin-bottom:10px}
+.alerte-rouge{background:#fee2e2;border-color:#fca5a5;color:#7f1d1d}
+.alerte-jaune{background:#E8EEF7;border-color:#7B9EC8;color:#64748b}
+.alerte-bleu{background:#E8EEF7;border-color:#7B9EC8;color:#1e3a5f}
+.alerte-icone{font-size:15px;flex-shrink:0;font-weight:700;margin-top:1px}
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:10px;padding:16px 18px;border:1px solid #e2e8f0;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:#2D3F7B}
+.kpi.warn::before{background:#7B9EC8}
+.kpi-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.kpi-valeur{font-size:24px;font-weight:700;color:#1e293b}
+.kpi-valeur.warn{color:#2D3F7B}
+.kpi-sous{font-size:11px;color:#94a3b8;margin-top:4px}
+/* Section */
+.section-titre{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin:20px 0 10px;display:flex;align-items:center;justify-content:space-between}
+.separateur{margin-top:32px;padding-top:20px;border-top:2px solid #e2e8f0}
+/* Grille */
+.grille2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.carte{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
+.carte-entete{padding:14px 18px;border-bottom:1px solid #e2e8f0}
+.carte-titre{font-size:13px;font-weight:600;color:#1e293b}
+.carte-sous-titre{font-size:11px;color:#64748b;margin-top:2px}
+.carte-corps{padding:14px 18px}
+/* Barres */
+.barre-maison{margin-bottom:14px}
+.barre-maison-entete{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:12px}
+.barre-maison-nom{font-weight:600;color:#1e293b}
+.barre-maison-chiffres{color:#64748b;font-size:11px}
+.barre-track{height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+.barre-fill{height:100%;background:#2D3F7B;border-radius:4px}
+.barre-fill.alerte{background:#7B9EC8}
+.barre-pct{font-size:10px;color:#94a3b8;margin-top:3px}
+/* Filtres */
+.filtres-ligne{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.filtre-select{border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:12px;color:#1e293b;background:#fff;cursor:pointer;outline:none}
+.filtre-select:focus{border-color:#7B9EC8}
+/* Tableau */
+.tableau-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:#64748b;background:#f8fafc;border-bottom:1px solid #e2e8f0}
+td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#1e293b;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.montant{font-family:monospace;text-align:right}
+/* Badges */
+.badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
+.badge-vert{background:#E8EEF7;color:#2D3F7B}
+.badge-orange{background:#E8EEF7;color:#64748b}
+.badge-rouge{background:#fee2e2;color:#7f1d1d}
+.badge-bleu{background:#E8EEF7;color:#2D3F7B}
+.badge-violet{background:#1e293b;color:#fff}
+.badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+/* Boutons */
+.btn{background:#fff;border:1px solid #e2e8f0;color:#1e293b;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;transition:.15s}
 .btn:hover{background:#f8fafc}
 .btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
 .btn-pri:hover{background:#253570}
-.btn-sm{padding:4px 10px;font-size:12px}
-/* Alertes */
-.alerte{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:10px;line-height:1.5}
-.alerte-warn{background:#fef9c3;border:1px solid #fde68a;color:#854d0e}
-.alerte-info{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8}
-.alerte-mark{font-weight:700;flex-shrink:0;font-size:14px}
-/* KPIs */
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.kpi{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;position:relative;overflow:hidden}
-.kpi::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:#2D3F7B;border-radius:0}
-.kpi.warn::before{background:#854d0e}
-.kpi.danger::before{background:#7f1d1d}
-.kpi-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-.kpi-valeur{font-size:26px;font-weight:700;color:#1e293b;line-height:1}
-.kpi-valeur.warn{color:#854d0e}
-.kpi-valeur.danger{color:#7f1d1d}
-.kpi-sous{font-size:11px;color:#94a3b8;margin-top:6px}
-/* Grille 2 colonnes */
-.grille2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
-/* Carte */
-.carte{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
-.carte-entete{padding:14px 18px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between}
-.carte-titre{font-size:13px;font-weight:600;color:#1e293b}
-.carte-sous-titre{font-size:11px;color:#64748b;margin-top:2px}
-.carte-corps{padding:16px 18px}
-/* Barres maisons */
-.barre-maison{margin-bottom:14px}
-.barre-maison:last-child{margin-bottom:0}
-.barre-maison-entete{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
-.barre-maison-nom{font-size:13px;font-weight:500;color:#1e293b}
-.barre-maison-chiffres{font-size:12px;color:#64748b}
-.barre-maison-chiffres strong{color:#2D3F7B}
-.barre-track{height:10px;background:#f1f5f9;border-radius:6px;overflow:hidden;position:relative}
-.barre-fill{height:100%;border-radius:6px;background:#2D3F7B;transition:.4s}
-.barre-fill.warn{background:#854d0e}
-.barre-fill.danger{background:#7f1d1d}
-.barre-pct{font-size:10px;color:#64748b;margin-top:3px;text-align:right}
-/* Section titre */
-.section-titre{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin:20px 0 10px}
-/* Tableau */
-.tableau-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:6px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:#64748b;background:#f8fafc;border-bottom:1px solid #e2e8f0;white-space:nowrap;letter-spacing:.02em}
-td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#1e293b;vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tbody tr:hover td{background:#f8fafc}
-.montant{font-family:'SF Mono',Monaco,monospace;font-size:12.5px;text-align:right;white-space:nowrap}
-.montant.bleu{color:#2D3F7B;font-weight:600}
-.montant.warn{color:#854d0e;font-weight:600}
-/* Badges */
-.badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
-.badge-vert{background:#dcfce7;color:#166534}
-.badge-orange{background:#fef9c3;color:#854d0e}
-.badge-rouge{background:#fee2e2;color:#7f1d1d}
-.badge-bleu{background:#E8EEF7;color:#2D3F7B}
-.badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
-.badge-retard{background:#fee2e2;color:#7f1d1d;font-weight:700}
-/* Point rouge urgence */
-.pt-urgence{width:7px;height:7px;border-radius:50%;background:#7f1d1d;display:inline-block;margin-right:5px;flex-shrink:0;animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-/* Actions tableau */
-.actions-td{display:flex;gap:5px;align-items:center}
-/* Modal */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10000;align-items:center;justify-content:center}
-.modal-bg.visible{display:flex}
-.modal{background:#fff;border-radius:12px;width:560px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.2)}
-.modal-entete{padding:20px 24px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:1}
-.modal-titre{font-size:16px;font-weight:600;color:#1e293b}
-.modal-corps{padding:24px}
-.modal-pied{padding:16px 24px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:10px;background:#f8fafc}
-.btn-fermer{background:none;border:none;font-size:22px;cursor:pointer;color:#64748b;line-height:1;padding:2px}
-.btn-fermer:hover{color:#1e293b}
-/* Formulaire */
-.form-grille2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.form-groupe{margin-bottom:14px}
-.form-groupe:last-child{margin-bottom:0}
-.form-label{display:block;font-size:12px;font-weight:500;color:#475569;margin-bottom:5px}
-.form-label .requis{color:#7f1d1d}
-.form-input,.form-select,.form-textarea{width:100%;padding:8px 12px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;outline:none;color:#1e293b;background:#fff}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:#2D3F7B;box-shadow:0 0 0 3px rgba(45,63,123,.08)}
-.form-textarea{resize:vertical;min-height:70px}
-.form-input.calcule{background:#f8fafc;color:#2D3F7B;font-weight:600;font-family:'SF Mono',Monaco,monospace}
-.form-sep{height:1px;background:#e2e8f0;margin:16px 0}
-.form-note{font-size:11px;color:#94a3b8;margin-top:4px;line-height:1.5}
-/* Récapitulatif calcul automatique */
-.recapitulatif{background:#E8EEF7;border:1px solid #7B9EC8;border-radius:8px;padding:14px 16px;margin-top:14px}
-.recap-titre{font-size:11px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
-.recap-ligne{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid rgba(123,158,200,.3)}
-.recap-ligne:last-child{border-bottom:none;font-weight:700;font-size:14px;color:#2D3F7B;padding-top:8px;margin-top:4px}
-.recap-cle{color:#475569}
-.recap-val{font-family:'SF Mono',Monaco,monospace;color:#2D3F7B;font-weight:500}
-/* Modal détail */
-.detail-section{margin-bottom:18px}
-.detail-section-titre{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #e2e8f0}
-.detail-ligne{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f8fafc;font-size:13px}
-.detail-ligne:last-child{border-bottom:none}
-.detail-cle{color:#64748b}
-.detail-val{font-weight:500;color:#1e293b;text-align:right}
-/* Confirmation suppression */
-.modal-confirm{text-align:center;padding:10px 0}
-.modal-confirm .icone{font-size:40px;margin-bottom:12px}
-.modal-confirm .texte-principal{font-size:16px;font-weight:600;color:#1e293b;margin-bottom:8px}
-.modal-confirm .texte-secondaire{font-size:13px;color:#64748b;line-height:1.6}
+.btn-succ{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.btn-succ:hover{background:#253570}
+.btn-err{background:#fee2e2;color:#7f1d1d;border-color:#fca5a5}
+.btn-err:hover{background:#fca5a5}
+.btn-warn{background:#E8EEF7;color:#2D3F7B;border-color:#7B9EC8}
+.btn-dext{background:#2D3F7B;color:#fff;border-color:#2D3F7B;font-weight:700}
+.btn-dext:hover{background:#1e3a5f}
+.btn-sm{padding:4px 10px;font-size:11px}
+.actions-td{display:flex;gap:4px;flex-wrap:wrap}
 /* Pagination */
 .pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid #e2e8f0;background:#f8fafc;font-size:12px;color:#64748b}
-
-        .badge-vert{background:#dcfce7;color:#166534}
-        .badge-orange{background:#fef9c3;color:#854d0e}
-        .badge-rouge{background:#fee2e2;color:#7f1d1d}
-        .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
-        .badge-bleu{background:#E8EEF7;color:#2D3F7B}
-        .badge-recu{background:#E8EEF7;color:#2D3F7B}
-        .badge-repondu{background:#dcfce7;color:#166534}
-        .badge-traitement{background:#fef9c3;color:#854d0e}
-        .badge-ferme{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
-        .badge-retard{background:#fee2e2;color:#7f1d1d;font-weight:700}
-        .badge-statut{background:#dcfce7;color:#166534}
-        .badge-attente{background:#fef9c3;color:#854d0e}
-        .badge-alerte{background:#fee2e2;color:#7f1d1d}
-        .badge-neutre{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
-        .badge-salon{background:#E8EEF7;color:#2D3F7B}
-        .badge-intl{background:#1e293b;color:#fff}
-        .badge-ingram{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
-        .badge-congres{background:#E8EEF7;color:#253570;border:1px solid #7B9EC8}
+.pagination-btns{display:flex;gap:6px}
+/* Note */
+.note-info{background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#1e3a5f;margin-bottom:12px;line-height:1.6}
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;align-items:center;justify-content:center}
+.modal-bg.visible{display:flex}
+.modal{background:#fff;border-radius:12px;padding:0;width:600px;max-width:92vw;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-entete{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:#fff;z-index:1}
+.modal-titre{font-size:16px;font-weight:700;color:#1e293b}
+.btn-fermer{background:none;border:none;font-size:22px;cursor:pointer;color:#64748b;line-height:1}
+.modal-corps{padding:20px 24px}
+.modal-pied{padding:14px 24px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:8px;position:sticky;bottom:0;background:#fff}
+/* Détail facture */
+.detail-section{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f1f5f9}
+.detail-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.detail-section-titre{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.detail-ligne{display:flex;align-items:flex-start;justify-content:space-between;padding:5px 0;font-size:13px;gap:12px}
+.detail-cle{color:#64748b;font-size:12px;flex-shrink:0;min-width:140px}
+.detail-val{font-weight:500;color:#1e293b;text-align:right}
+/* Flux étapes */
+.etape-flux{display:flex;align-items:flex-start;gap:12px;padding:8px 0;border-bottom:1px solid #f1f5f9}
+.etape-flux:last-child{border-bottom:none}
+.etape-icone{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.etape-icone.fait{background:#2D3F7B;color:#fff}
+.etape-icone.attente{background:#e2e8f0;color:#94a3b8}
+.etape-icone.rejet{background:#fee2e2;color:#7f1d1d}
+.etape-info{flex:1}
+.etape-label{font-size:12px;font-weight:600}
+.etape-label.fait{color:#1e293b}
+.etape-label.attente{color:#94a3b8}
+.etape-label.rejet{color:#7f1d1d}
+.etape-meta{font-size:11px;color:#64748b;margin-top:2px}
+.signature-bloc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;margin-top:6px}
+.signature-nom{font-family:Georgia,serif;font-style:italic;font-size:13px;color:#2D3F7B}
+.signature-meta{font-size:10px;color:#94a3b8;margin-top:2px}
+.sharepoint-tag{background:#E8EEF7;border-left:3px solid #7B9EC8;padding:5px 10px;border-radius:0 4px 4px 0;font-size:11px;color:#2D3F7B;margin-top:4px}
+/* Formulaire modal */
+.form-row{margin-bottom:14px}
+.form-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block}
+.form-input,.form-select,.form-textarea{width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;font-size:13px;color:#1e293b;outline:none;font-family:inherit}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:#7B9EC8}
+.form-textarea{resize:vertical;min-height:70px}
+.grid2-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.upload-zone{border:2px dashed #cbd5e1;border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:.15s;background:#f8fafc}
+.upload-zone:hover{border-color:#7B9EC8;background:#E8EEF7}
 </style>
 </head>
 <body>
 
 <div class="banniere">
-  ⚠️ <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
+  <strong>DÉMONSTRATION</strong> — Données entièrement fictives ·
   <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Voir le code source</a>
 </div>
 
 <div class="topbar">
   <div class="topbar-logo">
     <img src="../assets/REFC_Logo_acelf.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
-    <span class="topbar-titre">Portail membres</span>
+    <span style="font-size:14px;font-weight:500;opacity:.9">Portail membres</span>
   </div>
   <div class="topbar-droite">
-    <span class="pill">admin</span>
+    <span class="pill-role">admin</span>
     <span>Noureddine Hany</span>
-    <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
+    <button class="btn-deconnexion" onclick="window.location.href='../index.html'">Déconnexion</button>
   </div>
 </div>
 
@@ -185,8 +168,8 @@ tbody tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
-  <a class="nav-btn" href="calendrier.html">Gouvernance</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
+  <a class="nav-btn" href="calendrier.html">Calendrier</a>
   <a class="nav-btn" href="planification.html">Réalisations et performances</a>
   <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
   <a class="nav-btn" href="assistance.html">Assistance</a>
@@ -194,599 +177,201 @@ tbody tr:hover td{background:#f8fafc}
 
 <div class="contenu">
 
-  <div class="entete-page">
-    <div class="entete-gauche">
+  <div class="page-entete">
+    <div>
       <div class="page-titre">Services à coûts partagés</div>
-      <div class="page-soustitre">Suivi des factures et refacturations — Année budgétaire 2025–2026 · Enveloppe individuelle : 6 000 $ / maison</div>
+      <div class="page-soustitre">Suivi des factures et refacturations — Année budgétaire 2025–2026 · Enveloppe : 6 000 $ / maison</div>
     </div>
-    <div class="filtres">
-      <select class="filtre-select" id="filtre-annee">
-        <option value="2025-2026" selected>2025–2026</option>
-        <option value="2024-2025">2024–2025</option>
-        <option value="2023-2024">2023–2024</option>
-      </select>
-      <select class="filtre-select" id="filtre-maison" onchange="filtrerMaison()">
-        <option value="toutes">Toutes les maisons</option>
-        <option value="prise">Prise de Parole</option>
-        <option value="david">Éditions David</option>
-        <option value="bouton">Bouton d'or d'Acadie</option>
-        <option value="plume">La Nouvelle Plume</option>
-        <option value="interligne">L'Interligne</option>
-      </select>
+    <div class="entete-actions">
       <button class="btn" onclick="exporterExcel()">↓ Exporter Excel</button>
-      <button class="btn btn-pri" onclick="ouvrirModal('modal-ajout')">+ Ajouter une facture</button>
     </div>
   </div>
 
-  <!-- Alertes -->
-  <div class="alerte alerte-warn">
-    <span class="alerte-mark"><span class="pt-urgence"></span>Attention</span>
-    <span>2 refacturations 35% en retard de paiement — <strong>Bouton d'or d'Acadie</strong> (60 jours) et <strong>La Nouvelle Plume</strong> (45 jours). Une relance automatique a été envoyée.</span>
+  <div class="alerte alerte-rouge">
+    <span class="alerte-icone">!</span>
+    <div>2 refacturations en retard — <strong>Bouton d'or d'Acadie</strong> (60 jours) et <strong>La Nouvelle Plume</strong> (45 jours).</div>
   </div>
-  <div class="alerte alerte-info" style="margin-bottom:20px">
-    <span class="alerte-mark">Info</span>
-    <span>1 facture en attente d'approbation par la directrice depuis <strong>3 jours</strong> — Studio Web 3C / Éditions David.</span>
+  <div class="alerte alerte-jaune">
+    <span class="alerte-icone">⚠</span>
+    <div>1 facture soumise par <strong>Éditions David</strong> attend votre validation — Studio Web 3C — 542,40 $.</div>
   </div>
 
   <!-- KPIs -->
   <div class="kpis">
-    <div class="kpi">
-      <div class="kpi-label">Budget global 2025–2026</div>
-      <div class="kpi-valeur">84 000 $</div>
-      <div class="kpi-sous">14 maisons × 6 000 $ — enveloppe initiale identique par maison</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Budget utilisé</div>
-      <div class="kpi-valeur">31 500 $</div>
-      <div class="kpi-sous">37,5 % de l'enveloppe globale consommée</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Solde restant</div>
-      <div class="kpi-valeur">52 500 $</div>
-      <div class="kpi-sous">Disponible jusqu'au 31 mars 2026</div>
-    </div>
-    <div class="kpi warn">
-      <div class="kpi-label">Refacturations 35% en attente</div>
-      <div class="kpi-valeur warn">2 507,84 $</div>
-      <div class="kpi-sous">Dont 248,17 $ en retard</div>
-    </div>
+    <div class="kpi"><div class="kpi-label">Budget global 2025–2026</div><div class="kpi-valeur">84 000 $</div><div class="kpi-sous">14 maisons × 6 000 $</div></div>
+    <div class="kpi"><div class="kpi-label">Budget utilisé</div><div class="kpi-valeur">31 500 $</div><div class="kpi-sous">37,5 % de l'enveloppe globale</div></div>
+    <div class="kpi"><div class="kpi-label">Solde restant</div><div class="kpi-valeur">52 500 $</div><div class="kpi-sous">Disponible jusqu'au 31 mars 2026</div></div>
+    <div class="kpi warn"><div class="kpi-label">Refacturations en attente</div><div class="kpi-valeur warn">2 507,84 $</div><div class="kpi-sous">Dont 248,17 $ en retard</div></div>
   </div>
 
-  <!-- Utilisation par maison -->
+  <!-- Grille utilisation + refacturations en attente -->
   <div class="grille2">
     <div class="carte">
-      <div class="carte-entete">
-        <div>
-          <div class="carte-titre">Utilisation par maison</div>
-          <div class="carte-sous-titre">Montant consommé vs enveloppe allouée · Année 2025–2026</div>
-        </div>
-      </div>
+      <div class="carte-entete"><div class="carte-titre">Utilisation par maison</div><div class="carte-sous-titre">Montant consommé vs enveloppe — 2025–2026</div></div>
       <div class="carte-corps">
-
-        <div style="background:#E8EEF7;border:1px solid #7B9EC8;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#2D3F7B;line-height:1.6">
-          <strong>Enveloppe initiale identique :</strong> 6 000 $ par maison membre au 1er avril 2025.<br>
-          En mi-année, les soldes non utilisés sont redistribués aux maisons qui en font la demande.
-          Les enveloppes ci-dessous reflètent les soldes <strong>après redistribution de mi-année</strong>.
-        </div>
-
-        <div class="barre-maison">
-          <div class="barre-maison-entete">
-            <span class="barre-maison-nom">Prise de Parole</span>
-            <span class="barre-maison-chiffres"><strong>4 200 $</strong> / 6 000 $ <span style="color:#2D3F7B;font-size:10px">+ 0 $ redistribué</span></span>
-          </div>
-          <div class="barre-track"><div class="barre-fill" style="width:70%"></div></div>
-          <div class="barre-pct">70 % utilisé · Solde restant : 1 800 $</div>
-        </div>
-
-        <div class="barre-maison">
-          <div class="barre-maison-entete">
-            <span class="barre-maison-nom">Éditions David</span>
-            <span class="barre-maison-chiffres"><strong>3 850 $</strong> / 8 000 $ <span style="color:#2D3F7B;font-size:10px">+ 2 000 $ redistribués</span></span>
-          </div>
-          <div class="barre-track"><div class="barre-fill" style="width:48%"></div></div>
-          <div class="barre-pct">48 % utilisé · Solde restant : 4 150 $</div>
-        </div>
-
-        <div class="barre-maison">
-          <div class="barre-maison-entete">
-            <span class="barre-maison-nom">Bouton d'or d'Acadie</span>
-            <span class="barre-maison-chiffres"><strong>5 250 $</strong> / 6 000 $ <span style="color:#2D3F7B;font-size:10px">+ 0 $ redistribué</span></span>
-          </div>
-          <div class="barre-track"><div class="barre-fill" style="width:88%" class="warn"></div></div>
-          <div class="barre-pct">88 % utilisé · Solde restant : 750 $</div>
-        </div>
-
-        <div class="barre-maison">
-          <div class="barre-maison-entete">
-            <span class="barre-maison-nom">La Nouvelle Plume</span>
-            <span class="barre-maison-chiffres"><strong>1 800 $</strong> / 6 000 $ <span style="color:#2D3F7B;font-size:10px">+ 0 $ redistribué</span></span>
-          </div>
-          <div class="barre-track"><div class="barre-fill" style="width:30%"></div></div>
-          <div class="barre-pct">30 % utilisé · Solde restant : 4 200 $</div>
-        </div>
-
-        <div class="barre-maison">
-          <div class="barre-maison-entete">
-            <span class="barre-maison-nom">L'Interligne</span>
-            <span class="barre-maison-chiffres"><strong>450 $</strong> / 6 000 $ <span style="color:#2D3F7B;font-size:10px">+ 0 $ redistribué</span></span>
-          </div>
-          <div class="barre-track"><div class="barre-fill" style="width:8%"></div></div>
-          <div class="barre-pct">8 % utilisé · Solde restant : 5 550 $</div>
-        </div>
-
-        <div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8;text-align:center">
-          9 autres maisons membres — voir le filtre ci-dessus pour les détails individuels
-        </div>
+        <div class="note-info"><strong>Enveloppe initiale :</strong> 6 000 $ par maison au 1er avril 2025. Les soldes reflètent les montants après redistribution de mi-année.</div>
+        <div class="barre-maison"><div class="barre-maison-entete"><span class="barre-maison-nom">Prise de Parole</span><span class="barre-maison-chiffres"><strong>4 200 $</strong> / 6 000 $</span></div><div class="barre-track"><div class="barre-fill" style="width:70%"></div></div><div class="barre-pct">70% · Solde : 1 800 $</div></div>
+        <div class="barre-maison"><div class="barre-maison-entete"><span class="barre-maison-nom">Éditions David</span><span class="barre-maison-chiffres"><strong>3 850 $</strong> / 8 000 $</span></div><div class="barre-track"><div class="barre-fill" style="width:48%"></div></div><div class="barre-pct">48% · Solde : 4 150 $</div></div>
+        <div class="barre-maison"><div class="barre-maison-entete"><span class="barre-maison-nom">Bouton d'or d'Acadie</span><span class="barre-maison-chiffres"><strong>5 250 $</strong> / 6 000 $</span></div><div class="barre-track"><div class="barre-fill alerte" style="width:88%"></div></div><div class="barre-pct">88% · Solde : 750 $</div></div>
+        <div class="barre-maison"><div class="barre-maison-entete"><span class="barre-maison-nom">La Nouvelle Plume</span><span class="barre-maison-chiffres"><strong>1 800 $</strong> / 6 000 $</span></div><div class="barre-track"><div class="barre-fill" style="width:30%"></div></div><div class="barre-pct">30% · Solde : 4 200 $</div></div>
+        <div class="barre-maison"><div class="barre-maison-entete"><span class="barre-maison-nom">L'Interligne</span><span class="barre-maison-chiffres"><strong>450 $</strong> / 6 000 $</span></div><div class="barre-track"><div class="barre-fill" style="width:8%"></div></div><div class="barre-pct">8% · Solde : 5 550 $</div></div>
       </div>
     </div>
-
     <div class="carte">
-      <div class="carte-entete">
-        <div>
-          <div class="carte-titre">Suivi des refacturations 35 %</div>
-          <div class="carte-sous-titre">État d'encaissement — maisons avec solde dû</div>
-        </div>
-      </div>
-      <div class="carte-corps" style="padding:0">
-        <table>
-          <thead>
-            <tr>
-              <th>Maison</th>
-              <th>N° facture</th>
-              <th style="text-align:right">Total dû</th>
-              <th>Échéance</th>
-              <th>Statut</th>
-            </tr>
-          </thead>
+      <div class="carte-entete"><div class="carte-titre">Refacturations 35% en attente</div><div class="carte-sous-titre">Part due par les maisons membres</div></div>
+      <div class="carte-corps">
+        <table style="font-size:12px">
+          <thead><tr><th>Maison</th><th>Montant dû</th><th>Délai</th><th>Statut</th></tr></thead>
           <tbody>
-            <tr>
-              <td>Prise de Parole</td>
-              <td style="color:#64748b">#3320</td>
-              <td class="montant">59,33 $</td>
-              <td style="color:#64748b;font-size:12px">21 juin 2025</td>
-              <td><span class="badge badge-vert">Encaissé</span></td>
-            </tr>
-            <tr>
-              <td>Éditions David</td>
-              <td style="color:#64748b">#3400</td>
-              <td class="montant">79,10 $</td>
-              <td style="color:#64748b;font-size:12px">21 juin 2025</td>
-              <td><span class="badge badge-vert">Encaissé</span></td>
-            </tr>
-            <tr style="background:#fffbeb">
-              <td><strong>Bouton d'or d'Acadie</strong></td>
-              <td style="color:#64748b">#3505</td>
-              <td class="montant warn">59,33 $</td>
-              <td style="color:#7f1d1d;font-size:12px;font-weight:600">7 juillet 2025</td>
-              <td><span class="badge badge-retard">Retard 60 j</span></td>
-            </tr>
-            <tr style="background:#fffbeb">
-              <td><strong>La Nouvelle Plume</strong></td>
-              <td style="color:#64748b">#3612</td>
-              <td class="montant warn">189,84 $</td>
-              <td style="color:#7f1d1d;font-size:12px;font-weight:600">15 juillet 2025</td>
-              <td><span class="badge badge-retard">Retard 45 j</span></td>
-            </tr>
-            <tr>
-              <td>L'Interligne</td>
-              <td style="color:#64748b">#3701</td>
-              <td class="montant">36,75 $</td>
-              <td style="color:#64748b;font-size:12px">30 août 2025</td>
-              <td><span class="badge badge-orange">En attente</span></td>
-            </tr>
+            <tr><td>Prise de Parole</td><td class="montant">224,36 $</td><td style="color:#64748b">15 jours</td><td><span class="badge badge-bleu">À venir</span></td></tr>
+            <tr><td>Bouton d'or d'Acadie</td><td class="montant">183,76 $</td><td style="color:#7f1d1d;font-weight:600">60 jours</td><td><span class="badge badge-rouge">En retard</span></td></tr>
+            <tr><td>La Nouvelle Plume</td><td class="montant">64,04 $</td><td style="color:#7f1d1d;font-weight:600">45 jours</td><td><span class="badge badge-rouge">En retard</span></td></tr>
+            <tr><td>Éditions David</td><td class="montant">190,72 $</td><td style="color:#64748b">30 jours</td><td><span class="badge badge-orange">Bientôt dû</span></td></tr>
           </tbody>
         </table>
+        <div style="margin-top:10px">
+          <button class="btn btn-sm btn-pri" onclick="alert('Relances envoyées automatiquement par courriel aux maisons en retard.')">Envoyer relances</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Tableau factures reçues -->
-  <div class="section-titre">Factures reçues des fournisseurs</div>
+  <!-- ===== SECTION FACTURES SOUMISES PAR LES MEMBRES ===== -->
+  <div class="section-titre">
+    <span>Factures soumises par les maisons membres</span>
+    <span style="font-size:11px;color:#64748b;font-weight:400;text-transform:none" id="compteur-factures">5 factures affichées sur 24</span>
+  </div>
+
+  <div class="filtres-ligne">
+    <select class="filtre-select" id="filtre-maison" onchange="filtrerFactures()">
+      <option value="">Toutes les maisons</option>
+      <option>Prise de Parole</option>
+      <option>Éditions David</option>
+      <option>Bouton d'or d'Acadie</option>
+      <option>La Nouvelle Plume</option>
+      <option>L'Interligne</option>
+    </select>
+    <select class="filtre-select" id="filtre-statut" onchange="filtrerFactures()">
+      <option value="">Tous les statuts</option>
+      <option>Soumise — en attente validation</option>
+      <option>Validée — en attente approbation</option>
+      <option>Approuvée</option>
+      <option>Envoyée à Dext</option>
+      <option>Rejetée</option>
+    </select>
+  </div>
+
   <div class="tableau-wrap">
     <table>
       <thead>
         <tr>
-          <th style="width:90px">Date</th>
+          <th style="width:100px">N° facture</th>
           <th>Maison membre</th>
           <th>Fournisseur</th>
-          <th style="width:90px">N° facture</th>
-          <th style="width:130px">Type de service</th>
-          <th>Description</th>
-          <th style="text-align:right;width:90px">Montant HT</th>
-          <th style="text-align:right;width:70px">Taxes</th>
-          <th style="text-align:right;width:90px">Total TTC</th>
-          <th style="width:110px">Statut</th>
-          <th style="width:120px">Actions</th>
+          <th style="width:90px">Type</th>
+          <th style="width:100px">Montant TTC</th>
+          <th style="width:160px">Statut</th>
+          <th style="width:90px">Date</th>
+          <th style="width:140px">Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td style="font-size:12px;color:#64748b">10 juin 2025</td>
-          <td>Prise de Parole</td>
-          <td>Agence Oméga</td>
-          <td style="font-size:12px;color:#64748b">F-20250610</td>
-          <td><span class="badge badge-bleu">Agent de presse</span></td>
-          <td style="font-size:12px;color:#64748b">Service de presse — roman «&nbsp;Les Racines&nbsp;»</td>
-          <td class="montant">150,00 $</td>
-          <td class="montant" style="color:#64748b">19,50 $</td>
-          <td class="montant bleu">169,50 $</td>
-          <td><span class="badge badge-vert">Approuvée</span></td>
-          <td><div class="actions-td">
-            <button class="btn btn-sm" onclick="ouvrirDetail('F-20250610','Prise de Parole','Agence Oméga','Agent de presse','Service de presse — roman Les Racines','150.00','19.50','169.50','Approuvée','10 juin 2025')">Voir</button>
-            <button class="btn btn-sm" onclick="enregistrerEncaissement('Prise de Parole','#3320')">Encaisser</button>
-          </div></td>
-        </tr>
-        <tr>
-          <td style="font-size:12px;color:#64748b">3 juin 2025</td>
-          <td>Éditions David</td>
-          <td>Agence Bêta</td>
-          <td style="font-size:12px;color:#64748b">F-20250603</td>
-          <td><span class="badge badge-bleu">Numérique</span></td>
-          <td style="font-size:12px;color:#64748b">Adaptation numérique — «&nbsp;L'Horizon perdu&nbsp;»</td>
-          <td class="montant">200,00 $</td>
-          <td class="montant" style="color:#64748b">26,00 $</td>
-          <td class="montant bleu">226,00 $</td>
-          <td><span class="badge badge-vert">Approuvée</span></td>
-          <td><div class="actions-td">
-            <button class="btn btn-sm" onclick="ouvrirDetail('F-20250603','Éditions David','Agence Bêta','Numérique','Adaptation numérique - L-Horizon perdu','200.00','26.00','226.00','Approuvée','3 juin 2025')">Voir</button>
-          </div></td>
-        </tr>
-        <tr style="background:#fffbeb">
-          <td style="font-size:12px;color:#64748b">18 juil. 2025</td>
-          <td><strong>Bouton d'or d'Acadie</strong></td>
-          <td>Magazine Alpha</td>
-          <td style="font-size:12px;color:#64748b">F-20250718</td>
-          <td><span class="badge badge-bleu">Publicité</span></td>
-          <td style="font-size:12px;color:#64748b">Publicité 1/2 page — Magazine Alpha, sept. 2025</td>
-          <td class="montant">350,00 $</td>
-          <td class="montant" style="color:#64748b">45,50 $</td>
-          <td class="montant bleu">395,50 $</td>
-          <td><span class="badge badge-orange">En attente</span></td>
-          <td><div class="actions-td">
-            <button class="btn btn-sm btn-pri" onclick="approuverFacture('F-20250718','Bouton d'or d'Acadie')">Approuver</button>
-            <button class="btn btn-sm" onclick="refuserFacture('F-20250718')">Refuser</button>
-          </div></td>
-        </tr>
-        <tr style="background:#fffbeb">
-          <td style="font-size:12px;color:#64748b">22 juil. 2025</td>
+      <tbody id="tbody-factures">
+        <tr data-maison="Éditions David" data-statut="Soumise — en attente validation">
+          <td style="font-family:monospace;font-size:12px">FAC-2026-006</td>
           <td><strong>Éditions David</strong></td>
           <td>Studio Web 3C</td>
-          <td style="font-size:12px;color:#64748b">F-20250722</td>
           <td><span class="badge badge-bleu">Numérique</span></td>
-          <td style="font-size:12px;color:#64748b">Mise à jour site web et boutique en ligne</td>
-          <td class="montant">480,00 $</td>
-          <td class="montant" style="color:#64748b">62,40 $</td>
-          <td class="montant bleu">542,40 $</td>
-          <td><span class="badge badge-orange">En attente</span></td>
+          <td class="montant">542,40 $</td>
+          <td><span class="badge badge-violet">Soumise — en attente validation</span></td>
+          <td style="font-size:12px;color:#64748b">13 sept. 2026</td>
           <td><div class="actions-td">
-            <button class="btn btn-sm btn-pri" onclick="approuverFacture('F-20250722','Éditions David')">Approuver</button>
-            <button class="btn btn-sm" onclick="refuserFacture('F-20250722')">Refuser</button>
+            <button class="btn btn-sm" onclick="ouvrirDetail('FAC-2026-006','Editions David','Studio Web 3C','Numérique','Mise à jour site web','480.00','62.40','542.40','Soumise — en attente validation','13 sept. 2026')">Voir</button>
+            <button class="btn btn-sm btn-succ" onclick="validerNoureddine('FAC-2026-006','Editions David')">Valider</button>
+            <button class="btn btn-sm btn-err" onclick="ouvrirRefus('FAC-2026-006','Noureddine')">Rejeter</button>
           </div></td>
         </tr>
-        <tr>
-          <td style="font-size:12px;color:#64748b">5 août 2025</td>
-          <td>L'Interligne</td>
-          <td>Agence Gamma</td>
-          <td style="font-size:12px;color:#64748b">F-20250805</td>
-          <td><span class="badge badge-bleu">Surdiffusion</span></td>
-          <td style="font-size:12px;color:#64748b">Service de surdiffusion Q3 2025</td>
-          <td class="montant">105,00 $</td>
-          <td class="montant" style="color:#64748b">13,65 $</td>
-          <td class="montant bleu">118,65 $</td>
-          <td><span class="badge badge-vert">Approuvée</span></td>
+        <tr data-maison="Prise de Parole" data-statut="Validée — en attente approbation">
+          <td style="font-family:monospace;font-size:12px">FAC-2026-005</td>
+          <td><strong>Prise de Parole</strong></td>
+          <td>Agence Oméga</td>
+          <td><span class="badge badge-bleu">Agent de presse</span></td>
+          <td class="montant">395,50 $</td>
+          <td><span class="badge badge-orange">Validée — en attente approbation</span></td>
+          <td style="font-size:12px;color:#64748b">11 sept. 2026</td>
           <td><div class="actions-td">
-            <button class="btn btn-sm">Voir</button>
+            <button class="btn btn-sm" onclick="ouvrirDetail('FAC-2026-005','Prise de Parole','Agence Oméga','Agent de presse','Service de presse national','350.00','45.50','395.50','Validée — en attente approbation','11 sept. 2026')">Voir</button>
+            <button class="btn btn-sm btn-succ" onclick="approuverPiedad('FAC-2026-005','Prise de Parole')">Approuver</button>
+            <button class="btn btn-sm btn-err" onclick="ouvrirRefus('FAC-2026-005','Piedad')">Rejeter</button>
+          </div></td>
+        </tr>
+        <tr data-maison="Bouton d'or d'Acadie" data-statut="Approuvée">
+          <td style="font-family:monospace;font-size:12px">FAC-2026-004</td>
+          <td><strong>Bouton d'or d'Acadie</strong></td>
+          <td>Magazine Alpha</td>
+          <td><span class="badge badge-bleu">Publicité</span></td>
+          <td class="montant">1 694,50 $</td>
+          <td><span class="badge badge-vert">Approuvée</span></td>
+          <td style="font-size:12px;color:#64748b">5 sept. 2026</td>
+          <td><div class="actions-td">
+            <button class="btn btn-sm" onclick="ouvrirDetail('FAC-2026-004','Bouton d&#39;or d&#39;Acadie','Magazine Alpha','Publicité','Publicité pleine page','1 500.00','194.50','1 694.50','Approuvée','5 sept. 2026')">Voir</button>
+            <button class="btn btn-sm btn-dext" onclick="ouvrirEnvoiDext('FAC-2026-004')">Envoyer à Dext</button>
+          </div></td>
+        </tr>
+        <tr data-maison="La Nouvelle Plume" data-statut="Envoyée à Dext">
+          <td style="font-family:monospace;font-size:12px">FAC-2026-003</td>
+          <td><strong>La Nouvelle Plume</strong></td>
+          <td>Studio Graph</td>
+          <td><span class="badge badge-bleu">Publicité</span></td>
+          <td class="montant">2 372,90 $</td>
+          <td><span class="badge badge-vert">Envoyée à Dext</span></td>
+          <td style="font-size:12px;color:#64748b">2 sept. 2026</td>
+          <td><div class="actions-td">
+            <button class="btn btn-sm" onclick="ouvrirDetail('FAC-2026-003','La Nouvelle Plume','Studio Graph','Publicité','Encart publicitaire','2 100.00','272.90','2 372.90','Envoyée à Dext','2 sept. 2026')">Voir</button>
+          </div></td>
+        </tr>
+        <tr data-maison="L'Interligne" data-statut="Rejetée">
+          <td style="font-family:monospace;font-size:12px">FAC-2026-002</td>
+          <td><strong>L'Interligne</strong></td>
+          <td>Éducation+</td>
+          <td><span class="badge badge-bleu">Fiches péda.</span></td>
+          <td class="montant">904,00 $</td>
+          <td><span class="badge badge-rouge">Rejetée</span></td>
+          <td style="font-size:12px;color:#64748b">28 août 2026</td>
+          <td><div class="actions-td">
+            <button class="btn btn-sm" onclick="ouvrirDetail('FAC-2026-002','L&#39;Interligne','Éducation+','Fiches pédagogiques','Conception de 4 fiches','800.00','104.00','904.00','Rejetée','28 août 2026')">Voir</button>
           </div></td>
         </tr>
       </tbody>
     </table>
     <div class="pagination">
-      <span>Affichage de 5 résultats sur 24 · Page 1 sur 5</span>
-      <div style="display:flex;gap:6px">
-        <button class="btn btn-sm">Précédent</button>
+      <span id="info-pagination">Page 1 sur 5 — 5 factures sur 24</span>
+      <div class="pagination-btns">
+        <button class="btn btn-sm" onclick="alert('Page précédente.')">Précédent</button>
         <button class="btn btn-sm btn-pri">1</button>
-        <button class="btn btn-sm">2</button>
-        <button class="btn btn-sm">3</button>
-        <button class="btn btn-sm">Suivant</button>
+        <button class="btn btn-sm" onclick="alert('Page 2.')">2</button>
+        <button class="btn btn-sm" onclick="alert('Page 3.')">3</button>
+        <button class="btn btn-sm" onclick="alert('Page suivante.')">Suivant</button>
       </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- ===== SECTION REFACTURATIONS ===== -->
-<div style="margin-top:32px;padding-top:20px;border-top:2px solid #e2e8f0;margin-left:-0px" class="contenu-section">
-  <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
-    <span>Refacturations 35 % aux maisons membres</span>
-    <button class="btn btn-pri btn-sm" onclick="alert('Emettre une refacturation depuis le PDF QuickBooks. Document sera visible par la maison dans son portail.')">+ Emettre une refacturation</button>
-  </div>
-  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:16px">
-    <table>
-      <thead>
-        <tr>
-          <th>N° refact.</th>
-          <th>Maison membre</th>
-          <th>Facture liee</th>
-          <th style="text-align:right">Part 35%</th>
-          <th>Statut</th>
-          <th>Echeance</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="font-family:monospace;font-size:12px">REF-2026-001</td>
-          <td><strong>Prise de Parole</strong></td>
-          <td style="font-size:12px;color:#64748b">FAC-2026-004</td>
-          <td style="font-family:monospace;text-align:right;color:#854d0e;font-weight:600">525,00 $</td>
-          <td><span class="badge badge-warn">A venir</span></td>
-          <td style="font-size:12px">30 sept. 2026</td>
-          <td><button class="btn btn-sm btn-succ" onclick="alert('REF-2026-001 encaissee. SharePoint mis a jour.')">Encaisser</button></td>
-        </tr>
-        <tr>
-          <td style="font-family:monospace;font-size:12px">REF-2026-002</td>
-          <td><strong>Bouton d&#39;or d&#39;Acadie</strong></td>
-          <td style="font-size:12px;color:#64748b">FAC-2026-003</td>
-          <td style="font-family:monospace;text-align:right;color:#dc2626;font-weight:600">735,00 $</td>
-          <td><span class="badge badge-err">En retard 60j</span></td>
-          <td style="font-size:12px;color:#dc2626;font-weight:600">15 juil. 2026</td>
-          <td><div style="display:flex;gap:4px">
-            <button class="btn btn-sm" onclick="alert('Rappel envoye automatiquement a Bouton d&#39;or par courriel.')">Rappel</button>
-            <button class="btn btn-sm btn-succ" onclick="alert('REF-2026-002 encaissee.')">Encaisser</button>
-          </div></td>
-        </tr>
-        <tr>
-          <td style="font-family:monospace;font-size:12px">REF-2026-003</td>
-          <td><strong>La Nouvelle Plume</strong></td>
-          <td style="font-size:12px;color:#64748b">FAC-2026-002</td>
-          <td style="font-family:monospace;text-align:right;color:#dc2626;font-weight:600">183,76 $</td>
-          <td><span class="badge badge-err">En retard 45j</span></td>
-          <td style="font-size:12px;color:#dc2626;font-weight:600">30 juil. 2026</td>
-          <td><div style="display:flex;gap:4px">
-            <button class="btn btn-sm" onclick="alert('Rappel envoye automatiquement a La Nouvelle Plume.')">Rappel</button>
-            <button class="btn btn-sm btn-succ" onclick="alert('REF-2026-003 encaissee.')">Encaisser</button>
-          </div></td>
-        </tr>
-        <tr>
-          <td style="font-family:monospace;font-size:12px">REF-2025-012</td>
-          <td><strong>Prise de Parole</strong></td>
-          <td style="font-size:12px;color:#64748b">FAC-2025-008</td>
-          <td style="font-family:monospace;text-align:right;color:#166534;font-weight:600">630,00 $</td>
-          <td><span class="badge badge-ok">Encaissee</span></td>
-          <td style="font-size:12px;color:#64748b">5 mai 2025</td>
-          <td><button class="btn btn-sm" onclick="alert('Recu de paiement disponible dans SharePoint.')">Voir recu</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-
-<!-- ===== MODAL AJOUT FACTURE ===== -->
-<div class="modal-bg" id="modal-ajout">
-  <div class="modal">
-    <div class="modal-entete">
-      <div class="modal-titre">Ajouter une facture fournisseur</div>
-      <button class="btn-fermer" onclick="fermerModal('modal-ajout')">×</button>
-    </div>
-    <div class="modal-corps">
-      <div class="form-grille2">
-        <div class="form-groupe">
-          <label class="form-label">Maison membre <span class="requis">*</span></label>
-          <select class="form-select">
-            <option value="">Sélectionner...</option>
-            <option>Prise de Parole</option>
-            <option>Éditions David</option>
-            <option>Bouton d'or d'Acadie</option>
-            <option>La Nouvelle Plume</option>
-            <option>L'Interligne</option>
-          </select>
-        </div>
-        <div class="form-groupe">
-          <label class="form-label">Type de service <span class="requis">*</span></label>
-          <select class="form-select" id="type-service">
-            <option value="">Sélectionner...</option>
-            <option>Publicité</option>
-            <option>Numérique</option>
-            <option>Fiches pédagogiques</option>
-            <option>Agent de presse</option>
-            <option>Surdiffusion</option>
-          </select>
-        </div>
-        <div class="form-groupe">
-          <label class="form-label">Fournisseur <span class="requis">*</span></label>
-          <input type="text" class="form-input" placeholder="Nom du fournisseur">
-        </div>
-        <div class="form-groupe">
-          <label class="form-label">N° facture fournisseur <span class="requis">*</span></label>
-          <input type="text" class="form-input" placeholder="ex. F-20250901">
-        </div>
-        <div class="form-groupe">
-          <label class="form-label">Date de la facture <span class="requis">*</span></label>
-          <input type="date" class="form-input">
-        </div>
-        <div class="form-groupe">
-          <label class="form-label">Montant HT ($) <span class="requis">*</span></label>
-          <input type="number" class="form-input" id="montant-ht" placeholder="0,00" min="0" step="0.01" oninput="calculerMontants()">
-        </div>
-      </div>
-      <div class="form-groupe">
-        <label class="form-label">Description du service <span class="requis">*</span></label>
-        <textarea class="form-textarea" placeholder="Décrivez le service rendu avec suffisamment de détails pour la traçabilité..."></textarea>
-      </div>
-      <div class="form-groupe">
-        <label class="form-label">Pièce jointe — Facture PDF <span style="font-weight:400;color:#94a3b8">(recommandé)</span></label>
-        <input type="file" class="form-input" accept=".pdf">
-        <div class="form-note">Format PDF uniquement · Taille maximale 5 Mo · Cette facture sera archivée pour la traçabilité comptable.</div>
-      </div>
-
-      <div class="form-sep"></div>
-
-      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#854d0e;line-height:1.5">
-        <strong>Vérification automatique :</strong> le système vérifiera que le montant ne dépasse pas le solde restant de la maison (enveloppe initiale + redistribution éventuelle). Un avertissement s'affichera en cas de dépassement.
-      </div>
-
-      <div class="recapitulatif">
-        <div class="recap-titre">Récapitulatif calculé automatiquement</div>
-        <div class="recap-ligne"><span class="recap-cle">Montant hors taxes (HT)</span><span class="recap-val" id="recap-ht">0,00 $</span></div>
-        <div class="recap-ligne"><span class="recap-cle">TPS (5 %)</span><span class="recap-val" id="recap-tps">0,00 $</span></div>
-        <div class="recap-ligne"><span class="recap-cle">TVQ (9,975 %)</span><span class="recap-val" id="recap-tvq">0,00 $</span></div>
-        <div class="recap-ligne"><span class="recap-cle">Total TTC</span><span class="recap-val" id="recap-ttc">0,00 $</span></div>
-        <div class="form-sep" style="margin:10px 0"></div>
-        <div class="recap-ligne"><span class="recap-cle">Part REFC (65 %)</span><span class="recap-val" id="recap-refc">0,00 $</span></div>
-        <div class="recap-ligne"><span class="recap-cle">Refacturation maison membre (35 %)</span><span class="recap-val" id="recap-35">0,00 $</span></div>
-        <div class="recap-ligne"><span class="recap-cle">Taxes sur refacturation (13 %)</span><span class="recap-val" id="recap-taxes35">0,00 $</span></div>
-        <div class="recap-ligne"><span class="recap-cle">Total dû par la maison membre</span><span class="recap-val" id="recap-total-du">0,00 $</span></div>
-      </div>
-    </div>
-    <div class="modal-pied">
-      <button class="btn" onclick="fermerModal('modal-ajout')">Annuler</button>
-      <button class="btn" onclick="fermerModal('modal-ajout');alert('Brouillon enregistre.')">Enregistrer brouillon</button>
-      <button class="btn btn-pri" onclick="soumettreFacture()">Soumettre pour approbation</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== MODAL DÉTAIL FACTURE ===== -->
-<div class="modal-bg" id="modal-detail">
-  <div class="modal">
-    <div class="modal-entete">
-      <div class="modal-titre">Détail de la facture</div>
-      <button class="btn-fermer" onclick="fermerModal('modal-detail')">×</button>
-    </div>
-    <div class="modal-corps" id="modal-detail-corps">
-    </div>
-    <div class="modal-pied">
-      <button class="btn" onclick="fermerModal('modal-detail')">Fermer</button>
-      <button class="btn btn-pri" onclick="alert('PDF genere.')">↓ Télécharger PDF</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== MODAL APPROBATION ===== -->
-<div class="modal-bg" id="modal-approbation">
-  <div class="modal" style="width:480px">
-    <div class="modal-entete">
-      <div class="modal-titre">Confirmer l'approbation</div>
-      <button class="btn-fermer" onclick="fermerModal('modal-approbation')">×</button>
-    </div>
-    <div class="modal-corps">
-      <div class="modal-confirm">
-        <div class="icone">✓</div>
-        <div class="texte-principal" id="appro-titre">Approuver la facture F-20250718</div>
-        <div class="texte-secondaire" id="appro-texte"></div>
-      </div>
-      <div class="form-sep"></div>
-      <div class="form-groupe">
-        <label class="form-label">Type d'approbation <span class="requis">*</span></label>
-        <select class="form-select" id="type-approbation">
-          <option value="conforme">Conforme — refacturation à 35 %</option>
-          <option value="non-conforme">Non conforme — refacturation à 100 %</option>
-        </select>
-        <div class="form-note">En cas de non-conformité, la totalité du montant sera refacturée à la maison membre.</div>
-      </div>
-      <div class="form-groupe">
-        <label class="form-label">Commentaire <span style="font-weight:400;color:#94a3b8">(optionnel)</span></label>
-        <textarea class="form-textarea" placeholder="Motif ou note interne pour cette approbation..."></textarea>
-      </div>
-    </div>
-    <div class="modal-pied">
-      <button class="btn" onclick="fermerModal('modal-approbation')">Annuler</button>
-      <button class="btn btn-pri" onclick="confirmerApprobation()">Confirmer l'approbation</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== MODAL REFUS ===== -->
-<div class="modal-bg" id="modal-refus">
-  <div class="modal" style="width:480px">
-    <div class="modal-entete">
-      <div class="modal-titre">Refuser la facture</div>
-      <button class="btn-fermer" onclick="fermerModal('modal-refus')">×</button>
-    </div>
-    <div class="modal-corps">
-      <div class="form-groupe">
-        <label class="form-label">Motif du refus <span class="requis">*</span></label>
-        <select class="form-select">
-          <option value="">Sélectionner un motif...</option>
-          <option>Service non admissible au programme</option>
-          <option>Fournisseur non reconnu</option>
-          <option>Montant hors plafond de l'enveloppe</option>
-          <option>Facture incomplète ou incorrecte</option>
-          <option>Décision de la direction</option>
-          <option>Autre</option>
-        </select>
-      </div>
-      <div class="form-groupe">
-        <label class="form-label">Explication détaillée <span class="requis">*</span></label>
-        <textarea class="form-textarea" style="min-height:90px" placeholder="Précisez le motif du refus. Ce message sera transmis à la maison membre..."></textarea>
-        <div class="form-note">Ce message sera visible par la maison membre dans son espace portail.</div>
-      </div>
-    </div>
-    <div class="modal-pied">
-      <button class="btn" onclick="fermerModal('modal-refus')">Annuler</button>
-      <button class="btn" style="background:#fee2e2;color:#7f1d1d;border-color:#fecaca" onclick="confirmerRefus()">Confirmer le refus</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== MODAL ENCAISSEMENT ===== -->
-<div class="modal-bg" id="modal-encaissement">
-  <div class="modal" style="width:440px">
-    <div class="modal-entete">
-      <div class="modal-titre">Enregistrer un encaissement</div>
-      <button class="btn-fermer" onclick="fermerModal('modal-encaissement')">×</button>
-    </div>
-    <div class="modal-corps">
-      <div class="form-groupe">
-        <label class="form-label">Facture REFC</label>
-        <input type="text" class="form-input" id="enc-facture" readonly style="background:#f8fafc;color:#64748b">
-      </div>
-      <div class="form-groupe">
-        <label class="form-label">Maison membre</label>
-        <input type="text" class="form-input" id="enc-maison" readonly style="background:#f8fafc;color:#64748b">
-      </div>
-      <div class="form-groupe">
-        <label class="form-label">Date d'encaissement <span class="requis">*</span></label>
-        <input type="date" class="form-input" id="enc-date">
-      </div>
-      <div class="form-groupe">
-        <label class="form-label">Mode de paiement</label>
-        <select class="form-select">
-          <option>Virement bancaire</option>
-          <option>Chèque</option>
-          <option>Autre</option>
-        </select>
-      </div>
-      <div class="form-groupe">
-        <label class="form-label">Référence de transaction <span style="font-weight:400;color:#94a3b8">(optionnel)</span></label>
-        <input type="text" class="form-input" placeholder="N° de référence bancaire ou chèque">
-      </div>
-    </div>
-    <div class="modal-pied">
-      <button class="btn" onclick="fermerModal('modal-encaissement')">Annuler</button>
-      <button class="btn btn-pri" onclick="confirmerEncaissement()">Enregistrer l'encaissement</button>
     </div>
   </div>
 
   <!-- ===== SECTION REFACTURATIONS ===== -->
-  <div style="margin-top:32px;padding-top:20px;border-top:2px solid #e2e8f0">
-    <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
-      <span>Refacturations 35 % aux maisons membres</span>
-      <button class="btn btn-pri btn-sm" onclick="alert('Emettre une refacturation depuis le PDF QuickBooks.')">+ Émettre une refacturation</button>
+  <div class="separateur">
+    <div class="section-titre">
+      <span>Refacturations 35% aux maisons membres</span>
+      <button class="btn btn-sm btn-pri" onclick="ouvrirModal('modal-refact')">+ Émettre une refacturation</button>
     </div>
-    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden">
+    <div class="tableau-wrap">
       <table>
         <thead>
           <tr>
-            <th>N° refact.</th>
+            <th style="width:110px">N° refact.</th>
             <th>Maison membre</th>
             <th>Facture liée</th>
-            <th style="text-align:right">Part 35 % due</th>
-            <th>Statut</th>
-            <th>Échéance</th>
-            <th>Actions</th>
+            <th style="width:110px">Part 35% due</th>
+            <th style="width:130px">Statut</th>
+            <th style="width:100px">Échéance</th>
+            <th style="width:130px">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -794,33 +379,37 @@ tbody tr:hover td{background:#f8fafc}
             <td style="font-family:monospace;font-size:12px">REF-2026-001</td>
             <td><strong>Prise de Parole</strong></td>
             <td style="font-size:12px;color:#64748b">FAC-2026-004 — Magazine Alpha</td>
-            <td style="font-family:monospace;text-align:right;color:#854d0e;font-weight:600">525,00 $</td>
-            <td><span class="badge badge-warn">À venir</span></td>
+            <td class="montant" style="color:#64748b;font-weight:600">525,00 $</td>
+            <td><span class="badge badge-bleu">À venir</span></td>
             <td style="font-size:12px">30 sept. 2026</td>
-            <td><div style="display:flex;gap:4px">
-              <button class="btn btn-sm btn-succ" onclick="alert('Refacturation REF-2026-001 encaissee. SharePoint mis a jour.')">Encaisser</button>
+            <td><div class="actions-td">
+              <button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2026-001','Prise de Parole','525,00 $','À venir')">Voir</button>
+              <button class="btn btn-sm btn-succ" onclick="encaisser('REF-2026-001','Prise de Parole')">Encaisser</button>
             </div></td>
           </tr>
           <tr>
             <td style="font-family:monospace;font-size:12px">REF-2026-002</td>
-            <td><strong>Bouton d&#39;or d&#39;Acadie</strong></td>
+            <td><strong>Bouton d'or d'Acadie</strong></td>
             <td style="font-size:12px;color:#64748b">FAC-2026-003 — Studio Graph</td>
-            <td style="font-family:monospace;text-align:right;color:#dc2626;font-weight:600">735,00 $</td>
-            <td><span class="badge badge-err">En retard — 60j</span></td>
-            <td style="font-size:12px;color:#dc2626;font-weight:600">15 juil. 2026</td>
-            <td><div style="display:flex;gap:4px">
-              <button class="btn btn-sm" onclick="alert('Rappel envoye automatiquement par courriel.')">Rappel</button>
-              <button class="btn btn-sm btn-succ" onclick="alert('Refacturation REF-2026-002 encaissée.')">Encaisser</button>
+            <td class="montant" style="color:#7f1d1d;font-weight:600">735,00 $</td>
+            <td><span class="badge badge-rouge">En retard — 60j</span></td>
+            <td style="font-size:12px;color:#7f1d1d;font-weight:600">15 juil. 2026</td>
+            <td><div class="actions-td">
+              <button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2026-002','Bouton d&#39;or d&#39;Acadie','735,00 $','En retard')">Voir</button>
+              <button class="btn btn-sm btn-warn" onclick="alert('Rappel envoyé automatiquement à Bouton d&#39;or d&#39;Acadie par courriel.')">Rappel</button>
+              <button class="btn btn-sm btn-succ" onclick="encaisser('REF-2026-002','Bouton d&#39;or d&#39;Acadie')">Encaisser</button>
             </div></td>
           </tr>
           <tr>
             <td style="font-family:monospace;font-size:12px">REF-2025-012</td>
             <td><strong>Prise de Parole</strong></td>
             <td style="font-size:12px;color:#64748b">FAC-2025-008 — Agence Oméga</td>
-            <td style="font-family:monospace;text-align:right;color:#166534;font-weight:600">630,00 $</td>
-            <td><span class="badge badge-ok">Encaissée</span></td>
+            <td class="montant" style="color:#2D3F7B;font-weight:600">630,00 $</td>
+            <td><span class="badge badge-vert">Encaissée</span></td>
             <td style="font-size:12px;color:#64748b">5 mai 2025</td>
-            <td><button class="btn btn-sm" onclick="alert('Dans la vraie version : afficher le reçu de paiement.')">Voir reçu</button></td>
+            <td><div class="actions-td">
+              <button class="btn btn-sm" onclick="ouvrirDetailRefact('REF-2025-012','Prise de Parole','630,00 $','Encaissée')">Voir</button>
+            </div></td>
           </tr>
         </tbody>
       </table>
@@ -829,127 +418,331 @@ tbody tr:hover td{background:#f8fafc}
 
 </div>
 
+<!-- ===== MODAL DÉTAIL FACTURE ===== -->
+<div class="modal-bg" id="modal-detail">
+  <div class="modal">
+    <div class="modal-entete">
+      <span class="modal-titre" id="modal-detail-titre">Détail de la facture</span>
+      <button class="btn-fermer" onclick="fermerModal('modal-detail')">×</button>
+    </div>
+    <div class="modal-corps" id="modal-detail-corps"></div>
+    <div class="modal-pied">
+      <button class="btn" onclick="fermerModal('modal-detail')">Fermer</button>
+      <button class="btn btn-sm" onclick="alert('Dans la vraie version : téléchargement du PDF depuis SharePoint.')">↓ Télécharger PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL REFUS ===== -->
+<div class="modal-bg" id="modal-refus">
+  <div class="modal" style="width:460px">
+    <div class="modal-entete">
+      <span class="modal-titre">Rejeter la facture</span>
+      <button class="btn-fermer" onclick="fermerModal('modal-refus')">×</button>
+    </div>
+    <div class="modal-corps">
+      <div class="alerte alerte-rouge" style="margin-bottom:14px">
+        <span class="alerte-icone">!</span>
+        <div>Un rejet est définitif et sera enregistré avec votre signature dans la traçabilité SharePoint.</div>
+      </div>
+      <input type="hidden" id="refus-no">
+      <input type="hidden" id="refus-qui">
+      <div class="form-row">
+        <label class="form-label">Motif du rejet * (obligatoire)</label>
+        <textarea class="form-textarea" id="refus-motif" placeholder="Ex : montant incorrect, service non conforme, hors enveloppe budgétaire..."></textarea>
+      </div>
+    </div>
+    <div class="modal-pied">
+      <button class="btn" onclick="fermerModal('modal-refus')">Annuler</button>
+      <button class="btn btn-err" onclick="confirmerRefus()">Confirmer le rejet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL ENVOI DEXT ===== -->
+<div class="modal-bg" id="modal-dext">
+  <div class="modal" style="width:480px">
+    <div class="modal-entete">
+      <span class="modal-titre">Envoyer à Dext</span>
+      <button class="btn-fermer" onclick="fermerModal('modal-dext')">×</button>
+    </div>
+    <div class="modal-corps">
+      <div class="note-info">
+        Le PDF de la facture sera envoyé automatiquement par courriel à l'adresse Dext de la REFC, avec le comptable en copie conforme (CC).
+      </div>
+      <input type="hidden" id="dext-no">
+      <div class="form-row">
+        <label class="form-label">Destinataire Dext</label>
+        <input class="form-input" value="upload.refc@dext.com" readonly style="background:#f8fafc;color:#64748b">
+      </div>
+      <div class="form-row">
+        <label class="form-label">CC — Comptable</label>
+        <input class="form-input" value="comptable@refcottawa.ca" readonly style="background:#f8fafc;color:#64748b">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Facture à envoyer</label>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:10px 14px;font-size:13px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:18px">📄</span>
+          <div>
+            <div style="font-weight:600;color:#1e293b" id="dext-nom-pdf">FAC-2026-004.pdf</div>
+            <div style="font-size:11px;color:#64748b">Approuvée par Noureddine Hany et Piedad Saenz — signatures apposées</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#2D3F7B">
+        Après envoi, le document sera automatiquement classé dans<br>
+        <strong>SharePoint / Factures / 2025-2026 / Envoyées à Dext</strong>
+      </div>
+    </div>
+    <div class="modal-pied">
+      <button class="btn" onclick="fermerModal('modal-dext')">Annuler</button>
+      <button class="btn btn-dext" onclick="confirmerEnvoiDext()">Envoyer à Dext</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL DÉTAIL REFACTURATION ===== -->
+<div class="modal-bg" id="modal-detail-refact">
+  <div class="modal" style="width:500px">
+    <div class="modal-entete">
+      <span class="modal-titre" id="refact-titre">Refacturation</span>
+      <button class="btn-fermer" onclick="fermerModal('modal-detail-refact')">×</button>
+    </div>
+    <div class="modal-corps" id="modal-refact-corps"></div>
+    <div class="modal-pied">
+      <button class="btn" onclick="fermerModal('modal-detail-refact')">Fermer</button>
+      <button class="btn btn-sm" onclick="alert('Dans la vraie version : téléchargement du PDF de refacturation QuickBooks.')">↓ Télécharger PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL ÉMETTRE REFACTURATION ===== -->
+<div class="modal-bg" id="modal-refact">
+  <div class="modal" style="width:500px">
+    <div class="modal-entete">
+      <span class="modal-titre">Émettre une refacturation</span>
+      <button class="btn-fermer" onclick="fermerModal('modal-refact')">×</button>
+    </div>
+    <div class="modal-corps">
+      <div class="note-info">La refacturation correspond à la part de 35% due par la maison pour une facture approuvée par Piedad et envoyée à Dext. Le PDF a été généré par le comptable via QuickBooks.</div>
+      <div class="form-row">
+        <label class="form-label">Maison membre *</label>
+        <select class="form-select"><option>-- Choisir --</option><option>Prise de Parole</option><option>Éditions David</option><option>Bouton d'or d'Acadie</option><option>La Nouvelle Plume</option><option>L'Interligne</option></select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Facture liée *</label>
+        <select class="form-select"><option>-- Choisir la facture --</option><option>FAC-2026-004 — Magazine Alpha — 1 694,50 $</option><option>FAC-2026-003 — Studio Graph — 2 372,90 $</option></select>
+      </div>
+      <div class="grid2-form">
+        <div><label class="form-label">Part 35% HT</label><input class="form-input" placeholder="Calculé auto" readonly style="background:#f8fafc"></div>
+        <div><label class="form-label">Échéance *</label><input type="date" class="form-input"></div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">PDF QuickBooks *</label>
+        <div class="upload-zone" onclick="alert('Dans la vraie version : upload du PDF de refacturation depuis QuickBooks. Il sera classé dans SharePoint / Refacturations / 2025-2026 / En attente paiement et visible par la maison dans son portail.')">
+          <div style="font-size:13px;font-weight:600;color:#2D3F7B;margin-bottom:3px">Cliquer pour uploader le PDF QuickBooks</div>
+          <div style="font-size:11px;color:#94a3b8">PDF uniquement — sera visible par la maison dans son portail</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-pied">
+      <button class="btn" onclick="fermerModal('modal-refact')">Annuler</button>
+      <button class="btn btn-pri" onclick="alert('Refacturation émise. La maison membre sera notifiée et pourra la consulter dans son portail. Document classé dans SharePoint / Refacturations / 2025-2026 / En attente paiement.');fermerModal('modal-refact')">Émettre</button>
+    </div>
+  </div>
+</div>
+
 <script>
-function fmt(n){return parseFloat(n).toLocaleString('fr-CA',{minimumFractionDigits:2,maximumFractionDigits:2})+' $';}
+var factureEnCours = '';
+var refusQui = '';
 
-function calculerMontants(){
-  const ht = parseFloat(document.getElementById('montant-ht').value)||0;
-  const tps = ht * 0.05;
-  const tvq = ht * 0.09975;
-  const ttc = ht + tps + tvq;
-  const refc = ht * 0.65;
-  const m35 = ht * 0.35;
-  const taxes35 = m35 * 0.13;
-  const totalDu = m35 + taxes35;
-  document.getElementById('recap-ht').textContent = fmt(ht);
-  document.getElementById('recap-tps').textContent = fmt(tps);
-  document.getElementById('recap-tvq').textContent = fmt(tvq);
-  document.getElementById('recap-ttc').textContent = fmt(ttc);
-  document.getElementById('recap-refc').textContent = fmt(refc);
-  document.getElementById('recap-35').textContent = fmt(m35);
-  document.getElementById('recap-taxes35').textContent = fmt(taxes35);
-  document.getElementById('recap-total-du').textContent = fmt(totalDu);
-}
-
-function ouvrirModal(id){document.getElementById(id).classList.add('visible');}
-function fermerModal(id){document.getElementById(id).classList.remove('visible');}
-document.querySelectorAll('.modal-bg').forEach(m=>{
-  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('visible');});
+function ouvrirModal(id){ document.getElementById(id).classList.add('visible'); }
+function fermerModal(id){ document.getElementById(id).classList.remove('visible'); }
+document.querySelectorAll('.modal-bg').forEach(function(m){
+  m.addEventListener('click', function(e){ if(e.target===m) m.classList.remove('visible'); });
 });
 
-function filtrerMaison(){
-  const v=document.getElementById('filtre-maison').value;
-  // Dans le portail réel, filtre toutes les sections
+// ===== FILTRES =====
+function filtrerFactures(){
+  var maison  = document.getElementById('filtre-maison').value;
+  var statut  = document.getElementById('filtre-statut').value;
+  var rows    = document.querySelectorAll('#tbody-factures tr');
+  var n = 0;
+  rows.forEach(function(tr){
+    var okM = !maison  || tr.dataset.maison  === maison;
+    var okS = !statut  || tr.dataset.statut  === statut;
+    tr.style.display = (okM && okS) ? '' : 'none';
+    if(okM && okS) n++;
+  });
+  document.getElementById('compteur-factures').textContent = n + ' facture' + (n>1?'s':'') + ' affichée' + (n>1?'s':'');
+  document.getElementById('info-pagination').textContent = 'Page 1 sur 1 — ' + n + ' facture' + (n>1?'s':'');
 }
 
+// ===== OUVRIR DÉTAIL FACTURE =====
 function ouvrirDetail(no,maison,fourn,type,desc,ht,taxes,ttc,statut,date){
-  const m35=(parseFloat(ht)*0.35);
-  const taxes35=m35*0.13;
-  const totalDu=m35+taxes35;
-  document.getElementById('modal-detail-corps').innerHTML=`
-    <div class="detail-section">
-      <div class="detail-section-titre">Informations générales</div>
-      <div class="detail-ligne"><span class="detail-cle">Numéro de facture</span><span class="detail-val">${no}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Date</span><span class="detail-val">${date}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Maison membre</span><span class="detail-val">${maison}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Fournisseur</span><span class="detail-val">${fourn}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Type de service</span><span class="detail-val">${type}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Description</span><span class="detail-val" style="max-width:280px;text-align:right">${desc}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Statut</span><span class="detail-val">${statut}</span></div>
-    </div>
-    <div class="detail-section">
-      <div class="detail-section-titre">Détail financier</div>
-      <div class="detail-ligne"><span class="detail-cle">Montant hors taxes (HT)</span><span class="detail-val">${fmt(ht)}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Taxes (TPS + TVQ)</span><span class="detail-val">${fmt(taxes)}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Total TTC</span><span class="detail-val" style="color:#2D3F7B;font-size:15px">${fmt(ttc)}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Part REFC (65 %)</span><span class="detail-val">${fmt(parseFloat(ht)*0.65)}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Refacturation maison (35 %)</span><span class="detail-val">${fmt(m35)}</span></div>
-      <div class="detail-ligne"><span class="detail-cle">Taxes sur refacturation (13 %)</span><span class="detail-val">${fmt(taxes35)}</span></div>
-      <div class="detail-ligne"><span class="detail-cle" style="font-weight:600">Total dû par la maison</span><span class="detail-val" style="color:#2D3F7B;font-weight:700;font-size:15px">${fmt(totalDu)}</span></div>
-    </div>`;
+  document.getElementById('modal-detail-titre').textContent = 'Facture ' + no;
+  var m35 = (parseFloat(ht)*0.35).toFixed(2);
+
+  // Étapes du flux
+  var etapes = [
+    {label:'Facture soumise par la maison',    fait:true,  qui:'Soumise par '+maison, date:date, sharepoint:'SharePoint / Factures / 2025-2026 / Soumises'},
+    {label:'Validée par Noureddine Hany',      fait:['Validée — en attente approbation','Approuvée','Envoyée à Dext'].includes(statut), qui:'Noureddine Hany', sharepoint:'SharePoint / Factures / 2025-2026 / En attente approbation'},
+    {label:'Approuvée par Piedad Saenz',       fait:['Approuvée','Envoyée à Dext'].includes(statut), qui:'Piedad Saenz', sharepoint:'SharePoint / Factures / 2025-2026 / Approuvées'},
+    {label:'Envoyée à Dext — comptable notifié', fait:statut==='Envoyée à Dext', qui:'Piedad Saenz → Dext + comptable en CC', sharepoint:'SharePoint / Factures / 2025-2026 / Envoyées à Dext'},
+  ];
+
+  var etapesHtml = etapes.map(function(e){
+    var cls = e.fait ? 'fait' : (statut==='Rejetée' && !e.fait ? 'rejet' : 'attente');
+    return '<div class="etape-flux">' +
+      '<div class="etape-icone ' + cls + '">' + (e.fait ? '✓' : '·') + '</div>' +
+      '<div class="etape-info">' +
+        '<div class="etape-label ' + cls + '">' + e.label + '</div>' +
+        (e.fait ? '<div class="etape-meta">' + e.qui + '</div>' : '') +
+        (e.fait ? '<div class="sharepoint-tag">' + e.sharepoint + '</div>' : '') +
+        (e.fait ? '<div class="signature-bloc"><div class="signature-nom">' + e.qui.split(' — ')[0] + '</div><div class="signature-meta">Signature électronique apposée via le portail REFC</div></div>' : '') +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  // Actions disponibles
+  var actionsHtml = '';
+  if(statut === 'Soumise — en attente validation'){
+    actionsHtml = '<button class="btn btn-succ" onclick="fermerModal(\'modal-detail\');validerNoureddine(\''+no+'\',\''+maison+'\')">Valider (Noureddine)</button>' +
+                  '<button class="btn btn-err" onclick="fermerModal(\'modal-detail\');ouvrirRefus(\''+no+'\',\'Noureddine\')">Rejeter</button>';
+  } else if(statut === 'Validée — en attente approbation'){
+    actionsHtml = '<button class="btn btn-succ" onclick="fermerModal(\'modal-detail\');approuverPiedad(\''+no+'\',\''+maison+'\')">Approuver (Piedad)</button>' +
+                  '<button class="btn btn-err" onclick="fermerModal(\'modal-detail\');ouvrirRefus(\''+no+'\',\'Piedad\')">Rejeter</button>';
+  } else if(statut === 'Approuvée'){
+    actionsHtml = '<button class="btn btn-dext" onclick="fermerModal(\'modal-detail\');ouvrirEnvoiDext(\''+no+'\')">Envoyer à Dext</button>';
+  } else if(statut === 'Envoyée à Dext'){
+    actionsHtml = '<span style="font-size:12px;color:#2D3F7B;font-weight:600">✓ Envoyée à Dext — en traitement par le comptable</span>';
+  } else if(statut === 'Rejetée'){
+    actionsHtml = '<span style="font-size:12px;color:#7f1d1d;font-weight:600">Facture rejetée — la maison a été notifiée</span>';
+  }
+
+  document.getElementById('modal-detail-corps').innerHTML =
+    '<div class="detail-section">' +
+      '<div class="detail-section-titre">Informations générales</div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Numéro</span><span class="detail-val">' + no + '</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Maison membre</span><span class="detail-val">' + maison + '</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Fournisseur</span><span class="detail-val">' + fourn + '</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Type</span><span class="detail-val">' + type + '</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Description</span><span class="detail-val">' + desc + '</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Date soumission</span><span class="detail-val">' + date + '</span></div>' +
+    '</div>' +
+    '<div class="detail-section">' +
+      '<div class="detail-section-titre">Montants</div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Montant HT</span><span class="detail-val">' + ht + ' $</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Taxes (13%)</span><span class="detail-val">' + taxes + ' $</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Total TTC</span><span class="detail-val" style="font-weight:700">' + ttc + ' $</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Part REFC 65%</span><span class="detail-val">' + (parseFloat(ht)*0.65).toFixed(2) + ' $</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle" style="color:#64748b">Refacturation maison 35%</span><span class="detail-val" style="color:#64748b;font-weight:700">' + m35 + ' $</span></div>' +
+    '</div>' +
+    '<div class="detail-section">' +
+      '<div class="detail-section-titre">Flux d\'approbation & Traçabilité SharePoint</div>' +
+      etapesHtml +
+    '</div>' +
+    (actionsHtml ? '<div class="detail-section"><div class="detail-section-titre">Actions disponibles</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">' + actionsHtml + '</div></div>' : '');
+
   ouvrirModal('modal-detail');
 }
 
-let factureEnCours = '';
-function approuverFacture(no,maison){
+// ===== VALIDER NOUREDDINE =====
+function validerNoureddine(no, maison){
   factureEnCours = no;
-  document.getElementById('appro-titre').textContent = 'Approuver la facture '+no;
-  document.getElementById('appro-texte').textContent = 'Maison membre : '+maison+'. Étape 1/2 : votre approbation (Noureddine) enverra la facture à Piedad Saenz pour validation finale. La refacturation 35% sera générée après approbation de la directrice.';
-  ouvrirModal('modal-approbation');
+  alert('Facture ' + no + ' validée par Noureddine Hany.\n\nSignature électronique apposée automatiquement.\nStatut mis à jour : En attente approbation Piedad.\nDocument classé dans SharePoint / Factures / En attente approbation.\nPiedad Saenz a été notifiée par courriel.');
 }
-function confirmerApprobation(){
-  const type = document.getElementById('type-approbation').value;
-  const pct = type === 'conforme' ? '35' : '100';
-  fermerModal('modal-approbation');
-  alert('Facture '+factureEnCours+' approuvee par Noureddine Hany. Signature electronique apposee. Envoyee a Piedad Saenz pour validation finale. Sauvegardee dans SharePoint.');
-}
-function refuserFacture(no){
+
+// ===== APPROUVER PIEDAD =====
+function approuverPiedad(no, maison){
   factureEnCours = no;
+  alert('Facture ' + no + ' approuvée par Piedad Saenz.\n\nSignature électronique de la directrice apposée.\nStatut mis à jour : Approuvée.\nDocument classé dans SharePoint / Factures / Approuvées.\nLe bouton Envoyer à Dext est maintenant disponible.');
+}
+
+// ===== ENVOI DEXT =====
+function ouvrirEnvoiDext(no){
+  factureEnCours = no;
+  document.getElementById('dext-no').value = no;
+  document.getElementById('dext-nom-pdf').textContent = no + '.pdf';
+  ouvrirModal('modal-dext');
+}
+function confirmerEnvoiDext(){
+  var no = document.getElementById('dext-no').value;
+  fermerModal('modal-dext');
+  alert('Facture ' + no + ' envoyée à Dext.\n\nCourriel envoyé automatiquement :\n- À : upload.refc@dext.com\n- CC : comptable@refcottawa.ca\n- Pièce jointe : ' + no + '.pdf avec signatures Noureddine + Piedad\n\nDocument classé dans SharePoint / Factures / Envoyées à Dext.\nLe comptable va traiter la facture dans QuickBooks.');
+}
+
+// ===== REJETER =====
+function ouvrirRefus(no, qui){
+  document.getElementById('refus-no').value  = no;
+  document.getElementById('refus-qui').value = qui;
+  document.getElementById('refus-motif').value = '';
   ouvrirModal('modal-refus');
 }
 function confirmerRefus(){
+  var no    = document.getElementById('refus-no').value;
+  var qui   = document.getElementById('refus-qui').value;
+  var motif = document.getElementById('refus-motif').value.trim();
+  if(!motif){ alert('Le motif du rejet est obligatoire.'); return; }
   fermerModal('modal-refus');
-  alert('Facture '+factureEnCours+' refusee. Motif enregistre. Document classe dans SharePoint / Refusees.');
+  alert('Facture ' + no + ' rejetée par ' + qui + '.\n\nMotif enregistré : ' + motif + '\nSignature électronique apposée.\nDocument classé dans SharePoint / Factures / Rejetées.\nLa maison membre a été notifiée automatiquement.');
 }
-function enregistrerEncaissement(maison, facture){
-  document.getElementById('enc-maison').value = maison;
-  document.getElementById('enc-facture').value = facture;
-  document.getElementById('enc-date').value = new Date().toISOString().split('T')[0];
-  ouvrirModal('modal-encaissement');
+
+// ===== DÉTAIL REFACTURATION =====
+function ouvrirDetailRefact(no, maison, montant, statut){
+  document.getElementById('refact-titre').textContent = 'Refacturation ' + no;
+  var badgeClass = statut === 'Encaissée' ? 'badge-vert' : (statut === 'En retard' ? 'badge-rouge' : 'badge-orange');
+  var actionsHtml = '';
+  if(statut !== 'Encaissée'){
+    actionsHtml = '<div style="display:flex;gap:8px;margin-top:12px">' +
+      '<button class="btn btn-succ" onclick="encaisser(\''+no+'\',\''+maison+'\');fermerModal(\'modal-detail-refact\')">Marquer comme encaissée</button>' +
+      '<button class="btn btn-warn" onclick="alert(\'Rappel envoyé à '+maison+' par courriel automatiquement.\')">Envoyer un rappel</button>' +
+    '</div>';
+  }
+  document.getElementById('modal-refact-corps').innerHTML =
+    '<div class="detail-section">' +
+      '<div class="detail-ligne"><span class="detail-cle">Maison membre</span><span class="detail-val">' + maison + '</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Part 35% due</span><span class="detail-val" style="color:#64748b;font-weight:700">' + montant + '</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Statut</span><span class="detail-val"><span class="badge ' + badgeClass + '">' + statut + '</span></span></div>' +
+    '</div>' +
+    '<div class="note-info">Document archivé dans SharePoint / Refacturations / 2025-2026 / ' + (statut === 'Encaissée' ? 'Encaissées' : 'En attente paiement') + '</div>' +
+    actionsHtml;
+  ouvrirModal('modal-detail-refact');
 }
-function confirmerEncaissement(){
-  fermerModal('modal-encaissement');
-  alert('Encaissement enregistre. Statut mis a jour dans SharePoint.');
+
+// ===== ENCAISSER =====
+function encaisser(no, maison){
+  alert('Refacturation ' + no + ' marquée comme encaissée.\nStatut mis à jour dans SharePoint / Refacturations / Encaissées.');
 }
-function soumettreFacture(){
-  fermerModal('modal-ajout');
-  alert("Facture soumise. En attente de validation.");
-}
+
+// ===== EXPORT EXCEL =====
 async function exporterExcel(){
-  const wb = new ExcelJS.Workbook();
-  const ws = wb.addWorksheet('Coûts partagés 2025-2026');
-  ws.columns=[{header:'Date',key:'date',width:14},{header:'Maison',key:'maison',width:22},
-    {header:'Fournisseur',key:'fourn',width:20},{header:'N° Facture',key:'no',width:14},
-    {header:'Type de service',key:'type',width:20},{header:'Description',key:'desc',width:40},
-    {header:'Montant HT',key:'ht',width:14},{header:'Taxes',key:'taxes',width:12},
-    {header:'Total TTC',key:'ttc',width:14},{header:'Statut',key:'statut',width:14}];
-  ws.getRow(1).eachCell(c=>{c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF2D3F7B'}};c.font={color:{argb:'FFFFFFFF'},bold:true};c.alignment={horizontal:'center'};});
-  const data=[
-    ['10 juin 2025','Prise de Parole','Agence Oméga','F-20250610','Agent de presse','Service de presse — roman Les Racines',150,19.50,169.50,'Approuvée'],
-    ['3 juin 2025','Éditions David','Agence Bêta','F-20250603','Numérique','Adaptation numérique - L-Horizon perdu',200,26,226,'Approuvée'],
-    ['18 juil. 2025','Bouton d\'or d\'Acadie','Magazine Alpha','F-20250718','Publicité','Publicité 1/2 page — Magazine Alpha',350,45.50,395.50,'En attente'],
-    ['22 juil. 2025','Éditions David','Studio Web 3C','F-20250722','Numérique','Mise à jour site web et boutique',480,62.40,542.40,'En attente'],
-    ['5 août 2025','L\'Interligne','Agence Gamma','F-20250805','Surdiffusion','Service de surdiffusion Q3 2025',105,13.65,118.65,'Approuvée'],
-  ];
-  data.forEach((r,i)=>{
-    const row=ws.addRow(r);
-    if(i%2===1) row.eachCell(c=>{c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFF8FAFC'}};});
-    [7,8,9].forEach(n=>{row.getCell(n).numFmt='#,##0.00 "$"';row.getCell(n).alignment={horizontal:'right'};});
-  });
-  const buf=await wb.xlsx.writeBuffer();
-  const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='REFC_Couts_Partages_2025-2026.xlsx';a.click();URL.revokeObjectURL(url);
+  try {
+    const wb = new ExcelJS.Workbook();
+    const ws = wb.addWorksheet('Factures 2025-2026');
+    ws.columns=[
+      {header:'N° facture',key:'no',width:14},
+      {header:'Maison',key:'maison',width:22},
+      {header:'Fournisseur',key:'fourn',width:20},
+      {header:'Type',key:'type',width:18},
+      {header:'Montant TTC',key:'ttc',width:14},
+      {header:'Statut',key:'statut',width:28},
+      {header:'Date',key:'date',width:14}
+    ];
+    ws.getRow(1).eachCell(c=>{c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF2D3F7B'}};c.font={color:{argb:'FFFFFFFF'},bold:true};});
+    const data=[
+      ['FAC-2026-006','Editions David','Studio Web 3C','Numérique',542.40,'Soumise — en attente validation','13 sept. 2026'],
+      ['FAC-2026-005','Prise de Parole','Agence Oméga','Agent de presse',395.50,'Validée — en attente approbation','11 sept. 2026'],
+      ['FAC-2026-004',"Bouton d'or d'Acadie",'Magazine Alpha','Publicité',1694.50,'Approuvée','5 sept. 2026'],
+      ['FAC-2026-003','La Nouvelle Plume','Studio Graph','Publicité',2372.90,'Envoyée à Dext','2 sept. 2026'],
+      ['FAC-2026-002',"L'Interligne",'Éducation+','Fiches pédagogiques',904.00,'Rejetée','28 août 2026'],
+    ];
+    data.forEach(function(r){ ws.addRow(r); });
+    const buf=await wb.xlsx.writeBuffer();
+    const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download='REFC_Couts_Partages_2025-2026.xlsx';a.click();URL.revokeObjectURL(url);
+  } catch(e){ alert('Export Excel — dans la vraie version ce fichier sera généré automatiquement.'); }
 }
 </script>
 </body>
