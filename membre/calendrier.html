@@ -81,7 +81,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .rencontre-sous{font-size:11px;color:#94a3b8;margin-top:1px}
 .rencontre-droite{display:flex;align-items:center;gap:8px}
 .doc-pill{display:flex;align-items:center;gap:3px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:20px;padding:2px 8px;font-size:10px;color:#64748b}
-.doc-pill.ok{background:#dcfce7;border-color:#bbf7d0;color:#166534}
+.doc-pill.ok{background:#E8EEF7;border-color:#7B9EC8;color:#2D3F7B}
 .doc-pill svg{width:10px;height:10px}
 .rencontre-fleche{color:#94a3b8;font-size:14px;transition:.2s}
 .rencontre-fleche.ouvert{transform:rotate(180deg)}
@@ -131,7 +131,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 
 
-.badge-vert{background:#dcfce7;color:#166534}
+.badge-vert{background:#E8EEF7;color:#2D3F7B}
 
 /* Mini calendrier */
 
@@ -169,6 +169,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 
 
+
+/* ===== PALETTE REFC ===== */
+:root {
+  --refc-bleu:    #2D3F7B;
+  --refc-accent:  #7B9EC8;
+  --refc-clair:   #E8EEF7;
+  --refc-texte:   #1e293b;
+  --refc-gris:    #64748b;
+  --refc-bordure: #e2e8f0;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .kpis { grid-template-columns: repeat(2,1fr) !important; }
+  .grille2 { grid-template-columns: 1fr !important; }
+  .contenu { padding: 16px !important; padding-top: 140px !important; }
+  .filtres-ligne, .entete-actions { flex-wrap: wrap !important; }
+  table { font-size: 12px !important; }
+  th, td { padding: 8px 10px !important; }
+  .page-entete { flex-direction: column !important; }
+  .nav { overflow-x: auto !important; }
+  .layout-tdb { flex-direction: column !important; }
+  .colonne-droite { width: 100% !important; }
+}
+@media (max-width: 480px) {
+  .kpis { grid-template-columns: 1fr !important; }
+  .page-titre { font-size: 18px !important; }
+  .banniere { font-size: 11px !important; }
+}
+.theme-toggle {
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
 </style>
 </head>
 <body>
@@ -197,7 +236,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
   <a class="nav-btn actif" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="assistance.html">Assistance</a>
 </div>
@@ -211,9 +250,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <span class="filtre-label">Filtrer</span>
     <select class="filtre-select" id="filtre-annee">
       <option value="">Toutes les années</option>
-      <option value="2026" selected>2025–2026</option>
-      <option value="2025">2024–2025</option>
-      <option value="2024">2023–2024</option>
+      <option value="2026" selected>2026</option>
+      <option value="2025">2025</option>
+      <option value="2024">2024</option>
     </select>
     <span class="filtre-separateur">ou par période :</span>
     <input type="date" class="filtre-date" id="date-debut" value="2025-09-01">
@@ -238,7 +277,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
             <div class="organe-sigle" style="background:#E8EEF7;color:#2D3F7B">BD</div>
             <div>
               <div class="organe-nom">Bureau de direction</div>
-              <div class="organe-sous">Rencontres de coordination — 2025–2026</div>
+              <div class="organe-sous">Rencontres de coordination — 2026</div>
             </div>
           </div>
           <div class="organe-droite">
@@ -249,9 +288,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="organe-corps" id="corps-bd" data-organe="bd">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
-            <button class="btn-annee actif">2025–2026</button>
-            <button class="btn-annee">2024–2025</button>
-            <button class="btn-annee">2023–2024</button>
+            <button class="btn-annee actif">2026</button>
+            <button class="btn-annee">2025</button>
+            <button class="btn-annee">2024</button>
           </div>
           <div class="rencontres-liste">
 
@@ -416,7 +455,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="organe-bloc" data-organe="aga">
         <div class="organe-entete" onclick="toggleOrgane('aga')">
           <div class="organe-gauche">
-            <div class="organe-sigle" style="background:#dcfce7;color:#166534">AGA</div>
+            <div class="organe-sigle" style="background:#E8EEF7;color:#2D3F7B">AGA</div>
             <div>
               <div class="organe-nom">Assemblée générale annuelle</div>
               <div class="organe-sous">AGA — Documents officiels et programmation</div>
@@ -430,14 +469,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="organe-corps" id="corps-aga" data-organe="aga">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
-            <button class="btn-annee actif">2025–2026</button>
-            <button class="btn-annee">2024–2025</button>
+            <button class="btn-annee actif">2026</button>
+            <button class="btn-annee">2025</button>
           </div>
           <div class="rencontres-liste">
             <div class="rencontre-item" data-date="2026-06-02">
               <div class="rencontre-entete" onclick="toggleRencontre('aga-1')">
                 <div class="rencontre-gauche">
-                  <span class="rencontre-date-badge" style="background:#dcfce7;color:#166534">2 juin 2026</span>
+                  <span class="rencontre-date-badge" style="background:#E8EEF7;color:#2D3F7B">2 juin 2026</span>
                   <div>
                     <div class="rencontre-nom">AGA — 2 juin 2026</div>
                     <div class="rencontre-sous">Assemblée générale annuelle · Présentiel — Ottawa</div>
@@ -490,7 +529,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="organe-bloc" data-organe="asa">
         <div class="organe-entete" onclick="toggleOrgane('asa')">
           <div class="organe-gauche">
-            <div class="organe-sigle" style="background:#fef9c3;color:#854d0e">ASA</div>
+            <div class="organe-sigle" style="background:#E8EEF7;color:#64748b">ASA</div>
             <div>
               <div class="organe-nom">Assemblée semi-annuelle</div>
               <div class="organe-sous">ASA — Rencontre de mi-parcours</div>
@@ -504,14 +543,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="organe-corps" id="corps-asa" data-organe="asa">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
-            <button class="btn-annee actif">2025–2026</button>
-            <button class="btn-annee">2024–2025</button>
+            <button class="btn-annee actif">2026</button>
+            <button class="btn-annee">2025</button>
           </div>
           <div class="rencontres-liste">
             <div class="rencontre-item" data-date="2026-01-15">
               <div class="rencontre-entete" onclick="toggleRencontre('asa-1')">
                 <div class="rencontre-gauche">
-                  <span class="rencontre-date-badge" style="background:#fef9c3;color:#854d0e">15 jan. 2026</span>
+                  <span class="rencontre-date-badge" style="background:#E8EEF7;color:#64748b">15 jan. 2026</span>
                   <div>
                     <div class="rencontre-nom">ASA — 15 janvier 2026</div>
                     <div class="rencontre-sous">Assemblée semi-annuelle · Hybride</div>
@@ -572,7 +611,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="organe-bloc" data-organe="cg">
         <div class="organe-entete" onclick="toggleOrgane('cg')">
           <div class="organe-gauche">
-            <div class="organe-sigle" style="background:#f3e8ff;color:#6b21a8">CG</div>
+            <div class="organe-sigle" style="background:#E8EEF7;color:#2D3F7B">CG</div>
             <div>
               <div class="organe-nom">Comité de gouvernance</div>
               <div class="organe-sous">Rencontres et documents de gouvernance</div>
@@ -586,7 +625,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="organe-corps" id="corps-cg" data-organe="cg">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
-            <button class="btn-annee actif">2025–2026</button>
+            <button class="btn-annee actif">2026</button>
           </div>
           <div style="padding:20px 18px;text-align:center;color:#94a3b8;font-size:12px">Aucune rencontre enregistrée pour cette année.</div>
           
@@ -611,7 +650,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="organe-corps" id="corps-cp" data-organe="cp">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
-            <button class="btn-annee actif">2025–2026</button>
+            <button class="btn-annee actif">2026</button>
           </div>
           <div style="padding:20px 18px;text-align:center;color:#94a3b8;font-size:12px">Aucune rencontre enregistrée pour cette année.</div>
           
@@ -636,7 +675,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="organe-corps" id="corps-cprog" data-organe="cprog">
           <div class="organe-annees">
             <span class="annee-label">Année :</span>
-            <button class="btn-annee actif">2025–2026</button>
+            <button class="btn-annee actif">2026</button>
           </div>
           <div style="padding:20px 18px;text-align:center;color:#94a3b8;font-size:12px">Aucune rencontre enregistrée pour cette année.</div>
           
@@ -725,6 +764,23 @@ function resetFiltres() {
 
 // ===== SUPPRIMER =====
 
+
+
+function toggleTheme(){
+  var html = document.documentElement;
+  var actuel = html.getAttribute('data-theme');
+  if(actuel === 'dark'){
+    html.setAttribute('data-theme','light');
+    localStorage.setItem('refc-theme','light');
+  } else {
+    html.setAttribute('data-theme','dark');
+    localStorage.setItem('refc-theme','dark');
+  }
+}
+(function(){
+  var t = localStorage.getItem('refc-theme');
+  if(t) document.documentElement.setAttribute('data-theme', t);
+})();
 
 </script>
 </body>
