@@ -53,8 +53,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .badge{display:inline-flex;align-items:center;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;white-space:nowrap}
 .badge-type{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0}
 .badge-recu{background:#E8EEF7;color:#2D3F7B}
-.badge-traitement{background:#fef9c3;color:#854d0e}
-.badge-repondu{background:#dcfce7;color:#166534}
+.badge-traitement{background:#E8EEF7;color:#64748b}
+.badge-repondu{background:#E8EEF7;color:#2D3F7B}
 .badge-ferme{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
 .demande-date{font-size:11px;color:#94a3b8;margin-left:auto}
 
@@ -118,24 +118,75 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tag-assigne{display:inline-flex;align-items:center;gap:5px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:3px 8px;font-size:12px;color:#475569}
 .tag-assigne strong{color:#1e293b}
 
-        .badge-vert{background:#dcfce7;color:#166534}
-        .badge-orange{background:#fef9c3;color:#854d0e}
+        .badge-vert{background:#E8EEF7;color:#2D3F7B}
+        .badge-orange{background:#E8EEF7;color:#64748b}
         .badge-rouge{background:#fee2e2;color:#7f1d1d}
         .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-bleu{background:#E8EEF7;color:#2D3F7B}
         .badge-recu{background:#E8EEF7;color:#2D3F7B}
-        .badge-repondu{background:#dcfce7;color:#166534}
-        .badge-traitement{background:#fef9c3;color:#854d0e}
+        .badge-repondu{background:#E8EEF7;color:#2D3F7B}
+        .badge-traitement{background:#E8EEF7;color:#64748b}
         .badge-ferme{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-retard{background:#fee2e2;color:#7f1d1d;font-weight:700}
-        .badge-statut{background:#dcfce7;color:#166534}
-        .badge-attente{background:#fef9c3;color:#854d0e}
+        .badge-statut{background:#E8EEF7;color:#2D3F7B}
+        .badge-attente{background:#E8EEF7;color:#64748b}
         .badge-alerte{background:#fee2e2;color:#7f1d1d}
         .badge-neutre{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-salon{background:#E8EEF7;color:#2D3F7B}
         .badge-intl{background:#1e293b;color:#fff}
         .badge-ingram{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-congres{background:#E8EEF7;color:#253570;border:1px solid #7B9EC8}
+
+/* ===== PALETTE REFC UNIFORME ===== */
+:root {
+  --refc-bleu:      #2D3F7B;
+  --refc-nav:       #253570;
+  --refc-accent:    #7B9EC8;
+  --refc-clair:     #E8EEF7;
+  --refc-fond:      #f1f5f9;
+  --refc-blanc:     #ffffff;
+  --refc-texte:     #1e293b;
+  --refc-gris:      #64748b;
+  --refc-gris-clair:#94a3b8;
+  --refc-bordure:   #e2e8f0;
+  --refc-rouge:     #7f1d1d;
+  --refc-rouge-fond:#fee2e2;
+  --refc-rouge-bord:#fca5a5;
+}
+
+/* ===== MODE SOMBRE ===== */
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .kpis { grid-template-columns: repeat(2,1fr) !important; }
+  .grille2 { grid-template-columns: 1fr !important; }
+  .contenu { padding: 16px !important; padding-top: 140px !important; }
+  .filtres-ligne, .entete-actions { flex-wrap: wrap !important; }
+  table { font-size: 12px !important; }
+  th, td { padding: 8px 10px !important; }
+  .page-entete { flex-direction: column !important; }
+  .nav { overflow-x: auto !important; }
+}
+@media (max-width: 480px) {
+  .kpis { grid-template-columns: 1fr !important; }
+  .banniere { font-size: 11px !important; padding: 6px 12px !important; }
+  .page-titre { font-size: 18px !important; }
+}
+
+/* ===== TOGGLE THEME ===== */
+.theme-toggle {
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+.theme-toggle:hover { background: rgba(255,255,255,.1); }
+
 </style>
 </head>
 <body>
@@ -164,7 +215,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="planification.html">Réalisations et performances</a>
   <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
@@ -386,7 +437,7 @@ const demandes = [
     maison:'Éditions David', objet:'Information — Salon du livre de Paris 2026',
     type:'Info salon', statut:'recu', date:'22 août 2025', heure:'14h32',
     assigne:'Mathieu Ricard', initiales:'ED',
-    message:'Bonjour,<br><br>Nous souhaitons participer au Salon du livre de Paris en mars 2026. Pourriez-vous nous informer des conditions de participation, des délais d'inscription et du soutien que la REFC peut offrir ?',
+    message:'Bonjour,<br><br>Nous souhaitons participer au Salon du livre de Paris en mars 2026. Pourriez-vous nous informer des conditions de participation, des délais d&#39;inscription et du soutien que la REFC peut offrir ?',
     pj:null, reponses:[]
   },
   {
@@ -398,7 +449,7 @@ const demandes = [
     reponses:[{auteur:'Piedad Saenz',heure:'20 août · 11h22',texte:'Bonjour,<br><br>Merci pour votre demande. Je suis en train d'identifier les formations disponibles et je vous reviens d'ici la fin de la semaine avec des propositions concrètes.',pj:null}]
   },
   {
-    maison:'L'Interligne', objet:'Contact base de données — bibliothèques scolaires',
+    maison:'L&#39;Interligne', objet:'Contact base de données — bibliothèques scolaires',
     type:'Base de données', statut:'traitement', date:'15 août 2025', heure:'08h47',
     assigne:'Piedad Saenz', initiales:'LI',
     message:'Bonjour,<br><br>Nous cherchons à accéder à la base de données des bibliothèques scolaires francophones afin de cibler nos envois promotionnels. La REFC peut-elle faciliter cet accès ?',
@@ -410,7 +461,7 @@ const demandes = [
     assigne:'Noureddine Hany', initiales:'PP',
     message:'Bonjour,<br><br>Auriez-vous des informations sur le Congrès FLA 2026 ? Dates, lieu, possibilités de présence pour les éditeurs membres ?',
     pj:null,
-    reponses:[{auteur:'Noureddine Hany',heure:'11 août · 09h30',texte:'Bonjour,<br><br>Le Congrès FLA 2026 se tiendra du 3 au 6 mars à Moncton. Les inscriptions ouvrent le 15 octobre 2025. Je vous ferai parvenir la documentation complète dès qu'elle sera disponible. N'hésitez pas à me contacter si vous avez d'autres questions.',pj:'FLA_2026_Programme_préliminaire.pdf · 210 Ko'}]
+    reponses:[{auteur:'Noureddine Hany',heure:'11 août · 09h30',texte:'Bonjour,<br><br>Le Congrès FLA 2026 se tiendra du 3 au 6 mars à Moncton. Les inscriptions ouvrent le 15 octobre 2025. Je vous ferai parvenir la documentation complète dès qu&#39;elle sera disponible. N&#39;hésitez pas à me contacter si vous avez d&#39;autres questions.',pj:'FLA_2026_Programme_préliminaire.pdf · 210 Ko'}]
   },
   {
     maison:'La Nouvelle Plume', objet:'Accompagnement — révision plan de communication',
@@ -418,7 +469,7 @@ const demandes = [
     assigne:'Piedad Saenz', initiales:'NP',
     message:'Bonjour,<br><br>Nous avons révisé notre plan de communication pour 2025-2026 et souhaiterions avoir un regard externe avant de le finaliser. La REFC pourrait-elle nous offrir un accompagnement à ce sujet ?',
     pj:'Plan_communication_NP_2025-2026.pdf · 580 Ko',
-    reponses:[{auteur:'Piedad Saenz',heure:'5 août · 14h15',texte:'Bonjour,<br><br>Bien sûr, nous serons ravis de vous accompagner. J'ai pris connaissance de votre document — il est bien structuré. Je vous propose une rencontre virtuelle le 12 août pour en discuter en détail. Une invitation vous sera envoyée.',pj:null}]
+    reponses:[{auteur:'Piedad Saenz',heure:'5 août · 14h15',texte:'Bonjour,<br><br>Bien sûr, nous serons ravis de vous accompagner. J&#39;ai pris connaissance de votre document — il est bien structuré. Je vous propose une rencontre virtuelle le 12 août pour en discuter en détail. Une invitation vous sera envoyée.',pj:null}]
   },
   {
     maison:'Éditions David', objet:'Demande de mentorat — exportation internationale',
@@ -426,7 +477,7 @@ const demandes = [
     assigne:'Piedad Saenz', initiales:'ED',
     message:'Accompagnement complété. Rencontres tenues les 8 et 22 juillet 2025.',
     pj:null,
-    reponses:[{auteur:'Piedad Saenz',heure:'30 juil. · 10h00',texte:'Bonjour,<br><br>Suite à nos deux rencontres, voici un résumé des pistes explorées et des ressources partagées. N'hésitez pas à nous recontacter si de nouveaux besoins émergent.',pj:'Synthese_mentorat_exportation_David.pdf · 145 Ko'}]
+    reponses:[{auteur:'Piedad Saenz',heure:'30 juil. · 10h00',texte:'Bonjour,<br><br>Suite à nos deux rencontres, voici un résumé des pistes explorées et des ressources partagées. N&#39;hésitez pas à nous recontacter si de nouveaux besoins émergent.',pj:'Synthese_mentorat_exportation_David.pdf · 145 Ko'}]
   }
 ];
 
@@ -495,12 +546,12 @@ function afficherFil(idx){
 function envoyerReponse(nouveauStatut){
   const texte = document.getElementById('reponse-textarea').value.trim();
   const fichier = document.getElementById('fichier-joint').textContent;
-  if(!texte){ alert('Veuillez rédiger une réponse avant d'envoyer.'); return; }
+  if(!texte){ alert('Veuillez rédiger une réponse avant d&#39;envoyer.'); return; }
   const d = demandes[filActif];
   d.statut = nouveauStatut;
   d.reponses.push({
     auteur:'Noureddine Hany',
-    heure:'À l'instant',
+    heure:'À l&#39;instant',
     texte: texte.replace(/
 /g,'<br>'),
     pj: fichier || null
@@ -525,6 +576,30 @@ function archiverDemande(){
 }
 
 function filtrer(){ /* filtrage dynamique à implémenter */ }
+
+// ===== TOGGLE THÈME SOMBRE/CLAIR =====
+function toggleTheme(){
+  const html = document.documentElement;
+  const actuel = html.getAttribute('data-theme');
+  if(actuel === 'dark'){
+    html.setAttribute('data-theme','light');
+    localStorage.setItem('refc-theme','light');
+    document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '🌙');
+  } else {
+    html.setAttribute('data-theme','dark');
+    localStorage.setItem('refc-theme','dark');
+    document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '☀');
+  }
+}
+// Appliquer le thème sauvegardé
+(function(){
+  var t = localStorage.getItem('refc-theme');
+  if(t) document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-toggle').forEach(b => {
+    b.textContent = (t === 'dark') ? '☀' : '🌙';
+  });
+})();
+
 </script>
 </body>
 </html>
