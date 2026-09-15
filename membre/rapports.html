@@ -4,7 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>REFC — Rapports de ventes (Membre)</title>
-<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js">
+function toggleTheme(){
+  var html = document.documentElement;
+  var actuel = html.getAttribute('data-theme');
+  if(actuel === 'dark'){
+    html.setAttribute('data-theme','light');
+    localStorage.setItem('refc-theme','light');
+  } else {
+    html.setAttribute('data-theme','dark');
+    localStorage.setItem('refc-theme','dark');
+  }
+}
+(function(){
+  var t = localStorage.getItem('refc-theme');
+  if(t) document.documentElement.setAttribute('data-theme', t);
+})();
+
+</script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -73,18 +90,18 @@ tbody tr:hover td{background:#f8fafc}
 .recap-val{font-family:monospace;color:#1e293b}
 .recap-val.bleu{color:#2D3F7B;font-weight:600}
 
-        .badge-vert{background:#dcfce7;color:#166534}
-        .badge-orange{background:#fef9c3;color:#854d0e}
+        .badge-vert{background:#E8EEF7;color:#2D3F7B}
+        .badge-orange{background:#E8EEF7;color:#64748b}
         .badge-rouge{background:#fee2e2;color:#7f1d1d}
         .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-bleu{background:#E8EEF7;color:#2D3F7B}
         .badge-recu{background:#E8EEF7;color:#2D3F7B}
-        .badge-repondu{background:#dcfce7;color:#166534}
-        .badge-traitement{background:#fef9c3;color:#854d0e}
+        .badge-repondu{background:#E8EEF7;color:#2D3F7B}
+        .badge-traitement{background:#E8EEF7;color:#64748b}
         .badge-ferme{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-retard{background:#fee2e2;color:#7f1d1d;font-weight:700}
-        .badge-statut{background:#dcfce7;color:#166534}
-        .badge-attente{background:#fef9c3;color:#854d0e}
+        .badge-statut{background:#E8EEF7;color:#2D3F7B}
+        .badge-attente{background:#E8EEF7;color:#64748b}
         .badge-alerte{background:#fee2e2;color:#7f1d1d}
         .badge-neutre{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-salon{background:#E8EEF7;color:#2D3F7B}
@@ -95,6 +112,45 @@ tbody tr:hover td{background:#f8fafc}
 .recap-carte-pied{padding:10px 18px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end}
 .btn-pdf-carte{padding:5px 12px;font-size:11px;border-radius:7px;border:1px solid #cbd5e1;background:#fff;color:#2D3F7B;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-weight:500;transition:.15s}
 .btn-pdf-carte:hover{background:#E8EEF7;border-color:#7B9EC8}
+
+/* ===== PALETTE REFC ===== */
+:root {
+  --refc-bleu:    #2D3F7B;
+  --refc-accent:  #7B9EC8;
+  --refc-clair:   #E8EEF7;
+  --refc-texte:   #1e293b;
+  --refc-gris:    #64748b;
+  --refc-bordure: #e2e8f0;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .kpis { grid-template-columns: repeat(2,1fr) !important; }
+  .grille2 { grid-template-columns: 1fr !important; }
+  .contenu { padding: 16px !important; padding-top: 140px !important; }
+  .filtres-ligne, .entete-actions { flex-wrap: wrap !important; }
+  table { font-size: 12px !important; }
+  th, td { padding: 8px 10px !important; }
+  .page-entete { flex-direction: column !important; }
+  .nav { overflow-x: auto !important; }
+  .layout-tdb { flex-direction: column !important; }
+  .colonne-droite { width: 100% !important; }
+}
+@media (max-width: 480px) {
+  .kpis { grid-template-columns: 1fr !important; }
+  .page-titre { font-size: 18px !important; }
+  .banniere { font-size: 11px !important; }
+}
+.theme-toggle {
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
 </style>
 </head>
 <body>
@@ -110,7 +166,7 @@ tbody tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn actif" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn actif" href="rapports.html">Rapports</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="assistance.html">Assistance</a>
 </div>
