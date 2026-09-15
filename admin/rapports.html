@@ -4,7 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>REFC — Rapports de ventes (Admin)</title>
-<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js">
+// ===== TOGGLE THÈME SOMBRE/CLAIR =====
+function toggleTheme(){
+  const html = document.documentElement;
+  const actuel = html.getAttribute('data-theme');
+  if(actuel === 'dark'){
+    html.setAttribute('data-theme','light');
+    localStorage.setItem('refc-theme','light');
+    document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '🌙');
+  } else {
+    html.setAttribute('data-theme','dark');
+    localStorage.setItem('refc-theme','dark');
+    document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '☀');
+  }
+}
+// Appliquer le thème sauvegardé
+(function(){
+  var t = localStorage.getItem('refc-theme');
+  if(t) document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-toggle').forEach(b => {
+    b.textContent = (t === 'dark') ? '☀' : '🌙';
+  });
+})();
+
+</script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -108,18 +132,18 @@ tbody tr:hover td{background:#f8fafc}
 .sep-titre{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
 .sep-ligne{flex:1;height:1px;background:#e2e8f0}
 
-        .badge-vert{background:#dcfce7;color:#166534}
-        .badge-orange{background:#fef9c3;color:#854d0e}
+        .badge-vert{background:#E8EEF7;color:#2D3F7B}
+        .badge-orange{background:#E8EEF7;color:#64748b}
         .badge-rouge{background:#fee2e2;color:#7f1d1d}
         .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-bleu{background:#E8EEF7;color:#2D3F7B}
         .badge-recu{background:#E8EEF7;color:#2D3F7B}
-        .badge-repondu{background:#dcfce7;color:#166534}
-        .badge-traitement{background:#fef9c3;color:#854d0e}
+        .badge-repondu{background:#E8EEF7;color:#2D3F7B}
+        .badge-traitement{background:#E8EEF7;color:#64748b}
         .badge-ferme{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-retard{background:#fee2e2;color:#7f1d1d;font-weight:700}
-        .badge-statut{background:#dcfce7;color:#166534}
-        .badge-attente{background:#fef9c3;color:#854d0e}
+        .badge-statut{background:#E8EEF7;color:#2D3F7B}
+        .badge-attente{background:#E8EEF7;color:#64748b}
         .badge-alerte{background:#fee2e2;color:#7f1d1d}
         .badge-neutre{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-salon{background:#E8EEF7;color:#2D3F7B}
@@ -130,6 +154,57 @@ tbody tr:hover td{background:#f8fafc}
 .col-ingram{display:none}
 .col-ingram.visible{display:table-cell}
 .tableau-ingram .col-ingram{display:table-cell}
+
+/* ===== PALETTE REFC UNIFORME ===== */
+:root {
+  --refc-bleu:      #2D3F7B;
+  --refc-nav:       #253570;
+  --refc-accent:    #7B9EC8;
+  --refc-clair:     #E8EEF7;
+  --refc-fond:      #f1f5f9;
+  --refc-blanc:     #ffffff;
+  --refc-texte:     #1e293b;
+  --refc-gris:      #64748b;
+  --refc-gris-clair:#94a3b8;
+  --refc-bordure:   #e2e8f0;
+  --refc-rouge:     #7f1d1d;
+  --refc-rouge-fond:#fee2e2;
+  --refc-rouge-bord:#fca5a5;
+}
+
+/* ===== MODE SOMBRE ===== */
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .kpis { grid-template-columns: repeat(2,1fr) !important; }
+  .grille2 { grid-template-columns: 1fr !important; }
+  .contenu { padding: 16px !important; padding-top: 140px !important; }
+  .filtres-ligne, .entete-actions { flex-wrap: wrap !important; }
+  table { font-size: 12px !important; }
+  th, td { padding: 8px 10px !important; }
+  .page-entete { flex-direction: column !important; }
+  .nav { overflow-x: auto !important; }
+}
+@media (max-width: 480px) {
+  .kpis { grid-template-columns: 1fr !important; }
+  .banniere { font-size: 11px !important; padding: 6px 12px !important; }
+  .page-titre { font-size: 18px !important; }
+}
+
+/* ===== TOGGLE THEME ===== */
+.theme-toggle {
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+.theme-toggle:hover { background: rgba(255,255,255,.1); }
+
 </style>
 </head>
 <body>
@@ -145,7 +220,7 @@ tbody tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn actif" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn actif" href="rapports.html">Rapports</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="planification.html">Réalisations et performances</a>
   <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
