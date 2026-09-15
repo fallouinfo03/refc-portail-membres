@@ -5,6 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>REFC — Coûts partagés (Membre)</title>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
+<script>
+
+function ouvrirModal(id){ document.getElementById(id).classList.add('visible'); }
+function fermerModal(id){ document.getElementById(id).classList.remove('visible'); }
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.modal-bg').forEach(function(m){
+    m.addEventListener('click', function(e){ if(e.target===m) m.classList.remove('visible'); });
+  });
+});
+function ouvrirDetailRefact(btn){ ouvrirModal('modal-detail-refact'); }
+function ouvrirDetail(btn){ ouvrirModal('modal-detail-facture'); }
+function filtrer(){
+  var selects = document.querySelectorAll('.filtres-historique .filtre-select');
+  var type   = selects[0] ? selects[0].value : 'Tous les types de service';
+  var statut = selects[1] ? selects[1].value : 'Tous les statuts';
+  var rows = document.querySelectorAll('#wrap-historique tbody tr');
+  var visibles = 0;
+  rows.forEach(function(tr){
+    var trType   = tr.dataset.type   || '';
+    var trStatut = tr.dataset.statut || '';
+    var okType   = (type   === 'Tous les types de service') || trType   === type;
+    var okStatut = (statut === 'Tous les statuts')          || trStatut === statut;
+    tr.style.display = (okType && okStatut) ? '' : 'none';
+    if(okType && okStatut) visibles++;
+  });
+  var info = document.getElementById('info-filtres');
+  if(info) info.textContent = visibles + ' service' + (visibles > 1 ? 's' : '') + ' affiche' + (visibles > 1 ? 's' : '');
+}
+function calculerMontants(){
+  var ht = parseFloat(document.getElementById('montant-ht-m').value)||0;
+  if(ht>0){
+    document.getElementById('recap-montants').style.display='block';
+    var fmt=function(n){return n.toLocaleString('fr-CA',{minimumFractionDigits:2,maximumFractionDigits:2})+' $';};
+    var tps=ht*0.05,tvq=ht*0.09975,ttc=ht+tps+tvq,part=ht*0.35;
+    document.getElementById('r-ht').textContent=fmt(ht);
+    document.getElementById('r-tps').textContent=fmt(tps);
+    document.getElementById('r-tvq').textContent=fmt(tvq);
+    document.getElementById('r-ttc').textContent=fmt(ttc);
+    document.getElementById('r-35').textContent=fmt(part);
+  } else {
+    document.getElementById('recap-montants').style.display='none';
+  }
+}
+
+
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
@@ -140,16 +186,19 @@ tbody tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports</a>
-  <a class="nav-btn" href="calendrier.html">Calendrier</a>
+  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="assistance.html">Assistance</a>
 </div>
 
 <div class="contenu">
 
   <div class="entete-page">
-    <div class="page-titre">Services à coûts partagés — Prise de Parole</div>
-    <div class="page-soustitre">Année budgétaire 2025–2026 · Du 1er avril 2025 au 31 mars 2026 · Enveloppe initiale : 6 000 $</div>
+    <div>
+      <div class="page-titre">Services à coûts partagés — Prise de Parole</div>
+      <div class="page-soustitre">Année budgétaire 2025–2026 · Du 1er avril 2025 au 31 mars 2026 · Enveloppe initiale : 6 000 $</div>
+    </div>
+    <button class="btn btn-pri" onclick="ouvrirModal('modal-soumettre')">+ Soumettre une facture</button>
   </div>
 
   <!-- KPIs -->
@@ -220,6 +269,7 @@ tbody tr:hover td{background:#f8fafc}
             <th>Date</th>
             <th style="text-align:right">Total dû</th>
             <th>Statut</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -320,7 +370,7 @@ tbody tr:hover td{background:#f8fafc}
   </div>
 
   <div class="filtres-historique">
-    <select class="filtre-select">
+    <select class="filtre-select" onchange="filtrer()">
       <option>Tous les types de service</option>
       <option>Publicité</option>
       <option>Agent de presse</option>
@@ -328,20 +378,21 @@ tbody tr:hover td{background:#f8fafc}
       <option>Fiches pédagogiques</option>
       <option>Surdiffusion</option>
     </select>
-    <select class="filtre-select">
+    <select class="filtre-select" onchange="filtrer()">
       <option>Tous les statuts</option>
       <option>Réglé</option>
       <option>En attente</option>
       <option>En traitement</option>
     </select>
-    <select class="filtre-select">
+    <select class="filtre-select" onchange="filtrer()">
       <option>2025–2026</option>
       <option>2024–2025</option>
       <option>2023–2024</option>
     </select>
   </div>
+  <div style="font-size:11px;color:#64748b;margin-bottom:6px" id="info-filtres">9 services affichés</div>
 
-  <div class="tableau-wrap">
+  <div class="tableau-wrap" id="wrap-historique">
     <table>
       <thead>
         <tr>
@@ -355,7 +406,7 @@ tbody tr:hover td{background:#f8fafc}
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr data-type="Publicité" data-statut="Réglé">
           <td style="font-size:12px;color:#64748b">21 avr. 2025</td>
           <td>Magazine Alpha</td>
           <td><span class="badge badge-bleu">Publicité</span></td>
@@ -364,7 +415,7 @@ tbody tr:hover td{background:#f8fafc}
           <td class="montant bleu">213,68 $</td>
           <td><span class="badge badge-vert">Réglé</span></td>
         </tr>
-        <tr>
+        <tr data-type="Agent de presse" data-statut="Réglé">
           <td style="font-size:12px;color:#64748b">14 mai 2025</td>
           <td>Agence Oméga</td>
           <td><span class="badge badge-bleu">Agent de presse</span></td>
@@ -373,7 +424,7 @@ tbody tr:hover td{background:#f8fafc}
           <td class="montant bleu">256,41 $</td>
           <td><span class="badge badge-vert">Réglé</span></td>
         </tr>
-        <tr>
+        <tr data-type="Agent de presse" data-statut="Réglé">
           <td style="font-size:12px;color:#64748b">10 juin 2025</td>
           <td>Agence Oméga</td>
           <td><span class="badge badge-bleu">Agent de presse</span></td>
@@ -382,7 +433,7 @@ tbody tr:hover td{background:#f8fafc}
           <td class="montant bleu">213,68 $</td>
           <td><span class="badge badge-vert">Réglé</span></td>
         </tr>
-        <tr>
+        <tr data-type="Publicité" data-statut="Réglé">
           <td style="font-size:12px;color:#64748b">3 juil. 2025</td>
           <td>Studio Graph</td>
           <td><span class="badge badge-bleu">Publicité</span></td>
@@ -391,7 +442,7 @@ tbody tr:hover td{background:#f8fafc}
           <td class="montant bleu">470,09 $</td>
           <td><span class="badge badge-vert">Réglé</span></td>
         </tr>
-        <tr>
+        <tr data-type="Numérique" data-statut="Réglé">
           <td style="font-size:12px;color:#64748b">18 juil. 2025</td>
           <td>Agence Bêta</td>
           <td><span class="badge badge-bleu">Numérique</span></td>
@@ -400,7 +451,7 @@ tbody tr:hover td{background:#f8fafc}
           <td class="montant bleu">384,82 $</td>
           <td><span class="badge badge-vert">Réglé</span></td>
         </tr>
-        <tr>
+        <tr data-type="Fiches pédagogiques" data-statut="Réglé">
           <td style="font-size:12px;color:#64748b">5 août 2025</td>
           <td>Éducation+</td>
           <td><span class="badge badge-bleu">Fiches péda.</span></td>
@@ -409,7 +460,7 @@ tbody tr:hover td{background:#f8fafc}
           <td class="montant bleu">128,21 $</td>
           <td><span class="badge badge-vert">Réglé</span></td>
         </tr>
-        <tr>
+        <tr data-type="Surdiffusion" data-statut="Réglé">
           <td style="font-size:12px;color:#64748b">20 août 2025</td>
           <td>DiffuPro</td>
           <td><span class="badge badge-bleu">Surdiffusion</span></td>
@@ -418,7 +469,7 @@ tbody tr:hover td{background:#f8fafc}
           <td class="montant bleu">85,47 $</td>
           <td><span class="badge badge-vert">Réglé</span></td>
         </tr>
-        <tr>
+        <tr data-type="Publicité" data-statut="En attente">
           <td style="font-size:12px;color:#64748b">12 sept. 2025</td>
           <td>Magazine Alpha</td>
           <td><span class="badge badge-bleu">Publicité</span></td>
@@ -427,7 +478,7 @@ tbody tr:hover td{background:#f8fafc}
           <td class="montant bleu" style="color:#854d0e">256,41 $</td>
           <td><span class="badge badge-orange">En attente</span></td>
         </tr>
-        <tr>
+        <tr data-type="Agent de presse" data-statut="En traitement">
           <td style="font-size:12px;color:#64748b">28 sept. 2025</td>
           <td>Agence Oméga</td>
           <td><span class="badge badge-bleu">Agent de presse</span></td>
@@ -497,5 +548,115 @@ async function exporterExcel(){
   const a=document.createElement('a');a.href=url;a.download='REFC_Couts_Partages_Prise_de_Parole_2025-2026.xlsx';a.click();URL.revokeObjectURL(url);
 }
 </script>
+<!-- Modal détail refacturation -->
+<div class="modal-bg" id="modal-detail-refact">
+  <div class="modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <span style="font-size:16px;font-weight:700;color:#1e293b">Détail de la refacturation</span>
+      <button style="background:none;border:none;font-size:20px;cursor:pointer;color:#64748b" onclick="fermerModal('modal-detail-refact')">✕</button>
+    </div>
+    <div style="background:#E8EEF7;border:1px solid #7B9EC8;border-radius:8px;padding:14px 16px;margin-bottom:14px;font-size:13px;line-height:1.6">
+      <strong>i</strong> &nbsp;Cette refacturation correspond à votre part de 35 % sur une facture approuvée par la REFC. Le document PDF a été généré par le comptable via QuickBooks.
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:13px">
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">FOURNISSEUR</span><span style="font-weight:600">Magazine Alpha</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">DATE</span><span>12 sept. 2025</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">MONTANT HT</span><span style="font-family:monospace;font-weight:700">600,00 $</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">VOTRE PART 35 %</span><span style="font-family:monospace;font-weight:700;color:#854d0e">256,41 $</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">STATUT</span><span class="badge badge-orange">En attente</span></div>
+    </div>
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:12px">
+      <div style="font-weight:700;color:#1e293b;margin-bottom:4px">Document archivé dans SharePoint REFC</div>
+      <div style="color:#64748b">SharePoint / Refacturations / 2025-2026 / En attente</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-pri" onclick="alert('Dans la vraie version : le PDF de refacturation souvre directement depuis SharePoint.')">Voir le PDF</button>
+      <button class="btn" onclick="window.location.href='assistance.html'">Contacter la REFC</button>
+      <button class="btn" onclick="fermerModal('modal-detail-refact')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal détail facture historique -->
+<div class="modal-bg" id="modal-detail-facture">
+  <div class="modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <span style="font-size:16px;font-weight:700;color:#1e293b">Détail du service</span>
+      <button style="background:none;border:none;font-size:20px;cursor:pointer;color:#64748b" onclick="fermerModal('modal-detail-facture')">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:13px">
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">FOURNISSEUR</span><span style="font-weight:600">Agence Oméga</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">DATE</span><span>28 sept. 2025</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">TYPE</span><span class="badge badge-bleu">Agent de presse</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">STATUT</span><span class="badge badge-gris">En traitement</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">MONTANT HT</span><span style="font-family:monospace;font-weight:700">500,00 $</span></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;margin-bottom:2px">VOTRE PART 35 %</span><span style="font-family:monospace;font-weight:700;color:#854d0e">213,68 $</span></div>
+    </div>
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Suivi de traitement</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:12px"><div style="width:8px;height:8px;border-radius:50%;background:#2D3F7B;flex-shrink:0;margin-top:3px"></div><div><div style="font-weight:600">Facture soumise</div><div style="color:#64748b">Prise de Parole — 28 sept. 2025</div></div></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:12px"><div style="width:8px;height:8px;border-radius:50%;background:#eab308;flex-shrink:0;margin-top:3px"></div><div><div style="font-weight:600">En cours d&#39;examen</div><div style="color:#64748b">Noureddine Hany — notification reçue</div></div></div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" onclick="fermerModal('modal-detail-facture')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal soumettre facture -->
+<div class="modal-bg" id="modal-soumettre">
+  <div class="modal" style="width:540px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <span style="font-size:16px;font-weight:700;color:#1e293b">Soumettre une facture</span>
+      <button style="background:none;border:none;font-size:20px;cursor:pointer;color:#64748b" onclick="fermerModal('modal-soumettre')">✕</button>
+    </div>
+    <div style="background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#1e3a5f;margin-bottom:14px">
+      Votre facture sera examinée par Noureddine, puis approuvée par Piedad. Vous recevrez une notification dès que le statut change.
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block">Fournisseur *</label>
+      <input type="text" style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;font-size:13px;outline:none" placeholder="Nom du fournisseur">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div>
+        <label style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block">Type de service *</label>
+        <select style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;font-size:13px;outline:none">
+          <option>Publicité</option><option>Agent de presse</option><option>Numérique</option><option>Fiches pédagogiques</option><option>Surdiffusion</option><option>Autre</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block">Date de la facture *</label>
+        <input type="date" style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;font-size:13px;outline:none">
+      </div>
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block">Montant HT ($) *</label>
+      <input type="number" id="montant-ht-m" style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;font-size:13px;outline:none" placeholder="0.00" oninput="calculerMontants()">
+    </div>
+    <div id="recap-montants" style="display:none;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:12px">
+      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9"><span>Montant HT</span><span id="r-ht" style="font-family:monospace">0,00 $</span></div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9"><span>TPS (5 %)</span><span id="r-tps" style="font-family:monospace">0,00 $</span></div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9"><span>TVQ (9,975 %)</span><span id="r-tvq" style="font-family:monospace">0,00 $</span></div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9"><span>Total TTC</span><span id="r-ttc" style="font-family:monospace">0,00 $</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0 4px;font-weight:700"><span style="color:#854d0e">Votre part 35 %</span><span id="r-35" style="font-family:monospace;color:#854d0e">0,00 $</span></div>
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block">Description *</label>
+      <textarea style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;font-size:13px;outline:none;resize:vertical;min-height:60px;font-family:inherit" placeholder="Décrivez le service rendu..."></textarea>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block">Facture PDF *</label>
+      <div onclick="alert('Dans la vraie version : upload du PDF vers SharePoint REFC. La REFC sera notifiee automatiquement.')" style="border:2px dashed #cbd5e1;border-radius:8px;padding:16px;text-align:center;cursor:pointer;background:#f8fafc">
+        <div style="font-size:13px;font-weight:600;color:#2D3F7B;margin-bottom:3px">Cliquer pour uploader le PDF</div>
+        <div style="font-size:11px;color:#94a3b8">PDF uniquement — max 10 Mo</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;padding-top:14px;border-top:1px solid #e2e8f0">
+      <button class="btn" onclick="fermerModal('modal-soumettre')">Annuler</button>
+      <button class="btn btn-pri" onclick="alert('Facture soumise. La REFC examinera votre demande sous 48h. Vous recevrez une notification.');fermerModal('modal-soumettre')">Soumettre</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
