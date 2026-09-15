@@ -29,7 +29,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 /* Alertes */
 .alerte{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-radius:8px;font-size:13px;line-height:1.5;border:1px solid;margin-bottom:10px}
 .alerte-rouge{background:#fee2e2;border-color:#fca5a5;color:#7f1d1d}
-.alerte-jaune{background:#fef9c3;border-color:#fde047;color:#854d0e}
+.alerte-jaune{background:#E8EEF7;border-color:#7B9EC8;color:#64748b}
 .alerte-icone{font-size:15px;flex-shrink:0;font-weight:700;margin-top:1px}
 /* KPIs */
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
@@ -50,8 +50,8 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:#f8fafc}
 /* Badges */
 .badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
-.badge-vert{background:#dcfce7;color:#166534}
-.badge-orange{background:#fef9c3;color:#854d0e}
+.badge-vert{background:#E8EEF7;color:#2D3F7B}
+.badge-orange{background:#E8EEF7;color:#64748b}
 .badge-rouge{background:#fee2e2;color:#7f1d1d}
 .badge-bleu{background:#E8EEF7;color:#2D3F7B}
 .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
@@ -115,6 +115,57 @@ tr:hover td{background:#f8fafc}
 .modal-confirm-titre{font-size:16px;font-weight:700;margin-bottom:8px}
 .modal-confirm-texte{font-size:13px;color:#64748b;margin-bottom:20px;line-height:1.5}
 .modal-confirm-actions{display:flex;gap:10px;justify-content:center}
+
+/* ===== PALETTE REFC UNIFORME ===== */
+:root {
+  --refc-bleu:      #2D3F7B;
+  --refc-nav:       #253570;
+  --refc-accent:    #7B9EC8;
+  --refc-clair:     #E8EEF7;
+  --refc-fond:      #f1f5f9;
+  --refc-blanc:     #ffffff;
+  --refc-texte:     #1e293b;
+  --refc-gris:      #64748b;
+  --refc-gris-clair:#94a3b8;
+  --refc-bordure:   #e2e8f0;
+  --refc-rouge:     #7f1d1d;
+  --refc-rouge-fond:#fee2e2;
+  --refc-rouge-bord:#fca5a5;
+}
+
+/* ===== MODE SOMBRE ===== */
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .kpis { grid-template-columns: repeat(2,1fr) !important; }
+  .grille2 { grid-template-columns: 1fr !important; }
+  .contenu { padding: 16px !important; padding-top: 140px !important; }
+  .filtres-ligne, .entete-actions { flex-wrap: wrap !important; }
+  table { font-size: 12px !important; }
+  th, td { padding: 8px 10px !important; }
+  .page-entete { flex-direction: column !important; }
+  .nav { overflow-x: auto !important; }
+}
+@media (max-width: 480px) {
+  .kpis { grid-template-columns: 1fr !important; }
+  .banniere { font-size: 11px !important; padding: 6px 12px !important; }
+  .page-titre { font-size: 18px !important; }
+}
+
+/* ===== TOGGLE THEME ===== */
+.theme-toggle {
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+.theme-toggle:hover { background: rgba(255,255,255,.1); }
+
 </style>
 </head>
 <body>
@@ -143,7 +194,7 @@ tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="planification.html">Réalisations et performances</a>
   <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
@@ -534,6 +585,30 @@ function executerSuppression() {
   alert('Dans la vraie version : ' + salonASupprimer + ' supprimé.');
   fermerModal('modal-suppression');
 }
+
+// ===== TOGGLE THÈME SOMBRE/CLAIR =====
+function toggleTheme(){
+  const html = document.documentElement;
+  const actuel = html.getAttribute('data-theme');
+  if(actuel === 'dark'){
+    html.setAttribute('data-theme','light');
+    localStorage.setItem('refc-theme','light');
+    document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '🌙');
+  } else {
+    html.setAttribute('data-theme','dark');
+    localStorage.setItem('refc-theme','dark');
+    document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '☀');
+  }
+}
+// Appliquer le thème sauvegardé
+(function(){
+  var t = localStorage.getItem('refc-theme');
+  if(t) document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-toggle').forEach(b => {
+    b.textContent = (t === 'dark') ? '☀' : '🌙';
+  });
+})();
+
 </script>
 </body>
 </html>
