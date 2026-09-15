@@ -124,18 +124,18 @@ tr:last-child td{border-bottom:none}
 .grid2-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid #e2e8f0}
 
-        .badge-vert{background:#dcfce7;color:#166534}
-        .badge-orange{background:#fef9c3;color:#854d0e}
+        .badge-vert{background:#E8EEF7;color:#2D3F7B}
+        .badge-orange{background:#E8EEF7;color:#64748b}
         .badge-rouge{background:#fee2e2;color:#7f1d1d}
         .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-bleu{background:#E8EEF7;color:#2D3F7B}
         .badge-recu{background:#E8EEF7;color:#2D3F7B}
-        .badge-repondu{background:#dcfce7;color:#166534}
-        .badge-traitement{background:#fef9c3;color:#854d0e}
+        .badge-repondu{background:#E8EEF7;color:#2D3F7B}
+        .badge-traitement{background:#E8EEF7;color:#64748b}
         .badge-ferme{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-retard{background:#fee2e2;color:#7f1d1d;font-weight:700}
-        .badge-statut{background:#dcfce7;color:#166534}
-        .badge-attente{background:#fef9c3;color:#854d0e}
+        .badge-statut{background:#E8EEF7;color:#2D3F7B}
+        .badge-attente{background:#E8EEF7;color:#64748b}
         .badge-alerte{background:#fee2e2;color:#7f1d1d}
         .badge-neutre{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
         .badge-salon{background:#E8EEF7;color:#2D3F7B}
@@ -148,15 +148,66 @@ tr:last-child td{border-bottom:none}
 .etape-cal:hover .btn-suppr-etape{display:block}
 .btn-suppr-etape:hover{color:#7f1d1d;background:#fee2e2}
 
-.statut-realise{background:#dcfce7;color:#166534;font-weight:600}
-.statut-en-cours{background:#fef9c3;color:#854d0e;font-weight:600}
+.statut-realise{background:#E8EEF7;color:#2D3F7B;font-weight:600}
+.statut-en-cours{background:#E8EEF7;color:#64748b;font-weight:600}
 .statut-non-realise{background:#fee2e2;color:#7f1d1d;font-weight:600}
 .statut-a-venir{background:#f1f5f9;color:#64748b}
 .td-statut{padding:4px 8px;border-radius:6px;font-size:12px;font-weight:500;text-align:center;white-space:nowrap}
 .td-select.statut-realise{border-color:#86efac}
-.td-select.statut-en-cours{border-color:#fde047}
+.td-select.statut-en-cours{border-color:#7B9EC8}
 .td-select.statut-non-realise{border-color:#fca5a5}
 .td-select.statut-a-venir{border-color:#cbd5e1}
+
+/* ===== PALETTE REFC UNIFORME ===== */
+:root {
+  --refc-bleu:      #2D3F7B;
+  --refc-nav:       #253570;
+  --refc-accent:    #7B9EC8;
+  --refc-clair:     #E8EEF7;
+  --refc-fond:      #f1f5f9;
+  --refc-blanc:     #ffffff;
+  --refc-texte:     #1e293b;
+  --refc-gris:      #64748b;
+  --refc-gris-clair:#94a3b8;
+  --refc-bordure:   #e2e8f0;
+  --refc-rouge:     #7f1d1d;
+  --refc-rouge-fond:#fee2e2;
+  --refc-rouge-bord:#fca5a5;
+}
+
+/* ===== MODE SOMBRE ===== */
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .kpis { grid-template-columns: repeat(2,1fr) !important; }
+  .grille2 { grid-template-columns: 1fr !important; }
+  .contenu { padding: 16px !important; padding-top: 140px !important; }
+  .filtres-ligne, .entete-actions { flex-wrap: wrap !important; }
+  table { font-size: 12px !important; }
+  th, td { padding: 8px 10px !important; }
+  .page-entete { flex-direction: column !important; }
+  .nav { overflow-x: auto !important; }
+}
+@media (max-width: 480px) {
+  .kpis { grid-template-columns: 1fr !important; }
+  .banniere { font-size: 11px !important; padding: 6px 12px !important; }
+  .page-titre { font-size: 18px !important; }
+}
+
+/* ===== TOGGLE THEME ===== */
+.theme-toggle {
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+.theme-toggle:hover { background: rgba(255,255,255,.1); }
+
 </style>
 </head>
 <body>
@@ -185,7 +236,7 @@ tr:last-child td{border-bottom:none}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="planification.html">Réalisations et performances</a>
   <a class="nav-btn actif" href="prix-champlain.html">Prix Champlain</a>
@@ -566,7 +617,7 @@ tr:last-child td{border-bottom:none}
         </tbody>
       </table>
     </div>
-    <button class="btn btn-pri" onclick="alert('Plan d\'action sauvegardé.')">Sauvegarder</button>
+    <button class="btn btn-pri" onclick="alert('Plan action sauvegarde.')">Sauvegarder</button>
   </div>
 
   <!-- ===== DOCUMENTS ===== -->
@@ -643,7 +694,7 @@ tr:last-child td{border-bottom:none}
       <span>Modifier les dates du calendrier</span>
       <button class="btn-fermer" onclick="fermerModal('modal-etape')">Retirer</button>
     </div>
-    <div class="note-info" style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:12px;color:#1d4ed8;margin-bottom:16px">
+    <div class="note-info" style="background:#E8EEF7;border:1px solid #E8EEF7;border-radius:8px;padding:10px 14px;font-size:12px;color:#2D3F7B;margin-bottom:16px">
       Note : Sélectionnez une étape et modifiez sa date. Le statut se mettra à jour automatiquement.
     </div>
     <div class="form-row">
@@ -869,6 +920,30 @@ function mettreAJourStatut(sel){
 document.addEventListener('DOMContentLoaded', function(){
   document.querySelectorAll('.statut-select').forEach(sel => mettreAJourStatut(sel));
 });
+
+
+// ===== TOGGLE THÈME SOMBRE/CLAIR =====
+function toggleTheme(){
+  const html = document.documentElement;
+  const actuel = html.getAttribute('data-theme');
+  if(actuel === 'dark'){
+    html.setAttribute('data-theme','light');
+    localStorage.setItem('refc-theme','light');
+    document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '🌙');
+  } else {
+    html.setAttribute('data-theme','dark');
+    localStorage.setItem('refc-theme','dark');
+    document.querySelectorAll('.theme-toggle').forEach(b => b.textContent = '☀');
+  }
+}
+// Appliquer le thème sauvegardé
+(function(){
+  var t = localStorage.getItem('refc-theme');
+  if(t) document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-toggle').forEach(b => {
+    b.textContent = (t === 'dark') ? '☀' : '🌙';
+  });
+})();
 
 </script>
 </body>
