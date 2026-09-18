@@ -139,6 +139,39 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 }
 .theme-toggle:hover { background: rgba(255,255,255,.1); }
 
+
+/* === Uniformisation onglets === */
+.tabs,.onglets{overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar,.onglets::-webkit-scrollbar{display:none}
+.tab,.onglet-btn{white-space:nowrap;flex-shrink:0}
+.tab-contenu{display:none}
+.tab-contenu.visible{display:block}
+.onglet-panel{display:none}
+.onglet-panel.actif{display:block}
+
+/* === Responsive tablette et mobile === */
+@media(max-width:1024px){
+  .contenu{padding:18px;padding-top:140px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .kpis{grid-template-columns:repeat(2,1fr) !important}
+  .grille2,.grid2{grid-template-columns:1fr !important}
+  .contenu{padding:14px !important;padding-top:140px !important}
+  .page-entete{flex-direction:column !important;gap:10px}
+  table{font-size:12px}
+  th,td{padding:8px 10px}
+  .entete-actions,.filtres-ligne{flex-wrap:wrap}
+}
+@media(max-width:480px){
+  .kpis{grid-template-columns:1fr !important}
+  .page-titre{font-size:18px !important}
+  .banniere{font-size:11px !important;padding:6px 12px !important}
+  .nav-btn{padding:10px 12px;font-size:12px}
+  table{font-size:11px}
+  th,td{padding:6px 8px}
+}
+
 </style>
 </head>
 <body>
@@ -366,6 +399,7 @@ function toggleTheme(){
 })();
 
 </script>
+
 </body>
 </html>
 
