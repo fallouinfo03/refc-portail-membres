@@ -329,6 +329,10 @@
   margin-left: 8px;
 }
 
+
+@media(max-width:600px){
+  footer > div { flex-direction:column !important; gap:10px !important; }
+}
 </style>
 </head>
 <body>
@@ -404,17 +408,17 @@
         </div>
         <div class="kpi">
             <div class="kpi-label">Montant utilisé</div>
-            <div class="kpi-valeur orange">500 $</div>
+            <div class="kpi-valeur" style="color:#2D3F7B">500 $</div>
             <div class="kpi-sous">8,3 % de l'enveloppe</div>
         </div>
         <div class="kpi">
             <div class="kpi-label">Solde restant</div>
-            <div class="kpi-valeur vert">5 500 $</div>
+            <div class="kpi-valeur" style="color:#2D3F7B">5 500 $</div>
             <div class="kpi-sous">Disponible jusqu'au 31 mars 2026</div>
         </div>
-        <div class="kpi" style="--accent:#991b1b">
+        <div class="kpi" style="--accent:#7f1d1d">
             <div class="kpi-label">Part 35 % en retard</div>
-            <div class="kpi-valeur rouge">189,84 $</div>
+            <div class="kpi-valeur" style="color:#7f1d1d">189,84 $</div>
             <div class="kpi-sous">Facture #3612 — échue</div>
         </div>
     </div>
@@ -463,7 +467,7 @@
                 <tbody>
                     <tr>
                         <td style="color:#64748b;font-size:12px">#3612</td>
-                        <td style="font-size:12px;color:#991b1b;font-weight:600">15 juil. 2025</td>
+                        <td style="font-size:12px;color:#7f1d1d;font-weight:600">15 juil. 2025</td>
                         <td style="font-weight:600;color:#1e293b">189,84 $</td>
                         <td><span class="badge badge-alerte">En retard</span></td>
                     </tr>
@@ -482,49 +486,32 @@
 
     </div>
 
-    <!-- Salons -->
-    <div class="section-titre">Mes salons — saison 2025–2026</div>
-    <div class="tableau-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Salon</th>
-                    <th>Dates</th>
-                    <th>Limite confirmation</th>
-                    <th>Participation</th>
-                    <th>Commande</th>
-                    <th>Ma part</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Salon du livre de Toronto</td>
-                    <td style="color:#64748b;font-size:12px">Oct. 2025</td>
-                    <td style="color:#64748b;font-size:12px">15 août 2025</td>
-                    <td><span class="badge badge-statut">Confirmée</span></td>
-                    <td><span class="badge badge-statut">Envoyée</span></td>
-                    <td style="font-weight:600">1 190 $</td>
-                </tr>
-                <tr>
-                    <td>Salon du Grand Sudbury</td>
-                    <td style="color:#64748b;font-size:12px">Nov. 2025</td>
-                    <td style="color:#64748b;font-size:12px">15 sept. 2025</td>
-                    <td><span class="badge badge-statut">Confirmée</span></td>
-                    <td><span class="badge badge-attente">À soumettre</span></td>
-                    <td style="color:#64748b">—</td>
-                </tr>
-                <tr>
-                    <td>Salon de Hearst</td>
-                    <td style="color:#64748b;font-size:12px">Fév. 2026</td>
-                    <td style="color:#64748b;font-size:12px">15 déc. 2025</td>
-                    <td><span class="badge badge-neutre">Pas encore ouvert</span></td>
-                    <td style="color:#64748b">—</td>
-                    <td style="color:#64748b">—</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- Salons résumé -->
+    <div class="section-titre" style="display:flex;align-items:center;justify-content:space-between">
+      <span>Mes salons — saison 2025–2026</span>
+      <a class="lien-page" href="salons.html" style="font-size:12px">Voir tous mes salons &rarr;</a>
     </div>
-    <a class="lien-page" href="salons.html">Voir tous mes salons &rarr;</a>
+    <div class="tableau-wrap">
+      <table>
+        <thead>
+          <tr><th>Salon</th><th>Dates</th><th>Participation</th><th>Commande</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Salon du livre de Toronto</td>
+            <td style="color:#64748b;font-size:12px">Oct. 2025</td>
+            <td><span class="badge badge-statut">Confirmée</span></td>
+            <td><span class="badge badge-statut">Envoyée</span></td>
+          </tr>
+          <tr>
+            <td>Salon du Grand Sudbury</td>
+            <td style="color:#64748b;font-size:12px">Nov. 2025</td>
+            <td><span class="badge badge-statut">Confirmée</span></td>
+            <td><span class="badge badge-alerte">À soumettre</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- Raccourcis -->
     <div class="section-titre" style="margin-top:24px">Accès rapide</div>
@@ -565,6 +552,15 @@
                 <div class="raccourci-desc">Rapports de ventes</div>
             </div>
         </a>
+        <a class="raccourci" href="mon-compte.html">
+            <div class="raccourci-icone">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="#2D3F7B" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+                <div class="raccourci-nom">Mon compte</div>
+                <div class="raccourci-desc">Informations de ma maison</div>
+            </div>
+        </a>
         <a class="raccourci" href="couts-partages.html">
             <div class="raccourci-icone">
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M6 6h6a2 2 0 010 4H8a2 2 0 000 4h7" stroke="#2D3F7B" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -586,5 +582,25 @@
     </div>
 
 </div>
+
+<footer style="background:#2D3F7B;color:rgba(255,255,255,.7);padding:20px 24px;margin-top:40px;font-size:12px">
+  <div style="max-width:1300px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <span style="color:#fff;font-weight:600">REFC</span>
+      <a href="tableau-de-bord.html" style="color:rgba(255,255,255,.7);text-decoration:none">Accueil</a>
+      <a href="couts-partages.html" style="color:rgba(255,255,255,.7);text-decoration:none">Coûts partagés</a>
+      <a href="bulletins.html" style="color:rgba(255,255,255,.7);text-decoration:none">Bulletins</a>
+      <a href="assistance.html" style="color:rgba(255,255,255,.7);text-decoration:none">Assistance</a>
+      <a href="mon-compte.html" style="color:rgba(255,255,255,.7);text-decoration:none">Mon compte</a>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap">
+      <span>435 rue Donald, Ottawa</span>
+      <a href="mailto:info@refc.ca" style="color:rgba(255,255,255,.7);text-decoration:none">info@refc.ca</a>
+      <span>613 691-7061</span>
+      <span>&copy; 2026 REFC</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
