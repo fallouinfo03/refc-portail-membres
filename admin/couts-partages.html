@@ -140,6 +140,39 @@ tr:hover td{background:#f8fafc}
 .grid2-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .upload-zone{border:2px dashed #cbd5e1;border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:.15s;background:#f8fafc}
 .upload-zone:hover{border-color:#7B9EC8;background:#E8EEF7}
+
+/* === Uniformisation onglets === */
+.tabs,.onglets{overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar,.onglets::-webkit-scrollbar{display:none}
+.tab,.onglet-btn{white-space:nowrap;flex-shrink:0}
+.tab-contenu{display:none}
+.tab-contenu.visible{display:block}
+.onglet-panel{display:none}
+.onglet-panel.actif{display:block}
+
+/* === Responsive tablette et mobile === */
+@media(max-width:1024px){
+  .contenu{padding:18px;padding-top:140px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .kpis{grid-template-columns:repeat(2,1fr) !important}
+  .grille2,.grid2{grid-template-columns:1fr !important}
+  .contenu{padding:14px !important;padding-top:140px !important}
+  .page-entete{flex-direction:column !important;gap:10px}
+  table{font-size:12px}
+  th,td{padding:8px 10px}
+  .entete-actions,.filtres-ligne{flex-wrap:wrap}
+}
+@media(max-width:480px){
+  .kpis{grid-template-columns:1fr !important}
+  .page-titre{font-size:18px !important}
+  .banniere{font-size:11px !important;padding:6px 12px !important}
+  .nav-btn{padding:10px 12px;font-size:12px}
+  table{font-size:11px}
+  th,td{padding:6px 8px}
+}
+
 </style>
 </head>
 <body>
@@ -745,5 +778,6 @@ async function exporterExcel(){
   } catch(e){ alert('Export Excel — dans la vraie version ce fichier sera généré automatiquement.'); }
 }
 </script>
+
 </body>
 </html>
