@@ -53,25 +53,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn:hover{background:#f8fafc}
 .btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
 .btn-pri:hover{background:#253570}
-.btn-danger{background:#fee2e2;color:#991b1b;border-color:#fecaca}
+.btn-danger{background:#fee2e2;color:#7f1d1d;border-color:#fecaca}
 .btn-danger:hover{background:#fecaca}
 .kpis-grille{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
 .kpi{background:#fff;border-radius:10px;padding:16px 18px;border:1px solid #e2e8f0}
 .kpi-label{font-size:12px;color:#64748b;margin-bottom:6px}
 .kpi-valeur{font-size:24px;font-weight:600;color:#1e293b}
-.kpi-valeur.rouge{color:#991b1b}
+.kpi-valeur.rouge{color:#7f1d1d}
 .budget-card{background:#fff;border-radius:10px;padding:18px 20px;border:1px solid #e2e8f0;margin-bottom:20px}
 .budget-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
 .budget-item{text-align:center}
 .budget-label{font-size:12px;color:#64748b;margin-bottom:4px}
 .budget-val{font-size:20px;font-weight:600;color:#1e293b}
 .budget-val.bleu{color:#2D3F7B}
-.budget-val.rouge{color:#991b1b}
+.budget-val.rouge{color:#7f1d1d}
 .budget-input{width:160px;padding:6px 10px;font-size:14px;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-weight:600;color:#2D3F7B}
 .jauge-track{height:14px;background:#f1f5f9;border-radius:8px;overflow:hidden}
 .jauge-fill{height:100%;border-radius:8px;transition:.5s;background:#2D3F7B}
 .jauge-fill.warn{background:#64748b}
-.jauge-fill.danger{background:#991b1b}
+.jauge-fill.danger{background:#7f1d1d}
 .jauge-labels{display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;margin-top:4px}
 .section-titre{font-size:13px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin:20px 0 10px}
 .tableau-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:16px}
@@ -83,13 +83,13 @@ tr:hover td{background:#f8fafc}
 .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
 .badge-vert{background:#E8EEF7;color:#2D3F7B}
 .badge-orange{background:#E8EEF7;color:#64748b}
-.badge-rouge{background:#fee2e2;color:#991b1b}
+.badge-rouge{background:#fee2e2;color:#7f1d1d}
 .badge-bleu{background:#E8EEF7;color:#2D3F7B}
 .badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
 .detail-card{display:none;background:#fff;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:16px;overflow:hidden}
 .detail-card.visible{display:block}
 .detail-header{background:#2D3F7B;color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.detail-header-rouge{background:#991b1b;color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.detail-header-rouge{background:#7f1d1d;color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .detail-header-titre{font-size:15px;font-weight:500}
 .detail-header-droite{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .onglets{display:flex;border-bottom:1px solid #e2e8f0;background:#f8fafc;overflow-x:auto}
@@ -107,7 +107,7 @@ tr:hover td{background:#f8fafc}
 .sep{height:1px;background:#e2e8f0;margin:14px 0}
 .note-info{background:#E8EEF7;border:1px solid #E8EEF7;border-radius:8px;padding:10px 14px;font-size:12px;color:#2D3F7B;margin-bottom:14px}
 .note-warn{background:#E8EEF7;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;font-size:12px;color:#64748b;margin-bottom:14px}
-.note-rouge{background:#fee2e2;border:1px solid #fecaca;border-radius:8px;padding:14px 16px;font-size:13px;color:#991b1b;margin-bottom:14px}
+.note-rouge{background:#fee2e2;border:1px solid #fecaca;border-radius:8px;padding:14px 16px;font-size:13px;color:#7f1d1d;margin-bottom:14px}
 .auteur-bloc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:14px}
 .auteur-titre{font-size:14px;font-weight:600;color:#2D3F7B;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 .sous-bloc{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-bottom:10px}
@@ -137,7 +137,7 @@ tr:hover td{background:#f8fafc}
 .rejet-val{color:#1e293b;font-weight:500;flex:1}
 .rejet-select{padding:6px 10px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;color:#1e293b;background:#fff;cursor:pointer;width:100%}
 .rejet-textarea{width:100%;padding:8px 12px;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;outline:none;color:#1e293b;resize:vertical;min-height:80px}
-.rejet-textarea:focus{border-color:#991b1b;box-shadow:0 0 0 3px rgba(153,27,27,.1)}
+.rejet-textarea:focus{border-color:#7f1d1d;box-shadow:0 0 0 3px rgba(153,27,27,.1)}
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000;align-items:center;justify-content:center}
 .modal-bg.visible{display:flex}
 .modal-confirm{background:#fff;border-radius:12px;padding:28px;width:400px;max-width:95vw;box-shadow:0 8px 32px rgba(0,0,0,.2);text-align:center}
@@ -210,6 +210,39 @@ tr:hover td{background:#f8fafc}
   margin-left: 8px;
 }
 .theme-toggle:hover { background: rgba(255,255,255,.1); }
+
+
+/* === Uniformisation onglets === */
+.tabs,.onglets{overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar,.onglets::-webkit-scrollbar{display:none}
+.tab,.onglet-btn{white-space:nowrap;flex-shrink:0}
+.tab-contenu{display:none}
+.tab-contenu.visible{display:block}
+.onglet-panel{display:none}
+.onglet-panel.actif{display:block}
+
+/* === Responsive tablette et mobile === */
+@media(max-width:1024px){
+  .contenu{padding:18px;padding-top:140px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .kpis{grid-template-columns:repeat(2,1fr) !important}
+  .grille2,.grid2{grid-template-columns:1fr !important}
+  .contenu{padding:14px !important;padding-top:140px !important}
+  .page-entete{flex-direction:column !important;gap:10px}
+  table{font-size:12px}
+  th,td{padding:8px 10px}
+  .entete-actions,.filtres-ligne{flex-wrap:wrap}
+}
+@media(max-width:480px){
+  .kpis{grid-template-columns:1fr !important}
+  .page-titre{font-size:18px !important}
+  .banniere{font-size:11px !important;padding:6px 12px !important}
+  .nav-btn{padding:10px 12px;font-size:12px}
+  table{font-size:11px}
+  th,td{padding:6px 8px}
+}
 
 </style>
 </head>
@@ -616,7 +649,7 @@ tr:hover td{background:#f8fafc}
           <div class="sous-bloc-titre">Budget</div>
           <div class="budget-compare">
             <div class="budget-box demande"><div class="budget-box-label">Budget demandé</div><div class="budget-box-val">950,00 $</div></div>
-            <div class="budget-box" style="background:#fee2e2;border:1px solid #fecaca"><div class="budget-box-label">Budget approuvé</div><div class="budget-box-val" style="color:#991b1b">Rejeté</div></div>
+            <div class="budget-box" style="background:#fee2e2;border:1px solid #fecaca"><div class="budget-box-label">Budget approuvé</div><div class="budget-box-val" style="color:#7f1d1d">Rejeté</div></div>
           </div>
         </div>
       </div>
@@ -752,6 +785,7 @@ ${auteursHTML}</div>
 <div class="pi"><div>Document soumis via le portail membres REFC</div>
 <div class="pr"><strong style="color:#2D3F7B">REFC</strong><br>435 rue Donald, bureau 214<br>Ottawa, Ontario K1K 4X5<br>613 691-7061 · refc.ca</div></div>
 <button class="bp" onclick="window.print()">🖨️ Imprimer ce document</button>
+
 </body></html>`;
   const w = window.open("","_blank","width=780,height=700");
   w.document.write(html); w.document.close();
@@ -876,5 +910,6 @@ async function genererExcel(){
   const a=document.createElement("a");a.href=url;a.download="REFC_Rapport_20260315_prise_de_parole.xlsx";a.click();URL.revokeObjectURL(url);
 }
 </script>
+
 </body>
 </html>
