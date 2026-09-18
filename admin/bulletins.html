@@ -154,8 +154,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <span class="topbar-titre">Portail membres</span>
   </div>
   <div class="topbar-droite">
-    <span class="pill">membre</span>
-    <span>Prise de Parole</span>
+    <span class="pill">admin</span>
+    <span>Mathieu Ricard</span>
     <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
   </div>
 </div>
@@ -177,8 +177,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="contenu">
 
   <div class="entete-page">
-    <h1 class="page-titre">Bulletins</h1>
-    <p class="page-sous-titre">Communications de la REFC à l'intention des maisons membres</p>
+    <div>
+      <h1 class="page-titre">Bulletins</h1>
+      <p class="page-sous-titre">Communications de la REFC à l'intention des maisons membres</p>
+    </div>
+    <button class="btn btn-pri" onclick="ouvrirModalNouveauBulletin()">+ Nouveau bulletin</button>
   </div>
 
   <div class="tabs">
@@ -298,6 +301,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <script>
+function ouvrirModalNouveauBulletin(){
+  alert('Dans la vraie version : formulaire de creation d&#39;un nouveau bulletin avec titre, date, description, upload PDF vers SharePoint et lien YouTube.');
+}
 function changerTab(id, btn) {
   document.querySelectorAll('.tab-contenu').forEach(t => t.classList.remove('visible'));
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('actif'));
@@ -369,7 +375,11 @@ function toggleTheme(){
     <div class="bulletin-vedette" id="bulletin-actif">
       <div class="bulletin-vedette-header">
         <span class="bulletin-vedette-label">Bulletin aux membres</span>
-        <span class="bulletin-vedette-date">15 mars 2026</span>
+        <span class="bulletin-vedette-date" id="ba-date">15 mars 2026</span>
+        <div style="display:flex;gap:6px;margin-left:auto">
+          <button class="btn btn-sm" onclick="alert('Dans la vraie version : modifier ce bulletin.')">Modifier</button>
+          <button class="btn btn-sm btn-err" onclick="alert('Dans la vraie version : retirer ce bulletin.')">Retirer</button>
+        </div>
       </div>
       <div class="bulletin-vedette-body">
         <div class="bulletin-vedette-titre" id="ba-titre">Bulletin membres — hiver 2026</div>
@@ -381,6 +391,10 @@ function toggleTheme(){
           </div>
           <iframe id="video-iframe" style="display:none" allowfullscreen></iframe>
         </div>
-        <a href="https://www.youtube.com/watch?v=exemple1" target="_blank" class="video-lien-externe">Ouvrir dans YouTube</a>
+        <a href="https://www.youtube.com/watch?v=exemple1" target="_blank" class="video-lien-externe" id="ba-lien-yt">Ouvrir dans YouTube</a>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0;display:flex;gap:8px">
+          <button class="btn btn-pri btn-sm" onclick="alert('Dans la vraie version : le PDF du bulletin est stocké dans SharePoint. Il s&#39;ouvre directement depuis cet espace.')">↓ Télécharger le PDF</button>
+          <button class="btn btn-sm" onclick="alert('Lien de partage copié.')">Partager</button>
+        </div>
       </div>
     </div>
