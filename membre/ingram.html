@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REFC — Ingram (Membre)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:999}
+.banniere a{color:#60a5fa;text-decoration:none}
+.topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:36px;left:0;right:0;z-index:998}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-droite{display:flex;align-items:center;gap:12px;font-size:13px}
+.pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deco{background:none;border:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto;position:fixed;top:96px;left:0;right:0;z-index:997;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block;transition:.15s;flex-shrink:0}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
+.contenu{padding:24px;max-width:1300px;margin:0 auto;padding-top:140px}
+.page-entete{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.page-titre{font-size:22px;font-weight:700;color:#1e293b}
+.page-sous{font-size:13px;color:#64748b;margin-top:3px}
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:10px;padding:16px 18px;border:1px solid #e2e8f0;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:#2D3F7B}
+.kpi-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.kpi-val{font-size:24px;font-weight:700;color:#1e293b}
+.kpi-sous{font-size:11px;color:#94a3b8;margin-top:4px}
+/* Tabs */
+.tabs{display:flex;border-bottom:2px solid #e2e8f0;margin-bottom:20px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:none;border-bottom:3px solid transparent;padding:10px 20px;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;white-space:nowrap;margin-bottom:-2px;transition:.15s}
+.tab:hover{color:#2D3F7B;background:#f8fafc}
+.tab.actif{color:#2D3F7B;border-bottom-color:#2D3F7B;font-weight:700}
+.tab-contenu{display:none}
+.tab-contenu.visible{display:block}
+/* Note */
+.note-info{background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#1e3a5f;margin-bottom:16px;line-height:1.6}
+.note-warn{background:#fef3c7;border:1px solid #fcd34d;border-radius:7px;padding:10px 14px;font-size:12px;color:#92400e;margin-bottom:16px;line-height:1.6}
+/* Filtres */
+.filtres-ligne{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.filtre-select{border:1px solid #e2e8f0;border-radius:6px;padding:7px 10px;font-size:12px;color:#1e293b;background:#fff;cursor:pointer;outline:none}
+.filtre-search{border:1px solid #e2e8f0;border-radius:6px;padding:7px 12px;font-size:12px;color:#1e293b;background:#fff;outline:none;min-width:200px}
+/* Tableau */
+.tableau-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:#64748b;background:#f8fafc;border-bottom:1px solid #e2e8f0}
+td{padding:10px 14px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+/* Badges */
+.badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
+.badge-bleu{background:#E8EEF7;color:#2D3F7B}
+.badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+.badge-vert{background:#E8EEF7;color:#2D3F7B}
+.badge-warn{background:#fef3c7;color:#92400e}
+/* Boutons */
+.btn{background:#fff;border:1px solid #e2e8f0;color:#1e293b;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;transition:.15s}
+.btn:hover{background:#f8fafc}
+.btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.btn-pri:hover{background:#253570}
+.btn-sm{padding:4px 10px;font-size:11px}
+/* Formulaire */
+.form-row{margin-bottom:14px}
+.form-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block}
+.form-label .opt{color:#94a3b8;font-weight:400;font-size:10px;text-transform:none;margin-left:4px}
+.form-input,.form-select,.form-textarea{width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;font-size:13px;color:#1e293b;outline:none;font-family:inherit}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:#7B9EC8}
+.form-textarea{resize:vertical;min-height:100px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+.section-form{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px;margin-bottom:16px}
+.section-form-titre{font-size:12px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #f1f5f9}
+/* Intervenant */
+.intervenant-bloc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:10px;position:relative}
+.intervenant-num{font-size:11px;font-weight:700;color:#2D3F7B;margin-bottom:10px}
+.btn-remove{position:absolute;top:10px;right:10px;background:none;border:none;color:#94a3b8;font-size:18px;cursor:pointer;line-height:1}
+.btn-remove:hover{color:#7f1d1d}
+/* Destination */
+.dest-choix{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.dest-opt{border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;font-size:13px;cursor:pointer;font-weight:500;color:#64748b;transition:.15s;text-align:center}
+.dest-opt:hover{border-color:#7B9EC8;color:#2D3F7B}
+.dest-opt.sel{background:#E8EEF7;border-color:#2D3F7B;color:#2D3F7B;font-weight:700}
+/* Responsive */
+@media(max-width:768px){
+  .kpis{grid-template-columns:1fr 1fr}
+  .contenu{padding:14px;padding-top:140px}
+  .grid2,.grid3{grid-template-columns:1fr}
+  table{font-size:12px}
+  th,td{padding:8px 10px}
+}
+@media(max-width:480px){
+  .kpis{grid-template-columns:1fr}
+  .page-titre{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<div class="banniere">
+  <strong>DÉMONSTRATION</strong> — Données fictives ·
+  <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Code source</a>
+</div>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../assets/REFC_Logo_acelf.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
+    <span style="font-size:14px;font-weight:500;opacity:.9">Portail membres</span>
+  </div>
+  <div class="topbar-droite">
+    <span class="pill">membre</span>
+    <span>Prise de Parole</span>
+    <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
+  </div>
+</div>
+
+<div class="nav">
+  <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
+  <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+  <a class="nav-btn" href="salons.html">Salons</a>
+  <a class="nav-btn" href="evenements.html">Événements littéraires</a>
+  <a class="nav-btn" href="bulletins.html">Bulletins</a>
+  <a class="nav-btn actif" href="ingram.html">Ingram</a>
+  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="calendrier.html">Gouvernance</a>
+  <a class="nav-btn" href="subventions.html">Subventions</a>
+  <a class="nav-btn" href="assistance.html">Assistance</a>
+</div>
+
+<div class="contenu">
+
+  <div class="page-entete">
+    <div>
+      <div class="page-titre">Ingram — Mes titres</div>
+      <div class="page-sous">Soumettez vos titres pour distribution via Ingram France et Ingram US · La REFC transmet le gabarit à Ingram</div>
+    </div>
+    <button class="btn btn-pri" onclick="changerTab('soumettre')">+ Soumettre un titre</button>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-label">Mes titres soumis</div><div class="kpi-val">3</div><div class="kpi-sous">Tous statuts confondus</div></div>
+    <div class="kpi"><div class="kpi-label">Validés par REFC</div><div class="kpi-val" style="color:#2D3F7B">2</div><div class="kpi-sous">Disponibles chez Ingram</div></div>
+    <div class="kpi"><div class="kpi-label">En attente</div><div class="kpi-val" style="color:#92400e">1</div><div class="kpi-sous">En cours de validation</div></div>
+  </div>
+
+  <!-- Onglets -->
+  <div class="tabs">
+    <button class="tab actif" id="tab-catalogue" onclick="changerTab('catalogue')">Mes titres disponibles</button>
+    <button class="tab" id="tab-soumettre" onclick="changerTab('soumettre')">Soumettre un nouveau titre</button>
+  </div>
+
+  <!-- ===== ONGLET CATALOGUE ===== -->
+  <div class="tab-contenu visible" id="panel-catalogue">
+
+    <div class="note-info">Ces titres sont disponibles chez Ingram grâce à votre soumission via ce portail. La REFC a transmis les gabarits à Ingram France et/ou Ingram US. Pour toute modification, soumettez une demande via l'onglet Assistance.</div>
+
+    <div class="filtres-ligne">
+      <input type="text" class="filtre-search" id="search-cat" placeholder="Rechercher par titre ou ISBN..." oninput="filtrerCatalogue()">
+      <select class="filtre-select" id="filtre-dest-cat" onchange="filtrerCatalogue()">
+        <option value="">France + US</option>
+        <option>France</option>
+        <option>US</option>
+      </select>
+      <select class="filtre-select" id="filtre-statut-cat" onchange="filtrerCatalogue()">
+        <option value="">Tous les statuts</option>
+        <option>Validé</option>
+        <option>En attente</option>
+      </select>
+      <span id="compteur-cat" style="font-size:12px;color:#64748b">3 titres</span>
+    </div>
+
+    <div class="tableau-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>EAN 13</th>
+            <th>Titre</th>
+            <th>Auteur principal</th>
+            <th style="width:100px">Date parution</th>
+            <th style="width:75px">Prix TTC</th>
+            <th style="width:90px">Destination</th>
+            <th style="width:90px">Statut</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-cat">
+          <tr data-dest="France" data-statut="Validé">
+            <td style="font-family:monospace;font-size:11px">9782896914135</td>
+            <td><strong>Modus operandi</strong></td>
+            <td style="font-size:12px">Suzan Payne</td>
+            <td style="font-size:12px">04/10/2022</td>
+            <td style="font-family:monospace;font-size:12px">20,00 $</td>
+            <td><span class="badge badge-bleu">France</span></td>
+            <td><span class="badge badge-vert">Validé</span></td>
+          </tr>
+          <tr data-dest="France" data-statut="Validé">
+            <td style="font-family:monospace;font-size:11px">9782896914357</td>
+            <td><strong>Moncton mentor</strong></td>
+            <td style="font-size:12px">Suzan Payne</td>
+            <td style="font-size:12px">04/10/2022</td>
+            <td style="font-family:monospace;font-size:12px">20,00 $</td>
+            <td><span class="badge badge-bleu">France</span></td>
+            <td><span class="badge badge-vert">Validé</span></td>
+          </tr>
+          <tr data-dest="France" data-statut="En attente">
+            <td style="font-family:monospace;font-size:11px">9782896914388</td>
+            <td><strong>Rivière-aux-Cartouches</strong></td>
+            <td style="font-size:12px">Suzan Payne</td>
+            <td style="font-size:12px">01/03/2026</td>
+            <td style="font-family:monospace;font-size:12px">21,00 $</td>
+            <td><span class="badge badge-bleu">France</span></td>
+            <td><span class="badge badge-warn">En attente</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ===== ONGLET SOUMETTRE ===== -->
+  <div class="tab-contenu" id="panel-soumettre">
+
+    <div class="note-info">Remplissez les informations ci-dessous. La REFC vérifiera votre soumission et intégrera votre titre dans le gabarit Excel transmis à Ingram. Seules les colonnes surlignées en bleu pâle dans le gabarit sont à remplir — les autres sont gérées par Ingram.</div>
+
+    <!-- Destination -->
+    <div class="section-form">
+      <div class="section-form-titre">Destination Ingram *</div>
+      <div class="dest-choix">
+        <div class="dest-opt sel" onclick="selDest(this)">Ingram France</div>
+        <div class="dest-opt" onclick="selDest(this)">Ingram US</div>
+        <div class="dest-opt" onclick="selDest(this)">France + US</div>
+      </div>
+    </div>
+
+    <!-- Informations du titre -->
+    <div class="section-form">
+      <div class="section-form-titre">Informations du titre (feuille : Créations articles physiques)</div>
+
+      <div class="grid3" style="margin-bottom:14px">
+        <div>
+          <label class="form-label">Type de produit *<span class="opt">num.</span></label>
+          <select class="form-select">
+            <option value="01">01 — Livre</option>
+            <option value="02">02 — Feuillet</option>
+            <option value="06">06 — Livre de jeux</option>
+          </select>
+          <div class="form-hint">Généralement 01 pour un livre standard</div>
+        </div>
+        <div>
+          <label class="form-label">Code media / format<span class="opt">num.</span></label>
+          <select class="form-select">
+            <option value="1">1 — Broché</option>
+            <option value="2">2 — Relié</option>
+            <option value="3">3 — Cartonné</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Nvté / chgt couverture *<span class="opt">3 num.</span></label>
+          <select class="form-select">
+            <option value="001">001 — Nouveauté</option>
+            <option value="002">002 — Changement de couverture</option>
+            <option value="003">003 — Réimpression</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid2" style="margin-bottom:14px">
+        <div>
+          <label class="form-label">EAN 13 *<span class="opt">13 chiffres</span></label>
+          <input type="text" class="form-input" placeholder="Ex. : 9782896914135" maxlength="13">
+        </div>
+        <div>
+          <label class="form-label">NUART<span class="opt">7 chiffres — fourni par Ingram</span></label>
+          <input type="text" class="form-input" placeholder="Ex. : 7519631" maxlength="7">
+          <div class="form-hint">Si vous n'avez pas encore de NUART, laissez vide — Ingram l'attribuera</div>
+        </div>
+      </div>
+
+      <div class="grid3" style="margin-bottom:14px">
+        <div>
+          <label class="form-label">NUEDI *<span class="opt">3 num.</span></label>
+          <input type="text" class="form-input" placeholder="Ex. : 885" maxlength="3">
+          <div class="form-hint">Numéro éditeur fourni par la REFC</div>
+        </div>
+        <div>
+          <label class="form-label">NUDIV *<span class="opt">2 num.</span></label>
+          <input type="text" class="form-input" placeholder="Ex. : 02" maxlength="2">
+        </div>
+        <div>
+          <label class="form-label">NUCOL *<span class="opt">2 num.</span></label>
+          <input type="text" class="form-input" placeholder="Ex. : 01" maxlength="2">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Titre de couverture *<span class="opt">100 car. max.</span></label>
+        <input type="text" class="form-input" placeholder="Ex. : Modus operandi" maxlength="100">
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Sous-titre de couverture<span class="opt">optionnel — 100 car. max.</span></label>
+        <input type="text" class="form-input" placeholder="Ex. : Roman policier" maxlength="100">
+      </div>
+
+      <div class="grid3" style="margin-bottom:14px">
+        <div>
+          <label class="form-label">Nature de produit TVA *<span class="opt">5 num.</span></label>
+          <select class="form-select">
+            <option value="00008">00008 — Livre papier</option>
+            <option value="00009">00009 — Livre numérique</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Prix TTC<span class="opt">ex. : 20.00</span></label>
+          <input type="number" class="form-input" placeholder="20.00" min="0" step="0.01">
+        </div>
+        <div>
+          <label class="form-label">Code thème 1 (Théma)<span class="opt">ex. : 17.03.02</span></label>
+          <input type="text" class="form-input" placeholder="Ex. : 17.03.02" maxlength="20">
+        </div>
+      </div>
+
+      <div class="grid3" style="margin-bottom:14px">
+        <div>
+          <label class="form-label">Largeur (mm)<span class="opt">optionnel</span></label>
+          <input type="number" class="form-input" placeholder="127" min="0">
+        </div>
+        <div>
+          <label class="form-label">Hauteur (mm)<span class="opt">optionnel</span></label>
+          <input type="number" class="form-input" placeholder="203" min="0">
+        </div>
+        <div>
+          <label class="form-label">Nombre de pages<span class="opt">optionnel</span></label>
+          <input type="number" class="form-input" placeholder="336" min="0">
+        </div>
+      </div>
+
+      <div class="grid2" style="margin-bottom:14px">
+        <div>
+          <label class="form-label">Date de première parution<span class="opt">JJ/MM/AAAA</span></label>
+          <input type="date" class="form-input">
+        </div>
+        <div>
+          <label class="form-label">Date prévisionnelle de MEV<span class="opt">optionnel</span></label>
+          <input type="date" class="form-input">
+        </div>
+      </div>
+
+      <div class="grid3" style="margin-bottom:0">
+        <div>
+          <label class="form-label">Indicateur POD<span class="opt">0 ou 1</span></label>
+          <select class="form-select">
+            <option value="0">0 — Non POD</option>
+            <option value="1">1 — POD</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Code format POD<span class="opt">optionnel</span></label>
+          <input type="text" class="form-input" placeholder="Ex. : 0420" maxlength="4">
+        </div>
+        <div>
+          <label class="form-label">Prix TTC article POD<span class="opt">optionnel</span></label>
+          <input type="number" class="form-input" placeholder="20.00" min="0" step="0.01">
+        </div>
+      </div>
+    </div>
+
+    <!-- Intervenants -->
+    <div class="section-form">
+      <div class="section-form-titre">Intervenants (feuille : Intervenants)</div>
+      <div class="note-info" style="margin-bottom:12px">Ajoutez un bloc par intervenant — auteur, illustrateur, traducteur, etc. Au moins un intervenant est requis.</div>
+
+      <div id="intervenants-container">
+        <div class="intervenant-bloc" id="interv-1">
+          <div class="intervenant-num">Intervenant 1</div>
+          <div class="grid2" style="margin-bottom:10px">
+            <div>
+              <label class="form-label">Prénom<span class="opt">optionnel</span></label>
+              <input type="text" class="form-input" placeholder="Ex. : Suzan">
+            </div>
+            <div>
+              <label class="form-label">Nom *</label>
+              <input type="text" class="form-input" placeholder="Ex. : Payne">
+            </div>
+          </div>
+          <div class="grid3" style="margin-bottom:10px">
+            <div>
+              <label class="form-label">Genre<span class="opt">optionnel</span></label>
+              <select class="form-select">
+                <option value="">Non spécifié</option>
+                <option value="F">F — Féminin</option>
+                <option value="M">M — Masculin</option>
+                <option value="N">N — Neutre</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Nature intervention *</label>
+              <select class="form-select">
+                <option value="00019">00019 — Auteur</option>
+                <option value="00020">00020 — Illustrateur</option>
+                <option value="00011">00011 — Traducteur</option>
+                <option value="00016">00016 — Préfacier</option>
+                <option value="00021">00021 — Directeur de collection</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Intervenant principal *</label>
+              <select class="form-select">
+                <option value="1">1 — Oui</option>
+                <option value="0">0 — Non</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row" style="margin-bottom:0">
+            <label class="form-label">Biographie<span class="opt">optionnel — texte libre</span></label>
+            <textarea class="form-textarea" style="min-height:70px" placeholder="Biographie courte de l'intervenant..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-sm" onclick="ajouterIntervenant()" style="margin-top:4px">+ Ajouter un intervenant</button>
+    </div>
+
+    <!-- Argumentaire -->
+    <div class="section-form">
+      <div class="section-form-titre">Argumentaire (feuille : Argumentaires)</div>
+
+      <div class="grid3" style="margin-bottom:14px">
+        <div>
+          <label class="form-label">Code type d'argumentaire *<span class="opt">7 car.</span></label>
+          <select class="form-select">
+            <option value="0000001">0000001 — Description principale</option>
+            <option value="0000002">0000002 — Résumé court</option>
+            <option value="0000003">0000003 — 4e de couverture</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Code langue *<span class="opt">5 car.</span></label>
+          <select class="form-select">
+            <option value="00001">00001 — Français</option>
+            <option value="00002">00002 — Anglais</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Autorisation publication *</label>
+          <select class="form-select">
+            <option value="1">1 — Oui, autoriser</option>
+            <option value="0">0 — Non, restreindre</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Texte de l'argumentaire *</label>
+        <textarea class="form-textarea" placeholder="Résumé ou description du livre qui sera visible sur les plateformes de vente..."></textarea>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-bottom:30px">
+      <button class="btn" onclick="changerTab('catalogue')">Annuler</button>
+      <button class="btn btn-pri" onclick="soumettreTitre()">Soumettre le titre à la REFC</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+var nbIntervenants = 1;
+
+function changerTab(tab){
+  document.querySelectorAll('.tab-contenu').forEach(function(p){ p.classList.remove('visible'); });
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('actif'); });
+  document.getElementById('panel-' + tab).classList.add('visible');
+  document.getElementById('tab-' + tab).classList.add('actif');
+}
+
+function selDest(el){
+  document.querySelectorAll('.dest-opt').forEach(function(d){ d.classList.remove('sel'); });
+  el.classList.add('sel');
+}
+
+function ajouterIntervenant(){
+  nbIntervenants++;
+  var container = document.getElementById('intervenants-container');
+  var div = document.createElement('div');
+  div.className = 'intervenant-bloc';
+  div.id = 'interv-' + nbIntervenants;
+  div.innerHTML =
+    '<div class="intervenant-num">Intervenant ' + nbIntervenants + '</div>' +
+    '<button class="btn-remove" onclick="retirerIntervenant(' + nbIntervenants + ')">×</button>' +
+    '<div class="grid2" style="margin-bottom:10px">' +
+      '<div><label class="form-label">Prénom<span class="opt">optionnel</span></label><input type="text" class="form-input" placeholder="Ex. : Marie"></div>' +
+      '<div><label class="form-label">Nom *</label><input type="text" class="form-input" placeholder="Ex. : Tremblay"></div>' +
+    '</div>' +
+    '<div class="grid3" style="margin-bottom:10px">' +
+      '<div><label class="form-label">Genre<span class="opt">optionnel</span></label><select class="form-select"><option value="">Non spécifié</option><option value="F">F — Féminin</option><option value="M">M — Masculin</option><option value="N">N — Neutre</option></select></div>' +
+      '<div><label class="form-label">Nature intervention *</label><select class="form-select"><option value="00019">00019 — Auteur</option><option value="00020">00020 — Illustrateur</option><option value="00011">00011 — Traducteur</option><option value="00016">00016 — Préfacier</option></select></div>' +
+      '<div><label class="form-label">Intervenant principal *</label><select class="form-select"><option value="0">0 — Non</option><option value="1">1 — Oui</option></select></div>' +
+    '</div>' +
+    '<div class="form-row" style="margin-bottom:0"><label class="form-label">Biographie<span class="opt">optionnel</span></label><textarea class="form-textarea" style="min-height:70px" placeholder="Biographie courte..."></textarea></div>';
+  container.appendChild(div);
+}
+
+function retirerIntervenant(n){
+  var el = document.getElementById('interv-' + n);
+  if(el) el.remove();
+}
+
+function soumettreTitre(){
+  alert('Dans la vraie version : votre titre est soumis à la REFC. Mathieu recevra une notification et validera les informations avant de générer le gabarit Excel Ingram. Vous verrez votre titre apparaître dans l\'onglet "Mes titres disponibles" une fois validé.');
+  changerTab('catalogue');
+}
+
+function filtrerCatalogue(){
+  var recherche = document.getElementById('search-cat').value.toLowerCase();
+  var dest      = document.getElementById('filtre-dest-cat').value;
+  var statut    = document.getElementById('filtre-statut-cat').value;
+  var rows      = document.querySelectorAll('#tbody-cat tr');
+  var n = 0;
+  rows.forEach(function(tr){
+    var texte = tr.textContent.toLowerCase();
+    var okR   = !recherche || texte.includes(recherche);
+    var okD   = !dest      || tr.dataset.dest === dest;
+    var okS   = !statut    || tr.dataset.statut === statut;
+    var vis   = okR && okD && okS;
+    tr.style.display = vis ? '' : 'none';
+    if(vis) n++;
+  });
+  document.getElementById('compteur-cat').textContent = n + ' titre' + (n > 1 ? 's' : '');
+}
+</script>
+</body>
+</html>
