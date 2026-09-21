@@ -11,7 +11,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .banniere a{color:#60a5fa;text-decoration:none}
 .topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:36px;left:0;right:0;z-index:998}
 .nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto;position:fixed;top:96px;left:0;right:0;z-index:997}
-.contenu{padding:24px;max-width:1100px;margin:0 auto;padding-top:140px}
+.contenu{padding:24px;max-width:1300px;margin:0 auto;padding-top:140px}
 .topbar-logo{display:flex;align-items:center;gap:12px}
 .topbar-titre{font-size:14px;font-weight:500;opacity:.9}
 .topbar-droite{display:flex;align-items:center;gap:16px;font-size:13px}
@@ -204,6 +204,7 @@ tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="ingram.html">Ingram</a>
   <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
+  <a class="nav-btn" href="subventions.html">Subventions</a>
   <a class="nav-btn" href="assistance.html">Assistance</a>
 </div>
 
@@ -392,6 +393,24 @@ tr:hover td{background:#f8fafc}
     </div>
     <div class="onglet-contenu visible" id="sudbury-confirmation">
       <div class="note-info">Indiquez d'abord votre intention de participer, puis remplissez les onglets suivants.</div>
+      <!-- Prix du salon -->
+      <div style="background:#E8EEF7;border:1px solid #7B9EC8;border-radius:8px;padding:12px 16px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Tarification du salon</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px">
+          <div>
+            <div style="color:#64748b;font-size:11px;margin-bottom:2px">Kiosque complet</div>
+            <div style="font-weight:700;color:#1e293b">2 500 $</div>
+            <div style="font-size:11px;color:#64748b">Part REFC (70 %) : 1 750 $</div>
+            <div style="font-size:11px;color:#2D3F7B;font-weight:600">Votre part : 750 $</div>
+          </div>
+          <div>
+            <div style="color:#64748b;font-size:11px;margin-bottom:2px">Demi-kiosque</div>
+            <div style="font-weight:700;color:#1e293b">1 400 $</div>
+            <div style="font-size:11px;color:#64748b">Part REFC (70 %) : 980 $</div>
+            <div style="font-size:11px;color:#2D3F7B;font-weight:600">Votre part : 420 $</div>
+          </div>
+        </div>
+      </div>
       <div class="form-row">
         <label class="form-label">Souhaitez-vous participer à ce salon ? *</label>
         <div class="radio-groupe">
@@ -402,8 +421,8 @@ tr:hover td{background:#f8fafc}
       <div class="form-row">
         <label class="form-label">Type d'espace souhaité *</label>
         <div class="radio-groupe">
-          <div class="radio-opt sel" onclick="selRadio(this,'kiosque')">1 kiosque (~500 ex.)</div>
-          <div class="radio-opt" onclick="selRadio(this,'kiosque')">½ kiosque (~250 ex.)</div>
+          <div class="radio-opt sel" onclick="selRadio(this,'kiosque')">Kiosque complet — 750 $ (votre part)</div>
+          <div class="radio-opt" onclick="selRadio(this,'kiosque')">Demi-kiosque — 420 $ (votre part)</div>
           <div class="radio-opt" onclick="selRadio(this,'kiosque')">Autre</div>
         </div>
       </div>
