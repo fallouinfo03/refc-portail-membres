@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REFC — Subventions (Membre)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:999}
+.banniere a{color:#60a5fa;text-decoration:none}
+.topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:36px;left:0;right:0;z-index:998}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-droite{display:flex;align-items:center;gap:12px;font-size:13px}
+.pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deco{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto;position:fixed;top:96px;left:0;right:0;z-index:997;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block;transition:.15s;flex-shrink:0}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
+.contenu{padding:24px;max-width:1300px;margin:0 auto;padding-top:140px}
+/* Page */
+.page-entete{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.page-titre{font-size:22px;font-weight:700;color:#1e293b}
+.page-sous{font-size:13px;color:#64748b;margin-top:3px}
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:10px;padding:16px 18px;border:1px solid #e2e8f0;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:#2D3F7B}
+.kpi-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.kpi-val{font-size:24px;font-weight:700;color:#1e293b}
+.kpi-sous{font-size:11px;color:#94a3b8;margin-top:4px}
+/* Alerte deadline */
+.alerte-deadlines{background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#92400e}
+.alerte-deadlines strong{display:block;margin-bottom:6px}
+.alerte-deadlines ul{padding-left:18px}
+.alerte-deadlines li{margin-bottom:3px}
+/* Filtres */
+.filtres-ligne{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.filtre-select{border:1px solid #e2e8f0;border-radius:6px;padding:7px 10px;font-size:12px;color:#1e293b;background:#fff;cursor:pointer;outline:none}
+.filtre-select:focus{border-color:#7B9EC8}
+.filtre-search{border:1px solid #e2e8f0;border-radius:6px;padding:7px 12px;font-size:12px;color:#1e293b;background:#fff;outline:none;min-width:220px}
+.filtre-search:focus{border-color:#7B9EC8}
+/* Cartes subventions */
+.cartes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
+.carte-subvention{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px;transition:.2s;cursor:pointer;position:relative}
+.carte-subvention:hover{border-color:#7B9EC8;box-shadow:0 4px 16px rgba(45,63,123,.1)}
+.carte-subvention.fermee{opacity:.7}
+.carte-niveau{position:absolute;top:14px;right:14px}
+.carte-bailleur{font-size:11px;color:#64748b;margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.carte-programme{font-size:15px;font-weight:700;color:#1e293b;margin-bottom:10px;line-height:1.3}
+.carte-montant{font-family:monospace;font-size:13px;color:#2D3F7B;font-weight:700;margin-bottom:8px}
+.carte-deadline{font-size:12px;margin-bottom:12px}
+.carte-deadline.proche{color:#92400e;font-weight:600}
+.carte-deadline.ok{color:#64748b}
+.carte-deadline.fermee{color:#7f1d1d}
+.carte-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid #f1f5f9}
+/* Badges */
+.badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
+.badge-vert{background:#E8EEF7;color:#2D3F7B}
+.badge-rouge{background:#fee2e2;color:#7f1d1d}
+.badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+.badge-bleu{background:#E8EEF7;color:#2D3F7B}
+.badge-warn{background:#fef3c7;color:#92400e}
+/* Boutons */
+.btn{background:#fff;border:1px solid #e2e8f0;color:#1e293b;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;transition:.15s}
+.btn:hover{background:#f8fafc}
+.btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.btn-pri:hover{background:#253570}
+.btn-sm{padding:4px 10px;font-size:11px}
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;align-items:center;justify-content:center}
+.modal-bg.visible{display:flex}
+.modal{background:#fff;border-radius:12px;width:600px;max-width:94vw;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-entete{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:#fff;z-index:1}
+.modal-titre{font-size:16px;font-weight:700;color:#1e293b}
+.btn-fermer{background:none;border:none;font-size:22px;cursor:pointer;color:#64748b;line-height:1}
+.modal-corps{padding:20px 24px}
+.modal-pied{padding:14px 24px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:8px;position:sticky;bottom:0;background:#fff}
+.detail-section{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f1f5f9}
+.detail-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.detail-section-titre{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.detail-ligne{display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc}
+.detail-cle{color:#64748b;font-size:12px;min-width:140px;flex-shrink:0}
+.detail-val{color:#1e293b;font-weight:500}
+.note-info{background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#1e3a5f;margin-bottom:14px;line-height:1.6}
+/* Calendrier deadlines */
+.deadline-liste{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:20px}
+.deadline-item{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid #f1f5f9}
+.deadline-item:last-child{border-bottom:none}
+.deadline-date-bloc{text-align:center;background:#E8EEF7;border-radius:8px;padding:8px 12px;min-width:52px;flex-shrink:0}
+.deadline-jour{font-size:20px;font-weight:700;color:#2D3F7B;line-height:1}
+.deadline-mois{font-size:10px;color:#64748b;text-transform:uppercase;font-weight:600}
+.deadline-info{flex:1}
+.deadline-prog{font-size:13px;font-weight:600;color:#1e293b}
+.deadline-bailleur{font-size:11px;color:#64748b;margin-top:2px}
+/* Responsive */
+@media(max-width:768px){
+  .kpis{grid-template-columns:1fr 1fr}
+  .cartes-grid{grid-template-columns:1fr}
+  .contenu{padding:14px;padding-top:140px}
+  .page-entete{flex-direction:column;gap:10px}
+}
+@media(max-width:480px){
+  .kpis{grid-template-columns:1fr}
+  .page-titre{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<div class="banniere">
+  <strong>DÉMONSTRATION</strong> — Données fictives ·
+  <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Code source</a>
+</div>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../assets/REFC_Logo_acelf.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
+    <span style="font-size:14px;font-weight:500;opacity:.9">Portail membres</span>
+  </div>
+  <div class="topbar-droite">
+    <span class="pill">membre</span>
+    <span>Prise de Parole</span>
+    <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
+  </div>
+</div>
+
+<div class="nav">
+  <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
+  <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+  <a class="nav-btn" href="salons.html">Salons</a>
+  <a class="nav-btn" href="evenements.html">Événements littéraires</a>
+  <a class="nav-btn" href="bulletins.html">Bulletins</a>
+  <a class="nav-btn" href="ingram.html">Ingram</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
+  <a class="nav-btn" href="calendrier.html">Gouvernance</a>
+  <a class="nav-btn actif" href="subventions.html">Subventions</a>
+  <a class="nav-btn" href="assistance.html">Assistance</a>
+</div>
+
+<div class="contenu">
+
+  <div class="page-entete">
+    <div>
+      <div class="page-titre">Subventions disponibles</div>
+      <div class="page-sous">Financement fédéral, provincial et municipal pour les maisons d'édition franco-canadiennes · Mis à jour par la REFC</div>
+    </div>
+  </div>
+
+  <!-- Alerte deadlines proches -->
+  <div class="alerte-deadlines">
+    <strong>Deadlines dans les 30 prochains jours :</strong>
+    <ul>
+      <li><strong>1 oct. 2026</strong> — Ville d'Ottawa — Arts et culture (petites organisations)</li>
+      <li><strong>15 oct. 2026</strong> — Conseil des arts du Canada — Soutien aux maisons d'édition</li>
+      <li><strong>20 oct. 2026</strong> — Conseil des arts de l'Ontario — Programme d'aide à l'édition</li>
+      <li><strong>30 oct. 2026</strong> — Patrimoine canadien — Fonds du livre du Canada</li>
+    </ul>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-label">Subventions ouvertes</div><div class="kpi-val" style="color:#2D3F7B">11</div><div class="kpi-sous">Acceptent des candidatures</div></div>
+    <div class="kpi"><div class="kpi-label">Deadlines ce mois</div><div class="kpi-val" style="color:#92400e">4</div><div class="kpi-sous">Dans les 30 prochains jours</div></div>
+    <div class="kpi"><div class="kpi-label">Total catalogue</div><div class="kpi-val">18</div><div class="kpi-sous">Subventions répertoriées</div></div>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filtres-ligne">
+    <input type="text" class="filtre-search" placeholder="Rechercher une subvention..." oninput="filtrer()">
+    <select class="filtre-select" id="filtre-niveau" onchange="filtrer()">
+      <option value="">Tous les niveaux</option>
+      <option>Fédéral</option>
+      <option>Provincial</option>
+      <option>Municipal</option>
+    </select>
+    <select class="filtre-select" id="filtre-statut" onchange="filtrer()">
+      <option value="">Tous les statuts</option>
+      <option>Ouverte</option>
+      <option>Fermée</option>
+      <option>À venir</option>
+    </select>
+    <span id="compteur" style="font-size:12px;color:#64748b">8 subventions</span>
+  </div>
+
+  <!-- Cartes subventions -->
+  <div class="cartes-grid" id="cartes-grid">
+
+    <div class="carte-subvention" data-niveau="Fédéral" data-statut="Ouverte" onclick="voirSubvention('Conseil des arts du Canada','Soutien aux maisons d&#39;édition','Fédéral','Subvention','5 000 $ – 200 000 $','15 oct. 2026','Ouverte','Subvention destinée aux maisons d&#39;édition canadiennes pour soutenir la publication d&#39;oeuvres littéraires de qualité en français.','Être une maison d&#39;édition canadienne à but lucratif ou non lucratif avec au moins 2 ans d&#39;activité. Publier principalement en français.','https://conseildesarts.ca')">
+      <div class="carte-niveau"><span class="badge badge-bleu">Fédéral</span></div>
+      <div class="carte-bailleur">Conseil des arts du Canada</div>
+      <div class="carte-programme">Soutien aux maisons d'édition</div>
+      <div class="carte-montant">5 000 $ – 200 000 $</div>
+      <div class="carte-deadline proche">Date limite : 15 octobre 2026</div>
+      <span class="badge badge-vert">Ouverte</span>
+    </div>
+
+    <div class="carte-subvention" data-niveau="Fédéral" data-statut="Ouverte" onclick="voirSubvention('Patrimoine canadien','Fonds du livre du Canada','Fédéral','Subvention','10 000 $ – 500 000 $','30 oct. 2026','Ouverte','Le Fonds du livre du Canada soutient le secteur de l&#39;édition pour améliorer l&#39;accès aux livres canadiens dans le monde entier.','Éditeur canadien commercialement viable. Publier des auteurs canadiens. Avoir un catalogue actif d&#39;au moins 10 titres.','https://canada.ca/patrimoine')">
+      <div class="carte-niveau"><span class="badge badge-bleu">Fédéral</span></div>
+      <div class="carte-bailleur">Patrimoine canadien</div>
+      <div class="carte-programme">Fonds du livre du Canada</div>
+      <div class="carte-montant">10 000 $ – 500 000 $</div>
+      <div class="carte-deadline proche">Date limite : 30 octobre 2026</div>
+      <span class="badge badge-vert">Ouverte</span>
+    </div>
+
+    <div class="carte-subvention" data-niveau="Fédéral" data-statut="Ouverte" onclick="voirSubvention('Agence du revenu du Canada','Crédit d&#39;impôt RS&DE','Fédéral','Crédit d&#39;impôt','Variable','31 déc. 2026','Ouverte','Crédit d&#39;impôt pour la recherche scientifique et le développement expérimental.','Entreprise canadienne imposable avec des dépenses admissibles en R&D.','https://canada.ca/rd')">
+      <div class="carte-niveau"><span class="badge badge-bleu">Fédéral</span></div>
+      <div class="carte-bailleur">Agence du revenu du Canada</div>
+      <div class="carte-programme">Crédit d'impôt RS&DE</div>
+      <div class="carte-montant">Variable</div>
+      <div class="carte-deadline ok">Date limite : 31 décembre 2026</div>
+      <span class="badge badge-vert">Ouverte</span>
+    </div>
+
+    <div class="carte-subvention" data-niveau="Provincial" data-statut="Ouverte" onclick="voirSubvention('Conseil des arts de l&#39;Ontario','Programme d&#39;aide à l&#39;édition','Provincial','Subvention','2 000 $ – 50 000 $','20 oct. 2026','Ouverte','Soutien aux maisons d&#39;édition ontariennes pour la publication d&#39;oeuvres en français.','Maison d&#39;édition enregistrée en Ontario. Publier principalement en français. Être en activité depuis au moins 1 an.','https://arts.on.ca')">
+      <div class="carte-niveau"><span class="badge badge-gris">Provincial</span></div>
+      <div class="carte-bailleur">Conseil des arts de l'Ontario</div>
+      <div class="carte-programme">Programme d'aide à l'édition</div>
+      <div class="carte-montant">2 000 $ – 50 000 $</div>
+      <div class="carte-deadline proche">Date limite : 20 octobre 2026</div>
+      <span class="badge badge-vert">Ouverte</span>
+    </div>
+
+    <div class="carte-subvention" data-niveau="Provincial" data-statut="Ouverte" onclick="voirSubvention('Conseil des arts du Nouveau-Brunswick','Aide aux éditeurs','Provincial','Subvention','1 000 $ – 30 000 $','15 nov. 2026','Ouverte','Programme de soutien aux maisons d&#39;édition du Nouveau-Brunswick pour la publication en français.','Maison d&#39;édition enregistrée au Nouveau-Brunswick. Publier en français.','https://artsnb.ca')">
+      <div class="carte-niveau"><span class="badge badge-gris">Provincial</span></div>
+      <div class="carte-bailleur">Conseil des arts du Nouveau-Brunswick</div>
+      <div class="carte-programme">Aide aux éditeurs</div>
+      <div class="carte-montant">1 000 $ – 30 000 $</div>
+      <div class="carte-deadline ok">Date limite : 15 novembre 2026</div>
+      <span class="badge badge-vert">Ouverte</span>
+    </div>
+
+    <div class="carte-subvention fermee" data-niveau="Provincial" data-statut="Fermée" onclick="voirSubvention('Ontario Creates','Fonds de l&#39;industrie du livre','Provincial','Subvention','5 000 $ – 100 000 $','Fermée — réouv. mars 2027','Fermée','Soutien à la chaîne du livre ontarienne incluant l&#39;édition, la distribution et la vente au détail.','Entreprise de l&#39;industrie du livre enregistrée en Ontario avec au moins 2 ans d&#39;activité.','https://ontariocreates.ca')">
+      <div class="carte-niveau"><span class="badge badge-rouge">Fermée</span></div>
+      <div class="carte-bailleur">Ontario Creates</div>
+      <div class="carte-programme">Fonds de l'industrie du livre</div>
+      <div class="carte-montant">5 000 $ – 100 000 $</div>
+      <div class="carte-deadline fermee">Fermée — réouverture mars 2027</div>
+      <span class="badge badge-rouge">Fermée</span>
+    </div>
+
+    <div class="carte-subvention" data-niveau="Municipal" data-statut="Ouverte" onclick="voirSubvention('Ville d&#39;Ottawa','Arts et culture — petites organisations','Municipal','Subvention','500 $ – 15 000 $','1 oct. 2026','Ouverte','Programme municipal pour soutenir les petites organisations culturelles d&#39;Ottawa.','Organisme sans but lucratif enregistré à Ottawa. Budget annuel inférieur à 500 000 $.','https://ottawa.ca/arts')">
+      <div class="carte-niveau"><span class="badge badge-bleu">Municipal</span></div>
+      <div class="carte-bailleur">Ville d'Ottawa</div>
+      <div class="carte-programme">Arts et culture — petites organisations</div>
+      <div class="carte-montant">500 $ – 15 000 $</div>
+      <div class="carte-deadline proche">Date limite : 1 octobre 2026</div>
+      <span class="badge badge-vert">Ouverte</span>
+    </div>
+
+    <div class="carte-subvention" data-niveau="Fédéral" data-statut="À venir" onclick="voirSubvention('Conseil des arts du Canada','Bourse de traduction littéraire','Fédéral','Bourse','3 000 $ – 25 000 $','Ouverture janv. 2027','À venir','Bourse pour les projets de traduction d&#39;oeuvres littéraires canadiennes vers une autre langue officielle.','Maison d&#39;édition canadienne. Projet de traduction d&#39;une oeuvre d&#39;un auteur canadien.','https://conseildesarts.ca/traduction')">
+      <div class="carte-niveau"><span class="badge badge-bleu">Fédéral</span></div>
+      <div class="carte-bailleur">Conseil des arts du Canada</div>
+      <div class="carte-programme">Bourse de traduction littéraire</div>
+      <div class="carte-montant">3 000 $ – 25 000 $</div>
+      <div class="carte-deadline ok">Ouverture : janvier 2027</div>
+      <span class="badge badge-warn">À venir</span>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ===== MODAL VOIR SUBVENTION ===== -->
+<div class="modal-bg" id="modal-voir">
+  <div class="modal">
+    <div class="modal-entete">
+      <span class="modal-titre" id="voir-titre">Détail de la subvention</span>
+      <button class="btn-fermer" onclick="fermerModal('modal-voir')">×</button>
+    </div>
+    <div class="modal-corps" id="voir-corps"></div>
+    <div class="modal-pied">
+      <button class="btn" onclick="fermerModal('modal-voir')">Fermer</button>
+      <a id="voir-lien" href="#" target="_blank" class="btn btn-pri">Accéder au site officiel</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function ouvrirModal(id){ document.getElementById(id).classList.add('visible'); }
+function fermerModal(id){ document.getElementById(id).classList.remove('visible'); }
+document.querySelectorAll('.modal-bg').forEach(function(m){
+  m.addEventListener('click',function(e){ if(e.target===m) m.classList.remove('visible'); });
+});
+
+function voirSubvention(bailleur, programme, niveau, type, montant, deadline, statut, description, criteres, lien){
+  document.getElementById('voir-titre').textContent = programme;
+  document.getElementById('voir-lien').href = lien;
+  var badgeClass = statut === 'Ouverte' ? 'badge-vert' : (statut === 'Fermée' ? 'badge-rouge' : 'badge-warn');
+  document.getElementById('voir-corps').innerHTML =
+    '<div class="detail-section">' +
+      '<div class="detail-section-titre">Informations générales</div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Bailleur de fonds</span><span class="detail-val">' + bailleur + '</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Niveau</span><span class="detail-val"><span class="badge badge-bleu">' + niveau + '</span></span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Type</span><span class="detail-val"><span class="badge badge-gris">' + type + '</span></span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Montant disponible</span><span class="detail-val" style="font-family:monospace;font-weight:700;color:#2D3F7B">' + montant + '</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Date limite</span><span class="detail-val">' + deadline + '</span></div>' +
+      '<div class="detail-ligne"><span class="detail-cle">Statut</span><span class="detail-val"><span class="badge ' + badgeClass + '">' + statut + '</span></span></div>' +
+    '</div>' +
+    '<div class="detail-section">' +
+      '<div class="detail-section-titre">Description du programme</div>' +
+      '<p style="font-size:13px;line-height:1.7;color:#1e293b">' + description + '</p>' +
+    '</div>' +
+    '<div class="detail-section">' +
+      '<div class="detail-section-titre">Critères d\'admissibilité</div>' +
+      '<p style="font-size:13px;line-height:1.7;color:#1e293b">' + criteres + '</p>' +
+    '</div>' +
+    '<div class="note-info">La REFC centralise cette information pour vous orienter. Pour déposer votre candidature, cliquez sur "Accéder au site officiel". La REFC ne soumet pas les demandes à votre place.</div>';
+  ouvrirModal('modal-voir');
+}
+
+function filtrer(){
+  var recherche = document.querySelector('.filtre-search').value.toLowerCase();
+  var niveau    = document.getElementById('filtre-niveau').value;
+  var statut    = document.getElementById('filtre-statut').value;
+  var cartes    = document.querySelectorAll('#cartes-grid .carte-subvention');
+  var n = 0;
+  cartes.forEach(function(c){
+    var texte = c.textContent.toLowerCase();
+    var okR   = !recherche || texte.includes(recherche);
+    var okN   = !niveau    || c.dataset.niveau === niveau;
+    var okS   = !statut    || c.dataset.statut === statut;
+    var visible = okR && okN && okS;
+    c.style.display = visible ? '' : 'none';
+    if(visible) n++;
+  });
+  document.getElementById('compteur').textContent = n + ' subvention' + (n > 1 ? 's' : '');
+}
+</script>
+</body>
+</html>
