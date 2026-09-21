@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REFC — Ingram (Admin)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:999}
+.banniere a{color:#60a5fa;text-decoration:none}
+.topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:36px;left:0;right:0;z-index:998}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-droite{display:flex;align-items:center;gap:12px;font-size:13px}
+.pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deco{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto;position:fixed;top:96px;left:0;right:0;z-index:997;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block;transition:.15s;flex-shrink:0}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
+.contenu{padding:24px;max-width:1300px;margin:0 auto;padding-top:140px}
+.page-entete{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.page-titre{font-size:22px;font-weight:700;color:#1e293b}
+.page-sous{font-size:13px;color:#64748b;margin-top:3px}
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:10px;padding:16px 18px;border:1px solid #e2e8f0;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:#2D3F7B}
+.kpi-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.kpi-val{font-size:24px;font-weight:700;color:#1e293b}
+.kpi-sous{font-size:11px;color:#94a3b8;margin-top:4px}
+/* Filtres */
+.filtres-ligne{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.filtre-select{border:1px solid #e2e8f0;border-radius:6px;padding:7px 10px;font-size:12px;color:#1e293b;background:#fff;cursor:pointer;outline:none}
+.filtre-search{border:1px solid #e2e8f0;border-radius:6px;padding:7px 12px;font-size:12px;color:#1e293b;background:#fff;outline:none;min-width:200px}
+/* Tableau */
+.tableau-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:#64748b;background:#f8fafc;border-bottom:1px solid #e2e8f0}
+td{padding:10px 14px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+/* Badges */
+.badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
+.badge-bleu{background:#E8EEF7;color:#2D3F7B}
+.badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+.badge-vert{background:#E8EEF7;color:#2D3F7B}
+.badge-warn{background:#fef3c7;color:#92400e}
+/* Boutons */
+.btn{background:#fff;border:1px solid #e2e8f0;color:#1e293b;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;transition:.15s}
+.btn:hover{background:#f8fafc}
+.btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.btn-pri:hover{background:#253570}
+.btn-sm{padding:4px 10px;font-size:11px}
+.btn-dl{background:#E8EEF7;color:#2D3F7B;border-color:#7B9EC8;font-weight:600}
+.btn-dl:hover{background:#d4e3f5}
+.actions-td{display:flex;gap:4px;flex-wrap:wrap}
+/* Note */
+.note-info{background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#1e3a5f;margin-bottom:16px;line-height:1.6}
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;align-items:center;justify-content:center}
+.modal-bg.visible{display:flex}
+.modal{background:#fff;border-radius:12px;width:680px;max-width:95vw;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-entete{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:#fff;z-index:1}
+.modal-titre{font-size:15px;font-weight:700;color:#1e293b}
+.btn-fermer{background:none;border:none;font-size:22px;cursor:pointer;color:#64748b;line-height:1}
+.modal-corps{padding:20px 24px}
+.modal-pied{padding:14px 24px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:8px;position:sticky;bottom:0;background:#fff}
+/* Tabs modal */
+.modal-tabs{display:flex;border-bottom:2px solid #e2e8f0;margin-bottom:18px;gap:0}
+.modal-tab{background:none;border:none;border-bottom:3px solid transparent;padding:8px 18px;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;margin-bottom:-2px;transition:.15s}
+.modal-tab.actif{color:#2D3F7B;border-bottom-color:#2D3F7B;font-weight:700}
+.tab-panel{display:none}
+.tab-panel.visible{display:block}
+/* Formulaire */
+.form-row{margin-bottom:14px}
+.form-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block}
+.form-label span{color:#94a3b8;font-weight:400;font-size:10px;text-transform:none}
+.form-input,.form-select,.form-textarea{width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;font-size:13px;color:#1e293b;outline:none;font-family:inherit}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:#7B9EC8}
+.form-textarea{resize:vertical;min-height:90px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+/* Intervenant row */
+.intervenant-row{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px;position:relative}
+.intervenant-row-titre{font-size:12px;font-weight:600;color:#2D3F7B;margin-bottom:10px}
+.btn-remove{position:absolute;top:10px;right:10px;background:none;border:none;color:#94a3b8;font-size:16px;cursor:pointer;line-height:1}
+.btn-remove:hover{color:#7f1d1d}
+/* Destination tags */
+.dest-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.dest-tag{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:6px 14px;font-size:12px;cursor:pointer;font-weight:500;color:#64748b;transition:.15s}
+.dest-tag.sel{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+/* Responsive */
+@media(max-width:768px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .contenu{padding:14px;padding-top:140px}
+  .grid2,.grid3{grid-template-columns:1fr}
+  table{font-size:12px}
+  th,td{padding:8px 10px}
+}
+@media(max-width:480px){
+  .kpis{grid-template-columns:1fr}
+  .page-titre{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<div class="banniere">
+  <strong>DÉMONSTRATION</strong> — Données fictives ·
+  <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Code source</a>
+</div>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../assets/REFC_Logo_acelf.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
+    <span style="font-size:14px;font-weight:500;opacity:.9">Portail membres</span>
+  </div>
+  <div class="topbar-droite">
+    <span class="pill">admin</span>
+    <span>Mathieu Ricard</span>
+    <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
+  </div>
+</div>
+
+<div class="nav">
+  <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
+  <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+  <a class="nav-btn" href="salons.html">Salons</a>
+  <a class="nav-btn" href="evenements.html">Événements littéraires</a>
+  <a class="nav-btn" href="bulletins.html">Bulletins</a>
+  <a class="nav-btn actif" href="ingram.html">Ingram</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
+  <a class="nav-btn" href="calendrier.html">Gouvernance</a>
+  <a class="nav-btn" href="subventions.html">Subventions</a>
+  <a class="nav-btn" href="planification.html">Réalisations et performances</a>
+  <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
+  <a class="nav-btn" href="assistance.html">Assistance</a>
+</div>
+
+<div class="contenu">
+
+  <div class="page-entete">
+    <div>
+      <div class="page-titre">Ingram — Gabarits de soumission</div>
+      <div class="page-sous">Titres soumis par les maisons membres pour Ingram France et Ingram US · Téléchargement du gabarit Excel complet</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-dl" onclick="telechargerGabarit()">↓ Télécharger gabarit Excel (7 feuilles)</button>
+    </div>
+  </div>
+
+  <div class="note-info">
+    Les maisons membres soumettent leurs titres via leur espace portail. Une fois validées, les informations alimentent automatiquement les 7 feuilles du gabarit Excel Ingram (Créations articles phys, Intervenants, Argumentaires et les 4 autres feuilles). Mathieu télécharge le gabarit complet et l'envoie directement à Ingram France ou Ingram US.
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-label">Titres soumis</div><div class="kpi-val">47</div><div class="kpi-sous">Toutes maisons confondues</div></div>
+    <div class="kpi"><div class="kpi-label">En attente validation</div><div class="kpi-val" style="color:#92400e">8</div><div class="kpi-sous">À examiner par Mathieu</div></div>
+    <div class="kpi"><div class="kpi-label">Ingram France</div><div class="kpi-val" style="color:#2D3F7B">31</div><div class="kpi-sous">Titres disponibles</div></div>
+    <div class="kpi"><div class="kpi-label">Ingram US</div><div class="kpi-val" style="color:#2D3F7B">16</div><div class="kpi-sous">Titres disponibles</div></div>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filtres-ligne">
+    <input type="text" class="filtre-search" placeholder="Rechercher par titre, ISBN, maison..." oninput="filtrer()">
+    <select class="filtre-select" id="filtre-maison" onchange="filtrer()">
+      <option value="">Toutes les maisons</option>
+      <option>Prise de Parole</option>
+      <option>L'Interligne</option>
+      <option>Bouton d'or d'Acadie</option>
+      <option>Les Éditions David</option>
+      <option>Vermillon</option>
+    </select>
+    <select class="filtre-select" id="filtre-dest" onchange="filtrer()">
+      <option value="">France + US</option>
+      <option>Ingram France</option>
+      <option>Ingram US</option>
+    </select>
+    <select class="filtre-select" id="filtre-statut" onchange="filtrer()">
+      <option value="">Tous les statuts</option>
+      <option>Validé</option>
+      <option>En attente</option>
+      <option>Rejeté</option>
+    </select>
+    <span id="compteur" style="font-size:12px;color:#64748b">6 titres affichés</span>
+  </div>
+
+  <!-- Tableau -->
+  <div class="tableau-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>EAN 13 / NUART</th>
+          <th>Titre</th>
+          <th>Maison</th>
+          <th>Auteur principal</th>
+          <th style="width:100px">Date parution</th>
+          <th style="width:80px">Prix TTC</th>
+          <th style="width:90px">Destination</th>
+          <th style="width:90px">Statut</th>
+          <th style="width:120px">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tbody-ingram">
+
+        <tr data-maison="Prise de Parole" data-dest="Ingram France" data-statut="Validé">
+          <td style="font-family:monospace;font-size:11px">9782896914135<br><span style="color:#64748b">NUART : 7519631</span></td>
+          <td><strong>Modus operandi</strong></td>
+          <td style="font-size:12px">Prise de Parole</td>
+          <td style="font-size:12px">Suzan Payne</td>
+          <td style="font-size:12px">04/10/2022</td>
+          <td style="font-family:monospace;font-size:12px">20,00 $</td>
+          <td><span class="badge badge-bleu">France</span></td>
+          <td><span class="badge badge-vert">Validé</span></td>
+          <td><div class="actions-td">
+            <button class="btn btn-sm" onclick="voirTitre('Modus operandi','9782896914135','7519631','Prise de Parole','Suzan Payne','04/10/2022','20,00 $','Ingram France','Validé','Suzan Payne est née à Balmoral, au Nouveau-Brunswick.')">Voir</button>
+            <button class="btn btn-sm btn-dl" onclick="telechargerTitre('Modus operandi')">↓ Excel</button>
+          </div></td>
+        </tr>
+
+        <tr data-maison="Prise de Parole" data-dest="Ingram France" data-statut="Validé">
+          <td style="font-family:monospace;font-size:11px">9782896914357<br><span style="color:#64748b">NUART : 7519755</span></td>
+          <td><strong>Moncton mentor</strong></td>
+          <td style="font-size:12px">Prise de Parole</td>
+          <td style="font-size:12px">Suzan Payne</td>
+          <td style="font-size:12px">04/10/2022</td>
+          <td style="font-family:monospace;font-size:12px">20,00 $</td>
+          <td><span class="badge badge-bleu">France</span></td>
+          <td><span class="badge badge-vert">Validé</span></td>
+          <td><div class="actions-td">
+            <button class="btn btn-sm" onclick="voirTitre('Moncton mentor','9782896914357','7519755','Prise de Parole','Suzan Payne','04/10/2022','20,00 $','Ingram France','Validé','Suite de Modus operandi.')">Voir</button>
+            <button class="btn btn-sm btn-dl" onclick="telechargerTitre('Moncton mentor')">↓ Excel</button>
+          </div></td>
+        </tr>
+
+        <tr data-maison="L'Interligne" data-dest="Ingram US" data-statut="Validé">
+          <td style="font-family:monospace;font-size:11px">9782924342459<br><span style="color:#64748b">NUART : 7612340</span></td>
+          <td><strong>Les chemins du nord</strong></td>
+          <td style="font-size:12px">L'Interligne</td>
+          <td style="font-size:12px">Marie-Claire Blais</td>
+          <td style="font-size:12px">15/03/2025</td>
+          <td style="font-family:monospace;font-size:12px">22,00 $</td>
+          <td><span class="badge badge-gris">US</span></td>
+          <td><span class="badge badge-vert">Validé</span></td>
+          <td><div class="actions-td">
+            <button class="btn btn-sm" onclick="voirTitre('Les chemins du nord','9782924342459','7612340','L&#39;Interligne','Marie-Claire Blais','15/03/2025','22,00 $','Ingram US','Validé','Roman de Marie-Claire Blais.')">Voir</button>
+            <button class="btn btn-sm btn-dl" onclick="telechargerTitre('Les chemins du nord')">↓ Excel</button>
+          </div></td>
+        </tr>
+
+        <tr data-maison="Bouton d'or d'Acadie" data-dest="Ingram France" data-statut="En attente">
+          <td style="font-family:monospace;font-size:11px">9782897540234<br><span style="color:#64748b">NUART : en attente</span></td>
+          <td><strong>Le grand voyage de Lily</strong></td>
+          <td style="font-size:12px">Bouton d'or d'Acadie</td>
+          <td style="font-size:12px">Joanne Therrien</td>
+          <td style="font-size:12px">01/09/2026</td>
+          <td style="font-family:monospace;font-size:12px">18,00 $</td>
+          <td><span class="badge badge-bleu">France</span></td>
+          <td><span class="badge badge-warn">En attente</span></td>
+          <td><div class="actions-td">
+            <button class="btn btn-sm" onclick="voirTitre('Le grand voyage de Lily','9782897540234','—','Bouton d&#39;or d&#39;Acadie','Joanne Therrien','01/09/2026','18,00 $','Ingram France','En attente','Album jeunesse de Joanne Therrien.')">Voir</button>
+            <button class="btn btn-sm btn-pri btn-sm" onclick="validerTitre('Le grand voyage de Lily')">Valider</button>
+          </div></td>
+        </tr>
+
+        <tr data-maison="Les Éditions David" data-dest="Ingram US" data-statut="En attente">
+          <td style="font-family:monospace;font-size:11px">9782895977612<br><span style="color:#64748b">NUART : en attente</span></td>
+          <td><strong>Poèmes du lac Érié</strong></td>
+          <td style="font-size:12px">Les Éditions David</td>
+          <td style="font-size:12px">André Lacelle</td>
+          <td style="font-size:12px">15/10/2026</td>
+          <td style="font-family:monospace;font-size:12px">19,00 $</td>
+          <td><span class="badge badge-gris">US</span></td>
+          <td><span class="badge badge-warn">En attente</span></td>
+          <td><div class="actions-td">
+            <button class="btn btn-sm" onclick="voirTitre('Poèmes du lac Érié','9782895977612','—','Les Éditions David','André Lacelle','15/10/2026','19,00 $','Ingram US','En attente','Recueil de poésie de André Lacelle.')">Voir</button>
+            <button class="btn btn-sm btn-pri btn-sm" onclick="validerTitre('Poèmes du lac Érié')">Valider</button>
+          </div></td>
+        </tr>
+
+        <tr data-maison="Vermillon" data-dest="Ingram France" data-statut="Validé">
+          <td style="font-family:monospace;font-size:11px">9782894272640<br><span style="color:#64748b">NUART : 7498120</span></td>
+          <td><strong>Récits du pays plat</strong></td>
+          <td style="font-size:12px">Vermillon</td>
+          <td style="font-size:12px">Jean Mohsen Fahmy</td>
+          <td style="font-size:12px">20/02/2025</td>
+          <td style="font-family:monospace;font-size:12px">24,00 $</td>
+          <td><span class="badge badge-bleu">France</span></td>
+          <td><span class="badge badge-vert">Validé</span></td>
+          <td><div class="actions-td">
+            <button class="btn btn-sm" onclick="voirTitre('Récits du pays plat','9782894272640','7498120','Vermillon','Jean Mohsen Fahmy','20/02/2025','24,00 $','Ingram France','Validé','Récits de Jean Mohsen Fahmy.')">Voir</button>
+            <button class="btn btn-sm btn-dl" onclick="telechargerTitre('Récits du pays plat')">↓ Excel</button>
+          </div></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ===== HISTORIQUE DES TÉLÉCHARGEMENTS ===== -->
+  <div style="margin-top:10px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:14px;font-weight:700;color:#1e293b">Historique des téléchargements</div>
+      <span style="font-size:11px;color:#64748b">Chaque téléchargement est archivé automatiquement dans SharePoint</span>
+    </div>
+    <div class="tableau-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date et heure</th>
+            <th>Fichier généré</th>
+            <th style="width:90px">Destination</th>
+            <th style="width:80px">Nb titres</th>
+            <th style="width:110px">Nouveaux depuis dernier envoi</th>
+            <th style="width:100px">Téléchargé par</th>
+            <th style="width:100px">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-size:12px;color:#64748b">21 sept. 2026 — 14h32</td>
+            <td style="font-family:monospace;font-size:11px">Gabarit_Ingram_France_2026-09-21_14h32.xlsx</td>
+            <td><span class="badge badge-bleu">France</span></td>
+            <td style="text-align:center;font-weight:600">31</td>
+            <td style="text-align:center"><span class="badge badge-vert">+3 nouveaux</span></td>
+            <td style="font-size:12px">Mathieu Ricard</td>
+            <td><button class="btn btn-sm btn-dl" onclick="retelcharger('Gabarit_Ingram_France_2026-09-21_14h32.xlsx')">↓ Réouvrir</button></td>
+          </tr>
+          <tr>
+            <td style="font-size:12px;color:#64748b">5 août 2026 — 09h15</td>
+            <td style="font-family:monospace;font-size:11px">Gabarit_Ingram_France_2026-08-05_09h15.xlsx</td>
+            <td><span class="badge badge-bleu">France</span></td>
+            <td style="text-align:center;font-weight:600">28</td>
+            <td style="text-align:center"><span class="badge badge-vert">+5 nouveaux</span></td>
+            <td style="font-size:12px">Mathieu Ricard</td>
+            <td><button class="btn btn-sm btn-dl" onclick="retelcharger('Gabarit_Ingram_France_2026-08-05_09h15.xlsx')">↓ Réouvrir</button></td>
+          </tr>
+          <tr>
+            <td style="font-size:12px;color:#64748b">12 juin 2026 — 16h48</td>
+            <td style="font-family:monospace;font-size:11px">Gabarit_Ingram_US_2026-06-12_16h48.xlsx</td>
+            <td><span class="badge badge-gris">US</span></td>
+            <td style="text-align:center;font-weight:600">16</td>
+            <td style="text-align:center"><span class="badge badge-vert">+2 nouveaux</span></td>
+            <td style="font-size:12px">Mathieu Ricard</td>
+            <td><button class="btn btn-sm btn-dl" onclick="retelcharger('Gabarit_Ingram_US_2026-06-12_16h48.xlsx')">↓ Réouvrir</button></td>
+          </tr>
+          <tr>
+            <td style="font-size:12px;color:#64748b">3 mars 2026 — 11h20</td>
+            <td style="font-family:monospace;font-size:11px">Gabarit_Ingram_France_2026-03-03_11h20.xlsx</td>
+            <td><span class="badge badge-bleu">France</span></td>
+            <td style="text-align:center;font-weight:600">23</td>
+            <td style="text-align:center"><span class="badge badge-warn">+7 nouveaux</span></td>
+            <td style="font-size:12px">Mathieu Ricard</td>
+            <td><button class="btn btn-sm btn-dl" onclick="retelcharger('Gabarit_Ingram_France_2026-03-03_11h20.xlsx')">↓ Réouvrir</button></td>
+          </tr>
+          <tr>
+            <td style="font-size:12px;color:#64748b">10 janv. 2026 — 08h55</td>
+            <td style="font-family:monospace;font-size:11px">Gabarit_Ingram_France_US_2026-01-10_08h55.xlsx</td>
+            <td><span class="badge badge-gris">France + US</span></td>
+            <td style="text-align:center;font-weight:600">14</td>
+            <td style="text-align:center"><span class="badge badge-vert">Premier envoi</span></td>
+            <td style="font-size:12px">Mathieu Ricard</td>
+            <td><button class="btn btn-sm btn-dl" onclick="retelcharger('Gabarit_Ingram_France_US_2026-01-10_08h55.xlsx')">↓ Réouvrir</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:#64748b;margin-top:6px">
+      Tous les gabarits sont archivés dans SharePoint → <strong>REFC / Ingram / Gabarits archivés /</strong>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== MODAL VOIR TITRE ===== -->
+<div class="modal-bg" id="modal-voir">
+  <div class="modal">
+    <div class="modal-entete">
+      <span class="modal-titre" id="voir-titre-nom">Détail du titre</span>
+      <button class="btn-fermer" onclick="fermerModal('modal-voir')">×</button>
+    </div>
+    <div class="modal-corps" id="voir-corps"></div>
+    <div class="modal-pied">
+      <button class="btn" onclick="fermerModal('modal-voir')">Fermer</button>
+      <button class="btn btn-dl" onclick="alert('Dans la vraie version : téléchargement du gabarit Excel pré-rempli pour ce titre.')">↓ Télécharger gabarit Excel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function ouvrirModal(id){ document.getElementById(id).classList.add('visible'); }
+function fermerModal(id){ document.getElementById(id).classList.remove('visible'); }
+document.querySelectorAll('.modal-bg').forEach(function(m){
+  m.addEventListener('click',function(e){ if(e.target===m) m.classList.remove('visible'); });
+});
+
+function voirTitre(titre, ean, nuart, maison, auteur, parution, prix, dest, statut, argumentaire){
+  document.getElementById('voir-titre-nom').textContent = titre;
+  var badgeClass = statut === 'Validé' ? 'badge-vert' : (statut === 'En attente' ? 'badge-warn' : 'badge badge-rouge');
+  var destBadge = dest.includes('France') ? 'badge-bleu' : 'badge-gris';
+  document.getElementById('voir-corps').innerHTML =
+    '<div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f1f5f9">' +
+      '<div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Informations du titre</div>' +
+      '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">EAN 13</span><span style="font-family:monospace;font-weight:700">' + ean + '</span></div>' +
+      '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">NUART</span><span style="font-family:monospace">' + nuart + '</span></div>' +
+      '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">Maison membre</span><span style="font-weight:500">' + maison + '</span></div>' +
+      '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">Auteur principal</span><span style="font-weight:500">' + auteur + '</span></div>' +
+      '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">Date de première parution</span><span>' + parution + '</span></div>' +
+      '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">Prix TTC</span><span style="font-family:monospace;font-weight:700;color:#2D3F7B">' + prix + '</span></div>' +
+      '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">Destination</span><span class="badge ' + destBadge + '">' + dest + '</span></div>' +
+      '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px"><span style="color:#64748b;min-width:160px;font-size:12px">Statut</span><span class="badge ' + badgeClass + '">' + statut + '</span></div>' +
+    '</div>' +
+    '<div>' +
+      '<div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Argumentaire</div>' +
+      '<p style="font-size:13px;line-height:1.7;color:#1e293b">' + argumentaire + '</p>' +
+    '</div>';
+  ouvrirModal('modal-voir');
+}
+
+function validerTitre(titre){
+  if(confirm('Valider "' + titre + '" pour soumission à Ingram ?')){
+    alert('Titre validé. Il apparaîtra dans le prochain gabarit Excel téléchargeable.');
+  }
+}
+
+function telechargerTitre(titre){
+  alert('Dans la vraie version : le gabarit Excel Ingram (7 feuilles) pré-rempli pour "' + titre + '" se télécharge automatiquement.');
+}
+
+function telechargerGabarit(){
+  alert('Dans la vraie version : téléchargement du gabarit Excel complet avec tous les titres validés (7 feuilles : Créations articles phys, Créations articles num, Modifications articles, Prix du Numérique, Intervenants, Argumentaires, Composants colis).');
+}
+
+function retelcharger(fichier){
+  alert('Dans la vraie version : le fichier ' + fichier + ' est archivé dans SharePoint. Vous pouvez le retrouver dans REFC / Ingram / Gabarits archivés.');
+}
+
+function filtrer(){
+  var recherche = document.querySelector('.filtre-search').value.toLowerCase();
+  var maison    = document.getElementById('filtre-maison').value;
+  var dest      = document.getElementById('filtre-dest').value;
+  var statut    = document.getElementById('filtre-statut').value;
+  var rows      = document.querySelectorAll('#tbody-ingram tr');
+  var n = 0;
+  rows.forEach(function(tr){
+    var texte = tr.textContent.toLowerCase();
+    var okR   = !recherche || texte.includes(recherche);
+    var okM   = !maison    || tr.dataset.maison === maison;
+    var okD   = !dest      || tr.dataset.dest.includes(dest.replace('Ingram ',''));
+    var okS   = !statut    || tr.dataset.statut === statut;
+    var vis   = okR && okM && okD && okS;
+    tr.style.display = vis ? '' : 'none';
+    if(vis) n++;
+  });
+  document.getElementById('compteur').textContent = n + ' titre' + (n > 1 ? 's' : '') + ' affiché' + (n > 1 ? 's' : '');
+}
+</script>
+</body>
+</html>
