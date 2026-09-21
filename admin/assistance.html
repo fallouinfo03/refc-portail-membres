@@ -21,7 +21,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
 .nav-btn:hover{color:#fff}
 .nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
-.contenu{padding:24px;max-width:1300px;margin:0 auto;padding-top:140px}
+.contenu{padding:24px;max-width:1200px;margin:0 auto;padding-top:140px}
 
 /* En-tête */
 .entete-page{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
@@ -250,9 +250,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <a class="nav-btn" href="ingram.html">Ingram</a>
   <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
-  <a class="nav-btn" href="subventions.html">Subventions</a>
   <a class="nav-btn" href="planification.html">Réalisations et performances</a>
   <a class="nav-btn" href="prix-champlain.html">Prix Champlain</a>
+  <a class="nav-btn" href="subventions.html">Subventions</a>
   <a class="nav-btn actif" href="assistance.html">Assistance</a>
 </div>
 
@@ -463,7 +463,7 @@ const demandes = [
     maison:'Prise de Parole', objet:'Demande de mentorat — développement stratégique',
     type:'Mentorat', statut:'recu', date:'24 août 2025', heure:'09h14',
     assigne:'Piedad Saenz', initiales:'PP',
-    message:'Bonjour,<br><br>Nous traversons une période de repositionnement stratégique et aimerions bénéficier d'un accompagnement de la REFC sur les questions de développement à moyen terme. Plus précisément, nous cherchons des repères sur la structuration de notre catalogue et sur les opportunités de diffusion hors Québec.<br><br>Serait-il possible d'organiser une rencontre avec Piedad dans les prochaines semaines ?',
+    message:'Bonjour,<br><br>Nous traversons une période de repositionnement stratégique et aimerions bénéficier d\'un accompagnement de la REFC sur les questions de développement à moyen terme. Plus précisément, nous cherchons des repères sur la structuration de notre catalogue et sur les opportunités de diffusion hors Québec.<br><br>Serait-il possible d\'organiser une rencontre avec Piedad dans les prochaines semaines ?',
     pj:'Plan_strategique_PdP_2025.pdf · 340 Ko',
     reponses:[]
   },
@@ -475,12 +475,12 @@ const demandes = [
     pj:null, reponses:[]
   },
   {
-    maison:'Bouton d'or d'Acadie', objet:'Formation — gestion des droits numériques',
+    maison:'Bouton d\'or d\'Acadie', objet:'Formation — gestion des droits numériques',
     type:'Formation', statut:'traitement', date:'19 août 2025', heure:'10h05',
     assigne:'Piedad Saenz', initiales:'BA',
-    message:'Bonjour,<br><br>Notre équipe manque d'expertise sur la gestion des droits numériques. Existe-t-il des formations adaptées à notre réalité de petite maison d'édition ?',
+    message:'Bonjour,<br><br>Notre équipe manque d\'expertise sur la gestion des droits numériques. Existe-t-il des formations adaptées à notre réalité de petite maison d\'édition ?',
     pj:null,
-    reponses:[{auteur:'Piedad Saenz',heure:'20 août · 11h22',texte:'Bonjour,<br><br>Merci pour votre demande. Je suis en train d'identifier les formations disponibles et je vous reviens d'ici la fin de la semaine avec des propositions concrètes.',pj:null}]
+    reponses:[{auteur:'Piedad Saenz',heure:'20 août · 11h22',texte:'Bonjour,<br><br>Merci pour votre demande. Je suis en train d\'identifier les formations disponibles et je vous reviens d\'ici la fin de la semaine avec des propositions concrètes.',pj:null}]
   },
   {
     maison:'L&#39;Interligne', objet:'Contact base de données — bibliothèques scolaires',
@@ -520,7 +520,7 @@ let filActif = 0;
 function badgeStatut(s){
   const m={'recu':'badge-recu Reçu','traitement':'badge-traitement En traitement','repondu':'badge-repondu Répondu','ferme':'badge-ferme Fermé'};
   const [cls,lbl]=(m[s]||'badge-gris Inconnu').split(' ');
-  return `<span class="badge ${cls}">${lbl}</span>`;
+  return '<span class="badge ' + cls + '">' + lbl + '</span>';
 }
 
 function afficherFil(idx){
@@ -537,42 +537,43 @@ function afficherFil(idx){
   document.getElementById('statut-select').value = d.statut;
 
   // Rebuild corps
-  let html = `<div class="sep-date">${d.date}</div>
-    <div class="message">
-      <div class="message-avatar">${d.initiales}</div>
-      <div class="message-contenu">
-        <div class="message-entete">
-          <span class="message-auteur">${d.maison}</span>
-          <span class="message-heure">${d.heure}</span>
-        </div>
-        <div class="message-bulle">${d.message}</div>
-        ${d.pj ? `<a class="piece-jointe" href="#">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/></svg>
-          ${d.pj}</a>` : ''}
-      </div>
-    </div>`;
+  var pjHtmlD = d.pj ? '<a class="piece-jointe" href="#">' +
+    '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/></svg>' +
+    d.pj + '</a>' : '';
+  var html = '<div class="sep-date">' + d.date + '</div>' +
+    '<div class="message">' +
+    '<div class="message-avatar">' + d.initiales + '</div>' +
+    '<div class="message-contenu">' +
+    '<div class="message-entete">' +
+    '<span class="message-auteur">' + d.maison + '</span>' +
+    '<span class="message-heure">' + d.heure + '</span>' +
+    '</div>' +
+    '<div class="message-bulle">' + d.message + '</div>' +
+    pjHtmlD +
+    '</div></div>'
 
   d.reponses.forEach(r=>{
-    html += `<div class="message admin-msg">
-      <div class="message-avatar admin">${r.auteur.split(' ').map(w=>w[0]).join('')}</div>
-      <div class="message-contenu">
-        <div class="message-entete">
-          <span class="message-auteur">${r.auteur}</span>
-          <span class="message-heure">${r.heure}</span>
-        </div>
-        <div class="message-bulle admin-bulle">${r.texte}</div>
-        ${r.pj ? `<a class="piece-jointe" href="#">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/></svg>
-          ${r.pj}</a>` : ''}
-      </div>
-    </div>`;
+    var initiales = r.auteur.split(' ').map(function(w){ return w[0]; }).join('');
+    var pjHtmlR = r.pj ? '<a class="piece-jointe" href="#">' +
+      '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 2A1.5 1.5 0 002 3.5v9A1.5 1.5 0 003.5 14h9a1.5 1.5 0 001.5-1.5V6.621a1.5 1.5 0 00-.44-1.06L10.44 2.439A1.5 1.5 0 009.378 2H3.5z" stroke="#64748b" stroke-width="1.2"/></svg>' +
+      r.pj + '</a>' : '';
+    html += '<div class="message admin-msg">' +
+      '<div class="message-avatar admin">' + initiales + '</div>' +
+      '<div class="message-contenu">' +
+      '<div class="message-entete">' +
+      '<span class="message-auteur">' + r.auteur + '</span>' +
+      '<span class="message-heure">' + r.heure + '</span>' +
+      '</div>' +
+      '<div class="message-bulle admin-bulle">' + r.texte + '</div>' +
+      pjHtmlR +
+      '</div></div>';
   });
 
   document.getElementById('fil-corps').innerHTML = html;
   document.getElementById('fil-corps').scrollTop = 9999;
 
   // Zone réponse
-  document.querySelector('.zone-reponse-titre').textContent = `Répondre à ${d.maison}`;
+  document.querySelector('.zone-reponse-titre').textContent = 'Répondre à ' + d.maison;
   document.getElementById('reponse-textarea').value = '';
   document.getElementById('fichier-joint').textContent = '';
 }
@@ -634,7 +635,7 @@ function toggleTheme(){
   });
 })();
 
-</script>
+
 
 </body>
 </html>
