@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REFC — Mon compte</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
+.banniere{background:#1e3a5f;color:#93c5fd;text-align:center;padding:8px 16px;font-size:12px;position:fixed;top:0;left:0;right:0;z-index:999}
+.banniere a{color:#60a5fa;text-decoration:none}
+.topbar{background:#2D3F7B;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:36px;left:0;right:0;z-index:998}
+.topbar-logo{display:flex;align-items:center;gap:12px}
+.topbar-droite{display:flex;align-items:center;gap:12px;font-size:13px}
+.pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.btn-deco{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto;position:fixed;top:96px;left:0;right:0;z-index:997;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block;transition:.15s;flex-shrink:0}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
+.contenu{padding:24px;max-width:900px;margin:0 auto;padding-top:140px}
+/* Page */
+.page-titre{font-size:22px;font-weight:700;color:#1e293b;margin-bottom:4px}
+.page-sous{font-size:13px;color:#64748b;margin-bottom:24px}
+/* Sections */
+.section{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:20px 24px;margin-bottom:16px}
+.section-titre{font-size:12px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+/* Champs */
+.champ-ligne{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f8fafc;align-items:center}
+.champ-ligne:last-child{border-bottom:none;padding-bottom:0}
+.champ-cle{font-size:12px;color:#64748b;min-width:200px;flex-shrink:0}
+.champ-val{font-size:13px;color:#1e293b;font-weight:500;flex:1}
+.champ-edit{display:none;flex:1}
+.form-input{width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:7px 10px;font-size:13px;color:#1e293b;outline:none;font-family:inherit}
+.form-input:focus{border-color:#7B9EC8}
+/* Enveloppe */
+.enveloppe-barre{background:#e2e8f0;border-radius:20px;height:8px;margin-top:6px;overflow:hidden}
+.enveloppe-fill{background:#2D3F7B;height:100%;border-radius:20px;width:42%}
+/* Boutons */
+.btn{background:#fff;border:1px solid #e2e8f0;color:#1e293b;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;transition:.15s}
+.btn:hover{background:#f8fafc}
+.btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.btn-pri:hover{background:#253570}
+.btn-sm{padding:4px 10px;font-size:11px}
+.btn-err{background:#fee2e2;color:#7f1d1d;border-color:#fca5a5}
+/* Note */
+.note-info{background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#1e3a5f;margin-bottom:16px;line-height:1.6}
+/* Mot de passe */
+.form-row{margin-bottom:12px}
+.form-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block}
+/* Badge */
+.badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
+.badge-bleu{background:#E8EEF7;color:#2D3F7B}
+/* Responsive */
+@media(max-width:768px){
+  .contenu{padding:14px;padding-top:140px}
+  .champ-ligne{flex-direction:column;align-items:flex-start;gap:4px}
+  .champ-cle{min-width:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="banniere">
+  <strong>DÉMONSTRATION</strong> — Données fictives ·
+  <a href="https://github.com/fallouinfo03/refc-portail-membres" target="_blank">Code source</a>
+</div>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../assets/REFC_Logo_acelf.png" alt="REFC" style="height:36px;filter:brightness(0) invert(1)">
+    <span style="font-size:14px;font-weight:500;opacity:.9">Portail membres</span>
+  </div>
+  <div class="topbar-droite">
+    <span class="pill">membre</span>
+    <a href="mon-compte.html" style="color:#fff;font-size:13px;text-decoration:none;opacity:.9;display:flex;align-items:center;gap:6px"><svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="#fff" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>Prise de Parole</a>
+    <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
+  </div>
+</div>
+
+<div class="nav">
+  <a class="nav-btn" href="tableau-de-bord.html">Accueil</a>
+  <a class="nav-btn" href="couts-partages.html">Coûts partagés</a>
+  <a class="nav-btn" href="salons.html">Salons</a>
+  <a class="nav-btn" href="evenements.html">Événements littéraires</a>
+  <a class="nav-btn" href="bulletins.html">Bulletins</a>
+  <a class="nav-btn" href="ingram.html">Ingram</a>
+  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="calendrier.html">Gouvernance</a>
+  <a class="nav-btn" href="subventions.html">Subventions</a>
+  <a class="nav-btn" href="assistance.html">Assistance</a>
+</div>
+
+<div class="contenu">
+
+  <div class="page-titre">Mon compte</div>
+  <div class="page-sous">Informations de votre maison d'édition — visible uniquement par vous</div>
+
+  <!-- Informations de la maison -->
+  <div class="section">
+    <div class="section-titre">
+      <span>Informations de la maison</span>
+      <button class="btn btn-sm" id="btn-modifier" onclick="activerEdition()">Modifier</button>
+    </div>
+
+    <div class="champ-ligne">
+      <div class="champ-cle">Nom de la maison</div>
+      <div class="champ-val" id="val-nom">Prise de Parole</div>
+      <input type="text" class="form-input champ-edit" id="edit-nom" value="Prise de Parole">
+    </div>
+
+    <div class="champ-ligne">
+      <div class="champ-cle">Courriel de contact principal</div>
+      <div class="champ-val" id="val-courriel">contact@prisedeparole.ca</div>
+      <input type="email" class="form-input champ-edit" id="edit-courriel" value="contact@prisedeparole.ca">
+    </div>
+
+    <div class="champ-ligne">
+      <div class="champ-cle">Numéro de téléphone</div>
+      <div class="champ-val" id="val-tel">705 675-6491</div>
+      <input type="tel" class="form-input champ-edit" id="edit-tel" value="705 675-6491">
+    </div>
+
+    <div class="champ-ligne">
+      <div class="champ-cle">Site web</div>
+      <div class="champ-val" id="val-web">www.prisedeparole.ca</div>
+      <input type="url" class="form-input champ-edit" id="edit-web" value="www.prisedeparole.ca">
+    </div>
+
+    <div class="champ-ligne">
+      <div class="champ-cle">Adresse</div>
+      <div class="champ-val" id="val-adresse">109, rue Elm Ouest, Sudbury, ON P3C 1T4</div>
+      <input type="text" class="form-input champ-edit" id="edit-adresse" value="109, rue Elm Ouest, Sudbury, ON P3C 1T4">
+    </div>
+
+    <div class="champ-ligne">
+      <div class="champ-cle">Province</div>
+      <div class="champ-val" id="val-province">Ontario</div>
+      <select class="form-input champ-edit" id="edit-province">
+        <option>Ontario</option>
+        <option>Nouveau-Brunswick</option>
+        <option>Manitoba</option>
+        <option>Saskatchewan</option>
+        <option>Alberta</option>
+        <option>Colombie-Britannique</option>
+        <option>Île-du-Prince-Édouard</option>
+        <option>Nouvelle-Écosse</option>
+      </select>
+    </div>
+
+    <div class="champ-ligne">
+      <div class="champ-cle">Membre de la REFC depuis</div>
+      <div class="champ-val">2003 <span class="badge badge-bleu">Membre actif</span></div>
+    </div>
+
+    <!-- Boutons sauvegarde -->
+    <div id="actions-edition" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9;display:none;gap:8px;justify-content:flex-end">
+      <button class="btn" onclick="annulerEdition()">Annuler</button>
+      <button class="btn btn-pri" onclick="sauvegarder()">Sauvegarder les modifications</button>
+    </div>
+  </div>
+
+  <!-- Enveloppe budgétaire -->
+  <div class="section">
+    <div class="section-titre">Enveloppe budgétaire — Coûts partagés 2025–2026</div>
+    <div class="note-info">Cette enveloppe est calculée par la REFC selon votre adhésion. Pour toute question, contactez Noureddine Hany via le module Assistance.</div>
+
+    <div class="champ-ligne">
+      <div class="champ-cle">Enveloppe annuelle totale</div>
+      <div class="champ-val" style="font-family:monospace;font-weight:700;color:#2D3F7B">12 500 $</div>
+    </div>
+    <div class="champ-ligne">
+      <div class="champ-cle">Montant utilisé</div>
+      <div class="champ-val">
+        <span style="font-family:monospace;font-weight:700">5 243 $</span>
+        <span style="font-size:11px;color:#64748b;margin-left:8px">42 %</span>
+        <div class="enveloppe-barre"><div class="enveloppe-fill"></div></div>
+      </div>
+    </div>
+    <div class="champ-ligne">
+      <div class="champ-cle">Solde disponible</div>
+      <div class="champ-val" style="font-family:monospace;font-weight:700;color:#2D3F7B">7 257 $</div>
+    </div>
+    <div class="champ-ligne">
+      <div class="champ-cle">Année budgétaire</div>
+      <div class="champ-val">1er avril 2025 — 31 mars 2026</div>
+    </div>
+  </div>
+
+  <!-- Identifiants de connexion -->
+  <div class="section">
+    <div class="section-titre">Identifiants de connexion</div>
+
+    <div class="champ-ligne">
+      <div class="champ-cle">Identifiant</div>
+      <div class="champ-val">prisedeparole</div>
+    </div>
+    <div class="champ-ligne">
+      <div class="champ-cle">Mot de passe</div>
+      <div class="champ-val">••••••••••</div>
+    </div>
+
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9">
+      <div id="form-mdp" style="display:none">
+        <div class="form-row">
+          <label class="form-label">Mot de passe actuel *</label>
+          <input type="password" class="form-input" placeholder="••••••••">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Nouveau mot de passe *</label>
+          <input type="password" class="form-input" placeholder="••••••••">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Confirmer le nouveau mot de passe *</label>
+          <input type="password" class="form-input" placeholder="••••••••">
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn" onclick="fermerMdp()">Annuler</button>
+          <button class="btn btn-pri" onclick="changerMdp()">Confirmer le changement</button>
+        </div>
+      </div>
+      <button class="btn btn-sm" id="btn-mdp" onclick="ouvrirMdp()">Changer le mot de passe</button>
+    </div>
+  </div>
+
+  <!-- Contact REFC -->
+  <div class="section">
+    <div class="section-titre">Votre contact à la REFC</div>
+    <div class="champ-ligne">
+      <div class="champ-cle">Responsable du dossier</div>
+      <div class="champ-val">Noureddine Hany</div>
+    </div>
+    <div class="champ-ligne">
+      <div class="champ-cle">Courriel</div>
+      <div class="champ-val"><a href="mailto:noureddine@refc.ca" style="color:#2D3F7B">noureddine@refc.ca</a></div>
+    </div>
+    <div class="champ-ligne">
+      <div class="champ-cle">Directrice générale</div>
+      <div class="champ-val">Piedad Saenz — <a href="mailto:piedad@refc.ca" style="color:#2D3F7B">piedad@refc.ca</a></div>
+    </div>
+    <div style="margin-top:14px">
+      <a href="assistance.html" class="btn btn-sm">Soumettre une demande d'assistance →</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var enEdition = false;
+
+function activerEdition(){
+  enEdition = true;
+  document.querySelectorAll('.champ-val').forEach(function(el){ el.style.display = 'none'; });
+  document.querySelectorAll('.champ-edit').forEach(function(el){ el.style.display = 'block'; });
+  document.getElementById('actions-edition').style.display = 'flex';
+  document.getElementById('btn-modifier').style.display = 'none';
+}
+
+function annulerEdition(){
+  enEdition = false;
+  document.querySelectorAll('.champ-val').forEach(function(el){ el.style.display = ''; });
+  document.querySelectorAll('.champ-edit').forEach(function(el){ el.style.display = 'none'; });
+  document.getElementById('actions-edition').style.display = 'none';
+  document.getElementById('btn-modifier').style.display = '';
+}
+
+function sauvegarder(){
+  document.getElementById('val-nom').textContent = document.getElementById('edit-nom').value;
+  document.getElementById('val-courriel').textContent = document.getElementById('edit-courriel').value;
+  document.getElementById('val-tel').textContent = document.getElementById('edit-tel').value;
+  document.getElementById('val-web').textContent = document.getElementById('edit-web').value;
+  document.getElementById('val-adresse').textContent = document.getElementById('edit-adresse').value;
+  document.getElementById('val-province').textContent = document.getElementById('edit-province').value;
+  annulerEdition();
+  alert('Modifications sauvegardées. Dans la vraie version, ces informations seront mises à jour dans la base de données et une notification sera envoyée à la REFC.');
+}
+
+function ouvrirMdp(){
+  document.getElementById('form-mdp').style.display = 'block';
+  document.getElementById('btn-mdp').style.display = 'none';
+}
+
+function fermerMdp(){
+  document.getElementById('form-mdp').style.display = 'none';
+  document.getElementById('btn-mdp').style.display = '';
+}
+
+function changerMdp(){
+  alert('Dans la vraie version : le mot de passe sera modifié de façon sécurisée. Un courriel de confirmation sera envoyé à votre adresse de contact.');
+  fermerMdp();
+}
+</script>
+</body>
+</html>
