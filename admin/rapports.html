@@ -315,7 +315,7 @@ tbody tr:hover td{background:#f8fafc}
   <div class="kpis">
     <div class="kpi">
       <div class="kpi-label">Ventes nettes totales</div>
-      <div class="kpi-valeur" id="kpi-ventes">4 821,14 $</div>
+      <div class="kpi-valeur" id="kpi-ventes">4 821,14 $ CAD</div>
       <div class="kpi-sous">Voir détail par devise ci-dessous</div>
     </div>
     <div class="kpi">
@@ -542,8 +542,9 @@ function fmt(n, devise){
 }
 
 function fmtD(n, devise){
-  const s = Math.abs(n).toLocaleString('fr-CA',{minimumFractionDigits:2,maximumFractionDigits:2});
-  return s + (devise ? '\u00a0' + devise : '');
+  var s = Math.abs(n).toLocaleString('fr-CA',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var symb = {'CAD':'$ CAD','USD':'$ USD','GBP':'\u00a3 GBP','EUR':'\u20ac EUR','AUD':'$ AUD'};
+  return s + (devise ? '\u00a0' + (symb[devise] || devise) : '\u00a0$ CAD');
 }
 
 function badgeType(t){ return BADGES[t] || t; }
@@ -659,13 +660,15 @@ function afficherTableau(){
     document.getElementById('kpi-remises').textContent = fmtD(tot.remise, dev);
   } else {
     // Plusieurs devises — afficher par devise
-    const resumeDev = devisesPresentes.map(dev => {
-      const lignesDev = donneesFiltrees.filter(d=>d.devise===dev);
-      const totDev = lignesDev.reduce((a,d)=>({net:a.net+d.net}),{net:0});
-      return fmtD(totDev.net, dev);
-    }).join(' + ');
+    var labelsD = {'CAD':'$ CAD (Salons / Ingram France)','USD':'$ USD (Ingram \u00c9tats-Unis)','GBP':'\u00a3 GBP (Ingram Royaume-Uni)','EUR':'\u20ac EUR (Ingram Europe)','AUD':'$ AUD (Ingram Australie)'};
+    var resumeDev = devisesPresentes.map(function(dev) {
+      var lignesDev = donneesFiltrees.filter(function(d){ return d.devise===dev; });
+      var totDev = lignesDev.reduce(function(a,d){ return {net: a.net+d.net}; },{net:0});
+      return totDev.net.toLocaleString('fr-CA',{minimumFractionDigits:2,maximumFractionDigits:2}) + '\u00a0' + (labelsD[dev]||dev);
+    }).join('\n');
     document.getElementById('kpi-ventes').textContent = resumeDev;
-    document.getElementById('kpi-commission').textContent = '—';
+    document.getElementById('kpi-ventes').style.fontSize = '13px';
+    document.getElementById('kpi-ventes').style.lineHeight = '1.8';  document.getElementById('kpi-commission').textContent = '—';
     document.getElementById('kpi-remises').textContent = '—';
   }
   document.getElementById('kpi-exemplaires').textContent = tot.qte;
