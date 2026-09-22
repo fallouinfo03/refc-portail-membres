@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REFC — Ingram (Membre)</title>
+<title>REFC — Ingram</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px}
@@ -13,90 +13,79 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .topbar-logo{display:flex;align-items:center;gap:12px}
 .topbar-droite{display:flex;align-items:center;gap:12px;font-size:13px}
 .pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
-.btn-deco{background:none;border:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.btn-deco{background:none;border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
 .nav{background:#253570;display:flex;padding:0 24px;gap:2px;overflow-x:auto;position:fixed;top:96px;left:0;right:0;z-index:997;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
 .nav-btn{color:rgba(255,255,255,.7);font-size:13px;padding:10px 16px;border:none;background:none;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block;transition:.15s;flex-shrink:0}
 .nav-btn:hover{color:#fff;background:rgba(255,255,255,.06)}
 .nav-btn.actif{color:#fff;border-bottom-color:#7B9EC8;background:rgba(255,255,255,.08)}
 .contenu{padding:24px;max-width:1300px;margin:0 auto;padding-top:140px}
-.page-entete{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
-.page-titre{font-size:22px;font-weight:700;color:#1e293b}
-.page-sous{font-size:13px;color:#64748b;margin-top:3px}
-/* KPIs */
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-.kpi{background:#fff;border-radius:10px;padding:16px 18px;border:1px solid #e2e8f0;position:relative;overflow:hidden}
-.kpi::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:#2D3F7B}
-.kpi-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-.kpi-val{font-size:24px;font-weight:700;color:#1e293b}
-.kpi-sous{font-size:11px;color:#94a3b8;margin-top:4px}
 /* Tabs */
-.tabs{display:flex;border-bottom:2px solid #e2e8f0;margin-bottom:20px;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{background:none;border:none;border-bottom:3px solid transparent;padding:10px 20px;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;white-space:nowrap;margin-bottom:-2px;transition:.15s}
-.tab:hover{color:#2D3F7B;background:#f8fafc}
-.tab.actif{color:#2D3F7B;border-bottom-color:#2D3F7B;font-weight:700}
+.tabs{display:flex;gap:2px;margin-bottom:20px;background:#e2e8f0;border-radius:8px;padding:3px}
+.tab{flex:1;padding:9px 16px;border:none;background:none;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;color:#64748b;transition:.15s}
+.tab.actif{background:#fff;color:#2D3F7B;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .tab-contenu{display:none}
 .tab-contenu.visible{display:block}
+/* Section */
+.section{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:20px 24px;margin-bottom:16px}
+.section-titre{font-size:12px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #f1f5f9}
+/* Formulaire */
+.form-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block}
+.form-input,.form-select,.form-textarea{width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;font-size:13px;color:#1e293b;outline:none;font-family:inherit;background:#fff}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:#7B9EC8}
+.form-input:disabled,.form-input[readonly]{background:#f8fafc;color:#94a3b8;cursor:not-allowed}
+.form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
+.form-hint.info{color:#2D3F7B}
+.form-row{margin-bottom:14px}
+.opt{font-size:10px;font-weight:400;color:#94a3b8;margin-left:5px;text-transform:none;letter-spacing:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+/* Destination */
+.dest-opts{display:flex;gap:8px;margin-bottom:14px}
+.dest-opt{padding:8px 20px;border:2px solid #e2e8f0;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:#64748b;transition:.15s}
+.dest-opt.sel{border-color:#2D3F7B;color:#2D3F7B;background:#E8EEF7}
 /* Note */
-.note-info{background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#1e3a5f;margin-bottom:16px;line-height:1.6}
-.note-warn{background:#fef3c7;border:1px solid #fcd34d;border-radius:7px;padding:10px 14px;font-size:12px;color:#92400e;margin-bottom:16px;line-height:1.6}
+.note-info{background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#1e3a5f;margin-bottom:14px;line-height:1.6}
+.note-warn{background:#fef3c7;border:1px solid #fcd34d;border-radius:7px;padding:10px 14px;font-size:12px;color:#92400e;margin-bottom:14px;line-height:1.6}
+/* Intervenants / Argumentaires */
+.bloc-item{border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:10px;position:relative;background:#fafafa}
+.bloc-num{font-size:11px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.btn-remove{position:absolute;top:10px;right:10px;background:none;border:none;color:#94a3b8;font-size:16px;cursor:pointer;padding:2px 6px;border-radius:4px}
+.btn-remove:hover{background:#fee2e2;color:#7f1d1d}
+/* Boutons */
+.btn{background:#fff;border:1px solid #e2e8f0;color:#1e293b;padding:8px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;transition:.15s}
+.btn:hover{background:#f8fafc}
+.btn-primaire{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
+.btn-primaire:hover{background:#253570}
+.btn-sm{padding:5px 10px;font-size:11px}
+/* POD */
+.pod-result{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;font-size:12px;margin-top:6px;min-height:34px}
+.pod-result.found{background:#E8EEF7;border-color:#7B9EC8;color:#1e3a5f;font-weight:600}
+.pod-result.notfound{background:#fef3c7;border-color:#fcd34d;color:#92400e}
+/* Champ grisé */
+.date-exclusive{transition:.2s}
+.date-exclusive.grise input{opacity:.4;pointer-events:none}
+/* Tableau catalogue */
+.tableau-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;background:#f8fafc;border-bottom:1px solid #e2e8f0}
+td{padding:10px 14px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
+.badge-vert{background:#dcfce7;color:#166534}
+.badge-jaune{background:#fef3c7;color:#92400e}
+.badge-bleu{background:#E8EEF7;color:#2D3F7B}
+.badge-gris{background:#f1f5f9;color:#64748b}
 /* Filtres */
 .filtres-ligne{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
 .filtre-select{border:1px solid #e2e8f0;border-radius:6px;padding:7px 10px;font-size:12px;color:#1e293b;background:#fff;cursor:pointer;outline:none}
 .filtre-search{border:1px solid #e2e8f0;border-radius:6px;padding:7px 12px;font-size:12px;color:#1e293b;background:#fff;outline:none;min-width:200px}
-/* Tableau */
-.tableau-wrap{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:20px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:#64748b;background:#f8fafc;border-bottom:1px solid #e2e8f0}
-td{padding:10px 14px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:#f8fafc}
-/* Badges */
-.badge{display:inline-flex;align-items:center;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
-.badge-bleu{background:#E8EEF7;color:#2D3F7B}
-.badge-gris{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
-.badge-vert{background:#E8EEF7;color:#2D3F7B}
-.badge-warn{background:#fef3c7;color:#92400e}
-/* Boutons */
-.btn{background:#fff;border:1px solid #e2e8f0;color:#1e293b;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;transition:.15s}
-.btn:hover{background:#f8fafc}
-.btn-pri{background:#2D3F7B;color:#fff;border-color:#2D3F7B}
-.btn-pri:hover{background:#253570}
-.btn-sm{padding:4px 10px;font-size:11px}
-/* Formulaire */
-.form-row{margin-bottom:14px}
-.form-label{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block}
-.form-label .opt{color:#94a3b8;font-weight:400;font-size:10px;text-transform:none;margin-left:4px}
-.form-input,.form-select,.form-textarea{width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;font-size:13px;color:#1e293b;outline:none;font-family:inherit}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:#7B9EC8}
-.form-textarea{resize:vertical;min-height:100px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.form-hint{font-size:11px;color:#94a3b8;margin-top:3px}
-.section-form{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px;margin-bottom:16px}
-.section-form-titre{font-size:12px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #f1f5f9}
-/* Intervenant */
-.intervenant-bloc{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:10px;position:relative}
-.intervenant-num{font-size:11px;font-weight:700;color:#2D3F7B;margin-bottom:10px}
-.btn-remove{position:absolute;top:10px;right:10px;background:none;border:none;color:#94a3b8;font-size:18px;cursor:pointer;line-height:1}
-.btn-remove:hover{color:#7f1d1d}
-/* Destination */
-.dest-choix{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.dest-opt{border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;font-size:13px;cursor:pointer;font-weight:500;color:#64748b;transition:.15s;text-align:center}
-.dest-opt:hover{border-color:#7B9EC8;color:#2D3F7B}
-.dest-opt.sel{background:#E8EEF7;border-color:#2D3F7B;color:#2D3F7B;font-weight:700}
 /* Responsive */
 @media(max-width:768px){
-  .kpis{grid-template-columns:1fr 1fr}
   .contenu{padding:14px;padding-top:140px}
-  .grid2,.grid3{grid-template-columns:1fr}
-  table{font-size:12px}
-  th,td{padding:8px 10px}
-}
-@media(max-width:480px){
-  .kpis{grid-template-columns:1fr}
-  .page-titre{font-size:18px}
+  .grid2,.grid3,.grid4{grid-template-columns:1fr}
+  .dest-opts{flex-direction:column}
 }
 </style>
 </head>
@@ -115,9 +104,9 @@ tr:hover td{background:#f8fafc}
   <div class="topbar-droite">
     <span class="pill">membre</span>
     <a href="mon-compte.html" style="color:#fff;font-size:13px;text-decoration:none;opacity:.9;display:flex;align-items:center;gap:6px">
-  <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="#fff" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
-  Prise de Parole
-</a>
+      <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="#fff" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Prise de Parole
+    </a>
     <button class="btn-deco" onclick="window.location.href='../index.html'">Déconnexion</button>
   </div>
 </div>
@@ -129,7 +118,7 @@ tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn actif" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="rapports.html">Rapports de ventes</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="subventions.html">Subventions</a>
   <a class="nav-btn" href="assistance.html">Assistance</a>
@@ -137,367 +126,422 @@ tr:hover td{background:#f8fafc}
 
 <div class="contenu">
 
-  <div class="page-entete">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
     <div>
-      <div class="page-titre">Ingram — Mes titres</div>
-      <div class="page-sous">Soumettez vos titres pour distribution via Ingram France et Ingram US · La REFC transmet le gabarit à Ingram</div>
+      <div style="font-size:22px;font-weight:700;color:#1e293b;margin-bottom:4px">Ingram — Soumission de titres</div>
+      <div style="font-size:13px;color:#64748b">Soumettez vos titres pour distribution via Ingram. Mathieu validera avant génération du gabarit Excel.</div>
     </div>
-    <button class="btn btn-pri" onclick="changerTab('soumettre')">+ Soumettre un titre</button>
   </div>
 
-  <!-- KPIs -->
-  <div class="kpis">
-    <div class="kpi"><div class="kpi-label">Mes titres soumis</div><div class="kpi-val">3</div><div class="kpi-sous">Tous statuts confondus</div></div>
-    <div class="kpi"><div class="kpi-label">Validés par REFC</div><div class="kpi-val" style="color:#2D3F7B">2</div><div class="kpi-sous">Disponibles chez Ingram</div></div>
-    <div class="kpi"><div class="kpi-label">En attente</div><div class="kpi-val" style="color:#92400e">1</div><div class="kpi-sous">En cours de validation</div></div>
-  </div>
-
-  <!-- Onglets -->
   <div class="tabs">
-    <button class="tab actif" id="tab-catalogue" onclick="changerTab('catalogue')">Mes titres disponibles</button>
-    <button class="tab" id="tab-soumettre" onclick="changerTab('soumettre')">Soumettre un nouveau titre</button>
+    <button class="tab actif" id="tab-catalogue" onclick="changerTab('catalogue')">Mes titres soumis</button>
+    <button class="tab" id="tab-soumettre" onclick="changerTab('soumettre')">Soumettre un titre</button>
   </div>
 
-  <!-- ===== ONGLET CATALOGUE ===== -->
+  <!-- ===== ONGLET MES TITRES ===== -->
   <div class="tab-contenu visible" id="panel-catalogue">
-
-    <div class="note-info">Ces titres sont disponibles chez Ingram grâce à votre soumission via ce portail. La REFC a transmis les gabarits à Ingram France et/ou Ingram US. Pour toute modification, soumettez une demande via l'onglet Assistance.</div>
-
     <div class="filtres-ligne">
       <input type="text" class="filtre-search" id="search-cat" placeholder="Rechercher par titre ou ISBN..." oninput="filtrerCatalogue()">
       <select class="filtre-select" id="filtre-dest-cat" onchange="filtrerCatalogue()">
-        <option value="">France + US</option>
-        <option>France</option>
-        <option>US</option>
+        <option value="">Toutes les destinations</option>
+        <option value="france">France</option>
+        <option value="us">US</option>
       </select>
       <select class="filtre-select" id="filtre-statut-cat" onchange="filtrerCatalogue()">
         <option value="">Tous les statuts</option>
-        <option>Validé</option>
-        <option>En attente</option>
+        <option value="valide">Validé</option>
+        <option value="attente">En attente</option>
+        <option value="correction">Correction requise</option>
       </select>
-      <span id="compteur-cat" style="font-size:12px;color:#64748b">3 titres</span>
+      <span style="font-size:12px;color:#64748b;margin-left:4px" id="compteur-cat">3 titres</span>
     </div>
-
     <div class="tableau-wrap">
       <table>
         <thead>
           <tr>
             <th>EAN 13</th>
             <th>Titre</th>
-            <th>Auteur principal</th>
-            <th style="width:100px">Date parution</th>
-            <th style="width:75px">Prix TTC</th>
             <th style="width:90px">Destination</th>
             <th style="width:90px">Statut</th>
+            <th style="width:110px">Soumis le</th>
+            <th style="width:90px">Action</th>
           </tr>
         </thead>
         <tbody id="tbody-cat">
-          <tr data-dest="France" data-statut="Validé">
-            <td style="font-family:monospace;font-size:11px">9782896914135</td>
-            <td><strong>Modus operandi</strong></td>
-            <td style="font-size:12px">Suzan Payne</td>
-            <td style="font-size:12px">04/10/2022</td>
-            <td style="font-family:monospace;font-size:12px">20,00 $</td>
+          <tr data-dest="france" data-statut="valide">
+            <td style="font-family:monospace;font-size:12px">9782896914135</td>
+            <td><strong>Modus operandi</strong><div style="font-size:11px;color:#64748b">Suzan Payne</div></td>
             <td><span class="badge badge-bleu">France</span></td>
             <td><span class="badge badge-vert">Validé</span></td>
+            <td style="font-size:12px;color:#64748b">12 sept. 2025</td>
+            <td><button class="btn btn-sm">Voir</button></td>
           </tr>
-          <tr data-dest="France" data-statut="Validé">
-            <td style="font-family:monospace;font-size:11px">9782896914357</td>
-            <td><strong>Moncton mentor</strong></td>
-            <td style="font-size:12px">Suzan Payne</td>
-            <td style="font-size:12px">04/10/2022</td>
-            <td style="font-family:monospace;font-size:12px">20,00 $</td>
-            <td><span class="badge badge-bleu">France</span></td>
+          <tr data-dest="us" data-statut="valide">
+            <td style="font-family:monospace;font-size:12px">9782896914357</td>
+            <td><strong>Moncton mentor</strong><div style="font-size:11px;color:#64748b">Suzan Payne</div></td>
+            <td><span class="badge badge-gris">US</span></td>
             <td><span class="badge badge-vert">Validé</span></td>
+            <td style="font-size:12px;color:#64748b">5 août 2025</td>
+            <td><button class="btn btn-sm">Voir</button></td>
           </tr>
-          <tr data-dest="France" data-statut="En attente">
-            <td style="font-family:monospace;font-size:11px">9782896914388</td>
-            <td><strong>Rivière-aux-Cartouches</strong></td>
-            <td style="font-size:12px">Suzan Payne</td>
-            <td style="font-size:12px">01/03/2026</td>
-            <td style="font-family:monospace;font-size:12px">21,00 $</td>
+          <tr data-dest="france" data-statut="attente">
+            <td style="font-family:monospace;font-size:12px">9782896914388</td>
+            <td><strong>Rivière-aux-Cartouches</strong><div style="font-size:11px;color:#64748b">Marie-Claire Fortin</div></td>
             <td><span class="badge badge-bleu">France</span></td>
-            <td><span class="badge badge-warn">En attente</span></td>
+            <td><span class="badge badge-jaune">En attente</span></td>
+            <td style="font-size:12px;color:#64748b">18 sept. 2025</td>
+            <td><button class="btn btn-sm">Voir</button></td>
           </tr>
         </tbody>
       </table>
     </div>
-
   </div>
 
   <!-- ===== ONGLET SOUMETTRE ===== -->
   <div class="tab-contenu" id="panel-soumettre">
 
-    <div class="note-info">Remplissez les informations ci-dessous. La REFC vérifiera votre soumission et intégrera votre titre dans le gabarit Excel transmis à Ingram. Seules les colonnes surlignées en bleu pâle dans le gabarit sont à remplir — les autres sont gérées par Ingram.</div>
-
     <!-- Destination -->
-    <div class="section-form">
-      <div class="section-form-titre">Destination Ingram *</div>
-      <div class="dest-choix">
-        <div class="dest-opt sel" onclick="selDest(this)">Ingram France</div>
-        <div class="dest-opt" onclick="selDest(this)">Ingram US</div>
-        <div class="dest-opt" onclick="selDest(this)">France + US</div>
+    <div class="section">
+      <div class="section-titre">Destination *</div>
+      <div class="dest-opts">
+        <div class="dest-opt sel" onclick="selDest(this)" data-val="france">France</div>
+        <div class="dest-opt" onclick="selDest(this)" data-val="us">États-Unis</div>
+        <div class="dest-opt" onclick="selDest(this)" data-val="france-us">France + États-Unis</div>
       </div>
     </div>
 
-    <!-- Informations du titre -->
-    <div class="section-form">
-      <div class="section-form-titre">Informations du titre (feuille : Créations articles physiques)</div>
+    <!-- Infos de base -->
+    <div class="section">
+      <div class="section-titre">Informations du titre</div>
 
-      <div class="grid3" style="margin-bottom:14px">
+      <!-- Champs figés — invisibles pour la maison -->
+      <input type="hidden" id="champ-nuedi" value="885">
+      <input type="hidden" id="champ-nudiv" value="12">
+      <input type="hidden" id="champ-nucol" value="01">
+      <input type="hidden" id="champ-tva" value="00008">
+      <input type="hidden" id="champ-pod" value="1">
+      <input type="hidden" id="champ-autorisation" value="1">
+
+      <div class="note-info">Votre code maison (NUDIV 12 — Prise de Parole) et les identifiants REFC sont ajoutés automatiquement. Seuls les champs ci-dessous sont à remplir.</div>
+
+      <div class="grid2" style="margin-bottom:14px">
+        <div>
+          <label class="form-label">EAN 13 *<span class="opt">13 chiffres</span></label>
+          <input type="text" class="form-input" id="champ-ean" placeholder="Ex. : 9782896914388" maxlength="13">
+        </div>
         <div>
           <label class="form-label">Type de produit *<span class="opt">num.</span></label>
-          <select class="form-select">
-            <option value="01">01 — Livre</option>
-            <option value="02">02 — Feuillet</option>
-            <option value="06">06 — Livre de jeux</option>
-          </select>
-          <div class="form-hint">Généralement 01 pour un livre standard</div>
-        </div>
-        <div>
-          <label class="form-label">Code media / format<span class="opt">num.</span></label>
-          <select class="form-select">
-            <option value="1">1 — Broché</option>
-            <option value="2">2 — Relié</option>
-            <option value="3">3 — Cartonné</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Nvté / chgt couverture *<span class="opt">3 num.</span></label>
-          <select class="form-select">
-            <option value="001">001 — Nouveauté</option>
-            <option value="002">002 — Changement de couverture</option>
-            <option value="003">003 — Réimpression</option>
-          </select>
+          <input type="text" class="form-input" value="AA — Livre papier" readonly>
         </div>
       </div>
 
       <div class="grid2" style="margin-bottom:14px">
         <div>
-          <label class="form-label">EAN 13 *<span class="opt">13 chiffres</span></label>
-          <input type="text" class="form-input" placeholder="Ex. : 9782896914135" maxlength="13">
+          <label class="form-label">Nouveauté / changement de couverture *<span class="opt">3 num.</span></label>
+          <select class="form-select">
+            <option value="001">001 — Nouvelle édition</option>
+            <option value="002">002 — Réimpression</option>
+            <option value="003">003 — Changement de couverture</option>
+            <option value="004">004 — Nouvel ISBN</option>
+          </select>
         </div>
         <div>
-          <label class="form-label">NUART<span class="opt">7 chiffres — fourni par Ingram</span></label>
-          <input type="text" class="form-input" placeholder="Ex. : 7519631" maxlength="7">
-          <div class="form-hint">Si vous n'avez pas encore de NUART, laissez vide — Ingram l'attribuera</div>
-        </div>
-      </div>
-
-      <div class="grid3" style="margin-bottom:14px">
-        <div>
-          <label class="form-label">NUEDI *<span class="opt">3 num.</span></label>
-          <input type="text" class="form-input" placeholder="Ex. : 885" maxlength="3">
-          <div class="form-hint">Numéro éditeur fourni par la REFC</div>
-        </div>
-        <div>
-          <label class="form-label">NUDIV *<span class="opt">2 num.</span></label>
-          <input type="text" class="form-input" placeholder="Ex. : 02" maxlength="2">
-        </div>
-        <div>
-          <label class="form-label">NUCOL *<span class="opt">2 num.</span></label>
-          <input type="text" class="form-input" placeholder="Ex. : 01" maxlength="2">
+          <label class="form-label">Code média / format<span class="opt">num.</span></label>
+          <select class="form-select">
+            <option value="001">001 — Broché</option>
+            <option value="002">002 — Relié</option>
+            <option value="003">003 — Poche</option>
+          </select>
         </div>
       </div>
 
       <div class="form-row">
         <label class="form-label">Titre de couverture *<span class="opt">100 car. max.</span></label>
-        <input type="text" class="form-input" placeholder="Ex. : Modus operandi" maxlength="100">
+        <input type="text" class="form-input" placeholder="Ex. : Rivière-aux-Cartouches" maxlength="100">
       </div>
 
       <div class="form-row">
         <label class="form-label">Sous-titre de couverture<span class="opt">optionnel — 100 car. max.</span></label>
-        <input type="text" class="form-input" placeholder="Ex. : Roman policier" maxlength="100">
+        <input type="text" class="form-input" placeholder="Ex. : Roman" maxlength="100">
       </div>
 
       <div class="grid3" style="margin-bottom:14px">
-        <div>
-          <label class="form-label">Nature de produit TVA *<span class="opt">5 num.</span></label>
-          <select class="form-select">
-            <option value="00008">00008 — Livre papier</option>
-            <option value="00009">00009 — Livre numérique</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Prix TTC<span class="opt">ex. : 20.00</span></label>
-          <input type="number" class="form-input" placeholder="20.00" min="0" step="0.01">
-        </div>
         <div>
           <label class="form-label">Code thème 1 (Théma)<span class="opt">ex. : 17.03.02</span></label>
-          <input type="text" class="form-input" placeholder="Ex. : 17.03.02" maxlength="20">
-        </div>
-      </div>
-
-      <div class="grid3" style="margin-bottom:14px">
-        <div>
-          <label class="form-label">Largeur (mm)<span class="opt">optionnel</span></label>
-          <input type="number" class="form-input" placeholder="127" min="0">
+          <input type="text" class="form-input" placeholder="17.03.02">
         </div>
         <div>
-          <label class="form-label">Hauteur (mm)<span class="opt">optionnel</span></label>
-          <input type="number" class="form-input" placeholder="203" min="0">
+          <label class="form-label">Code thème 2<span class="opt">optionnel</span></label>
+          <input type="text" class="form-input" placeholder="optionnel">
         </div>
         <div>
           <label class="form-label">Nombre de pages<span class="opt">optionnel</span></label>
-          <input type="number" class="form-input" placeholder="336" min="0">
-        </div>
-      </div>
-
-      <div class="grid2" style="margin-bottom:14px">
-        <div>
-          <label class="form-label">Date de première parution<span class="opt">JJ/MM/AAAA</span></label>
-          <input type="date" class="form-input">
-        </div>
-        <div>
-          <label class="form-label">Date prévisionnelle de MEV<span class="opt">optionnel</span></label>
-          <input type="date" class="form-input">
-        </div>
-      </div>
-
-      <div class="grid3" style="margin-bottom:0">
-        <div>
-          <label class="form-label">Indicateur POD<span class="opt">0 ou 1</span></label>
-          <select class="form-select">
-            <option value="0">0 — Non POD</option>
-            <option value="1">1 — POD</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Code format POD<span class="opt">optionnel</span></label>
-          <input type="text" class="form-input" placeholder="Ex. : 0420" maxlength="4">
-        </div>
-        <div>
-          <label class="form-label">Prix TTC article POD<span class="opt">optionnel</span></label>
-          <input type="number" class="form-input" placeholder="20.00" min="0" step="0.01">
+          <input type="number" class="form-input" placeholder="Ex. : 256" min="0">
         </div>
       </div>
     </div>
 
-    <!-- Intervenants -->
-    <div class="section-form">
-      <div class="section-form-titre">Intervenants (feuille : Intervenants)</div>
-      <div class="note-info" style="margin-bottom:12px">Ajoutez un bloc par intervenant — auteur, illustrateur, traducteur, etc. Au moins un intervenant est requis.</div>
+    <!-- Prix -->
+    <div class="section">
+      <div class="section-titre">Prix</div>
+      <div class="note-info">Les prix sont en <strong>euros (€)</strong> — devise requise par Ingram France. Pour la distribution US, Mathieu ajustera en dollars si nécessaire.</div>
+      <div class="grid2" style="margin-bottom:0">
+        <div>
+          <label class="form-label">Prix TTC (€) *</label>
+          <input type="number" class="form-input" id="prix-ttc" placeholder="Ex. : 18.90" min="0" step="0.01" oninput="syncPrixPOD()">
+          <div class="form-hint">Prix public toutes taxes comprises en euros</div>
+        </div>
+        <div>
+          <label class="form-label">Prix TTC article POD (€)</label>
+          <input type="number" class="form-input" id="prix-pod" placeholder="Se remplit automatiquement" min="0" step="0.01">
+          <div class="form-hint info">Rempli automatiquement — modifiable si différent</div>
+        </div>
+      </div>
+    </div>
 
+    <!-- Dates -->
+    <div class="section">
+      <div class="section-titre">Date de parution</div>
+      <div class="note-info">Remplissez <strong>l'une ou l'autre</strong> des dates ci-dessous — pas les deux. Dès que vous remplissez une date, l'autre se grise automatiquement.</div>
+      <div class="grid2" style="margin-bottom:0">
+        <div class="date-exclusive" id="bloc-parution">
+          <label class="form-label">Date de première parution<span class="opt">livre déjà sorti</span></label>
+          <input type="date" class="form-input" id="date-parution" oninput="gererDates('parution')">
+          <div class="form-hint">Utilisez cette date si le livre est déjà publié</div>
+        </div>
+        <div class="date-exclusive" id="bloc-mev">
+          <label class="form-label">Date prévisionnelle de MEV<span class="opt">livre à paraître</span></label>
+          <input type="date" class="form-input" id="date-mev" oninput="gererDates('mev')">
+          <div class="form-hint">Utilisez cette date si le livre n'est pas encore sorti</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dimensions et code POD -->
+    <div class="section">
+      <div class="section-titre">Dimensions et code format POD</div>
+      <div class="note-info">Entrez la largeur et la hauteur du livre en millimètres. Le code format POD sera calculé automatiquement si les dimensions correspondent à un format Ingram. Sinon, Mathieu complétera ce champ.</div>
+      <div class="grid3" style="margin-bottom:14px">
+        <div>
+          <label class="form-label">Largeur (mm) *</label>
+          <input type="number" class="form-input" id="dim-largeur" placeholder="Ex. : 140" min="0" oninput="calculerCodePOD()">
+        </div>
+        <div>
+          <label class="form-label">Hauteur (mm) *</label>
+          <input type="number" class="form-input" id="dim-hauteur" placeholder="Ex. : 216" min="0" oninput="calculerCodePOD()">
+        </div>
+        <div>
+          <label class="form-label">Code format POD</label>
+          <input type="text" class="form-input" id="code-pod-result" placeholder="Calculé automatiquement" readonly>
+        </div>
+      </div>
+      <div class="pod-result" id="pod-message">Entrez la largeur et la hauteur pour voir les formats disponibles.</div>
+    </div>
+
+    <!-- Intervenants -->
+    <div class="section">
+      <div class="section-titre">Intervenants</div>
+      <div class="note-info" style="margin-bottom:12px">Ajoutez un bloc par intervenant — auteur, illustrateur, traducteur, etc. Au moins un intervenant est requis.</div>
       <div id="intervenants-container">
-        <div class="intervenant-bloc" id="interv-1">
-          <div class="intervenant-num">Intervenant 1</div>
+        <div class="bloc-item" id="interv-1">
+          <div class="bloc-num">Intervenant 1</div>
           <div class="grid2" style="margin-bottom:10px">
-            <div>
-              <label class="form-label">Prénom<span class="opt">optionnel</span></label>
-              <input type="text" class="form-input" placeholder="Ex. : Suzan">
-            </div>
-            <div>
-              <label class="form-label">Nom *</label>
-              <input type="text" class="form-input" placeholder="Ex. : Payne">
-            </div>
+            <div><label class="form-label">Prénom<span class="opt">optionnel</span></label><input type="text" class="form-input" placeholder="Ex. : Marie-Claire"></div>
+            <div><label class="form-label">Nom *</label><input type="text" class="form-input" placeholder="Ex. : Fortin"></div>
           </div>
           <div class="grid3" style="margin-bottom:10px">
             <div>
               <label class="form-label">Genre<span class="opt">optionnel</span></label>
-              <select class="form-select">
-                <option value="">Non spécifié</option>
-                <option value="F">F — Féminin</option>
-                <option value="M">M — Masculin</option>
-                <option value="N">N — Neutre</option>
-              </select>
+              <select class="form-select"><option value="">Non spécifié</option><option value="F">F — Féminin</option><option value="M">M — Masculin</option><option value="N">N — Neutre</option></select>
             </div>
             <div>
               <label class="form-label">Nature intervention *</label>
-              <select class="form-select">
-                <option value="00019">00019 — Auteur</option>
-                <option value="00020">00020 — Illustrateur</option>
-                <option value="00011">00011 — Traducteur</option>
-                <option value="00016">00016 — Préfacier</option>
-                <option value="00021">00021 — Directeur de collection</option>
-              </select>
+              <select class="form-select"><option value="00019">00019 — Auteur</option><option value="00020">00020 — Illustrateur</option><option value="00011">00011 — Traducteur</option><option value="00016">00016 — Préfacier</option></select>
             </div>
             <div>
               <label class="form-label">Intervenant principal *</label>
-              <select class="form-select">
-                <option value="1">1 — Oui</option>
-                <option value="0">0 — Non</option>
-              </select>
+              <select class="form-select"><option value="1">1 — Oui</option><option value="0">0 — Non</option></select>
             </div>
           </div>
-          <div class="form-row" style="margin-bottom:0">
-            <label class="form-label">Biographie<span class="opt">optionnel — texte libre</span></label>
-            <textarea class="form-textarea" style="min-height:70px" placeholder="Biographie courte de l'intervenant..."></textarea>
-          </div>
+          <div class="form-row" style="margin-bottom:0"><label class="form-label">Biographie<span class="opt">optionnel</span></label><textarea class="form-input" style="min-height:70px" placeholder="Courte biographie de l'intervenant..."></textarea></div>
         </div>
       </div>
-
       <button class="btn btn-sm" onclick="ajouterIntervenant()" style="margin-top:4px">+ Ajouter un intervenant</button>
     </div>
 
-    <!-- Argumentaire -->
-    <div class="section-form">
-      <div class="section-form-titre">Argumentaire (feuille : Argumentaires)</div>
-
-      <div class="grid3" style="margin-bottom:14px">
-        <div>
-          <label class="form-label">Code type d'argumentaire *<span class="opt">7 car.</span></label>
-          <select class="form-select">
-            <option value="0000001">0000001 — Description principale</option>
-            <option value="0000002">0000002 — Résumé court</option>
-            <option value="0000003">0000003 — 4e de couverture</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Code langue *<span class="opt">5 car.</span></label>
-          <select class="form-select">
-            <option value="00001">00001 — Français</option>
-            <option value="00002">00002 — Anglais</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Autorisation publication *</label>
-          <select class="form-select">
-            <option value="1">1 — Oui, autoriser</option>
-            <option value="0">0 — Non, restreindre</option>
-          </select>
+    <!-- Argumentaires -->
+    <div class="section">
+      <div class="section-titre">Argumentaires</div>
+      <div class="note-info" style="margin-bottom:12px">Ajoutez un ou plusieurs argumentaires — description principale, résumé court, 4e de couverture, etc.</div>
+      <div id="argumentaires-container">
+        <div class="bloc-item" id="arg-1">
+          <div class="bloc-num">Argumentaire 1</div>
+          <div class="grid3" style="margin-bottom:10px">
+            <div>
+              <label class="form-label">Type d'argumentaire *</label>
+              <select class="form-select">
+                <option value="0000001">0000001 — Description principale</option>
+                <option value="0000002">0000002 — Résumé court</option>
+                <option value="0000003">0000003 — 4e de couverture</option>
+                <option value="0000004">0000004 — Extrait</option>
+                <option value="0000005">0000005 — Note biographique</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Langue *</label>
+              <select class="form-select">
+                <option value="00001">00001 — Français</option>
+                <option value="00002">00002 — Anglais</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Autorisation publication</label>
+              <input type="text" class="form-input" value="Oui" readonly>
+            </div>
+          </div>
+          <div class="form-row" style="margin-bottom:0">
+            <label class="form-label">Texte *</label>
+            <textarea class="form-input" style="min-height:100px" placeholder="Texte de l'argumentaire..."></textarea>
+          </div>
         </div>
       </div>
-
-      <div class="form-row">
-        <label class="form-label">Texte de l'argumentaire *</label>
-        <textarea class="form-textarea" placeholder="Résumé ou description du livre qui sera visible sur les plateformes de vente..."></textarea>
-      </div>
+      <button class="btn btn-sm" onclick="ajouterArgumentaire()" style="margin-top:4px">+ Ajouter un argumentaire</button>
     </div>
 
     <!-- Actions -->
-    <div style="display:flex;justify-content:flex-end;gap:10px;margin-bottom:30px">
+    <div style="display:flex;gap:10px;justify-content:flex-end;padding-bottom:20px">
       <button class="btn" onclick="changerTab('catalogue')">Annuler</button>
-      <button class="btn btn-pri" onclick="soumettreTitre()">Soumettre le titre à la REFC</button>
+      <button class="btn" onclick="alert('Brouillon sauvegardé.')">Sauvegarder brouillon</button>
+      <button class="btn btn-primaire" onclick="soumettreTitre()">Soumettre à Mathieu →</button>
     </div>
 
   </div>
-
 </div>
 
 <script>
-var nbIntervenants = 1;
+// NUDIV par maison
+var nudivMap = {
+  'prisedeparole': '12', 'david': '11', 'interligne': '13',
+  'boutondor': '01', 'perceneige': '02', 'grandemareee': '03',
+  'ancrage': '04', 'apprentis': '05', 'plaines': '06',
+  'ble': '07', 'pacifique': '08', 'nouvelleplume': '09',
+  'vidacom': '10', 'terreaccueil': '14'
+};
 
-function changerTab(tab){
+// Catalogue complet codes POD — largeur x hauteur -> liste de codes possibles
+var cataloguePOD = {
+  '102x152': ['0137','0140','0161','0451','0475','0528','1340','1440','4340','4440'],
+  '102x178': ['0138','0151','0162','0400','0491','0529','1341','1441','4341','4441'],
+  '108x178': ['0139','0159','0163','0532','0492','0530','1342','1442','4342','4442'],
+  '111x178': ['0057','0437','1337','1437','4337','4437'],
+  '120x190': ['0157','0158','0470','0471','1307','1407','4338','4438'],
+  '127x178': ['0026','0027','0426','0427','1327','1427','4327','4427'],
+  '127x203': ['0004','0020','0034','0035','0404','0420','0434','0435','0526','1320','1420','4320','4420'],
+  '129x198': ['0021','0421','1321','1421','4321','4421'],
+  '130x180': ['0030','0031','0430','0431'],
+  '133x203': ['0034','0035','0434','0435','1335','1435','4335','4435'],
+  '135x215': ['0032','0033','0432','0433'],
+  '140x191': ['0058','0478','1324','1424','4324','4424'],
+  '140x210': ['0141','0142','0541','0542','0135','0535','1326','1426','4326','4426'],
+  '140x213': ['0015','0415'],
+  '140x216': ['0001','0022','0401','0422','0084','0085','0484','0485','1322','1422','4322','4422'],
+  '140x225': ['0036','0037','0436','0438'],
+  '148x210': ['0024','0025','0424','0425','1325','1425','4325','4425'],
+  '152x229': ['0002','0023','0402','0423','0095','0096','0495','0496','1323','1423','4323','4423'],
+  '153x235': ['0038','0048','0442','0448'],
+  '156x234': ['0049','0149','0449','0459','0102','0103','0502','0503','1349','1449','4349','4449'],
+  '165x165': ['0178','0182','0393','0536','1376','1476','4363','4463'],
+  '168x260': ['0120','0136','0167','0405','0473','0498','0499','0519','1365','1465','4365','4465'],
+  '170x244': ['0067','0171','0467','0405','1367','1467','4367','4467'],
+  '178x233': ['0017','0417','1317','1417','4317','4417'],
+  '178x254': ['0066','0086','0087','0466','0486','0487','1366','1466','4366','4466'],
+  '187x229': ['0018','0418','1318','1418','4318','4418'],
+  '189x246': ['0050','0450','1350','1450','4350','4450'],
+  '191x235': ['0003','0114','0115','0403','0514','0515','1303','1403','4303','4403'],
+  '203x203': ['0029','0116','0118','0429','0516','0518','1372','1472','4372','4472'],
+  '203x254': ['0039','0088','0089','0439','0488','0489','1339','1439','4339','4439'],
+  '203x276': ['0133','0148','0463','0589','1334','1434','4334','4434'],
+  '210x273': ['0125','0164','0165','0407','0531','0532','0533','1305','1405','4307','4407'],
+  '210x280': ['0006','0082','0083','0406','0482','0483','1306','1406','4306','4406'],
+  '210x270': ['0150','0477','1360','1460'],
+  '210x297': ['0064','0464','1364','1464','4364','4464'],
+  '216x216': ['0041','0080','0081','0441','0480','0481','1381','1481','4381','4481'],
+  '216x229': ['0059','0119','0479','0499','1359','1459','4359','4459'],
+  '216x280': ['0012','0412','1312','1412','4312','4412'],
+};
+
+function calculerCodePOD() {
+  var l = document.getElementById('dim-largeur').value;
+  var h = document.getElementById('dim-hauteur').value;
+  var msg = document.getElementById('pod-message');
+  var result = document.getElementById('code-pod-result');
+
+  if (!l || !h) {
+    msg.className = 'pod-result';
+    msg.textContent = 'Entrez la largeur et la hauteur pour voir les formats disponibles.';
+    result.value = '';
+    return;
+  }
+
+  var cle = l + 'x' + h;
+  var codes = cataloguePOD[cle];
+
+  if (codes && codes.length > 0) {
+    msg.className = 'pod-result found';
+    msg.innerHTML = codes.length + ' format(s) correspondant(s) : <strong>' + codes.join(', ') + '</strong><br><span style="font-size:11px;color:#1e3a5f;font-weight:400">Mathieu choisira le code final selon le type de papier et la finition.</span>';
+    result.value = codes[0];
+  } else {
+    msg.className = 'pod-result notfound';
+    msg.textContent = 'Aucun format Ingram ne correspond à ces dimensions. Mathieu complétera ce champ.';
+    result.value = '';
+  }
+}
+
+function syncPrixPOD() {
+  var prix = document.getElementById('prix-ttc').value;
+  document.getElementById('prix-pod').value = prix;
+}
+
+function gererDates(type) {
+  var parution = document.getElementById('date-parution').value;
+  var mev = document.getElementById('date-mev').value;
+  var blocP = document.getElementById('bloc-parution');
+  var blocM = document.getElementById('bloc-mev');
+
+  if (type === 'parution' && parution) {
+    blocM.classList.add('grise');
+    document.getElementById('date-mev').value = '';
+  } else if (type === 'mev' && mev) {
+    blocP.classList.add('grise');
+    document.getElementById('date-parution').value = '';
+  } else {
+    blocP.classList.remove('grise');
+    blocM.classList.remove('grise');
+  }
+}
+
+function changerTab(tab) {
   document.querySelectorAll('.tab-contenu').forEach(function(p){ p.classList.remove('visible'); });
   document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('actif'); });
   document.getElementById('panel-' + tab).classList.add('visible');
   document.getElementById('tab-' + tab).classList.add('actif');
 }
 
-function selDest(el){
+function selDest(el) {
   document.querySelectorAll('.dest-opt').forEach(function(d){ d.classList.remove('sel'); });
   el.classList.add('sel');
 }
 
-function ajouterIntervenant(){
+var nbIntervenants = 1;
+function ajouterIntervenant() {
   nbIntervenants++;
   var container = document.getElementById('intervenants-container');
   var div = document.createElement('div');
-  div.className = 'intervenant-bloc';
+  div.className = 'bloc-item';
   div.id = 'interv-' + nbIntervenants;
   div.innerHTML =
-    '<div class="intervenant-num">Intervenant ' + nbIntervenants + '</div>' +
-    '<button class="btn-remove" onclick="retirerIntervenant(' + nbIntervenants + ')">×</button>' +
+    '<div class="bloc-num">Intervenant ' + nbIntervenants + '</div>' +
+    '<button class="btn-remove" onclick="retirerBloc(\'interv-' + nbIntervenants + '\')">×</button>' +
     '<div class="grid2" style="margin-bottom:10px">' +
       '<div><label class="form-label">Prénom<span class="opt">optionnel</span></label><input type="text" class="form-input" placeholder="Ex. : Marie"></div>' +
       '<div><label class="form-label">Nom *</label><input type="text" class="form-input" placeholder="Ex. : Tremblay"></div>' +
@@ -505,36 +549,55 @@ function ajouterIntervenant(){
     '<div class="grid3" style="margin-bottom:10px">' +
       '<div><label class="form-label">Genre<span class="opt">optionnel</span></label><select class="form-select"><option value="">Non spécifié</option><option value="F">F — Féminin</option><option value="M">M — Masculin</option><option value="N">N — Neutre</option></select></div>' +
       '<div><label class="form-label">Nature intervention *</label><select class="form-select"><option value="00019">00019 — Auteur</option><option value="00020">00020 — Illustrateur</option><option value="00011">00011 — Traducteur</option><option value="00016">00016 — Préfacier</option></select></div>' +
-      '<div><label class="form-label">Intervenant principal *</label><select class="form-select"><option value="0">0 — Non</option><option value="1">1 — Oui</option></select></div>' +
+      '<div><label class="form-label">Intervenant principal *</label><select class="form-select"><option value="1">1 — Oui</option><option value="0">0 — Non</option></select></div>' +
     '</div>' +
-    '<div class="form-row" style="margin-bottom:0"><label class="form-label">Biographie<span class="opt">optionnel</span></label><textarea class="form-textarea" style="min-height:70px" placeholder="Biographie courte..."></textarea></div>';
+    '<div class="form-row" style="margin-bottom:0"><label class="form-label">Biographie<span class="opt">optionnel</span></label><textarea class="form-input" style="min-height:70px" placeholder="Courte biographie..."></textarea></div>';
   container.appendChild(div);
 }
 
-function retirerIntervenant(n){
-  var el = document.getElementById('interv-' + n);
-  if(el) el.remove();
+var nbArgumentaires = 1;
+function ajouterArgumentaire() {
+  nbArgumentaires++;
+  var container = document.getElementById('argumentaires-container');
+  var div = document.createElement('div');
+  div.className = 'bloc-item';
+  div.id = 'arg-' + nbArgumentaires;
+  div.innerHTML =
+    '<div class="bloc-num">Argumentaire ' + nbArgumentaires + '</div>' +
+    '<button class="btn-remove" onclick="retirerBloc(\'arg-' + nbArgumentaires + '\')">×</button>' +
+    '<div class="grid3" style="margin-bottom:10px">' +
+      '<div><label class="form-label">Type d\'argumentaire *</label><select class="form-select"><option value="0000001">0000001 — Description principale</option><option value="0000002">0000002 — Résumé court</option><option value="0000003">0000003 — 4e de couverture</option><option value="0000004">0000004 — Extrait</option><option value="0000005">0000005 — Note biographique</option></select></div>' +
+      '<div><label class="form-label">Langue *</label><select class="form-select"><option value="00001">00001 — Français</option><option value="00002">00002 — Anglais</option></select></div>' +
+      '<div><label class="form-label">Autorisation publication</label><input type="text" class="form-input" value="Oui" readonly></div>' +
+    '</div>' +
+    '<div class="form-row" style="margin-bottom:0"><label class="form-label">Texte *</label><textarea class="form-input" style="min-height:100px" placeholder="Texte de l\'argumentaire..."></textarea></div>';
+  container.appendChild(div);
 }
 
-function soumettreTitre(){
-  alert('Dans la vraie version : votre titre est soumis à la REFC. Mathieu recevra une notification et validera les informations avant de générer le gabarit Excel Ingram. Vous verrez votre titre apparaître dans l\'onglet "Mes titres disponibles" une fois validé.');
+function retirerBloc(id) {
+  var el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function soumettreTitre() {
+  alert('Titre soumis à Mathieu. Il recevra une notification, vérifiera les informations et choisira le code format POD selon le papier et la finition. Votre titre apparaîtra dans "Mes titres soumis" une fois validé.');
   changerTab('catalogue');
 }
 
-function filtrerCatalogue(){
+function filtrerCatalogue() {
   var recherche = document.getElementById('search-cat').value.toLowerCase();
-  var dest      = document.getElementById('filtre-dest-cat').value;
-  var statut    = document.getElementById('filtre-statut-cat').value;
-  var rows      = document.querySelectorAll('#tbody-cat tr');
+  var dest = document.getElementById('filtre-dest-cat').value;
+  var statut = document.getElementById('filtre-statut-cat').value;
+  var rows = document.querySelectorAll('#tbody-cat tr');
   var n = 0;
-  rows.forEach(function(tr){
+  rows.forEach(function(tr) {
     var texte = tr.textContent.toLowerCase();
-    var okR   = !recherche || texte.includes(recherche);
-    var okD   = !dest      || tr.dataset.dest === dest;
-    var okS   = !statut    || tr.dataset.statut === statut;
-    var vis   = okR && okD && okS;
+    var okR = !recherche || texte.includes(recherche);
+    var okD = !dest || tr.dataset.dest === dest;
+    var okS = !statut || tr.dataset.statut === statut;
+    var vis = okR && okD && okS;
     tr.style.display = vis ? '' : 'none';
-    if(vis) n++;
+    if (vis) n++;
   });
   document.getElementById('compteur-cat').textContent = n + ' titre' + (n > 1 ? 's' : '');
 }
