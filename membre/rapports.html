@@ -259,7 +259,7 @@ tbody tr:hover td{background:#f8fafc}
   <div class="kpis">
     <div class="kpi">
       <div class="kpi-label">Ventes nettes totales</div>
-      <div class="kpi-valeur" id="kpi-ventes">608,06 $</div>
+      <div class="kpi-valeur" id="kpi-ventes">608,06 $ CAD</div>
       <div class="kpi-sous">Tous rapports confondus</div>
     </div>
     <div class="kpi">
@@ -413,7 +413,11 @@ let pageCourante = 1;
 const PAR_PAGE = 10;
 
 function fmt(n){ return n.toLocaleString("fr-CA",{minimumFractionDigits:2,maximumFractionDigits:2})+" $"; }
-function fmtD(n,devise){ return n.toLocaleString("fr-CA",{minimumFractionDigits:2,maximumFractionDigits:2})+"\u00a0"+(devise||"$"); }
+function fmtD(n,devise){
+  var s = n.toLocaleString("fr-CA",{minimumFractionDigits:2,maximumFractionDigits:2});
+  var symb = {'CAD':'$ CAD','USD':'$ USD','GBP':'\u00a3 GBP','EUR':'\u20ac EUR','AUD':'$ AUD'};
+  return s + "\u00a0" + (symb[devise] || devise || "$ CAD");
+}
 
 function filtrerTableau(){
   const type=document.getElementById("filtre-type").value;
@@ -461,8 +465,11 @@ function afficher(){
     document.getElementById("kpi-remise").textContent=fmtD(tot.rem,dev);
     document.getElementById("kpi-commission").textContent=fmtD(tot.comm,dev);
   } else {
-    const r=devisesKpi.map(dev=>{const t=filtrees.filter(d=>d.devise===dev).reduce((a,d)=>a+d.net,0);return fmtD(t,dev);}).join(" + ");
+    var labels={'CAD':'$ CAD (Salons / Ingram France)','USD':'$ USD (Ingram \u00c9tats-Unis)','GBP':'\u00a3 GBP (Ingram Royaume-Uni)','EUR':'\u20ac EUR (Ingram Europe)','AUD':'$ AUD (Ingram Australie)'};
+    var r=devisesKpi.map(function(dev){var t=filtrees.filter(function(d){return d.devise===dev;}).reduce(function(a,d){return a+d.net;},0);return t.toLocaleString("fr-CA",{minimumFractionDigits:2,maximumFractionDigits:2})+"\u00a0"+(labels[dev]||dev);}).join("\n");
     document.getElementById("kpi-ventes").textContent=r;
+    document.getElementById("kpi-ventes").style.fontSize="13px";
+    document.getElementById("kpi-ventes").style.lineHeight="1.8";
     document.getElementById("kpi-remise").textContent="Voir d\u00e9tail";
     document.getElementById("kpi-commission").textContent="Voir d\u00e9tail";
   }
