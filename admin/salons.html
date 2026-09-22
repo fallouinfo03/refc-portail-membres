@@ -349,6 +349,7 @@ tr:hover td{background:#f8fafc}
     <div class="onglets">
       <button class="onglet-btn actif" onclick="changerOnglet('toronto','apercu',this)">Aperçu</button>
       <button class="onglet-btn" onclick="changerOnglet('toronto','confirmations',this)">Confirmations</button>
+      <button class="onglet-btn" onclick="changerOnglet('toronto','auteurs-prog',this)">Auteurs et dédicaces</button>
       <button class="onglet-btn" onclick="changerOnglet('toronto','factures',this)">Factures</button>
       <button class="onglet-btn" onclick="changerOnglet('toronto','documents',this)">Documents</button>
     </div>
@@ -376,6 +377,94 @@ tr:hover td{background:#f8fafc}
             <tr><td>L'Interligne</td><td><span class="badge badge-vert">Confirmée</span></td><td>½ kiosque</td><td><span class="badge badge-vert">Soumise</span></td><td>1</td></tr>
             <tr><td>Perce-Neige</td><td><span class="badge badge-rouge">Non participante</span></td><td>—</td><td>—</td><td>—</td></tr>
             <tr><td>La Grande Marée</td><td><span class="badge badge-rouge">Non participante</span></td><td>—</td><td>—</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="onglet-contenu" id="toronto-auteurs-prog">
+
+      <div style="background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#1e3a5f;margin-bottom:14px;line-height:1.6">
+        Les disponibilités pour dédicaces sont soumises par les maisons membres. Mathieu programme les dédicaces selon ces plages. Les autres activités sont confirmées avec les organisateurs du salon — affichées ici pour information.
+      </div>
+
+      <!-- DÉDICACES -->
+      <div style="font-size:12px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Dédicaces — disponibilités soumises par les maisons</div>
+      <div class="tableau-wrap" style="margin-bottom:18px">
+        <table>
+          <thead>
+            <tr>
+              <th>Auteur·ice</th>
+              <th style="width:130px">Maison</th>
+              <th style="width:150px">Titre associé</th>
+              <th style="width:190px">Disponibilités soumises</th>
+              <th style="width:160px">Créneau programmé</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Véronique Sylvain</strong></td>
+              <td style="font-size:12px">Prise de Parole</td>
+              <td style="font-size:12px">En terrain miné</td>
+              <td style="font-size:12px;color:#64748b">Sam 10h–12h, dim 14h–17h</td>
+              <td><input type="text" style="border:1px solid #e2e8f0;border-radius:6px;padding:4px 8px;font-size:12px;width:100%" placeholder="Sam 11h–12h" value="Sam 11h–12h"></td>
+            </tr>
+            <tr>
+              <td><strong>Stef Paquette</strong></td>
+              <td style="font-size:12px">Prise de Parole</td>
+              <td style="font-size:12px">Rire avec le Trickster</td>
+              <td style="font-size:12px;color:#64748b">Sam toute la journée</td>
+              <td><input type="text" style="border:1px solid #e2e8f0;border-radius:6px;padding:4px 8px;font-size:12px;width:100%" placeholder="Sam 14h–15h" value="Sam 14h–15h"></td>
+            </tr>
+            <tr>
+              <td><strong>André Lacelle</strong></td>
+              <td style="font-size:12px">Les Éditions David</td>
+              <td style="font-size:12px">Poèmes du lac Érié</td>
+              <td style="font-size:12px;color:#64748b">Dim matin, dim après-midi</td>
+              <td><input type="text" style="border:1px solid #e2e8f0;border-radius:6px;padding:4px 8px;font-size:12px;width:100%" placeholder="Dim 10h–11h"></td>
+            </tr>
+            <tr>
+              <td><strong>Marie-Claire Blais</strong></td>
+              <td style="font-size:12px">L'Interligne</td>
+              <td style="font-size:12px">Les chemins du nord</td>
+              <td style="font-size:12px;color:#64748b">Sam après-midi seulement</td>
+              <td><input type="text" style="border:1px solid #e2e8f0;border-radius:6px;padding:4px 8px;font-size:12px;width:100%" placeholder="Sam 15h–16h"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:20px">
+        <button class="btn btn-sm btn-primaire" onclick="alert('Dans la vraie version : l&#39;horaire des d&#39;dicaces est publi&#39; et envoy&#39; automatiquement aux 12 maisons participantes.')">Publier l'horaire des dédicaces</button>
+        <button class="btn btn-sm" onclick="alert('Export Excel de l&#39;horaire des d&#233;dicaces.')">↓ Exporter</button>
+      </div>
+
+      <!-- AUTRES ACTIVITÉS -->
+      <div style="font-size:12px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Autres activités <span style="font-size:10px;font-weight:400;color:#94a3b8;text-transform:none">(confirmées avec les organisateurs — pour information)</span></div>
+      <div class="tableau-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Auteur·ice</th>
+              <th style="width:130px">Maison</th>
+              <th style="width:130px">Type</th>
+              <th style="width:100px">Heure</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Véronique Sylvain</strong></td>
+              <td style="font-size:12px">Prise de Parole</td>
+              <td><span class="badge badge-gris">Table ronde</span></td>
+              <td style="font-size:12px;font-weight:600">Sam 14h00</td>
+              <td style="font-size:12px;color:#64748b">Salle B — avec 3 autres auteurs</td>
+            </tr>
+            <tr>
+              <td><strong>André Lacelle</strong></td>
+              <td style="font-size:12px">Les Éditions David</td>
+              <td><span class="badge badge-gris">Lecture publique</span></td>
+              <td style="font-size:12px;font-weight:600">Dim 11h00</td>
+              <td style="font-size:12px;color:#64748b">Scène principale</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -424,6 +513,7 @@ tr:hover td{background:#f8fafc}
     <div class="onglets">
       <button class="onglet-btn actif" onclick="changerOnglet('sudbury','apercu',this)">Aperçu</button>
       <button class="onglet-btn" onclick="changerOnglet('sudbury','confirmations',this)">Confirmations</button>
+      <button class="onglet-btn" onclick="changerOnglet('sudbury','auteurs-prog-s',this)">Auteurs et dédicaces</button>
       <button class="onglet-btn" onclick="changerOnglet('sudbury','factures',this)">Factures</button>
       <button class="onglet-btn" onclick="changerOnglet('sudbury','documents',this)">Documents</button>
     </div>
@@ -452,6 +542,47 @@ tr:hover td{background:#f8fafc}
           </tbody>
         </table>
       </div>
+    </div>
+    <div class="onglet-contenu" id="sudbury-auteurs-prog-s">
+      <div style="background:#fef3c7;border:1px solid #fcd34d;border-radius:7px;padding:10px 14px;font-size:12px;color:#92400e;margin-bottom:14px">
+        <strong>En attente</strong> — 3 maisons n&#39;ont pas encore confirmé. Les disponibilités des auteurs seront visibles une fois les confirmations reçues.
+      </div>
+      <div style="font-size:12px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Dédicaces — disponibilités soumises</div>
+      <div class="tableau-wrap" style="margin-bottom:16px">
+        <table>
+          <thead>
+            <tr>
+              <th>Auteur·ice</th>
+              <th style="width:130px">Maison</th>
+              <th style="width:150px">Titre associé</th>
+              <th style="width:190px">Disponibilités soumises</th>
+              <th style="width:160px">Créneau programmé</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Véronique Sylvain</strong></td>
+              <td style="font-size:12px">Prise de Parole</td>
+              <td style="font-size:12px">En terrain miné</td>
+              <td style="font-size:12px;color:#64748b">Sam 10h–12h, dim toute la journée</td>
+              <td><input type="text" style="border:1px solid #e2e8f0;border-radius:6px;padding:4px 8px;font-size:12px;width:100%" placeholder="À programmer"></td>
+            </tr>
+            <tr>
+              <td style="color:#94a3b8;font-size:12px" colspan="5">En attente des confirmations des autres maisons...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:12px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Autres activités <span style="font-size:10px;font-weight:400;color:#94a3b8;text-transform:none">(pour information)</span></div>
+      <div class="tableau-wrap" style="margin-bottom:16px">
+        <table>
+          <thead><tr><th>Auteur·ice</th><th style="width:130px">Maison</th><th style="width:130px">Type</th><th style="width:100px">Heure</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td style="color:#94a3b8;font-size:12px" colspan="5">En attente des confirmations...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="btn btn-sm btn-primaire" onclick="alert('Horaire publié aux maisons participantes.')">Publier l&#39;horaire des dédicaces</button>
     </div>
     <div class="onglet-contenu" id="sudbury-factures">
       <div class="note-info">Les factures seront générées après la clôture du salon. Taux de refacturation prévu : 70 %.</div>
@@ -533,28 +664,29 @@ tr:hover td{background:#f8fafc}
     </div>
     <div class="grid2-form" style="margin-bottom:14px">
       <div>
-        <label class="form-label">Type</label>
+        <label class="form-label">Type de salon *</label>
         <select class="form-select"><option>Salon du livre</option><option>Congrès</option><option>Festival</option></select>
       </div>
       <div>
-        <label class="form-label">Type</label>
-        <select class="form-select"><option>Salon du livre</option><option>Congrès</option><option>Festival</option></select>
+        <label class="form-label">Type d'espace *</label>
+        <select class="form-select"><option>Kiosque</option><option>Table</option></select>
       </div>
     </div>
     <div class="grid2-form" style="margin-bottom:14px">
       <div>
-        <label class="form-label">Prix kiosque complet ($) *</label>
+        <label class="form-label">Prix kiosque / table ($) *</label>
         <input type="number" class="form-input" placeholder="Ex. : 2500" min="0">
       </div>
       <div>
-        <label class="form-label">Prix demi-kiosque ($)</label>
-        <input type="number" class="form-input" placeholder="Ex. : 1400" min="0">
+        <label class="form-label">Quantité approximative de titres *</label>
+        <input type="number" class="form-input" placeholder="Ex. : 300" min="0">
+        <span style="font-size:11px;color:#94a3b8;margin-top:3px;display:block">Nombre de livres estimé pour un kiosque ou une table</span>
       </div>
     </div>
     <div class="form-row">
       <label class="form-label">Part remboursée par la REFC (%)</label>
       <input type="number" class="form-input" value="70" min="0" max="100" style="width:100px">
-      <span style="font-size:11px;color:#64748b;margin-top:4px;display:block">La REFC assume ce pourcentage du coût du kiosque pour chaque maison participante.</span>
+      <span style="font-size:11px;color:#64748b;margin-top:4px;display:block">La REFC assume ce pourcentage du coût pour chaque maison participante.</span>
     </div>
 
     <div class="grid2-form" style="margin-bottom:14px">
