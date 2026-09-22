@@ -132,7 +132,7 @@ tr:hover td{background:#f8fafc}
   <a class="nav-btn" href="evenements.html">Événements littéraires</a>
   <a class="nav-btn" href="bulletins.html">Bulletins</a>
   <a class="nav-btn actif" href="ingram.html">Ingram</a>
-  <a class="nav-btn" href="rapports.html">Rapports de Ventes</a>
+  <a class="nav-btn" href="rapports.html">Rapports</a>
   <a class="nav-btn" href="calendrier.html">Gouvernance</a>
   <a class="nav-btn" href="subventions.html">Subventions</a>
   <a class="nav-btn" href="planification.html">Réalisations et performances</a>
@@ -176,7 +176,7 @@ tr:hover td{background:#f8fafc}
       <option>Vermillon</option>
     </select>
     <select class="filtre-select" id="filtre-dest" onchange="filtrer()">
-      <option value="">France + US</option>
+      <option value="">Toutes les destinations</option>
       <option>Ingram France</option>
       <option>Ingram US</option>
     </select>
@@ -361,7 +361,7 @@ tr:hover td{background:#f8fafc}
           <tr>
             <td style="font-size:12px;color:#64748b">10 janv. 2026 — 08h55</td>
             <td style="font-family:monospace;font-size:11px">Gabarit_Ingram_France_US_2026-01-10_08h55.xlsx</td>
-            <td><span class="badge badge-gris">France + US</span></td>
+            <td><span class="badge badge-gris">Toutes les destinations</span></td>
             <td style="text-align:center;font-weight:600">14</td>
             <td style="text-align:center"><span class="badge badge-vert">Premier envoi</span></td>
             <td style="font-size:12px">Mathieu Ricard</td>
@@ -406,6 +406,7 @@ function voirTitre(titre, ean, nuart, maison, auteur, parution, prix, dest, stat
   document.getElementById('voir-corps').innerHTML =
     '<div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f1f5f9">' +
       '<div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Informations du titre</div>' +
+      '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">Type de produit</span><span>AA — Livre papier</span></div>' +
       '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">EAN 13</span><span style="font-family:monospace;font-weight:700">' + ean + '</span></div>' +
       '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">NUART</span><span style="font-family:monospace">' + nuart + '</span></div>' +
       '<div style="display:flex;gap:12px;padding:5px 0;font-size:13px;border-bottom:1px solid #f8fafc"><span style="color:#64748b;min-width:160px;font-size:12px">Maison membre</span><span style="font-weight:500">' + maison + '</span></div>' +
