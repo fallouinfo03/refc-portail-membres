@@ -407,10 +407,9 @@ tr:hover td{background:#f8fafc}
             <div style="font-size:11px;color:#2D3F7B;font-weight:600">Votre part : 750 $</div>
           </div>
           <div>
-            <div style="color:#64748b;font-size:11px;margin-bottom:2px">Demi-kiosque</div>
-            <div style="font-weight:700;color:#1e293b">1 400 $</div>
-            <div style="font-size:11px;color:#64748b">Part REFC (70 %) : 980 $</div>
-            <div style="font-size:11px;color:#2D3F7B;font-weight:600">Votre part : 420 $</div>
+            <div style="color:#64748b;font-size:11px;margin-bottom:2px">Quantité approximative</div>
+            <div style="font-weight:700;color:#1e293b">~300 titres</div>
+            <div style="font-size:11px;color:#64748b">Estimation pour un kiosque standard</div>
           </div>
         </div>
       </div>
@@ -424,8 +423,8 @@ tr:hover td{background:#f8fafc}
       <div class="form-row">
         <label class="form-label">Type d'espace souhaité *</label>
         <div class="radio-groupe">
-          <div class="radio-opt sel" onclick="selRadio(this,'kiosque')">Kiosque complet — 750 $ (votre part)</div>
-          <div class="radio-opt" onclick="selRadio(this,'kiosque')">Demi-kiosque — 420 $ (votre part)</div>
+          <div class="radio-opt sel" onclick="selRadio(this,'kiosque')">Kiosque — 750 $ (votre part)</div>
+          <div class="radio-opt" onclick="selRadio(this,'kiosque')">Table — tarif à confirmer</div>
           <div class="radio-opt" onclick="selRadio(this,'kiosque')">Autre</div>
         </div>
       </div>
@@ -457,15 +456,61 @@ tr:hover td{background:#f8fafc}
       </div>
     </div>
     <div class="onglet-contenu" id="sudbury-auteurs-s">
+
+      <div style="background:#E8EEF7;border:1px solid #7B9EC8;border-radius:7px;padding:10px 14px;font-size:12px;color:#1e3a5f;margin-bottom:14px;line-height:1.6">
+        <strong>Dédicaces</strong> — indiquez les plages horaires de disponibilité de chaque auteur·ice. Mathieu programmera les dédicaces en fonction de ces disponibilités.<br>
+        <strong>Autres activités</strong> (table ronde, panel, lecture) — indiquez l'heure confirmée avec les organisateurs du salon. Mathieu en prend note mais ne gère pas ces activités.
+      </div>
+
+      <!-- SECTION DÉDICACES -->
+      <div style="font-size:12px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Dédicaces</div>
       <div class="tableau-wrap" style="margin-bottom:10px">
         <table>
-          <thead><tr><th>Nom</th><th style="width:130px">Titre associé</th><th style="width:120px">Disponibilités</th><th style="width:90px">Type</th><th style="width:50px"></th></tr></thead>
-          <tbody>
-            <tr><td>Véronique Sylvain</td><td>En terrain miné</td><td style="font-size:12px">Sam matin, dim</td><td><span class="badge badge-bleu">Dédicace</span></td><td><button class="btn btn-sm">✕</button></td></tr>
+          <thead>
+            <tr>
+              <th>Auteur·ice</th>
+              <th style="width:140px">Titre associé</th>
+              <th style="width:180px">Disponibilités pour dédicace *</th>
+              <th style="width:50px"></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-dedicaces">
+            <tr>
+              <td>Véronique Sylvain</td>
+              <td style="font-size:12px">En terrain miné</td>
+              <td>
+                <input type="text" class="form-input" value="Sam 10h–12h, dim 14h–17h" style="font-size:11px;padding:4px 7px">
+                <div style="font-size:10px;color:#94a3b8;margin-top:2px">Ex. : Sam 10h–12h, dim 14h–17h</div>
+              </td>
+              <td><button class="btn btn-sm">✕</button></td>
+            </tr>
           </tbody>
         </table>
       </div>
-      <button class="btn" style="margin-bottom:14px" onclick="ouvrirModal('modal-auteur')">+ Ajouter un·e auteurice</button>
+      <button class="btn btn-sm" style="margin-bottom:18px" onclick="ouvrirModal('modal-dedicace')">+ Ajouter un·e auteur·ice pour dédicace</button>
+
+      <!-- SECTION AUTRES ACTIVITÉS -->
+      <div style="font-size:12px;font-weight:700;color:#2D3F7B;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Autres activités <span style="font-size:10px;font-weight:400;color:#94a3b8;text-transform:none">(pour information seulement — confirmées avec les organisateurs du salon)</span></div>
+      <div class="tableau-wrap" style="margin-bottom:10px">
+        <table>
+          <thead>
+            <tr>
+              <th>Auteur·ice</th>
+              <th style="width:140px">Titre associé</th>
+              <th style="width:130px">Type d'activité</th>
+              <th style="width:120px">Heure confirmée</th>
+              <th style="width:50px"></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-activites">
+            <tr>
+              <td style="color:#64748b;font-size:12px;text-align:center" colspan="5">Aucune autre activité — <button class="btn btn-sm" onclick="ouvrirModal('modal-activite')">+ Ajouter</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="btn btn-sm" style="margin-bottom:18px" onclick="ouvrirModal('modal-activite')">+ Ajouter une autre activité</button>
+
       <div class="actions-form">
         <button class="btn btn-primaire" onclick="soumettre()">Soumettre ma confirmation</button>
         <button class="btn">Sauvegarder brouillon</button>
@@ -501,30 +546,77 @@ tr:hover td{background:#f8fafc}
 <div class="modal-bg" id="modal-titre">
   <div class="modal">
     <div class="modal-titre"><span>Ajouter un titre</span><button class="btn-fermer" onclick="fermerModal('modal-titre')">✕</button></div>
-    <div class="form-row"><label class="form-label">ISBN *</label><input type="text" class="form-input" placeholder="Ex. : 9782897443719" maxlength="13"></div>
-    <div class="form-row"><label class="form-label">Titre du livre *</label><input type="text" class="form-input" placeholder="Ex. : En terrain miné"></div>
-    <div class="form-row"><label class="form-label">Quantité</label><input type="number" class="form-input" value="15" min="1" style="width:120px"></div>
+    <div class="note-info" style="margin-bottom:12px">Entrez l'ISBN — le titre et l'auteur se remplissent automatiquement.</div>
+    <div class="form-row">
+      <label class="form-label">ISBN *<span style="font-size:10px;font-weight:400;color:#94a3b8;margin-left:6px">13 chiffres</span></label>
+      <input type="text" class="form-input" id="isbn-input" placeholder="Ex. : 9782897443719" maxlength="13" oninput="autocompleterISBN(this.value)">
+      <div id="isbn-statut" style="font-size:11px;margin-top:4px;color:#64748b"></div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Titre du livre *</label>
+      <input type="text" class="form-input" id="titre-auto" placeholder="Se remplit automatiquement avec l'ISBN">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Auteur·ice principal·e</label>
+      <input type="text" class="form-input" id="auteur-auto" placeholder="Se remplit automatiquement avec l'ISBN">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Quantité</label>
+      <input type="number" class="form-input" value="15" min="1" style="width:120px">
+    </div>
     <div class="modal-actions">
       <button class="btn" onclick="fermerModal('modal-titre')">Annuler</button>
-      <button class="btn btn-primaire">+ Ajouter</button>
+      <button class="btn btn-primaire" onclick="ajouterTitre()">+ Ajouter</button>
     </div>
   </div>
 </div>
 
 <!-- Modal auteur -->
-<div class="modal-bg" id="modal-auteur">
+<!-- Modal dédicace -->
+<div class="modal-bg" id="modal-dedicace">
   <div class="modal">
-    <div class="modal-titre"><span>Ajouter un·e auteurice</span><button class="btn-fermer" onclick="fermerModal('modal-auteur')">✕</button></div>
+    <div class="modal-titre"><span>Ajouter un·e auteur·ice — Dédicace</span><button class="btn-fermer" onclick="fermerModal('modal-dedicace')">✕</button></div>
+    <div class="note-info" style="margin-bottom:12px">Indiquez les plages horaires où cet·te auteur·ice est disponible pour des dédicaces. Mathieu programmera les dédicaces selon ces disponibilités.</div>
     <div class="form-row"><label class="form-label">Nom complet *</label><input type="text" class="form-input" placeholder="Ex. : Natasha Kanapé Fontaine"></div>
-    <div class="form-row"><label class="form-label">Titre associé</label><input type="text" class="form-input" placeholder="Ex. : En terrain miné"></div>
-    <div class="form-row"><label class="form-label">Disponibilités</label><input type="text" class="form-input" placeholder="Ex. : Samedi matin, dimanche toute la journée"></div>
+    <div class="form-row"><label class="form-label">Titre associé *</label><input type="text" class="form-input" placeholder="Ex. : En terrain miné"></div>
     <div class="form-row">
-      <label class="form-label">Type d'activité</label>
-      <select class="form-select"><option>Dédicace</option><option>Table ronde</option><option>Animation</option><option>Lecture publique</option></select>
+      <label class="form-label">Disponibilités pour dédicace *</label>
+      <input type="text" class="form-input" placeholder="Ex. : Sam 10h–12h, dim 14h–17h">
+      <div style="font-size:11px;color:#94a3b8;margin-top:3px">Indiquez toutes les plages disponibles — Mathieu choisira les créneaux selon la programmation du salon</div>
     </div>
+    <div class="form-row"><label class="form-label">Informations supplémentaires <span style="font-weight:400;color:#94a3b8;font-size:10px">(optionnel)</span></label><textarea class="form-input" rows="2" placeholder="Ex. : contrainte de transport, présence partielle seulement..."></textarea></div>
     <div class="modal-actions">
-      <button class="btn" onclick="fermerModal('modal-auteur')">Annuler</button>
-      <button class="btn btn-primaire">+ Ajouter</button>
+      <button class="btn" onclick="fermerModal('modal-dedicace')">Annuler</button>
+      <button class="btn btn-primaire" onclick="ajouterDedicace()">+ Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal autre activité -->
+<div class="modal-bg" id="modal-activite">
+  <div class="modal">
+    <div class="modal-titre"><span>Ajouter une autre activité</span><button class="btn-fermer" onclick="fermerModal('modal-activite')">✕</button></div>
+    <div class="note-info" style="margin-bottom:12px">Ces activités sont confirmées directement avec les organisateurs du salon. Indiquez simplement l'heure pour que Mathieu puisse voir la programmation complète de l'auteur·ice.</div>
+    <div class="form-row"><label class="form-label">Auteur·ice *</label><input type="text" class="form-input" placeholder="Ex. : Natasha Kanapé Fontaine"></div>
+    <div class="form-row"><label class="form-label">Titre associé</label><input type="text" class="form-input" placeholder="Ex. : En terrain miné"></div>
+    <div class="form-row">
+      <label class="form-label">Type d'activité *</label>
+      <select class="form-select">
+        <option>Table ronde</option>
+        <option>Panel</option>
+        <option>Lecture publique</option>
+        <option>Animation</option>
+        <option>Autre</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Heure confirmée avec les organisateurs *</label>
+      <input type="time" class="form-input" style="width:150px">
+    </div>
+    <div class="form-row"><label class="form-label">Notes <span style="font-weight:400;color:#94a3b8;font-size:10px">(optionnel)</span></label><input type="text" class="form-input" placeholder="Ex. : salle A, avec 3 autres auteurs..."></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="fermerModal('modal-activite')">Annuler</button>
+      <button class="btn btn-primaire" onclick="ajouterActivite()">+ Ajouter</button>
     </div>
   </div>
 </div>
@@ -583,6 +675,55 @@ function toggleTheme(){
   if(t) document.documentElement.setAttribute('data-theme', t);
 })();
 
+
+// Catalogue fictif pour autocomplétion ISBN
+var catalogueFictif = {
+  '9782897443719': { titre: 'En terrain miné', auteur: 'Véronique Sylvain' },
+  '9782897444617': { titre: 'Rire avec le Trickster', auteur: 'Stef Paquette' },
+  '9782896914135': { titre: 'Modus operandi', auteur: 'Suzan Payne' },
+  '9782896914357': { titre: 'Moncton mentor', auteur: 'Suzan Payne' },
+  '9782896914388': { titre: 'Rivière-aux-Cartouches', auteur: 'Suzan Payne' },
+  '9782924342459': { titre: 'Les chemins du nord', auteur: 'Marie-Claire Blais' },
+  '9782895977612': { titre: 'Poèmes du lac Érié', auteur: 'André Lacelle' },
+};
+
+function autocompleterISBN(isbn) {
+  var statut = document.getElementById('isbn-statut');
+  var titreInput = document.getElementById('titre-auto');
+  var auteurInput = document.getElementById('auteur-auto');
+  if (isbn.length === 13) {
+    if (catalogueFictif[isbn]) {
+      titreInput.value = catalogueFictif[isbn].titre;
+      auteurInput.value = catalogueFictif[isbn].auteur;
+      statut.style.color = '#2D3F7B';
+      statut.textContent = '✓ Titre trouvé dans le catalogue';
+    } else {
+      statut.style.color = '#92400e';
+      statut.textContent = 'ISBN non trouvé — remplissez le titre manuellement';
+    }
+  } else {
+    statut.textContent = isbn.length > 0 ? (13 - isbn.length) + ' chiffres manquants' : '';
+    titreInput.value = '';
+    auteurInput.value = '';
+  }
+}
+
+function ajouterTitre() {
+  var isbn = document.getElementById('isbn-input').value;
+  var titre = document.getElementById('titre-auto').value;
+  if (!isbn || !titre) { alert('Veuillez renseigner l\'ISBN et le titre.'); return; }
+  alert('Titre "' + titre + '" ajouté à la liste. Dans la vraie version il s\'enregistre directement.');
+  fermerModal('modal-titre');
+}
+
+function ajouterDedicace() {
+  alert('Auteur·ice ajouté·e pour dédicace. Mathieu verra ses disponibilités dans son tableau de bord.');
+  fermerModal('modal-dedicace');
+}
+
+function ajouterActivite() {
+  alert('Activité ajoutée. Mathieu en prend note pour la programmation complète de l\'auteur·ice.');
+  fermerModal('modal-activite');
+}
+
 </script>
-</body>
-</html>
